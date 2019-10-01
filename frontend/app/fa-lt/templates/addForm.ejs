@@ -1,0 +1,51 @@
+<form method="post" action="<%- formAction %>" autocomplete="off">
+  <input type="hidden" name="_method" value="<%- formMethod %>">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><%- panelTitleText %></div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label class="control-label"><%- t('PROPERTY:kind') %></label>
+        <% kinds.forEach(function(v) { %>
+        <br>
+        <label class="radio-inline">
+          <input type="radio" name="kind" value="<%- v %>" required>
+          <%- t('kind:' + v) %>
+        </label>
+        <% }) %>
+      </div>
+      <div class="hidden" data-kind="merge">
+        <div class="form-group">
+          <label for="<%- idPrefix %>-mergeInventoryNo" class="control-label is-required"><%- t('FORM:add:mergeInventoryNo') %></label>
+          <input id="<%- idPrefix %>-mergeInventoryNo" name="mergeInventoryNo" class="form-control fa-edit-short" type="text" data-required>
+        </div>
+        <div class="form-group">
+          <label for="<%- idPrefix %>-mergeLineSymbol" class="control-label"><%- t('FORM:add:mergeLineSymbol') %></label>
+          <input id="<%- idPrefix %>-mergeLineSymbol" name="mergeLineSymbol" class="form-control fa-edit-short" type="text">
+        </div>
+        <div class="form-group">
+          <label class="control-label"><%- t('FORM:add:mergeType') %></label>
+          <% mergeTypes.forEach(function(v) { %>
+          <br>
+          <label class="radio-inline">
+            <input type="radio" name="mergeType" value="<%- v %>" data-required>
+            <%- t('mergeType:' + v) %>
+          </label>
+          <% }) %>
+        </div>
+        <div class="form-group">
+          <label for="<%- idPrefix %>-mergeNotes" class="control-label"><%- t('FORM:add:mergeNotes') %></label>
+          <textarea id="<%- idPrefix %>-mergeNotes" name="mergeNotes" class="form-control" rows="3" placeholder="<%- t('FORM:add:mergeNotes:placeholder') %>"></textarea>
+        </div>
+      </div>
+      <div class="hidden" data-kind="other">
+        <div class="form-group">
+          <label for="<%- idPrefix %>-otherNotes" class="control-label is-required"><%- t('FORM:add:otherNotes') %></label>
+          <textarea id="<%- idPrefix %>-otherNotes" name="otherNotes" class="form-control" rows="3" data-required></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button type="submit" class="btn btn-primary"><%- formActionText %></button>
+    </div>
+  </div>
+</form>

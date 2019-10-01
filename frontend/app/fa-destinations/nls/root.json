@@ -1,0 +1,11 @@
+{
+  "root": {
+    "BREADCRUMBS:browse": "Destinations",
+
+    "PROPERTY:active": "Active?",
+    "PROPERTY:name": "Name",
+    "PROPERTY:description": "Description"
+  }
+,
+  "pl": true
+}

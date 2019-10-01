@@ -1,0 +1,79 @@
+<div class="fa-edit-stage" data-stage="accept">
+  <%- helpers.props(details, [
+    '!protocolNeeded',
+    '!commissioningType',
+    '!usageDestination',
+    {id: '!protocolDate', visible: protocolNeeded},
+    {id: 'protocolNo', visible: protocolNeeded},
+    'documentDate',
+    'no',
+    'assetName',
+    {id: 'lineSymbol', visible: usageDestination === 'factory'},
+    {id: 'inventoryNo', visible: commissioningType === 'inc-asset'},
+    {id: '!zplx', value: function(zplxs)
+    {
+      if (zplxs.length === 1)
+      {
+        return 'ZPLX' + zplxs[0];
+      }
+
+      return '<ul>'
+        + zplxs.map(function(zplx) { return '<li>ZPLX<span class="text-mono">' + zplx + '</span>'; }).join('')
+        + '</ul>';
+    }},
+    {id: '!owner', visible: protocolNeeded},
+    {id: '!committee', visible: protocolNeeded, value: function(users)
+    {
+      if (users.length === 0)
+      {
+        return '';
+      }
+
+      if (users.length === 1)
+      {
+        return users[0];
+      }
+
+      return '<ul>'
+        + users.map(function(user) { return '<li>' + user; }).join('')
+        + '</ul>';
+    }},
+    'supplier',
+    'value',
+    'costCenter',
+    'destination',
+    {id: 'vendorNo', visible: usageDestination === 'external-supplier'},
+    {id: 'vendorName', visible: usageDestination === 'external-supplier'},
+    'redemptionRate',
+    'economicPeriod',
+    'fiscalPeriod',
+    {id: '!protocolFile', visible: protocolNeeded, value: function(file)
+    {
+      return file
+        ? ('<a href="' + url + '/attachments/protocol" target="_blank">' + _.escape(file.name) + '</a>')
+        : t('FORM:edit:attachment:empty');
+    }},
+    {id: '!checklistFile', value: function(file)
+    {
+      return file
+        ? ('<a href="' + url + '/attachments/checklist" target="_blank">' + _.escape(file.name) + '</a>')
+        : t('FORM:edit:attachment:empty');
+    }},
+    {id: '!certificateFile', visible: usageDestination === 'external-supplier', value: function(file)
+    {
+      return file
+        ? ('<a href="' + url + '/attachments/certificate" target="_blank">' + _.escape(file.name) + '</a>')
+        : t('FORM:edit:attachment:empty');
+    }},
+    {id: '!nameplateFile', visible: usageDestination === 'external-supplier', value: function(file)
+    {
+      return file
+        ? ('<a href="' + url + '/attachments/nameplate" target="_blank">' + _.escape(file.name) + '</a>')
+        : t('FORM:edit:attachment:empty');
+    }}
+  ]) %>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+  </div>
+</div>

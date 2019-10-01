@@ -1,0 +1,71 @@
+<div class="row fa-lt-details-props">
+  <div class="col-md-6" style="margin-bottom: 20px">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <span class="visible-print"><%= model.no %></span>
+        <span class="hidden-print"><%- helpers.t('PANEL:TITLE:details') %></span>
+      </div>
+      <div class="panel-details">
+        <%- helpers.props(model, [
+          '!kind',
+          {id: 'otherNotes', visible: kind === 'other', valueClassName: 'text-lines'},
+          {id: 'mergeInventoryNo', visible: kind === 'merge'},
+          {id: 'mergeLineSymbol', visible: kind === 'merge'},
+          {id: 'mergeType', visible: kind === 'merge'},
+          {id: 'mergeNotes', visible: kind === 'merge', valueClassName: 'text-lines'},
+          'no',
+          'date',
+          'inventoryNo',
+          'assetName',
+          'usageDestination',
+          {id: '!applicant'},
+          {id: 'cause', valueClassName: 'text-lines'},
+          'initialValue',
+          'deprecationValue',
+          'netValue',
+          'economicDeprecationValue',
+          'economicNetValue',
+          {id: 'verifyNotes', valueClassName: 'text-lines'},
+          {id: 'buyerName', visible: kind === 'sale'},
+          {id: 'buyerAddress', visible: kind === 'sale', valueClassName: 'text-lines'},
+          {id: 'saleValue', visible: kind === 'sale'},
+          'sapNo',
+          'accountingNo'
+        ]) %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 hidden-print">
+    <div class="panel panel-default">
+      <div class="panel-heading"><%- helpers.t('PANEL:TITLE:stages') %></div>
+      <div class="panel-details">
+        <%
+
+          function renderStage(stage)
+          {
+            var html = '';
+
+            if (stage.who)
+            {
+              html += '<i class="fa fa-clock-o"></i><span>' + stage.when + '</span><br>';
+              html += '<i class="fa fa-user-o"></i><span>' + stage.who + '</span>';
+            }
+
+            return html;
+          }
+
+          var stages = Object.keys(model.stages).map(function(id)
+          {
+            return {
+              id: '!stage:' + id,
+              label: t.has('details:stage:' + id) ? t('details:stage:' + id) : t('stage:' + id),
+              value: renderStage.bind(null, model.stages[id])
+            };
+          });
+
+        %>
+        <%- helpers.props(model, ['stage'].concat(stages)) %>
+      </div>
+    </div>
+  </div>
+</div>

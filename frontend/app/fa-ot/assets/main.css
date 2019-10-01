@@ -1,0 +1,13 @@
+.fa-ot-protocol-statement {
+  margin-top: -5px;
+  margin-bottom: 0;
+}
+.fa-ot-protocol-statement-hd {
+  display: block;
+  font-weight: bold;
+}
+.fa-ot-protocol-statement-bd {
+  display: block;
+  padding: 15px;
+  font-size: 21px;
+}

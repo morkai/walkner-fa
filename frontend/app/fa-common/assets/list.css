@@ -1,0 +1,5 @@
+.list-item > td[data-id="assetName"] {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

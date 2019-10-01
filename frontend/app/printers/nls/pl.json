@@ -1,0 +1,34 @@
+{
+  "BREADCRUMBS:browse": "Drukarki",
+
+  "PROPERTY:name": "Nazwa systemowa",
+  "PROPERTY:label": "Opis",
+  "PROPERTY:tags": "Tagi",
+  "PROPERTY:special": "Ustawienia specjalne",
+
+  "menu:header": "Drukarki",
+  "menu:browser": "Przez przeglądarkę...",
+
+  "select:label": "Drukarka",
+  "select:placeholder": "Wybierz drukarkę...",
+  "select:browser": "Przez przeglądarkę...",
+
+  "tags:orders": "Zlecenia produkcyjne",
+  "tags:qi": "Inspekcja jakości",
+  "tags:planning": "Plany dzienne",
+  "tags:hourlyPlans": "Plany godzinowe",
+  "tags:paintShop": "Malarnia",
+  "tags:fte/production": "FTE (produkcja)",
+  "tags:fte/warehouse": " FTE (magazyn)",
+  "tags:fte/other": "FTE (inne)",
+  "tags:kanban/kk": "Baza Kanban: Karta Kanbanowa",
+  "tags:kanban/empty": "Baza Kanban: Pusty",
+  "tags:kanban/full": "Baza Kanban: Pełny",
+  "tags:kanban/wh": "Baza Kanban: Magazynowa",
+  "tags:kanban/desc": "Baza Kanban: Opisowa",
+  "tags:wh/cart/fmx": "Magazyn: Wózek FMX",
+  "tags:wh/cart/kitter": "Magazyn: Wózek Kitter",
+  "tags:wh/cart/packer": "Magazyn: Wózek Opakowania",
+  "tags:generic/text": "Ogólna: Tekst",
+  "tags:hidLamps": "Oprawy HID"
+}

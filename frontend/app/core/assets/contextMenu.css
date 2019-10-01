@@ -1,0 +1,65 @@
+.contextMenu {
+  display: block;
+  margin-top: -1px;
+  z-index: 1042;
+  user-select: none;
+}
+.contextMenu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1041;
+}
+.contextMenu > .dropdown-header {
+  padding: 3px 10px;
+  font-weight: bold;
+}
+.contextMenu > li > a {
+  padding: 3px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  line-height: 18px;
+}
+.contextMenu > li > a:hover {
+  background-color: #ffffa6;
+  color: #333;
+}
+.contextMenu > li > a > .fa {
+  min-width: 14px;
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+}
+.contextMenu > li > a > .fa + span {
+  vertical-align: middle;
+}
+.contextMenu-disabled {
+  cursor: default!important;
+  color: #777!important;
+  background-color: #fff!important;
+}
+.contextMenu-loading {
+  cursor: wait!important;
+  color: #777!important;
+  background-color: #fff!important;
+}
+.contextMenu .divider {
+  margin: 5px 0;
+}
+
+.is-embedded .contextMenu > .dropdown-header {
+  font-size: 20px;
+}
+.is-embedded .contextMenu > li > a {
+  padding: 3px 15px;
+  font-size: 28px;
+  line-height: 41px;
+}
+.is-embedded .contextMenu > li > a > .fa {
+  margin-right: 7px;
+  min-width: 28px;
+  font-size: 28px;
+  line-height: 41px;
+}

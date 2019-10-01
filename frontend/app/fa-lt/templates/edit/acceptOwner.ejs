@@ -1,0 +1,38 @@
+<div class="fa-edit-stage" data-stage="acceptOwner">
+  <%- helpers.props(details, [
+    '!kind',
+    {id: 'otherNotes', visible: kind === 'other', valueClassName: 'text-lines'},
+    {id: 'mergeInventoryNo', visible: kind === 'merge'},
+    {id: 'mergeLineSymbol', visible: kind === 'merge'},
+    {id: 'mergeType', visible: kind === 'merge'},
+    {id: 'mergeNotes', visible: kind === 'merge', valueClassName: 'text-lines'},
+    'no',
+    'date',
+    'inventoryNo',
+    'assetName',
+    'usageDestination',
+    {id: '!applicant'},
+    {id: 'cause', valueClassName: 'text-lines'},
+    'initialValue',
+    'deprecationValue',
+    'netValue',
+    'economicDeprecationValue',
+    'economicNetValue',
+    {id: 'verifyNotes', valueClassName: 'text-lines'}
+  ]) %>
+  <% if (kind === 'sale') { %>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-buyerName" class="control-label is-required"><%- t('PROPERTY:buyerName') %></label>
+    <input id="<%- idPrefix %>-buyerName" class="form-control fa-edit-long" name="buyerName" required>
+  </div>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-buyerAddress" class="control-label"><%- t('PROPERTY:buyerAddress') %></label>
+    <textarea id="<%- idPrefix %>-buyerAddress" class="form-control fa-edit-long" name="buyerAddress" rows="3"></textarea>
+  </div>
+  <div id="<%- idPrefix %>-saleValue" style="margin-bottom: 15px"></div>
+  <% } %>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+  </div>
+</div>

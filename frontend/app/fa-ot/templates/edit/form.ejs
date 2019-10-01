@@ -1,0 +1,20 @@
+<form class="fa-edit-form" method="post" action="<%- formAction %>" autocomplete="off">
+  <input type="hidden" name="_method" value="<%- formMethod %>">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><%- panelTitleText %></div>
+    <div id="<%- idPrefix %>-tabs" class="fa-edit-tabs">
+      <% tabs.forEach(function(stage, i) { %>
+      <div class="fa-edit-tab <%- model.stage === stage ? 'is-active' : '' %>" data-tab="<%- stage %>">
+        <%- i + 1 %>. <%- t.has('FORM:stage:' + stage) ? t('FORM:stage:' + stage, {kind: model.kind}) : t('stage:' + stage) %>
+      </div>
+      <% }) %>
+    </div>
+    <div id="<%- idPrefix %>-stage" class="panel-body"></div>
+    <div class="panel-footer">
+      <button id="<%- idPrefix %>-submit" type="submit" class="btn btn-primary" disabled><i class="fa fa-save"></i><span><%- formActionText %></span></button>
+      <% actions.forEach(function(action) { %>
+      <button type="button" class="btn <%- action.className %>" value="<%- action.id %>"><i class="fa <%- action.icon %>"></i><span><%- t('FORM:ACTION:' + action.id) %></span></button>
+      <% }) %>
+    </div>
+  </div>
+</form>

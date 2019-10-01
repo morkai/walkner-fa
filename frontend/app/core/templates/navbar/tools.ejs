@@ -1,0 +1,10 @@
+<li data-online class="dropdown">
+  <a class="dropdown-toggle" data-toggle="dropdown">
+    <%- t('NAVBAR:tools') %>
+    <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu">
+    <li data-privilege="EVENTS:VIEW" data-module><a href="#events"><%- t('NAVBAR:events') %></a>
+    <li data-privilege="SUPER" data-module><a href="#logs/browserErrors"><%- t('NAVBAR:browserErrors') %></a>
+  </ul>
+</li>

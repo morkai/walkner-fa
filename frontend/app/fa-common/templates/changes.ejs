@@ -1,0 +1,25 @@
+<div class="panel panel-default fa-changes" style="<%- style %>">
+  <div class="panel-heading"><%- t('fa-common', 'changes:title') %></div>
+  <div id="<%- idPrefix %>-items" class="fa-changes-items">
+    <% if (createdItem) { %>
+    <%- renderItem({item: createdItem}) %>
+    <% } %>
+    <% items.forEach(function(item) { %>
+    <%- renderItem({item: item}) %>
+    <% }) %>
+  </div>
+  <form class="fa-changes-form">
+    <div class="form-group">
+      <label for="<%- idPrefix %>-comment" class="control-label"><%- t('fa-common', 'changes:label') %></label>
+      <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+    </div>
+    <div class="panel-footer" style="display: flex">
+      <button id="<%- idPrefix %>-submit" type="submit" class="btn btn-primary">
+        <i class="fa fa-comment-o"></i><span><%- t('fa-common', 'changes:submit') %></span>
+      </button>
+      <button id="<%- idPrefix %>-commentsOnly" type="button" class="btn btn-default" style="margin-left: auto">
+        <i class="fa fa-commenting-o"></i><span><%- t('fa-common', 'changes:commentsOnly') %></span>
+      </button>
+    </div>
+  </form>
+</div>

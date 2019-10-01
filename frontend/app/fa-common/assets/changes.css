@@ -1,0 +1,133 @@
+.fa-changes {
+  margin-top: 15px;
+}
+.fa-changes-items {
+  background-color: #fff;
+}
+.fa-changes-item {
+  padding: .5em;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.fa-changes-item:last-child {
+  border-bottom: none;
+}
+.fa-changes-item:nth-child(odd) {
+  background-color: #fbfbfb;
+}
+.fa-changes-item:hover {
+  background-color: #FFFFD6;
+}
+.fa-changes-user {
+  font-weight: bold;
+}
+.fa-changes-changes {
+  margin: 5px 0 5px 0;
+  border-top: 1px dotted #ddd;
+  border-bottom: 1px dotted #ddd;
+}
+.fa-changes-changes:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+.fa-changes-changes > tbody > tr > td {
+  border-top: 0;
+  padding: 5px 5px 0 0;
+}
+.fa-changes-changes > tbody > tr > td:first-child {
+  text-align: right;
+}
+.fa-changes-changes > tbody > tr:last-child > td {
+  padding-bottom: 5px;
+}
+.fa-changes-changes:last-child > tbody > tr:last-child > td {
+  padding-bottom: 0;
+}
+.fa-changes-changes .fa-arrow-right {
+  padding: 0 5px;
+}
+.fa-changes-comment {
+  margin: 0;
+  white-space: pre-line;
+  font-size: 21px;
+}
+.fa-changes-item .has-more {
+  cursor: help;
+}
+.fa-changes-popover {
+  max-width: 450px;
+}
+.fa-changes-popover > .popover-content {
+  white-space: pre-line;
+}
+.fa-changes-item.is-unseen > .fa-changes-user,
+.fa-changes-item.is-unseen > .fa-changes-time {
+  color: #e00;
+}
+.fa-changes-form {
+  border-top: 1px solid #d4d4d4;
+}
+.fa-changes-form > .form-group {
+  margin: 15px;
+}
+.fa-changes-form .form-control {
+  height: 74px;
+  min-height: 74px;
+  resize: vertical;
+}
+.fa-changes-fixed .fa-changes {
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 9px 18px #999;
+  height: 500px;
+}
+.fa-changes-fixed .panel-heading {
+  flex: 0;
+}
+.fa-changes-fixed .fa-changes-form {
+  flex: 0;
+}
+.fa-changes-fixed .fa-changes-items {
+  flex: 1 1 auto;
+  overflow-y: scroll;
+}
+.fa-changes-fixed .fa-changes-item:last-child {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #d4d4d4;
+}
+@media print {
+  .fa-changes-form {
+    display: none;
+  }
+}
+@media (max-width: 774px) {
+  .fa-changes-changes {
+    display: block;
+  }
+  .fa-changes-changes > tbody {
+    display: block;
+  }
+  .fa-changes-changes > tbody > tr {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .fa-changes-changes > tbody > tr > td {
+    display: block;
+    width: auto;
+  }
+  .fa-changes-changes > tbody > tr > td:first-child {
+    width: 100%;
+    text-align: left;
+  }
+  .fa-changes-changes > tbody > tr > td:nth-child(2) {
+    margin-left: 15px;
+  }
+  .fa-changes-changes > tbody > tr > td:last-child {
+    display: none;
+  }
+}

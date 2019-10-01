@@ -1,0 +1,41 @@
+<form method="post" action="<%- formAction %>" autocomplete="off">
+  <input type="hidden" name="_method" value="<%- formMethod %>">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><%- panelTitleText %></div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="<%- idPrefix %>-protocolNeeded" class="control-label"><%- t('FORM:add:protocolNeeded') %></label>
+        <% ['true', 'false'].forEach(function(v) { %>
+        <br>
+        <label class="radio-inline">
+          <input id="<%- idPrefix %>-protocolNeeded-<%- v %>" type="radio" name="protocolNeeded" value="<%- v %>" required>
+          <%- t('protocolNeeded:' + v) %>
+        </label>
+        <% }) %>
+      </div>
+      <div class="form-group">
+        <label for="<%- idPrefix %>-commissioningType" class="control-label"><%- t('FORM:add:commissioningType') %></label>
+        <% ['new-asset', 'inc-asset'].forEach(function(v) { %>
+        <br>
+        <label class="radio-inline">
+          <input id="<%- idPrefix %>-commissioningType-<%- v %>" type="radio" name="commissioningType" value="<%- v %>" required>
+          <%- t('commissioningType:' + v) %>
+        </label>
+        <% }) %>
+      </div>
+      <div class="form-group">
+        <label for="<%- idPrefix %>-usageDestination" class="control-label"><%- t('FORM:add:usageDestination') %></label>
+        <% ['factory', 'external-supplier'].forEach(function(v) { %>
+        <br>
+        <label class="radio-inline">
+          <input id="<%- idPrefix %>-usageDestination-<%- v %>" type="radio" name="usageDestination" value="<%- v %>" required>
+          <%- t('usageDestination:' + v) %>
+        </label>
+        <% }) %>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button type="submit" class="btn btn-primary"><%- formActionText %></button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,17 @@
+{
+  "changes:failure": "Komentownie nie powiodło się.",
+  "changes:title": "Historia zmian",
+  "changes:label": "Komentarz",
+  "changes:submit": "Komentuj",
+  "changes:commentsOnly": "Tylko komentarze",
+
+  "unit:currency": "PLN",
+  "unit:year": "r",
+  "unit:month": "m",
+
+  "period:both": "{years, plural, one{1 rok} few{{years} lata} other{{years} lat}} i {months, plural, one{1 miesiąc} few{{months} miesiące} other{{months} miesięcy}}",
+  "period:y": "{years, plural, one{1 rok} few{{years} lata} other{{years} lat}}",
+  "period:m": "{months, plural, one{1 miesiąc} few{{months} miesiące} other{{months} miesięcy}}",
+
+  "print:division": "Oddział w Kętrzynie"
+}

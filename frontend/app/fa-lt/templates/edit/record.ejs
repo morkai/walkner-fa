@@ -1,0 +1,38 @@
+<div class="fa-edit-stage" data-stage="record">
+  <%- helpers.props(details, [
+    '!kind',
+    {id: 'otherNotes', visible: kind === 'other', valueClassName: 'text-lines'},
+    {id: 'mergeInventoryNo', visible: kind === 'merge'},
+    {id: 'mergeLineSymbol', visible: kind === 'merge'},
+    {id: 'mergeType', visible: kind === 'merge'},
+    {id: 'mergeNotes', visible: kind === 'merge', valueClassName: 'text-lines'},
+    'no',
+    'date',
+    'inventoryNo',
+    'assetName',
+    'usageDestination',
+    {id: '!applicant'},
+    {id: 'cause', valueClassName: 'text-lines'},
+    'initialValue',
+    'deprecationValue',
+    'netValue',
+    'economicDeprecationValue',
+    'economicNetValue',
+    {id: 'verifyNotes', valueClassName: 'text-lines'},
+    {id: 'buyerName', visible: kind === 'sale'},
+    {id: 'buyerAddress', visible: kind === 'sale', valueClassName: 'text-lines'},
+    {id: 'saleValue', visible: kind === 'sale'}
+  ]) %>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-sapNo" class="control-label is-required"><%- t('PROPERTY:sapNo') %></label>
+    <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text" data-required>
+  </div>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-accountingNo" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
+    <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" data-required>
+  </div>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+  </div>
+</div>

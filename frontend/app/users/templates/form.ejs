@@ -1,0 +1,111 @@
+<form class="users-form" method="post" action="<%- formAction %>" autocomplete="off">
+  <input type="hidden" name="_method" value="<%- formMethod %>">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><%- panelTitleText %></div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label for="<%- idPrefix %>-login" class="control-label is-required"><%- helpers.t('PROPERTY:login') %></label>
+            <input id="<%- idPrefix %>-login" class="form-control" type="text" autocomplete="new-password" name="login" required maxlength="50">
+          </div>
+          <div class="form-group">
+            <label for="<%- idPrefix %>-password" class="control-label <%- editMode ? '' : 'is-required' %>"><%- helpers.t('PROPERTY:' + (editMode ? 'newPassword' : 'password')) %></label>
+            <input id="<%- idPrefix %>-password" class="form-control" type="password" name="password" <%- editMode ? '' : 'required' %> autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="<%- idPrefix %>-password2" class="control-label <%- editMode ? '' : 'is-required' %>"><%- helpers.t('PROPERTY:password2') %></label>
+            <input id="<%- idPrefix %>-password2" class="form-control" type="password" <%- editMode ? '' : 'required' %> autocomplete="off">
+            <% if (editMode) { %>
+            <p class="help-block"><%- helpers.t('FORM:HELP:password') %></p>
+            <% } %>
+          </div>
+          <% if (!accountMode) { %>
+          <div class="form-group users-form-active">
+            <label for="<%- idPrefix %>-active" class="control-label is-required"><%- helpers.t('PROPERTY:active') %></label>
+            <div>
+              <% ['true', 'false'].forEach(function(active) { %>
+              <label class="radio-inline">
+                <input type="radio" name="active" value="<%- active %>" required> <%- helpers.t('active:' + active) %>
+              </label>
+              <% }) %>
+            </div>
+          </div>
+          <% } %>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label for="<%- idPrefix %>-firstName" class="control-label"><%- helpers.t('PROPERTY:firstName') %></label>
+            <input id="<%- idPrefix %>-firstName" class="form-control" type="text" autocomplete="new-password" name="firstName" autofocus maxlength="50">
+          </div>
+          <div class="form-group">
+            <label for="<%- idPrefix %>-lastName" class="control-label"><%- helpers.t('PROPERTY:lastName') %></label>
+            <input id="<%- idPrefix %>-lastName" class="form-control" type="text" autocomplete="new-password" name="lastName" maxlength="50">
+          </div>
+          <!--
+          <div class="form-group">
+            <label for="<%- idPrefix %>-gender" class="control-label is-required"><%- helpers.t('PROPERTY:gender') %></label>
+            <div>
+              <% ['female', 'male'].forEach(function(gender) { %>
+              <label class="radio-inline">
+                <input type="radio" name="gender" value="<%- gender %>" required> <%- helpers.t('gender:' + gender) %>
+              </label>
+              <% }) %>
+            </div>
+          </div>
+          //-->
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="<%- idPrefix %>-email" class="control-label"><%- helpers.t('PROPERTY:email') %></label>
+            <input id="<%- idPrefix %>-email" class="form-control" type="email" name="email" maxlength="100">
+          </div>
+          <div class="form-group">
+            <label class="control-label"><%- helpers.t('PROPERTY:mobile') %></label>
+            <div id="<%- idPrefix %>-mobile-list"></div>
+            <div id="<%- idPrefix %>-mobile" class="users-form-mobile">
+              <input id="<%- idPrefix %>-mobile-number" class="form-control users-form-mobile-number" type="text" autocomplete="new-password" placeholder="+00 000 000 000">
+              <span><%- helpers.t('FORM:mobile:from') %></span>
+              <input id="<%- idPrefix %>-mobile-from" class="form-control users-form-mobile-hours" type="text" autocomplete="new-password" placeholder="00:00">
+              <span><%- helpers.t('FORM:mobile:to') %></span>
+              <input id="<%- idPrefix %>-mobile-to" class="form-control users-form-mobile-hours" type="text" autocomplete="new-password" placeholder="00:00">
+              <button id="<%- idPrefix %>-mobile-add" class="btn btn-link" type="button"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+          <% if (notifications.length) { %>
+          <div class="form-group">
+            <label class="control-label"><%- helpers.t('PROPERTY:notifications') %></label>
+            <% notifications.forEach(function(pref) { %>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="preferences.<%- pref %>" value="true"> <%- helpers.t('preferences:' + pref) %>
+              </label>
+            </div>
+            <% }) %>
+          </div>
+          <% } %>
+        </div>
+      </div>
+      <% if (!accountMode) { %>
+      <div class="form-group">
+        <label for="<%- idPrefix %>-privileges" class="control-label"><%- helpers.t('PROPERTY:privileges') %></label>
+        <div class="input-group">
+          <input id="<%- idPrefix %>-privileges" type="text" autocomplete="new-password" name="privileges">
+          <span class="input-group-btn">
+            <button id="<%- idPrefix %>-copyPrivileges" class="btn btn-default" type="button"><i class="fa fa-copy"></i></button>
+          </span>
+        </div>
+      </div>
+      <% } %>
+      <% if (user.isAllowedTo('SUPER')) { %>
+      <div class="form-group">
+        <label for="<%- idPrefix %>-apiKey" class="control-label"><%- helpers.t('PROPERTY:apiKey') %></label>
+        <input id="<%- idPrefix %>-apiKey" class="form-control" type="text" autocomplete="new-password" name="apiKey" pattern="^[a-zA-Z0-9-_]{64}$">
+      </div>
+      <%} %>
+    </div>
+    <div class="panel-footer">
+      <button type="submit" class="btn btn-primary"><%- formActionText %></button>
+    </div>
+  </div>
+</form>

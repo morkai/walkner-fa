@@ -1,0 +1,45 @@
+<form class="well filter-form">
+  <%- forms.dateTimeRange({
+    idPrefix: idPrefix,
+    property: 'date',
+    type: 'date',
+    utc: true,
+    labels: {text: t('PROPERTY:date'), ranges: true}
+  }) %>
+  <div class="form-group hidden" data-filter="stage">
+    <label for="<%- idPrefix %>-stage"><%- t('filter:stage') %></label>
+    <select id="<%- idPrefix %>-stage" class="form-control is-expandable" name="stage[]" multiple size="1" data-expanded-length="10">
+      <% ['protocol', 'authorize', 'document', 'verify', 'accept', 'record', 'finished'].forEach(function(v) { %>
+      <option value="<%- v %>"><%- t('stage:' + v) %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="form-group hidden" data-filter="sapNo">
+    <label for="<%- idPrefix %>-sapNo"><%- t('filter:sapNo') %></label>
+    <input id="<%- idPrefix %>-sapNo" class="form-control" name="sapNo" type="text" style="width: 130px">
+  </div>
+  <div class="form-group hidden" data-filter="assetName">
+    <label for="<%- idPrefix %>-assetName"><%- t('filter:assetName') %></label>
+    <input id="<%- idPrefix %>-assetName" class="form-control" name="assetName" type="text">
+  </div>
+  <div class="form-group hidden" data-filter="inventoryNo">
+    <label for="<%- idPrefix %>-inventoryNo"><%- t('filter:inventoryNo') %></label>
+    <input id="<%- idPrefix %>-inventoryNo" class="form-control" name="inventoryNo" type="text" style="width: 130px">
+  </div>
+  <div class="form-group hidden" data-filter="costCenter">
+    <label for="<%- idPrefix %>-costCenter"><%- t('filter:costCenter') %></label>
+    <input id="<%- idPrefix %>-costCenter" name="costCenter" type="text">
+  </div>
+  <%- renderLimit({hidden: true}) %>
+  <div class="form-group filter-actions">
+    <div class="btn-group">
+      <button type="submit" class="btn btn-default"><i class="fa fa-filter"></i><span><%- t('core', 'filter:submit') %></span></button>
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="<%- t('core', 'filter:filters') %>"><span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <% filters.forEach(function(filter) { %>
+        <li><a data-filter="<%- filter %>"><%= t('filter:' + filter) %></a></li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</form>

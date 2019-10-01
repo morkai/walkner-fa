@@ -1,0 +1,13 @@
+<div class="form-group">
+  <label class="control-label is-required"><%- t('protocol:participants') %></label>
+  <table class="fa-edit-participants">
+    <tbody id="<%- idPrefix %>-participants">
+    <tr class="fa-edit-participant">
+      <td class="fa-edit-participant-label"><%- t('FORM:edit:committee:owner') %>
+      <td class="has-required-select2"><input id="<%- idPrefix %>-owner" name="owner" type="text" data-required>
+      <td>
+    </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-link" type="button" data-action="committee:add"><i class="fa fa-plus"></i><span><%- t('FORM:edit:committee:add', {count: committee.length}) %></span></button>
+</div>

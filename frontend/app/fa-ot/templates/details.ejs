@@ -1,0 +1,127 @@
+<div class="row fa-ot-details-props">
+  <div class="col-md-6" style="margin-bottom: 20px">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <span class="visible-print"><%= model.no %></span>
+        <span class="hidden-print"><%- helpers.t('PANEL:TITLE:details') %></span>
+      </div>
+      <div class="panel-details">
+        <%- helpers.props(model, [
+          '!protocolNeeded',
+          '!commissioningType',
+          '!usageDestination',
+          {id: '!protocolDate', visible: protocolNeeded},
+          {id: '!protocolNo', visible: protocolNeeded},
+          '!documentDate',
+          '!no',
+          'assetName',
+          'lineSymbol',
+          'inventoryNo',
+          {id: '!zplx', value: function(zplxs)
+          {
+            if (zplxs.length === 1)
+            {
+              return 'ZPLX' + zplxs[0];
+            }
+
+            return '<ul>'
+              + zplxs.map(function(zplx) { return '<li>ZPLX<span class="text-mono">' + zplx + '</span>'; }).join('')
+              + '</ul>';
+          }},
+          {id: '!owner', visible: protocolNeeded},
+          {id: '!committee', visible: protocolNeeded, value: function(users)
+          {
+            if (users.length === 0)
+            {
+              return '';
+            }
+
+            if (users.length === 1)
+            {
+              return users[0];
+            }
+
+            return '<ul>'
+              + users.map(function(user) { return '<li>' + user; }).join('')
+              + '</ul>';
+          }},
+          'supplier',
+          'value',
+          'costCenter',
+          'destination',
+          {id: 'vendorNo', visible: usageDestination === 'external-supplier'},
+          {id: 'vendorName', visible: usageDestination === 'external-supplier'},
+          'redemptionRate',
+          'economicPeriod',
+          'fiscalPeriod',
+          'sapNo',
+          'accountingNo'
+        ]) %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 hidden-print">
+    <div class="panel panel-default">
+      <div class="panel-heading"><%- helpers.t('PANEL:TITLE:attachments') %></div>
+      <div class="panel-details">
+        <%- helpers.props(model, [
+          {id: '!protocolFile', visible: protocolNeeded, value: function(file)
+          {
+            return file
+              ? ('<a href="' + url + '/attachments/protocol" target="_blank">' + _.escape(file.name) + '</a>')
+              : t('FORM:edit:attachment:empty');
+          }},
+          {id: '!checklistFile', value: function(file)
+          {
+            return file
+              ? ('<a href="' + url + '/attachments/checklist" target="_blank">' + _.escape(file.name) + '</a>')
+              : t('FORM:edit:attachment:empty');
+          }},
+          {id: '!certificateFile', visible: usageDestination === 'external-supplier', value: function(file)
+          {
+            return file
+              ? ('<a href="' + url + '/attachments/certificate" target="_blank">' + _.escape(file.name) + '</a>')
+              : t('FORM:edit:attachment:empty');
+          }},
+          {id: '!nameplateFile', visible: usageDestination === 'external-supplier', value: function(file)
+          {
+            return file
+              ? ('<a href="' + url + '/attachments/nameplate" target="_blank">' + _.escape(file.name) + '</a>')
+              : t('FORM:edit:attachment:empty');
+          }}
+        ]) %>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading"><%- helpers.t('PANEL:TITLE:stages') %></div>
+      <div class="panel-details">
+        <%
+
+          function renderStage(stage)
+          {
+            var html = '';
+
+            if (stage.who)
+            {
+              html += '<i class="fa fa-clock-o"></i><span>' + stage.when + '</span><br>';
+              html += '<i class="fa fa-user-o"></i><span>' + stage.who + '</span>';
+            }
+
+            return html;
+          }
+
+          var stages = Object.keys(model.stages).map(function(id)
+          {
+            return {
+              id: '!stage:' + id,
+              label: t('stage:' + id),
+              value: renderStage.bind(null, model.stages[id])
+            };
+          });
+
+        %>
+        <%- helpers.props(model, ['stage'].concat(stages)) %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+{
+  "root": {
+    "BREADCRUMBS:browse": "Cost centers",
+
+    "PROPERTY:active": "Active?",
+    "PROPERTY:_id": "Symbol",
+    "PROPERTY:full": "Description"
+  }
+,
+  "pl": true
+}

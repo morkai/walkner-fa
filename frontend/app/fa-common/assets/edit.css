@@ -1,0 +1,228 @@
+.fa-edit-page {
+  display: flex;
+}
+.fa-edit-page-form {
+  min-width: 771px;
+}
+.fa-edit-page-changes {
+  flex: 1 1 auto;
+}
+.fa-edit-tabs {
+  display: flex;
+  align-items: flex-end;
+  padding: 10px 15px 0 15px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+.fa-edit-tab {
+  padding: 10px 15px;
+  text-align: center;
+}
+.fa-edit-tab.is-active {
+  margin-bottom: -1px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-bottom: none;
+}
+.fa-edit-zplx-item {
+  display: flex;
+  margin-bottom: 5px;
+}
+.fa-edit-zplx-item .form-control {
+  width: 80px;
+}
+.fa-edit-zplx-item:only-child .btn {
+  display: none;
+}
+.fa-edit-zplx-prefix {
+  width: 54px;
+  text-align: center;
+  line-height: 32px;
+  background: #eee;
+  border: 1px solid #ccc;
+  border-right: none;
+}
+.fa-edit-participants tbody {
+  vertical-align: top;
+}
+.fa-edit-participant-label {
+  padding: 0 10px 5px 0;
+  line-height: 34px;
+}
+.fa-edit-form input[type="date"] {
+  width: 100%;
+}
+.fa-edit-row {
+  display: flex;
+}
+.fa-edit-flex {
+  flex: 1 1 auto;
+}
+.fa-edit-short {
+  width: 168px;
+}
+.fa-edit-row .form-group + .form-group {
+  margin-left: 15px;
+}
+.fa-edit-long {
+  max-width: 504px;
+}
+.fa-edit-attachment {
+  width: 100%;
+}
+.fa-edit-form .message-inline {
+  max-width: 504px;
+  line-height: 1.4;
+  text-align: justify;
+}
+.fa-edit-form textarea[rows="3"] {
+  height: 74px;
+  min-height: 74px;
+  resize: vertical;
+}
+.fa-edit-form .message-inline + .form-group {
+  margin-top: 15px;
+}
+.fa-edit-period .input-group {
+  width: 168px;
+}
+.fa-edit-period .input-group-addon {
+  padding-left: 0;
+  padding-right: 0;
+  width: 30px;
+  text-align: center;
+  border-left: none;
+  border-right: 0;
+}
+.fa-edit-period .input-group-addon:last-child {
+  border-right: 1px solid #ccc;
+}
+.fa-edit-period .form-control[readonly] {
+  background: #fff;
+  box-shadow: none;
+}
+.fa-edit-row .fa-edit-value .control-label {
+  width: 150px;
+}
+.fa-edit-value .input-group-addon {
+  width: 54px;
+}
+.fa-edit-value .form-control {
+  width: 114px;
+}
+.fa-edit-stage > .props + .form-group {
+  padding-top: 15px;
+  border-top: 1px dotted #d4d4d4;
+}
+.fa-edit-form .panel-footer .btn {
+  min-width: 132px;
+}
+.fa-edit-form .form-control:invalid,
+.fa-edit-form .is-invalid {
+  border-color: #f00;
+  outline: 3px solid #f00;
+  outline-offset: -1px;
+}
+@media (max-width: 1599px) {
+  .fa-edit-page {
+    display: block;
+  }
+  .fa-edit-page-form {
+    min-width: unset;
+  }
+}
+@media (max-width: 767px) {
+  .fa-details-page .panel-details {
+    overflow: auto;
+  }
+  .fa-details-page .props,
+  .fa-edit-form .props {
+    display: block;
+  }
+  .fa-details-page .prop,
+  .fa-details-page .prop-name,
+  .fa-details-page .prop-value,
+  .fa-edit-form .prop,
+  .fa-edit-form .prop-name,
+  .fa-edit-form .prop-value {
+    display: block;
+    width: 100%;
+  }
+  .fa-details-page .prop-name,
+  .fa-edit-form .prop-name {
+    padding-bottom: 0;
+  }
+  .fa-edit-tabs {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .fa-edit-row {
+    display: block;
+  }
+  .fa-edit-row .form-group + .form-group {
+    margin-left: 0;
+  }
+  .fa-edit-row .form-group:last-child {
+    margin-bottom: 15px;
+  }
+  .fa-edit-short,
+  .fa-edit-long {
+    width: auto;
+    max-width: none;
+    min-width: auto;
+  }
+  .fa-edit-form .panel-footer {
+    padding: 0;
+  }
+  .fa-edit-form .panel-footer .btn {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 21px;
+    border-left: none;
+    border-right: none;
+  }
+  .fa-edit-form .panel-footer .btn:first-child {
+    border-top: none;
+  }
+  .fa-edit-form .panel-footer .btn:last-child {
+    border-bottom: none;
+  }
+  .fa-edit-participants {
+    display: block;
+  }
+  .fa-edit-participants > tbody {
+    display: block;
+  }
+  .fa-edit-participant {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .fa-edit-participant > td {
+    display: block;
+  }
+  .fa-edit-participant-label {
+    padding: 7px 0 0 0;
+    width: 100%;
+    line-height: inherit;
+  }
+  .fa-edit-participant:first-child .fa-edit-participant-label {
+    padding-top: 0;
+  }
+  .fa-edit-participant > td:nth-child(2) {
+    flex: 1 1 auto;
+  }
+  .fa-edit-participants .select2-container {
+    width: 100%!important;
+  }
+  .fa-edit-participant > td:last-child {
+    flex: 0;
+    width: 37px;
+  }
+  .fa-edit-form .form-control-static.is-along-inputs {
+    line-height: inherit;
+  }
+  .fa-edit-row .fa-edit-value .control-label {
+    width: auto;
+  }
+}

@@ -1,0 +1,256 @@
+// Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
+
+define([
+  'app/time',
+  'app/core/View',
+  'app/core/util/idAndLabel',
+  'app/users/util/setUpUserSelect2',
+  'app/fa-common/dictionaries',
+  'app/fa-common/views/ValueInputView',
+  'app/fa-lt/FaLt',
+  'app/fa-lt/templates/edit/finished'
+], function(
+  time,
+  View,
+  idAndLabel,
+  setUpUserSelect2,
+  dictionaries,
+  ValueInputView,
+  FaLt,
+  template
+) {
+  'use strict';
+
+  return View.extend({
+
+    template: template,
+
+    updateOnChange: false,
+
+    events: {
+
+      'change input[name="mergeType"]': function()
+      {
+        this.toggleMergeType();
+      }
+
+    },
+
+    initialize: function()
+    {
+      var view = this;
+
+      view.valueViews = {
+        initialValue: new ValueInputView({
+          property: 'initialValue',
+          model: view.model
+        }),
+        deprecationValue: new ValueInputView({
+          property: 'deprecationValue',
+          required: false,
+          model: view.model
+        }),
+        netValue: new ValueInputView({
+          property: 'netValue',
+          readOnly: true,
+          required: false,
+          model: view.model
+        }),
+        economicDeprecationValue: new ValueInputView({
+          property: 'economicDeprecationValue',
+          required: false,
+          model: view.model
+        }),
+        economicNetValue: new ValueInputView({
+          property: 'economicNetValue',
+          readOnly: true,
+          required: false,
+          model: view.model
+        })
+      };
+
+      if (view.model.get('kind') === 'sale')
+      {
+        view.valueViews.saleValue = new ValueInputView({
+          property: 'saleValue',
+          model: view.model
+        });
+      }
+
+      Object.keys(view.valueViews).forEach(function(prop)
+      {
+        view.setView('#-' + prop, view.valueViews[prop]);
+      });
+
+      view.listenTo(view.valueViews.initialValue, 'change', view.updateFiscalNetValue);
+      view.listenTo(view.valueViews.deprecationValue, 'change', view.updateFiscalNetValue);
+      view.listenTo(view.valueViews.initialValue, 'change', view.updateEconomicNetValue);
+      view.listenTo(view.valueViews.economicDeprecationValue, 'change', view.updateEconomicNetValue);
+    },
+
+    getTemplateData: function()
+    {
+      var lt = this.model;
+      var files = [];
+
+      return {
+        mergeTypes: FaLt.MERGE_TYPES,
+        model: lt.toJSON(),
+        details: lt.serializeDetails(),
+        files: files
+      };
+    },
+
+    afterRender: function()
+    {
+      var view = this;
+
+      view.toggleMergeType();
+      view.setUpUsageDestinationSelect2();
+      view.setUpUserSelect2(view.$id('applicant'), view.model.get('applicant'));
+    },
+
+    setUpUsageDestinationSelect2: function()
+    {
+      var id = this.model.get('usageDestination');
+      var model = dictionaries.destinations.get(id);
+      var data = [];
+
+      if (id && !model)
+      {
+        data.push({
+          id: id,
+          text: id
+        });
+      }
+
+      dictionaries.destinations.forEach(function(d)
+      {
+        if (d.get('active') || d.id === id)
+        {
+          data.push(idAndLabel(d));
+        }
+      });
+
+      this.$id('usageDestination').select2({
+        width: '100%',
+        allowClear: true,
+        placeholder: ' ',
+        data: data
+      });
+    },
+
+    setUpUserSelect2: function($input, user)
+    {
+      setUpUserSelect2($input, {
+        width: '100%'
+      });
+
+      if (user)
+      {
+        $input.select2('data', {
+          id: user._id,
+          text: user.label
+        });
+      }
+    },
+
+    getFormActions: function()
+    {
+      return [];
+    },
+
+    handleFormAction: function(action, formView) // eslint-disable-line no-unused-vars
+    {
+
+    },
+
+    serializeToForm: function(formData)
+    {
+      var view = this;
+
+      Object.keys(view.valueViews).forEach(function(prop)
+      {
+        view.valueViews[prop].serializeToForm(formData);
+      });
+
+      return formData;
+    },
+
+    serializeForm: function(formData)
+    {
+      var view = this;
+      var kind = view.model.get('kind');
+      var data = {
+        comment: (formData.comment || '').trim(),
+        date: time.utc.getMoment(formData.date, 'YYYY-MM-DD').toISOString(),
+        inventoryNo: (formData.inventoryNo || '').trim(),
+        assetName: (formData.assetName || '').trim(),
+        usageDestination: formData.usageDestination || null,
+        applicant: setUpUserSelect2.getUserInfo(this.$id('applicant')),
+        cause: (formData.assetName || '').trim(),
+        verifyNotes: (formData.verifyNotes || '').trim(),
+        sapNo: (formData.sapNo || '').trim(),
+        accountingNo: (formData.accountingNo || '').trim()
+      };
+
+      if (kind === 'merge')
+      {
+        Object.assign(data, {
+          mergeInventoryNo: (formData.mergeInventoryNo || '').trim(),
+          mergeLineSymbol: (formData.mergeLineSymbol || '').trim(),
+          mergeType: formData.mergeType || null,
+          mergeNotes: (formData.mergeNotes || '').trim()
+        });
+      }
+      else if (kind === 'sale')
+      {
+        Object.assign(data, {
+          buyerName: (formData.buyerName || '').trim(),
+          buyerAddress: (formData.buyerAddress || '').trim()
+        });
+      }
+      else if (kind === 'other')
+      {
+        Object.assign(data, {
+          otherNotes: (formData.otherNotes || '').trim()
+        });
+      }
+
+      Object.keys(view.valueViews).forEach(function(prop)
+      {
+        view.valueViews[prop].serializeForm(data);
+      });
+
+      return data;
+    },
+
+    updateFiscalNetValue: function()
+    {
+      var formData = {};
+
+      this.valueViews.initialValue.serializeForm(formData);
+      this.valueViews.deprecationValue.serializeForm(formData);
+      this.valueViews.netValue.setValue(formData.initialValue - formData.deprecationValue);
+    },
+
+    updateEconomicNetValue: function()
+    {
+      var formData = {};
+
+      this.valueViews.initialValue.serializeForm(formData);
+      this.valueViews.economicDeprecationValue.serializeForm(formData);
+      this.valueViews.economicNetValue.setValue(formData.initialValue - formData.economicDeprecationValue);
+    },
+
+    toggleMergeType: function()
+    {
+      var view = this;
+      var mergeType = view.$('input[name="mergeType"]:checked').val();
+      var placeholder = mergeType === 'full' ? '' : view.t('FORM:add:mergeNotes:placeholder');
+
+      view.$id('mergeNotes').prop('placeholder', placeholder);
+    }
+
+  });
+});

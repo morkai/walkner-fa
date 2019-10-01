@@ -1,0 +1,34 @@
+<div class="fa-edit-stage" data-stage="verify">
+  <%- helpers.props(details, [
+    '!kind',
+    {id: 'otherNotes', visible: kind === 'other', valueClassName: 'text-lines'},
+    {id: 'mergeInventoryNo', visible: kind === 'merge'},
+    {id: 'mergeLineSymbol', visible: kind === 'merge'},
+    {id: 'mergeType', visible: kind === 'merge'},
+    {id: 'mergeNotes', visible: kind === 'merge', valueClassName: 'text-lines'},
+    'no',
+    'date',
+    'inventoryNo',
+    'assetName',
+    'usageDestination',
+    {id: '!applicant'},
+    {id: 'cause', valueClassName: 'text-lines'}
+  ]) %>
+  <div id="<%- idPrefix %>-initialValue" class="form-group"></div>
+  <div class="fa-edit-row">
+    <div id="<%- idPrefix %>-deprecationValue" style="margin: 0 15px 15px 0"></div>
+    <div id="<%- idPrefix %>-economicDeprecationValue" style="margin-bottom: 15px"></div>
+  </div>
+  <div class="fa-edit-row">
+    <div id="<%- idPrefix %>-netValue" style="margin: 0 15px 15px 0"></div>
+    <div id="<%- idPrefix %>-economicNetValue" style="margin-bottom: 15px"></div>
+  </div>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-verifyNotes" class="control-label"><%- t('FORM:edit:verifyNotes') %></label>
+    <textarea id="<%- idPrefix %>-verifyNotes" class="form-control" name="verifyNotes" rows="3" placeholder="<%- t('FORM:edit:verifyNotes:placeholder') %>"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+  </div>
+</div>

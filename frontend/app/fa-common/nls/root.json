@@ -1,0 +1,20 @@
+{
+  "root": {
+    "changes:failure": "Commenting failed.",
+    "changes:title": "Change history",
+    "changes:label": "Comment",
+    "changes:submit": "Comment",
+    "changes:commentsOnly": "Only comments",
+
+    "unit:currency": "PLN",
+    "unit:year": "y",
+    "unit:month": "m",
+
+    "period:both": "{years, plural, one{1 year} other{{years} years}} and {months, plural, one{1 month} other{{months} months}}",
+    "period:y": "{years, plural, one{1 year} other{{years} years}}",
+    "period:m": "{months, plural, one{1 month} other{{months} months}}",
+
+    "print:division": "Kętrzyn division"
+  },
+  "pl": true
+}

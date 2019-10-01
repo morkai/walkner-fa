@@ -1,0 +1,7 @@
+<div class="form-group fa-edit-value">
+  <label for="<%- idPrefix %>-value" class="control-label <%- required ? 'is-required' : '' %>"><%- t('PROPERTY:' + property) %></label>
+  <div class="input-group">
+    <div class="input-group-addon"><%- t('fa-common', 'unit:currency') %></div>
+    <input id="<%- idPrefix %>-value" name="<%- property %>" class="form-control" type="text" <%- required ? 'data-required' : '' %> <%- readOnly ? 'readonly' : '' %> placeholder="0 000 000,00">
+  </div>
+</div>

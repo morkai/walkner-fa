@@ -1,0 +1,131 @@
+<div class="fa-edit-stage" data-stage="finished">
+  <div class="form-group">
+    <label class="control-label"><%- t('PROPERTY:kind') %></label>
+    <p class="form-control-static"><%- details.kind %></p>
+  </div>
+  <% if (model.kind === 'merge') { %>
+  <div class="fa-edit-row">
+    <div class="form-group fa-edit-short">
+      <label for="<%- idPrefix %>-mergeInventoryNo" class="control-label is-required"><%- t('PROPERTY:mergeInventoryNo') %></label>
+      <input id="<%- idPrefix %>-mergeInventoryNo" name="mergeInventoryNo" class="form-control" type="text" required>
+    </div>
+    <div class="form-group fa-edit-short">
+      <label for="<%- idPrefix %>-mergeLineSymbol" class="control-label"><%- t('PROPERTY:mergeLineSymbol') %></label>
+      <input id="<%- idPrefix %>-mergeLineSymbol" name="mergeLineSymbol" class="form-control" type="text">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label"><%- t('PROPERTY:mergeType') %></label>
+    <% mergeTypes.forEach(function(v) { %>
+    <br>
+    <label class="radio-inline">
+      <input type="radio" name="mergeType" value="<%- v %>" required>
+      <%- t('mergeType:' + v) %>
+    </label>
+    <% }) %>
+  </div>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-mergeNotes" class="control-label"><%- t('PROPERTY:mergeNotes') %></label>
+    <textarea id="<%- idPrefix %>-mergeNotes" name="mergeNotes" class="form-control" rows="3"></textarea>
+  </div>
+  <% } %>
+  <% if (model.kind === 'other') { %>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-otherNotes" class="control-label is-required"><%- t('PROPERTY:otherNotes') %></label>
+    <textarea id="<%- idPrefix %>-otherNotes" class="form-control" name="comment" rows="3" required></textarea>
+  </div>
+  <% } %>
+  <div class="fa-edit-row">
+    <div class="form-group fa-edit-short">
+      <label for="<%- idPrefix %>-date" class="control-label is-required"><%- t('PROPERTY:date') %></label>
+      <input id="<%- idPrefix %>-date" name="date" class="form-control" type="date" required>
+    </div>
+    <div class="form-group">
+      <label class="control-label"><%- t('PROPERTY:no') %></label>
+      <p class="form-control-static is-along-inputs"><%- details.no %></p>
+    </div>
+  </div>
+  <div class="fa-edit-row">
+    <div class="form-group fa-edit-short">
+      <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
+      <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" required>
+    </div>
+    <div class="form-group fa-edit-flex" style="margin-bottom: 15px">
+      <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
+      <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control" type="text" required>
+    </div>
+  </div>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- idPrefix %>-usageDestination" class="control-label is-required"><%- t('PROPERTY:usageDestination') %></label>
+    <input id="<%- idPrefix %>-usageDestination" name="usageDestination" required>
+  </div>
+  <div class="form-group fa-edit-long">
+    <label for="<%- idPrefix %>-applicant" class="control-label is-required"><%- t('PROPERTY:applicant') %></label>
+    <input id="<%- idPrefix %>-applicant" name="applicant" type="text" required>
+  </div>
+  <div class="form-group fa-edit-long">
+    <label for="<%- idPrefix %>-cause" class="control-label is-required"><%- t('PROPERTY:cause') %></label>
+    <textarea id="<%- idPrefix %>-cause" name="cause" class="form-control" rows="3" required></textarea>
+  </div>
+  <div id="<%- idPrefix %>-initialValue" style="margin-bottom: 15px"></div>
+  <div class="fa-edit-row">
+    <div id="<%- idPrefix %>-deprecationValue" style="margin: 0 15px 15px 0"></div>
+    <div id="<%- idPrefix %>-economicDeprecationValue" style="margin-bottom: 15px"></div>
+  </div>
+  <div class="fa-edit-row">
+    <div id="<%- idPrefix %>-netValue" style="margin: 0 15px 15px 0"></div>
+    <div id="<%- idPrefix %>-economicNetValue" style="margin-bottom: 15px"></div>
+  </div>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-verifyNotes" class="control-label"><%- t('PROPERTY:verifyNotes') %></label>
+    <textarea id="<%- idPrefix %>-verifyNotes" class="form-control" name="verifyNotes" rows="3" placeholder="<%- t('FORM:edit:verifyNotes:placeholder') %>"></textarea>
+  </div>
+  <% if (model.kind === 'sale') { %>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-buyerName" class="control-label is-required"><%- t('PROPERTY:buyerName') %></label>
+    <input id="<%- idPrefix %>-buyerName" class="form-control fa-edit-long" name="buyerName" required>
+  </div>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-buyerAddress" class="control-label"><%- t('PROPERTY:buyerAddress') %></label>
+    <textarea id="<%- idPrefix %>-buyerAddress" class="form-control fa-edit-long" name="buyerAddress" rows="3"></textarea>
+  </div>
+  <div id="<%- idPrefix %>-saleValue" style="margin-bottom: 15px"></div>
+  <% } %>
+  <div class="fa-edit-row">
+    <div class="form-group">
+      <label for="<%- idPrefix %>-sapNo" class="control-label is-required"><%- t('PROPERTY:sapNo') %></label>
+      <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text" required>
+    </div>
+    <div class="form-group">
+      <label for="<%- idPrefix %>-accountingNo" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
+      <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" required>
+    </div>
+  </div>
+  <% files.forEach(function(file) { %>
+  <div class="form-group fa-edit-long">
+    <label for="<%- idPrefix %>-<%- file %>File" class="control-label"><%- t('PROPERTY:' + file + 'File') %></label>
+    <table class="fa-edit-attachment">
+      <tbody>
+      <tr>
+        <td class="is-min" style="padding: 0 10px 5px 0"><%- t('FORM:edit:attachment:old') %></td>
+        <td style="padding-bottom: 5px">
+          <% if (model[file + 'File']) { %>
+          <a href="/fa/lt/<%- model._id %>/attachments/<%- file %>" target="_blank"><%= model[file + 'File'].name %></a>
+          <% } else { %>
+          <%- t('FORM:edit:attachment:empty') %>
+          <% } %>
+        </td>
+      </tr>
+      <tr>
+        <td class="is-min" style="padding-right: 10px"><%- t('FORM:edit:attachment:new') %></td>
+        <td><input id="<%- idPrefix %>-<%- file %>File" name="<%- file %>File" class="form-control" type="file"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <% }) %>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+  </div>
+</div>
