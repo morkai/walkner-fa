@@ -8,11 +8,9 @@
       <div class="panel-details">
         <%- helpers.props(model, [
           '!kind',
-          {id: 'otherNotes', visible: kind === 'other', valueClassName: 'text-lines'},
           {id: 'mergeInventoryNo', visible: kind === 'merge', valueClassName: 'text-mono'},
           {id: 'mergeLineSymbol', visible: kind === 'merge', valueClassName: 'text-mono'},
           {id: 'mergeType', visible: kind === 'merge'},
-          {id: 'mergeNotes', visible: kind === 'merge', valueClassName: 'text-lines'},
           {id: 'no', valueClassName: 'text-mono'},
           'date',
           {id: 'inventoryNo', valueClassName: 'text-mono'},
@@ -25,7 +23,6 @@
           'netValue',
           'economicDeprecationValue',
           'economicNetValue',
-          {id: 'verifyNotes', valueClassName: 'text-lines'},
           {id: 'buyerName', visible: kind === 'sale'},
           {id: 'buyerAddress', visible: kind === 'sale', valueClassName: 'text-lines'},
           {id: 'saleValue', visible: kind === 'sale'},

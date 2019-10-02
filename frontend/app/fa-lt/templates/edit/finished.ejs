@@ -13,26 +13,16 @@
       <label for="<%- idPrefix %>-mergeLineSymbol" class="control-label"><%- t('PROPERTY:mergeLineSymbol') %></label>
       <input id="<%- idPrefix %>-mergeLineSymbol" name="mergeLineSymbol" class="form-control" type="text">
     </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label"><%- t('PROPERTY:mergeType') %></label>
-    <% mergeTypes.forEach(function(v) { %>
-    <br>
-    <label class="radio-inline">
-      <input type="radio" name="mergeType" value="<%- v %>" required>
-      <%- t('mergeType:' + v) %>
-    </label>
-    <% }) %>
-  </div>
-  <div class="form-group">
-    <label for="<%- idPrefix %>-mergeNotes" class="control-label"><%- t('PROPERTY:mergeNotes') %></label>
-    <textarea id="<%- idPrefix %>-mergeNotes" name="mergeNotes" class="form-control" rows="3"></textarea>
-  </div>
-  <% } %>
-  <% if (model.kind === 'other') { %>
-  <div class="form-group">
-    <label for="<%- idPrefix %>-otherNotes" class="control-label is-required"><%- t('PROPERTY:otherNotes') %></label>
-    <textarea id="<%- idPrefix %>-otherNotes" class="form-control" name="comment" rows="3" required></textarea>
+    <div class="form-group">
+      <label class="control-label"><%- t('PROPERTY:mergeType') %></label>
+      <% mergeTypes.forEach(function(v) { %>
+        <br>
+        <label class="radio-inline">
+          <input type="radio" name="mergeType" value="<%- v %>" required>
+          <%- t('mergeType:' + v) %>
+        </label>
+      <% }) %>
+    </div>
   </div>
   <% } %>
   <div class="fa-edit-row">
@@ -75,10 +65,6 @@
   <div class="fa-edit-row">
     <div id="<%- idPrefix %>-netValue" style="margin: 0 15px 15px 0"></div>
     <div id="<%- idPrefix %>-economicNetValue" style="margin-bottom: 15px"></div>
-  </div>
-  <div class="form-group">
-    <label for="<%- idPrefix %>-verifyNotes" class="control-label"><%- t('PROPERTY:verifyNotes') %></label>
-    <textarea id="<%- idPrefix %>-verifyNotes" class="form-control" name="verifyNotes" rows="3" placeholder="<%- t('FORM:edit:verifyNotes:placeholder') %>"></textarea>
   </div>
   <% if (model.kind === 'sale') { %>
   <div class="form-group">

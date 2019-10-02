@@ -19,6 +19,8 @@ define([
     'initialValue',
     'deprecationValue',
     'netValue',
+    'economicDeprecationValue',
+    'economicNetValue',
     'saleValue'
   ];
 
@@ -52,7 +54,7 @@ define([
 
       VALUE_PROPS.forEach(function(prop)
       {
-        obj[prop] = obj[prop].toLocaleString('pl-PL', {
+        obj[prop] = (obj[prop] || 0).toLocaleString('pl-PL', {
           style: 'currency',
           currency: 'PLN'
         });

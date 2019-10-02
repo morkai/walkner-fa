@@ -90,6 +90,16 @@ define([
       var placeholder = mergeType === 'full' ? '' : view.t('FORM:add:mergeNotes:placeholder');
 
       view.$id('mergeNotes').prop('placeholder', placeholder);
+    },
+
+    serializeForm: function(formData)
+    {
+      formData.comment = formData.otherNotes || formData.mergeNotes || '';
+
+      delete formData.otherNotes;
+      delete formData.mergeNotes;
+
+      return formData;
     }
 
   });

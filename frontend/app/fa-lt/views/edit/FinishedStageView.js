@@ -27,15 +27,6 @@ define([
 
     updateOnChange: false,
 
-    events: {
-
-      'change input[name="mergeType"]': function()
-      {
-        this.toggleMergeType();
-      }
-
-    },
-
     initialize: function()
     {
       var view = this;
@@ -105,7 +96,6 @@ define([
     {
       var view = this;
 
-      view.toggleMergeType();
       view.setUpCostCenterSelect2();
       view.setUpUserSelect2(view.$id('applicant'), view.model.get('applicant'));
     },
@@ -189,7 +179,6 @@ define([
         costCenter: formData.costCenter || null,
         applicant: setUpUserSelect2.getUserInfo(this.$id('applicant')),
         cause: (formData.cause || '').trim(),
-        verifyNotes: (formData.verifyNotes || '').trim(),
         sapNo: (formData.sapNo || '').trim(),
         accountingNo: (formData.accountingNo || '').trim()
       };
@@ -199,8 +188,7 @@ define([
         Object.assign(data, {
           mergeInventoryNo: (formData.mergeInventoryNo || '').trim(),
           mergeLineSymbol: (formData.mergeLineSymbol || '').trim(),
-          mergeType: formData.mergeType || null,
-          mergeNotes: (formData.mergeNotes || '').trim()
+          mergeType: formData.mergeType || null
         });
       }
       else if (kind === 'sale')
@@ -208,12 +196,6 @@ define([
         Object.assign(data, {
           buyerName: (formData.buyerName || '').trim(),
           buyerAddress: (formData.buyerAddress || '').trim()
-        });
-      }
-      else if (kind === 'other')
-      {
-        Object.assign(data, {
-          otherNotes: (formData.otherNotes || '').trim()
         });
       }
 
@@ -241,15 +223,6 @@ define([
       this.valueViews.initialValue.serializeForm(formData);
       this.valueViews.economicDeprecationValue.serializeForm(formData);
       this.valueViews.economicNetValue.setValue(formData.initialValue - formData.economicDeprecationValue);
-    },
-
-    toggleMergeType: function()
-    {
-      var view = this;
-      var mergeType = view.$('input[name="mergeType"]:checked').val();
-      var placeholder = mergeType === 'full' ? '' : view.t('FORM:add:mergeNotes:placeholder');
-
-      view.$id('mergeNotes').prop('placeholder', placeholder);
     }
 
   });

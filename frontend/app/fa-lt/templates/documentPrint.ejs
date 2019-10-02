@@ -77,12 +77,6 @@
     <th><%- t('PROPERTY:kind') %></th>
     <td><%- details.kind %></td>
   </tr>
-  <% if (model.kind === 'other' && details.otherNotes) { %>
-  <tr>
-    <th><%- t('PROPERTY:otherNotes') %></th>
-    <td class="text-lines"><%= details.otherNotes %></td>
-  </tr>
-  <% } %>
   <tr>
     <th><%- t('PROPERTY:date') %></th>
     <td><%- details.date %></td>
@@ -104,10 +98,6 @@
       <th><%- t('PROPERTY:mergeType') %></th>
       <td><%- details.mergeType %></td>
     </tr>
-    <tr>
-      <th><%- t('PROPERTY:mergeNotes') %></th>
-      <td class="text-lines"><%- details.mergeNotes %></td>
-    </tr>
   <% } %>
   <tr>
     <th><%- t('PROPERTY:assetName') %></th>
@@ -119,7 +109,7 @@
   </tr>
   <tr>
     <th><%- t('PROPERTY:costCenter') %></th>
-    <td><%= details.costCenter %></td>
+    <td class="text-mono"><%= details.costCenter %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:applicant') %></th>
@@ -149,12 +139,6 @@
     <th><%- t('PROPERTY:economicNetValue') %></th>
     <td><%= details.economicNetValue %></td>
   </tr>
-  <% if (details.verifyNotes) { %>
-  <tr>
-    <th><%- t('PROPERTY:verifyNotes') %></th>
-    <td class="text-lines"><%= details.verifyNotes %></td>
-  </tr>
-  <% } %>
   <% if (model.kind === 'sale') { %>
   <tr>
     <th><%- t('PROPERTY:buyerName') %></th>
@@ -173,11 +157,11 @@
   <% } %>
   <tr>
     <th><%- t('PROPERTY:sapNo') %></th>
-    <td><%= details.sapNo %></td>
+    <td class="text-mono"><%= details.sapNo %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:accountingNo') %></th>
-    <td><%= details.accountingNo %></td>
+    <td class="text-mono"><%= details.accountingNo %></td>
   </tr>
   </tbody>
 </table>

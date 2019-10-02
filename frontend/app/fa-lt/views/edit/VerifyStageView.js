@@ -145,7 +145,6 @@ define([
     {
       var view = this;
       var data = {
-        verifyNotes: (formData.verifyNotes || '').trim(),
         comment: (formData.comment || '').trim()
       };
 

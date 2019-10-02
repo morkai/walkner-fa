@@ -110,15 +110,23 @@ define([
     getTemplateData: function()
     {
       var view = this;
+      var changes = view.model.get('changes');
+      var firstComment = changes.length && changes[0].date === view.model.get('createdAt');
+      var createdItem = null;
 
-      return {
-        style: view.oldStyle,
-        createdItem: !view.t.has('changes:created') ? null : this.serializeItem({
+      if (view.t.has('changes:created') && !firstComment)
+      {
+        createdItem = this.serializeItem({
           date: view.model.get('createdAt'),
           user: view.model.get('createdBy'),
           data: {},
           comment: function() { return view.t('changes:created'); }
-        }, -1, true),
+        }, -1, true);
+      }
+
+      return {
+        style: view.oldStyle,
+        createdItem: createdItem,
         items: view.serializeItems(localStorage.getItem(COMMENTS_ONLY_KEY) === '1'),
         renderItem: view.renderPartialHtml.bind(view, itemTemplate)
       };

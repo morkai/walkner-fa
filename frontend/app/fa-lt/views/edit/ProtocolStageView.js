@@ -28,6 +28,7 @@ define([
     getTemplateData: function()
     {
       return {
+        kind: this.model.get('kind'),
         details: this.model.serializeDetails()
       };
     },
