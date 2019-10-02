@@ -32,6 +32,13 @@ define([
     defaultFormData: {},
     formData: null,
 
+    localTopics: {
+      'viewport.resized': function()
+      {
+        this.repositionResetButton();
+      }
+    },
+
     events: {
       'submit': function()
       {
@@ -77,6 +84,8 @@ define([
 
       js2form(this.el, this.formData);
 
+      this.$resetFilter = this.$id('reset');
+
       this.$toggleFilter = $('<button class="btn btn-default btn-block filter-toggle" type="button"></button>')
         .append('<i class="fa"></i>')
         .append('<span></span>');
@@ -101,6 +110,25 @@ define([
       this.$toggleFilter.find('.fa')
         .removeClass('fa-caret-up fa-caret-down')
         .addClass('fa-caret-' + (this.collapsed ? 'down' : 'up'));
+
+      this.repositionResetButton();
+    },
+
+    repositionResetButton: function()
+    {
+      if (!this.$resetFilter.length)
+      {
+        return;
+      }
+
+      if (window.innerWidth < 768)
+      {
+        this.$resetFilter.insertBefore(this.$toggleFilter).toggleClass('hidden', this.collapsed);
+      }
+      else
+      {
+        this.$resetFilter.insertAfter(this.$('.btn[type="submit"]')).removeClass('hidden');
+      }
     },
 
     serializeQueryToForm: function()
