@@ -9,15 +9,15 @@
         <%- helpers.props(model, [
           '!kind',
           {id: 'otherNotes', visible: kind === 'other', valueClassName: 'text-lines'},
-          {id: 'mergeInventoryNo', visible: kind === 'merge'},
-          {id: 'mergeLineSymbol', visible: kind === 'merge'},
+          {id: 'mergeInventoryNo', visible: kind === 'merge', valueClassName: 'text-mono'},
+          {id: 'mergeLineSymbol', visible: kind === 'merge', valueClassName: 'text-mono'},
           {id: 'mergeType', visible: kind === 'merge'},
           {id: 'mergeNotes', visible: kind === 'merge', valueClassName: 'text-lines'},
-          'no',
+          {id: 'no', valueClassName: 'text-mono'},
           'date',
-          'inventoryNo',
+          {id: 'inventoryNo', valueClassName: 'text-mono'},
           'assetName',
-          'costCenter',
+          {id: 'costCenter', valueClassName: 'text-mono'},
           {id: '!applicant'},
           {id: 'cause', valueClassName: 'text-lines'},
           'initialValue',
@@ -29,8 +29,8 @@
           {id: 'buyerName', visible: kind === 'sale'},
           {id: 'buyerAddress', visible: kind === 'sale', valueClassName: 'text-lines'},
           {id: 'saleValue', visible: kind === 'sale'},
-          'sapNo',
-          'accountingNo'
+          {id: 'sapNo', valueClassName: 'text-mono'},
+          {id: 'accountingNo', valueClassName: 'text-mono'}
         ]) %>
       </div>
     </div>

@@ -23,14 +23,14 @@ define([
     serializeColumns: function()
     {
       return [
-        {id: 'no', className: 'is-min', thClassName: 'is-filter'},
+        {id: 'no', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         {id: 'date', className: 'is-min', thClassName: 'is-filter'},
         {id: 'stage', className: 'is-min', thClassName: 'is-filter'},
-        {id: 'sapNo', className: 'is-min', thClassName: 'is-filter'},
-        {id: 'assetName', className: 'is-min', thClassName: 'is-filter', label: this.t('list:assetName')},
-        {id: 'inventoryNo', className: 'is-min', thClassName: 'is-filter'},
+        {id: 'sapNo', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
+        {id: 'assetName', className: 'is-min', thClassName: 'is-filter'},
+        {id: 'inventoryNo', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         {id: 'value', className: 'is-min is-number', label: this.t('list:value')},
-        {id: 'costCenter', className: 'is-min', thClassName: 'is-filter'},
+        {id: 'costCenter', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         '-'
       ];
     }

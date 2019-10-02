@@ -11,21 +11,21 @@
           '!commissioningType',
           '!usageDestination',
           {id: '!protocolDate', visible: protocolNeeded},
-          {id: '!protocolNo', visible: protocolNeeded},
+          {id: '!protocolNo', visible: protocolNeeded, valueClassName: 'text-mono'},
           '!documentDate',
-          '!no',
+          {id: '!no', valueClassName: 'text-mono'},
           'assetName',
-          'lineSymbol',
-          'inventoryNo',
+          {id: 'lineSymbol', valueClassName: 'text-mono'},
+          {id: 'inventoryNo', valueClassName: 'text-mono'},
           {id: '!zplx', value: function(zplxs)
           {
             if (zplxs.length === 1)
             {
-              return 'ZPLX' + zplxs[0];
+              return '<span class="text-mono">ZPLX' + zplxs[0] + '</span>';
             }
 
             return '<ul>'
-              + zplxs.map(function(zplx) { return '<li>ZPLX<span class="text-mono">' + zplx + '</span>'; }).join('')
+              + zplxs.map(function(zplx) { return '<li><span class="text-mono">ZPLX' + zplx + '</span>'; }).join('')
               + '</ul>';
           }},
           {id: '!owner', visible: protocolNeeded},
@@ -47,15 +47,15 @@
           }},
           'supplier',
           'value',
-          'costCenter',
+          {id: 'costCenter', valueClassName: 'text-mono'},
           'destination',
           {id: 'vendorNo', visible: usageDestination === 'external-supplier'},
           {id: 'vendorName', visible: usageDestination === 'external-supplier'},
           'redemptionRate',
           'economicPeriod',
           'fiscalPeriod',
-          'sapNo',
-          'accountingNo'
+          {id: 'sapNo', valueClassName: 'text-mono'},
+          {id: 'accountingNo', valueClassName: 'text-mono'}
         ]) %>
       </div>
     </div>
