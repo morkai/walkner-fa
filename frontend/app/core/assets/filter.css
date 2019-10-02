@@ -135,6 +135,10 @@ input[type=checkbox].filter-inLabel {
 .filter-form .no-label {
   align-self: flex-end;
 }
+.filter-reset {
+  padding-left: 4px;
+  padding-right: 4px;
+}
 @media (max-width: 767px) {
   .filter-container > .well {
     align-items: flex-start;

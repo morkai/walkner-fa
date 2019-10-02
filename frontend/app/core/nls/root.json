@@ -141,6 +141,7 @@
     "filter:filters": "Additional filters",
     "filter:show": "Show filter",
     "filter:hide": "Hide filter",
+    "filter:reset": "Clear filters",
 
     "placeholder:date": "yyyy-mm-dd",
     "placeholder:time": "--:--",

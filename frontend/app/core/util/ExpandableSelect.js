@@ -115,8 +115,6 @@ define([
       if (e.keyCode === 27)
       {
         this.$el.blur();
-
-        return false;
       }
     },
 

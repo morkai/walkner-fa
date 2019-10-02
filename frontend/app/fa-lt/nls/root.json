@@ -99,8 +99,6 @@
     "filter:inventoryNo": "Inventory no",
     "filter:limit": "Limit",
 
-    "list:assetName": "Asset name",
-
     "changes:created": "<i>added a new LT document</i>",
 
     "print:document:title": "LT document"

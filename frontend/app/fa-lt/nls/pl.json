@@ -99,8 +99,6 @@
   "filter:inventoryNo": "Nr inwentarzowy",
   "filter:limit": "Limit",
 
-  "list:assetName": "Nazwa ŚT",
-
   "changes:created": "<i>dodano nowy dokument LT</i>",
 
   "print:document:title": "Likwidacja środka trwałego"

@@ -48,6 +48,16 @@ define([
         e.preventDefault();
 
         this.showFilter(e.currentTarget.dataset.filter);
+      },
+
+      'click #-reset': 'resetFilters',
+
+      'keydown input, select': function(e)
+      {
+        if (e.key === 'Escape')
+        {
+          this.resetFilter(this.$(e.target));
+        }
       }
 
     }, FilterView.prototype.events),
@@ -165,6 +175,45 @@ define([
         .find('input, select')
         .first()
         .focus();
+    },
+
+    resetFilters: function()
+    {
+      var view = this;
+
+      view.$('.form-group').each(function()
+      {
+        view.resetFilter($(this).find('input, select').first());
+      });
+
+      view.$id('submit').click();
+    },
+
+    resetFilter: function($el)
+    {
+      var name = $el.prop('name');
+
+      if (name === 'limit')
+      {
+        return;
+      }
+
+      if (name === 'from-date' || name === 'to-date')
+      {
+        this.$id('from-date').val('');
+        this.$id('to-date').val('');
+
+        return;
+      }
+
+      if ($el.hasClass('select2-focusser'))
+      {
+        $el.closest('.select2-container').next().select2('data', null);
+      }
+      else
+      {
+        $el.val('');
+      }
     }
 
   });

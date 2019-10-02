@@ -148,6 +148,7 @@
   "filter:filters": "Dodatkowe filtry",
   "filter:show": "Pokaż filtr",
   "filter:hide": "Ukryj filtr",
+  "filter:reset": "Wyczyść filtry",
 
   "placeholder:date": "rrrr-mm-dd",
   "placeholder:time": "--:--",
