@@ -48,7 +48,7 @@
   "PROPERTY:date": "Data dokumentu",
   "PROPERTY:inventoryNo": "Nr inwentarzowy",
   "PROPERTY:assetName": "Nazwa środka trwałego",
-  "PROPERTY:usageDestination": "Miejsce użytkowania",
+  "PROPERTY:costCenter": "Konto kosztów",
   "PROPERTY:applicant": "Osoba wnioskująca",
   "PROPERTY:cause": "Przyczyna",
   "PROPERTY:initialValue": "Wartość początkowa",

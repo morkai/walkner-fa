@@ -106,14 +106,14 @@ define([
       var view = this;
 
       view.toggleMergeType();
-      view.setUpUsageDestinationSelect2();
+      view.setUpCostCenterSelect2();
       view.setUpUserSelect2(view.$id('applicant'), view.model.get('applicant'));
     },
 
-    setUpUsageDestinationSelect2: function()
+    setUpCostCenterSelect2: function()
     {
-      var id = this.model.get('usageDestination');
-      var model = dictionaries.destinations.get(id);
+      var id = this.model.get('costCenter');
+      var model = dictionaries.costCenters.get(id);
       var data = [];
 
       if (id && !model)
@@ -124,7 +124,7 @@ define([
         });
       }
 
-      dictionaries.destinations.forEach(function(d)
+      dictionaries.costCenters.forEach(function(d)
       {
         if (d.get('active') || d.id === id)
         {
@@ -132,7 +132,7 @@ define([
         }
       });
 
-      this.$id('usageDestination').select2({
+      this.$id('costCenter').select2({
         width: '100%',
         allowClear: true,
         placeholder: ' ',
@@ -186,9 +186,9 @@ define([
         date: time.utc.getMoment(formData.date, 'YYYY-MM-DD').toISOString(),
         inventoryNo: (formData.inventoryNo || '').trim(),
         assetName: (formData.assetName || '').trim(),
-        usageDestination: formData.usageDestination || null,
+        costCenter: formData.costCenter || null,
         applicant: setUpUserSelect2.getUserInfo(this.$id('applicant')),
-        cause: (formData.assetName || '').trim(),
+        cause: (formData.cause || '').trim(),
         verifyNotes: (formData.verifyNotes || '').trim(),
         sapNo: (formData.sapNo || '').trim(),
         accountingNo: (formData.accountingNo || '').trim()

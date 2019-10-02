@@ -5,15 +5,13 @@ define([
   'app/time',
   'app/user',
   'app/core/Model',
-  'app/core/templates/userInfo',
-  'app/fa-common/dictionaries'
+  'app/core/templates/userInfo'
 ], function(
   t,
   time,
   user,
   Model,
-  userInfoTemplate,
-  dictionaries
+  userInfoTemplate
 ) {
   'use strict';
 
@@ -92,13 +90,6 @@ define([
           when: when ? time.format(when, 'LLLL') : null
         };
       });
-
-      var destination = dictionaries.destinations.get(obj.usageDestination);
-
-      if (destination)
-      {
-        obj.usageDestination = destination.getLabel();
-      }
 
       return obj;
     },

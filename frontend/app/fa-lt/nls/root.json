@@ -48,7 +48,7 @@
     "PROPERTY:date": "Document date",
     "PROPERTY:inventoryNo": "Inventory no",
     "PROPERTY:assetName": "Asset name",
-    "PROPERTY:usageDestination": "Usage destination",
+    "PROPERTY:costCenter": "Cost center",
     "PROPERTY:applicant": "Applicant",
     "PROPERTY:cause": "Cause",
     "PROPERTY:initialValue": "Initial value",
