@@ -68,7 +68,7 @@ exports.updater = {
       mainCssFile: '/assets/fa-main.css',
       template: manifestTemplates.main,
       frontendAppData: {
-        XLSX_EXPORT: process.platform === 'win32',
+        XLSX_EXPORT: true,
         OFFICE365_TENANT: null,
         CORS_PING_URL: 'https://test.wmes.pl/ping',
         SERVICE_WORKER: null
