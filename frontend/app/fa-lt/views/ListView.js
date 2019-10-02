@@ -30,6 +30,7 @@ define([
         {id: 'sapNo', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         {id: 'assetName', className: 'is-min', thClassName: 'is-filter'},
         {id: 'inventoryNo', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
+        {id: 'costCenter', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         '-'
       ];
     }

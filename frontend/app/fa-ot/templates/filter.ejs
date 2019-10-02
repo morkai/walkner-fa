@@ -38,7 +38,7 @@
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="<%- t('core', 'filter:filters') %>"><span class="caret"></span></button>
       <ul class="dropdown-menu">
         <% filters.forEach(function(filter) { %>
-        <li><a data-filter="<%- filter %>"><%= t('filter:' + filter) %></a></li>
+        <li><a data-filter="<%- filter %>"><%- t.has('filter:' + filter) ? t('filter:' + filter) : t('PROPERTY:' + filter) %></a></li>
         <% }) %>
       </ul>
     </div>

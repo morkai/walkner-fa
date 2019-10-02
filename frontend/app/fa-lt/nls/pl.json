@@ -92,11 +92,6 @@
   "stage:record": "Księgowanie",
   "stage:finished": "Zlikwidowany",
 
-  "filter:stage": "Etap",
-  "filter:kind": "Przyczyna",
-  "filter:sapNo": "Nr SAP",
-  "filter:assetName": "Nazwa ŚT",
-  "filter:inventoryNo": "Nr inwentarzowy",
   "filter:limit": "Limit",
 
   "changes:created": "<i>dodano nowy dokument LT</i>",

@@ -93,11 +93,6 @@
     "stage:record": "Recording",
     "stage:finished": "Accepted",
 
-    "filter:stage": "Stage",
-    "filter:sapNo": "SAP no",
-    "filter:assetName": "Asset name",
-    "filter:inventoryNo": "Inventory no",
-    "filter:costCenter": "Cost center",
     "filter:limit": "Limit",
 
     "list:value": "Value",

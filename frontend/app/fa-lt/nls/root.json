@@ -92,11 +92,6 @@
     "stage:record": "Recording",
     "stage:finished": "Decommissioned",
 
-    "filter:stage": "Stage",
-    "filter:kind": "Kind",
-    "filter:sapNo": "SAP no",
-    "filter:assetName": "Asset name",
-    "filter:inventoryNo": "Inventory no",
     "filter:limit": "Limit",
 
     "changes:created": "<i>added a new LT document</i>",

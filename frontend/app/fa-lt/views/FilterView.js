@@ -29,6 +29,7 @@ define([
     'sapNo',
     'assetName',
     'inventoryNo',
+    'costCenter',
     'limit'
   ];
   var FILTER_MAP = {
@@ -129,6 +130,13 @@ define([
       FilterView.prototype.afterRender.apply(this, arguments);
 
       this.$('.is-expandable').expandableSelect();
+
+      this.$id('costCenter').select2({
+        width: '140px',
+        placeholder: ' ',
+        allowClear: true,
+        data: dictionaries.costCenters.map(idAndLabel)
+      });
 
       this.toggleFilters();
     },
