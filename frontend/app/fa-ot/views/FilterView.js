@@ -8,6 +8,7 @@ define([
   'app/core/util/ExpandableSelect',
   'app/core/views/FilterView',
   'app/fa-common/dictionaries',
+  'app/fa-common/views/ValueInputView',
   'app/fa-ot/templates/filter'
 ], function(
   _,
@@ -17,6 +18,7 @@ define([
   ExpandableSelect,
   FilterView,
   dictionaries,
+  ValueInputView,
   template
 ) {
   'use strict';
@@ -26,6 +28,7 @@ define([
     'sapNo',
     'assetName',
     'inventoryNo',
+    'value',
     'costCenter',
     'limit'
   ];
@@ -76,15 +79,29 @@ define([
       'stage': function(propertyName, term, formData)
       {
         formData[propertyName] = term.name === 'in' ? term.args[1] : [term.args[1]];
+      },
+      'value': function(propertyName, term, formData)
+      {
+        var operators = {
+          eq: '',
+          ne: '<>',
+          gt: '>',
+          lt: '<',
+          ge: '>=',
+          le: '<='
+        };
+
+        formData.value = (operators[term.name] || '') + ValueInputView.formatValue(term.args[1]);
       }
     },
 
     serializeFormToQuery: function(selector)
     {
       var view = this;
-      var stage = (view.$id('stage').val() || []).filter(function(v) { return !_.isEmpty(v); });
 
       dateTimeRange.formToRql(view, selector);
+
+      var stage = (view.$id('stage').val() || []).filter(function(v) { return !_.isEmpty(v); });
 
       if (stage.length)
       {
@@ -100,6 +117,25 @@ define([
           selector.push({name: 'eq', args: [prop, value]});
         }
       });
+
+      var value = view.$id('value').val().trim();
+
+      if (value.length)
+      {
+        var matches = value.match(new RegExp('(' + ['<>', '>=', '<=', '>', '<'].join('|') + ')'));
+        var operators = {
+          '<>': 'ne',
+          '>': 'gt',
+          '<': 'lt',
+          '>=': 'ge',
+          '<=': 'le'
+        };
+
+        selector.push({
+          name: operators[matches ? matches[1] : null] || 'eq',
+          args: ['value', ValueInputView.parseValue(value)]
+        });
+      }
     },
 
     changeFilter: function()

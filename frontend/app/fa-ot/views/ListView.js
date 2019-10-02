@@ -29,7 +29,7 @@ define([
         {id: 'sapNo', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         {id: 'assetName', className: 'is-min', thClassName: 'is-filter'},
         {id: 'inventoryNo', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
-        {id: 'value', className: 'is-min is-number', label: this.t('list:value')},
+        {id: 'value', className: 'is-min is-number', thClassName: 'is-filter', label: this.t('list:value')},
         {id: 'costCenter', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         '-'
       ];
