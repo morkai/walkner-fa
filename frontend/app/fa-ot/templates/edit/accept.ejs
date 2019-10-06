@@ -4,12 +4,12 @@
     '!commissioningType',
     '!usageDestination',
     {id: '!protocolDate', visible: protocolNeeded},
-    {id: 'protocolNo', visible: protocolNeeded},
+    {id: 'protocolNo', visible: protocolNeeded, valueClassName: 'text-fixed'},
     'documentDate',
-    'no',
+    {id: 'no', valueClassName: 'text-fixed'},
     'assetName',
-    {id: 'lineSymbol', visible: usageDestination === 'factory'},
-    {id: 'inventoryNo', visible: commissioningType === 'inc-asset'},
+    {id: 'lineSymbol', visible: usageDestination === 'factory', valueClassName: 'text-fixed'},
+    {id: 'inventoryNo', valueClassName: 'text-fixed'},
     {id: '!zplx', value: function(zplxs)
     {
       return '<ul>'
@@ -39,9 +39,9 @@
     }},
     'supplier',
     'value',
-    'costCenter',
+    {id: 'costCenter', valueClassName: 'text-fixed'},
     'destination',
-    {id: 'vendorNo', visible: usageDestination === 'external-supplier'},
+    {id: 'vendorNo', visible: usageDestination === 'external-supplier', valueClassName: 'text-fixed'},
     {id: 'vendorName', visible: usageDestination === 'external-supplier'},
     'redemptionRate',
     'economicPeriod',

@@ -4,11 +4,12 @@
     '!commissioningType',
     '!usageDestination',
     {id: '!protocolDate', visible: protocolNeeded},
-    {id: 'protocolNo', visible: protocolNeeded},
+    {id: 'protocolNo', visible: protocolNeeded, valueClassName: 'text-fixed'},
     'documentDate',
-    'no',
+    {id: 'no', valueClassName: 'text-fixed'},
     'assetName',
-    {id: 'lineSymbol', visible: usageDestination === 'factory'},
+    {id: 'lineSymbol', visible: usageDestination === 'factory', valueClassName: 'text-fixed'},
+    {id: 'inventoryNo', valueClassName: 'text-fixed'},
     {id: '!zplx', value: function(zplxs)
     {
       return '<ul>'
@@ -38,9 +39,9 @@
     }},
     'supplier',
     'value',
-    'costCenter',
+    {id: 'costCenter', valueClassName: 'text-fixed'},
     'destination',
-    {id: 'vendorNo', visible: usageDestination === 'external-supplier'},
+    {id: 'vendorNo', visible: usageDestination === 'external-supplier', valueClassName: 'text-fixed'},
     {id: 'vendorName', visible: usageDestination === 'external-supplier'},
     'redemptionRate',
     'economicPeriod',
@@ -70,10 +71,6 @@
         : t('FORM:edit:attachment:empty');
     }}
   ]) %>
-  <div class="form-group fa-edit-short">
-    <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
-    <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" data-required>
-  </div>
   <div class="form-group">
     <label for="<%- idPrefix %>-sapNo" class="control-label is-required"><%- t('PROPERTY:sapNo') %></label>
     <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text" data-required>

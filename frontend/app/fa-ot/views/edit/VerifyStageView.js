@@ -137,6 +137,7 @@ define([
     serializeForm: function(formData)
     {
       return {
+        inventoryNo: (formData.inventoryNo || '').trim(),
         redemptionRate: Math.min(100, Math.max(parseInt(formData.redemptionRate, 10) || 0, 0)),
         economicPeriod: ((+formData.economicPeriodY || 0) * 12) + (+formData.economicPeriodM || 0),
         fiscalPeriod: ((+formData.fiscalPeriodY || 0) * 12) + (+formData.fiscalPeriodM || 0),
