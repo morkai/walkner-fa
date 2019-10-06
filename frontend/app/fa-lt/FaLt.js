@@ -136,14 +136,14 @@ define([
 
         if (stage === 'finished')
         {
-          return user.isAllowedTo('SUPER');
+          return user.data.login === 'root';
         }
 
         return user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE', 'FA:LT:' + model.get('stage'));
       },
       delete: function()
       {
-        return user.isAllowedTo('SUPER');
+        return user.data.login === 'root';
       }
     },
 
