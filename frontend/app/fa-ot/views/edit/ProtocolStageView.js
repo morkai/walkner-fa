@@ -116,6 +116,13 @@ define([
       this.zplxView.checkValidity();
     },
 
+    serializeToForm: function(formData)
+    {
+      this.zplxView.serializeToForm(formData);
+
+      return formData;
+    },
+
     serializeForm: function(formData)
     {
       var data = {

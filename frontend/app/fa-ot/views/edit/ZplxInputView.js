@@ -1,10 +1,14 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'underscore',
   'app/core/View',
+  'app/fa-common/views/ValueInputView',
   'app/fa-ot/templates/edit/zplxInput'
 ], function(
+  _,
   View,
+  ValueInputView,
   template
 ) {
   'use strict';
@@ -17,7 +21,7 @@ define([
       'click .btn[data-action="zplx:add"]': function()
       {
         var $zplx = this.$('.fa-edit-zplx-item').first().clone().css({display: 'none'});
-        var $input = $zplx.find('input').val('');
+        var $input = $zplx.find('input').val('').first();
 
         $zplx.appendTo(this.$id('zplx')).fadeIn('fast');
         $input.focus();
@@ -31,20 +35,20 @@ define([
 
         if (view.$('.fa-edit-zplx-item').length === 1)
         {
-          $zplx.find('input').val('').focus();
+          $zplx.find('input').val('').first().focus();
         }
         else
         {
           $zplx.fadeOut('fast', function()
           {
             $zplx.remove();
-            view.$('.fa-edit-zplx').last().find('input').select();
+            view.$('.fa-edit-zplx-item').last().find('input').first().select();
             view.model.trigger('dirty');
           });
         }
       },
 
-      'keydown input[name="zplx[]"]': function(e)
+      'keydown input[name^="zplx"]': function(e)
       {
         if (e.key === 'Enter')
         {
@@ -52,9 +56,16 @@ define([
         }
       },
 
-      'blur input[name="zplx[]"]': function()
+      'blur input[name^="zplx"]': function()
       {
         this.checkValidity();
+      },
+
+      'change .fa-edit-zplx-value': function(e)
+      {
+        var value = ValueInputView.parseValue(e.target.value);
+
+        e.target.value = value ? ValueInputView.formatValue(value) : '';
       }
     },
 
@@ -71,17 +82,15 @@ define([
 
     getTemplateData: function()
     {
-      var zplx = this.model.get('zplx');
-
       return {
-        zplx: zplx.length ? zplx : ['']
+        zplx: this.model.get('zplx')
       };
     },
 
     checkValidity: function()
     {
       var valid = false;
-      var $zplx = this.$('input[name="zplx[]"]').each(function()
+      var $zplx = this.$('input[name$=".code"]').each(function()
       {
         valid = valid || /^[0-9]{8}$/.test(this.value);
       });
@@ -89,19 +98,41 @@ define([
       $zplx[0].setCustomValidity(!this.required || valid ? '' : this.t('FORM:edit:zplx:invalid'));
     },
 
+    serializeToForm: function(formData)
+    {
+      formData.zplx = !formData.zplx.length ? [{code: '', value: ''}] : formData.zplx.map(function(d)
+      {
+        return {
+          code: d.code,
+          value: d.value ? ValueInputView.formatValue(d.value) : ''
+        };
+      });
+
+      return formData;
+    },
+
     serializeForm: function(data)
     {
       data.zplx = {};
 
-      this.$('input[name="zplx[]"]').each(function()
+      this.$('.fa-edit-zplx-item').each(function()
       {
-        if (/^[0-9]{8}$/.test(this.value))
+        var codeEl = this.querySelector('input[name$=".code"]');
+        var valueEl = this.querySelector('input[name$=".value"]');
+
+        if (/^[0-9]{8}$/.test(codeEl.value))
         {
-          data.zplx[this.value] = 1;
+          data.zplx[codeEl.value] = ValueInputView.parseValue(valueEl.value);
         }
       });
 
-      data.zplx = Object.keys(data.zplx);
+      data.zplx = _.map(data.zplx, function(value, code)
+      {
+        return {
+          code: code,
+          value: value
+        };
+      });
     }
 
   });

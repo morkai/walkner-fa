@@ -166,6 +166,7 @@ define([
         formData.costCenter = 'PL02AD13';
       }
 
+      this.zplxView.serializeToForm(formData);
       this.valueView.serializeToForm(formData);
 
       return formData;

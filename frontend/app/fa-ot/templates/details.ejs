@@ -19,13 +19,12 @@
           {id: 'inventoryNo', valueClassName: 'text-mono'},
           {id: '!zplx', value: function(zplxs)
           {
-            if (zplxs.length === 1)
-            {
-              return '<span class="text-mono">ZPLX' + zplxs[0] + '</span>';
-            }
-
             return '<ul>'
-              + zplxs.map(function(zplx) { return '<li><span class="text-mono">ZPLX' + zplx + '</span>'; }).join('')
+              + zplxs.map(function(zplx)
+              {
+                return '<li><span class="text-mono">ZPLX' + zplx.code + '</span>'
+                  + (zplx.value ? (' (' + zplx.value + ')') : '');
+              }).join('')
               + '</ul>';
           }},
           {id: '!owner', visible: protocolNeeded},

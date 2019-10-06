@@ -25,7 +25,7 @@
       font-size: 32px;
       line-height: 1.4;
     }
-    .text-mono {
+    .text-fixed {
       font-family: monospace;
     }
     table {
@@ -85,7 +85,7 @@
   </tr>
   <tr>
     <th><%- t('PROPERTY:protocolNo') %></th>
-    <td class="text-mono"><%- details.protocolNo %></td>
+    <td class="text-fixed"><%- details.protocolNo %></td>
   </tr>
   <% } %>
   <tr>
@@ -94,7 +94,7 @@
   </tr>
   <tr>
     <th><%- t('PROPERTY:no') %></th>
-    <td class="text-mono"><%- details.no %></td>
+    <td class="text-fixed"><%- details.no %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:assetName') %></th>
@@ -103,18 +103,22 @@
   <% if (details.lineSymbol) { %>
   <tr>
     <th><%- t('PROPERTY:lineSymbol') %></th>
-    <td class="text-mono"><%= details.lineSymbol %></td>
+    <td class="text-fixed"><%= details.lineSymbol %></td>
   </tr>
   <% } %>
   <tr>
     <th><%- t('PROPERTY:inventoryNo') %></th>
-    <td class="text-mono"><%= details.inventoryNo %></td>
+    <td class="text-fixed"><%= details.inventoryNo %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:zplx') %></th>
     <td>
       <% details.zplx.forEach(function(zplx) { %>
-        &#8226; <span class="text-mono">ZPLX<%- zplx %></span><br>
+      &#8226; <span class="text-fixed">ZPLX<%- zplx.code %></span>
+      <% if (zplx.value) { %>
+      (<%- zplx.value %>)
+      <% } %>
+      <br>
       <% }) %>
     </td>
   </tr>
@@ -146,7 +150,7 @@
   </tr>
   <tr>
     <th><%- t('PROPERTY:costCenter') %></th>
-    <td class="text-mono"><%= details.costCenter %></td>
+    <td class="text-fixed"><%= details.costCenter %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:destination') %></th>
@@ -155,7 +159,7 @@
   <% if (model.usageDestination === 'external-supplier') { %>
   <tr>
     <th><%- t('PROPERTY:vendorNo') %></th>
-    <td class="text-mono"><%= details.vendorNo %></td>
+    <td class="text-fixed"><%= details.vendorNo %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:vendorName') %></th>
@@ -176,11 +180,11 @@
   </tr>
   <tr>
     <th><%- t('PROPERTY:sapNo') %></th>
-    <td class="text-mono"><%= details.sapNo %></td>
+    <td class="text-fixed"><%= details.sapNo %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:accountingNo') %></th>
-    <td class="text-mono"><%= details.accountingNo %></td>
+    <td class="text-fixed"><%= details.accountingNo %></td>
   </tr>
   </tbody>
 </table>

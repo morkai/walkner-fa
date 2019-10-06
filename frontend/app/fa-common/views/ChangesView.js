@@ -186,10 +186,37 @@ define([
 
       if (/value$/i.test(property))
       {
-        return value === 0 ? '-' : value.toLocaleString(undefined, {
+        return value === 0 ? '-' : value.toLocaleString('pl-PL', {
           style: 'currency',
           currency: 'PLN'
         });
+      }
+
+      var overflow = '';
+
+      if (property === 'zplx')
+      {
+        value = value
+          .map(function(zplx)
+          {
+            var str = zplx.code;
+
+            if (zplx.value)
+            {
+              str += ' (' + zplx.value.toLocaleString('pl-PL', {
+                style: 'currency',
+                currency: 'PLN'
+              }) + ')';
+            }
+
+            return str;
+          }).join(', ');
+        overflow = value.replace(/, /g, '\n');
+      }
+      else if (property === 'committee')
+      {
+        overflow = value.map(function(userInfo) { return userInfo.label; }).join('\n');
+        value = value.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); }).join(', ');
       }
 
       switch (property)
@@ -197,12 +224,6 @@ define([
         case 'owner':
         case 'applicant':
           return userInfoTemplate({userInfo: value});
-
-        case 'committee': // TODO wrap?
-          return value.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); }).join(', ');
-
-        case 'zplx':
-          return value.join(', ');
 
         case 'stage':
           return this.t('stage:' + value);
@@ -217,6 +238,11 @@ define([
         }
 
         default:
+          if (overflow)
+          {
+            return '<span class="fa-changes-overflow" title="' + _.escape(overflow) + '">' + value + '</span>';
+          }
+
           return String(value).length <= 43 ? _.escape(value) : {
             more: value,
             toString: function() { return _.escape(value.substr(0, 40)) + '...'; }

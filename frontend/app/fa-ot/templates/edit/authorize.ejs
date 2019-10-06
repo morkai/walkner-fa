@@ -25,9 +25,14 @@
   <% } %>
   <div class="form-group">
     <label class="control-label"><%- t('PROPERTY:zplx') %></label>
-    <ul class="text-fixed">
-      <% details.zplx.forEach(function(v) { %>
-      <li>ZPLX<%= v %></li>
+    <ul>
+      <% details.zplx.forEach(function(zplx) { %>
+      <li>
+        <span class="text-fixed">ZPLX<%- zplx.code %></span>
+        <% if (zplx.value) { %>
+        (<%- zplx.value %>)
+        <% } %>
+      </li>
       <% }) %>
     </ul>
   </div>

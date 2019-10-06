@@ -145,6 +145,7 @@ define([
 
     serializeToForm: function(formData)
     {
+      this.zplxView.serializeToForm(formData);
       this.valueView.serializeToForm(formData);
 
       VerifyStageView.prototype.serializeToForm.call(this, formData);

@@ -34,10 +34,10 @@
       font-size: 24px;
       line-height: 1.4;
     }
-    .zplx {
+    .text-fixed {
       font-family: monospace;
     }
-    li.zplx {
+    .value li {
       margin-top: 5px;
       margin-left: 1cm;
     }
@@ -96,23 +96,22 @@
   </div>
   <% } %>
 </div>
-<div class="row" style="margin-top: 1cm">
-  <div class="prop" style="white-space: nowrap">
-    <div class="label"><%- t('PROPERTY:zplx') %></div>
-    <% if (details.zplx.length === 1) { %>
-    <div class="value zplx">ZPLX<%= details.zplx[0] %></div>
-    <% } else { %>
-    <ul class="value">
-      <% details.zplx.forEach(function(zplx) { %>
-      <li class="zplx">ZPLX<%= zplx %></li>
-      <% }) %>
-    </ul>
-    <% } %>
-  </div>
-  <div class="prop" style="margin-left: 3cm; text-align: right">
-    <div class="label"><%- t('PROPERTY:supplier') %></div>
-    <div class="value"><%= details.supplier %></div>
-  </div>
+<div class="prop" style="margin-top: 1cm; white-space: nowrap">
+  <div class="label"><%- t('PROPERTY:zplx') %></div>
+  <ul class="value">
+    <% details.zplx.forEach(function(zplx) { %>
+    <li>
+      <span class="text-fixed">ZPLX<%- zplx.code %></span>
+      <% if (zplx.value) { %>
+      (<%- zplx.value %>)
+      <% } %>
+    </li>
+    <% }) %>
+  </ul>
+</div>
+<div class="prop" style="margin-top: 1cm">
+  <div class="label"><%- t('PROPERTY:supplier') %></div>
+  <div class="value"><%= details.supplier %></div>
 </div>
 <div style="margin-top: 1cm">
   <p style="font-size: 18px"><%- t('print:protocol:statement:hd') %></p>

@@ -28,9 +28,6 @@
   display: flex;
   margin-bottom: 5px;
 }
-.fa-edit-zplx-item .form-control {
-  width: 80px;
-}
 .fa-edit-zplx-item:only-child .btn {
   display: none;
 }
@@ -41,6 +38,15 @@
   background: #eee;
   border: 1px solid #ccc;
   border-right: none;
+}
+.form-control + .fa-edit-zplx-prefix {
+  margin-left: 7px;
+}
+.fa-edit-zplx-code {
+  width: 80px;
+}
+.fa-edit-zplx-value {
+  width: 114px;
 }
 .fa-edit-participants tbody {
   vertical-align: top;

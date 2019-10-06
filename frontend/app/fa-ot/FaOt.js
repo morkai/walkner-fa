@@ -98,6 +98,17 @@ define([
       obj.committee = obj.committee.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); });
       obj.redemptionRate += '%';
 
+      obj.zplx = obj.zplx.map(function(zplx)
+      {
+        return {
+          code: zplx.code,
+          value: !zplx.value ? '' : zplx.value.toLocaleString('pl-PL', {
+            style: 'currency',
+            currency: 'PLN'
+          })
+        };
+      });
+
       var destination = dictionaries.destinations.get(obj.destination);
 
       if (destination)

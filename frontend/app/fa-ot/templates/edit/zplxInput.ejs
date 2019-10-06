@@ -1,10 +1,12 @@
 <div class="form-group" style="margin-bottom: 15px">
   <label class="control-label is-required"><%- t('PROPERTY:zplx') %></label>
   <div id="<%- idPrefix %>-zplx" class="fa-edit-zplx-list">
-    <% zplx.forEach(function(v) { %>
+    <% zplx.forEach(function(d, i) { %>
     <div class="fa-edit-zplx-item">
       <span class="fa-edit-zplx-prefix">ZPLX</span>
-      <input name="zplx[]" class="form-control text-mono" type="text" value="<%- v %>" placeholder="00000000" maxlength="8" pattern="^[0-9]{8}$">
+      <input name="zplx[<%- i %>].code" class="form-control text-mono fa-edit-zplx-code" type="text" value="" placeholder="00000000" maxlength="8" pattern="^[0-9]{8}$">
+      <span class="fa-edit-zplx-prefix"><%- t('fa-common', 'unit:currency') %></span>
+      <input name="zplx[<%- i %>].value" class="form-control fa-edit-zplx-value" type="text" value="" placeholder="0 000 000,00">
       <button class="btn btn-link" type="button" data-action="zplx:remove" title="<%- t('FORM:edit:zplx:remove') %>"><i class="fa fa-times"></i></button>
     </div>
     <% }) %>
