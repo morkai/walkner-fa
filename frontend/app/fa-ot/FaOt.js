@@ -70,6 +70,7 @@ define([
     {
       var obj = this.toJSON();
 
+      obj.url = this.url();
       obj.no = this.getLabel();
       obj.protocolNo = 'P' + this.getLabel();
       obj.stage = t(this.nlsDomain, 'stage:' + obj.stage);

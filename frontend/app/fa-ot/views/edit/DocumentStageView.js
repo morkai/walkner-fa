@@ -36,16 +36,9 @@ define([
 
     getTemplateData: function()
     {
-      var ot = this.model;
-
       return {
-        documentId: ot.id,
-        no: ot.get('no'),
-        commissioningType: ot.get('commissioningType'),
-        usageDestination: ot.get('usageDestination'),
-        checklistFile: ot.get('checklistFile'),
-        certificateFile: ot.get('certificateFile'),
-        nameplateFile: ot.get('nameplateFile')
+        model: this.model.toJSON(),
+        details: this.model.serializeDetails()
       };
     },
 
