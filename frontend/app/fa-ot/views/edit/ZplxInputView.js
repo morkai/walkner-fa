@@ -82,8 +82,10 @@ define([
 
     getTemplateData: function()
     {
+      var zplx = this.model.get('zplx');
+
       return {
-        zplx: this.model.get('zplx')
+        zplx: zplx.length ? zplx : [{code: '', value: ''}]
       };
     },
 
