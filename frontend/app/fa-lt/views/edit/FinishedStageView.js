@@ -7,6 +7,7 @@ define([
   'app/users/util/setUpUserSelect2',
   'app/fa-common/dictionaries',
   'app/fa-common/views/ValueInputView',
+  'app/fa-common/views/ParticipantsInputView',
   'app/fa-lt/FaLt',
   'app/fa-lt/templates/edit/finished'
 ], function(
@@ -16,6 +17,7 @@ define([
   setUpUserSelect2,
   dictionaries,
   ValueInputView,
+  ParticipantsInputView,
   FaLt,
   template
 ) {
@@ -30,6 +32,12 @@ define([
     initialize: function()
     {
       var view = this;
+
+      view.participantsView = new ParticipantsInputView({
+        model: view.model,
+        owner: false,
+        required: false
+      });
 
       view.valueViews = {
         initialValue: new ValueInputView({
@@ -47,6 +55,11 @@ define([
           required: false,
           model: view.model
         }),
+        economicInitialValue: new ValueInputView({
+          property: 'economicInitialValue',
+          required: true,
+          model: view.model
+        }),
         economicDeprecationValue: new ValueInputView({
           property: 'economicDeprecationValue',
           required: false,
@@ -59,6 +72,8 @@ define([
           model: view.model
         })
       };
+
+      view.setView('#-participants', view.participantsView);
 
       if (view.model.get('kind') === 'sale')
       {
@@ -75,7 +90,7 @@ define([
 
       view.listenTo(view.valueViews.initialValue, 'change', view.updateFiscalNetValue);
       view.listenTo(view.valueViews.deprecationValue, 'change', view.updateFiscalNetValue);
-      view.listenTo(view.valueViews.initialValue, 'change', view.updateEconomicNetValue);
+      view.listenTo(view.valueViews.economicInitialValue, 'change', view.updateEconomicNetValue);
       view.listenTo(view.valueViews.economicDeprecationValue, 'change', view.updateEconomicNetValue);
     },
 
@@ -173,7 +188,8 @@ define([
       var kind = view.model.get('kind');
       var data = {
         comment: (formData.comment || '').trim(),
-        date: time.utc.getMoment(formData.date, 'YYYY-MM-DD').toISOString(),
+        protocolDate: time.utc.getMoment(formData.protocolDate, 'YYYY-MM-DD').toISOString(),
+        documentDate: time.utc.getMoment(formData.documentDate, 'YYYY-MM-DD').toISOString(),
         inventoryNo: (formData.inventoryNo || '').trim(),
         assetName: (formData.assetName || '').trim(),
         costCenter: formData.costCenter || null,
@@ -199,6 +215,8 @@ define([
         });
       }
 
+      view.participantsView.serializeForm(data);
+
       Object.keys(view.valueViews).forEach(function(prop)
       {
         view.valueViews[prop].serializeForm(data);
@@ -220,9 +238,9 @@ define([
     {
       var formData = {};
 
-      this.valueViews.initialValue.serializeForm(formData);
+      this.valueViews.economicInitialValue.serializeForm(formData);
       this.valueViews.economicDeprecationValue.serializeForm(formData);
-      this.valueViews.economicNetValue.setValue(formData.initialValue - formData.economicDeprecationValue);
+      this.valueViews.economicNetValue.setValue(formData.economicInitialValue - formData.economicDeprecationValue);
     }
 
   });

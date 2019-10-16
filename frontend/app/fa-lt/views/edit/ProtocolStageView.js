@@ -131,7 +131,9 @@ define([
     {
       return {
         comment: (formData.comment || '').trim(),
-        date: time.utc.getMoment(formData.date, 'YYYY-MM-DD').toISOString(),
+        protocolDate: formData.protocolDate
+          ? time.utc.getMoment(formData.protocolDate, 'YYYY-MM-DD').toISOString()
+          : null,
         inventoryNo: (formData.inventoryNo || '').trim(),
         assetName: (formData.assetName || '').trim(),
         costCenter: formData.costCenter || null,

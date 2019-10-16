@@ -1,33 +1,25 @@
 <div class="fa-edit-stage" data-stage="acceptOwner">
   <%- helpers.props(details, [
     '!kind',
-    {id: 'mergeInventoryNo', visible: kind === 'merge', valueClassName: 'text-mono'},
-    {id: 'mergeLineSymbol', visible: kind === 'merge', valueClassName: 'text-mono'},
+    {id: 'mergeInventoryNo', visible: kind === 'merge', valueClassName: 'text-fixed'},
+    {id: 'mergeLineSymbol', visible: kind === 'merge', valueClassName: 'text-fixed'},
     {id: 'mergeType', visible: kind === 'merge'},
-    {id: 'no', valueClassName: 'text-mono'},
-    'date',
-    {id: 'inventoryNo', valueClassName: 'text-mono'},
+    {id: 'protocolNo', valueClassName: 'text-fixed'},
+    'protocolDate',
     'assetName',
-    {id: 'costCenter', valueClassName: 'text-mono'},
+    {id: 'inventoryNo', valueClassName: 'text-fixed'},
+    {id: 'costCenter', valueClassName: 'text-fixed'},
     {id: '!applicant'},
     {id: 'cause', valueClassName: 'text-lines'},
     'initialValue',
     'deprecationValue',
     'netValue',
+    'economicInitialValue',
     'economicDeprecationValue',
-    'economicNetValue'
+    'economicNetValue',
+    {id: 'sapNo', valueClassName: 'text-fixed'}
   ]) %>
-  <% if (kind === 'sale') { %>
-  <div class="form-group">
-    <label for="<%- idPrefix %>-buyerName" class="control-label is-required"><%- t('PROPERTY:buyerName') %></label>
-    <input id="<%- idPrefix %>-buyerName" class="form-control fa-edit-long" name="buyerName" required>
-  </div>
-  <div class="form-group">
-    <label for="<%- idPrefix %>-buyerAddress" class="control-label"><%- t('PROPERTY:buyerAddress') %></label>
-    <textarea id="<%- idPrefix %>-buyerAddress" class="form-control fa-edit-long" name="buyerAddress" rows="3"></textarea>
-  </div>
-  <div id="<%- idPrefix %>-saleValue" style="margin-bottom: 15px"></div>
-  <% } %>
+  <div id="<%- idPrefix %>-participants" style="margin-bottom: 15px"></div>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
     <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>

@@ -5,8 +5,8 @@
     '!usageDestination',
     {id: '!protocolDate', visible: protocolNeeded},
     {id: 'protocolNo', visible: protocolNeeded, valueClassName: 'text-fixed'},
-    'documentDate',
-    {id: 'no', valueClassName: 'text-fixed'},
+    '!documentDate',
+    {id: 'documentNo', valueClassName: 'text-fixed'},
     'assetName',
     {id: 'lineSymbol', visible: usageDestination === 'factory', valueClassName: 'text-fixed'},
     {id: 'inventoryNo', valueClassName: 'text-fixed'},
@@ -15,8 +15,9 @@
       return '<ul>'
         + zplxs.map(function(zplx)
         {
-          return '<li><span class="text-mono">ZPLX' + zplx.code + '</span>'
-            + (zplx.value ? (' (' + zplx.value + ')') : '');
+          return '<li><span class="text-fixed">ZPLX' + zplx.code + '</span>'
+            + (zplx.value ? (' (' + zplx.value + ')') : '')
+            + (zplx.auc ? (' [<span class="text-fixed">' + zplx.auc + '</span>]') : '');
         }).join('')
         + '</ul>';
     }},
@@ -39,11 +40,12 @@
     }},
     'supplier',
     'value',
+    'fiscalValue',
     {id: 'costCenter', valueClassName: 'text-fixed'},
     'destination',
     {id: 'vendorNo', visible: usageDestination === 'external-supplier', valueClassName: 'text-fixed'},
     {id: 'vendorName', visible: usageDestination === 'external-supplier'},
-    'redemptionRate',
+    'deprecationRate',
     'economicPeriod',
     'fiscalPeriod',
     {id: '!protocolFile', visible: protocolNeeded, value: function(file)

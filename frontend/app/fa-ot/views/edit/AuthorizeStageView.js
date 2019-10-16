@@ -41,7 +41,7 @@ define([
         },
         {
           id: 'reject',
-          className: 'btn-danger',
+          className: 'btn-warning',
           icon: 'fa-times'
         }
       ];

@@ -48,6 +48,9 @@
 .fa-edit-zplx-value {
   width: 114px;
 }
+.fa-edit-zplx-auc {
+  width: 134px;
+}
 .fa-edit-participants tbody {
   vertical-align: top;
 }
@@ -64,7 +67,8 @@
 .fa-edit-flex {
   flex: 1 1 auto;
 }
-.fa-edit-short {
+.fa-edit-short,
+.fa-edit-form input[type="date"].fa-edit-short {
   width: 168px;
 }
 .fa-edit-row .form-group + .form-group {
@@ -116,18 +120,22 @@
 .fa-edit-value .form-control {
   width: 114px;
 }
-.fa-edit-stage > .props + .form-group {
+.fa-edit-stage > .props + div {
   padding-top: 15px;
   border-top: 1px dotted #d4d4d4;
 }
 .fa-edit-form .panel-footer .btn {
   min-width: 132px;
+  font-weight: bold;
 }
 .fa-edit-form .form-control:invalid,
 .fa-edit-form .is-invalid {
   border-color: #f00;
   outline: 3px solid #f00;
   outline-offset: -1px;
+}
+.fa-edit-stage .prop-value {
+  max-width: 400px;
 }
 @media (max-width: 1599px) {
   .fa-edit-page {

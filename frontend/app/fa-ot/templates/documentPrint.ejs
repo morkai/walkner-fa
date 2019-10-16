@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%- details.no %></title>
+  <title><%- details.documentNo %></title>
   <style>
     * {
       margin: 0;
@@ -80,21 +80,21 @@
   </tr>
   <% if (model.protocolNeeded) { %>
   <tr>
-    <th><%- t('PROPERTY:protocolDate') %></th>
-    <td><%- details.protocolDate %></td>
-  </tr>
-  <tr>
     <th><%- t('PROPERTY:protocolNo') %></th>
     <td class="text-fixed"><%- details.protocolNo %></td>
   </tr>
+  <tr>
+    <th><%- t('PROPERTY:protocolDate') %></th>
+    <td><%- details.protocolDate %></td>
+  </tr>
   <% } %>
+  <tr>
+    <th><%- t('PROPERTY:documentNo') %></th>
+    <td class="text-fixed"><%- details.documentNo %></td>
+  </tr>
   <tr>
     <th><%- t('PROPERTY:documentDate') %></th>
     <td><%- details.documentDate %></td>
-  </tr>
-  <tr>
-    <th><%- t('PROPERTY:no') %></th>
-    <td class="text-fixed"><%- details.no %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:assetName') %></th>
@@ -117,6 +117,9 @@
       &#8226; <span class="text-fixed">ZPLX<%- zplx.code %></span>
       <% if (zplx.value) { %>
       (<%- zplx.value %>)
+      <% } %>
+      <% if (zplx.auc) { %>
+      [<span class="text-fixed"><%= zplx.auc %></span>]
       <% } %>
       <br>
       <% }) %>
@@ -149,6 +152,10 @@
     <td><%= details.value %></td>
   </tr>
   <tr>
+    <th><%- t('PROPERTY:fiscalValue') %></th>
+    <td><%= details.fiscalValue %></td>
+  </tr>
+  <tr>
     <th><%- t('PROPERTY:costCenter') %></th>
     <td class="text-fixed"><%= details.costCenter %></td>
   </tr>
@@ -167,8 +174,8 @@
   </tr>
   <% } %>
   <tr>
-    <th><%- t('PROPERTY:redemptionRate') %></th>
-    <td><%= details.redemptionRate %></td>
+    <th><%- t('PROPERTY:deprecationRate') %></th>
+    <td><%= details.deprecationRate %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:economicPeriod') %></th>

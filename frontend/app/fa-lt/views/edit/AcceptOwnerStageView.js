@@ -2,11 +2,11 @@
 
 define([
   'app/core/View',
-  'app/fa-common/views/ValueInputView',
+  'app/fa-common/views/ParticipantsInputView',
   'app/fa-lt/templates/edit/acceptOwner'
 ], function(
   View,
-  ValueInputView,
+  ParticipantsInputView,
   template
 ) {
   'use strict';
@@ -19,17 +19,13 @@ define([
 
     initialize: function()
     {
-      var view = this;
-
-      view.saleValueView = view.model.get('kind') !== 'sale' ? null : new ValueInputView({
-        property: 'saleValue',
-        model: view.model
+      this.participantsView = new ParticipantsInputView({
+        model: this.model,
+        owner: false,
+        required: false
       });
 
-      if (view.saleValueView)
-      {
-        view.setView('#-saleValue', view.saleValueView);
-      }
+      this.setView('#-participants', this.participantsView);
     },
 
     getTemplateData: function()
@@ -52,13 +48,13 @@ define([
 
       return [
         {
-          id: 'acceptDepartment',
+          id: 'acceptFinance',
           className: 'btn-success',
           icon: 'fa-check'
         },
         {
           id: 'reject',
-          className: 'btn-danger',
+          className: 'btn-warning',
           icon: 'fa-times'
         }
       ];
@@ -66,9 +62,9 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'acceptDepartment')
+      if (action === 'acceptFinance')
       {
-        this.handleAcceptDepartmentAction(formView);
+        this.handleAcceptAction(formView);
       }
       else if (action === 'reject')
       {
@@ -76,9 +72,9 @@ define([
       }
     },
 
-    handleAcceptDepartmentAction: function(formView)
+    handleAcceptAction: function(formView)
     {
-      this.model.set('newStage', 'acceptDepartment');
+      this.model.set('newStage', 'acceptFinance');
 
       formView.handleNextRequest = function()
       {
@@ -102,11 +98,6 @@ define([
 
     serializeToForm: function(formData)
     {
-      if (this.saleValueView)
-      {
-        this.saleValueView.serializeToForm(formData);
-      }
-
       return formData;
     },
 
@@ -116,15 +107,7 @@ define([
         comment: (formData.comment || '').trim()
       };
 
-      if (this.saleValueView)
-      {
-        Object.assign(data, {
-          buyerName: (formData.buyerName || '').trim(),
-          buyerAddress: (formData.buyerAddress || '').trim()
-        });
-
-        this.saleValueView.serializeForm(data);
-      }
+      this.participantsView.serializeForm(data);
 
       return data;
     }

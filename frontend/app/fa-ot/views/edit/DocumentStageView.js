@@ -80,39 +80,8 @@ define([
 
     afterRender: function()
     {
-      this.setUpDestinationSelect2();
       this.setUpCostCenterSelect2();
       this.zplxView.checkValidity();
-    },
-
-    setUpDestinationSelect2: function()
-    {
-      var id = this.model.get('destination');
-      var model = dictionaries.destinations.get(id);
-      var data = [];
-
-      if (id && !model)
-      {
-        data.push({
-          id: id,
-          text: id
-        });
-      }
-
-      dictionaries.destinations.forEach(function(d)
-      {
-        if (d.get('active') || d.id === id)
-        {
-          data.push(idAndLabel(d));
-        }
-      });
-
-      this.$id('destination').select2({
-        width: '100%',
-        allowClear: true,
-        placeholder: ' ',
-        data: data
-      });
     },
 
     setUpCostCenterSelect2: function()
@@ -174,7 +143,6 @@ define([
         inventoryNo: (formData.inventoryNo || '').trim(),
         assetName: (formData.assetName || '').trim(),
         supplier: (formData.supplier || '').trim(),
-        destination: formData.destination || null,
         costCenter: formData.costCenter || null
       };
 

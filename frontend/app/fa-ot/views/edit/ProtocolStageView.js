@@ -3,14 +3,14 @@
 define([
   'app/time',
   'app/core/View',
+  'app/fa-common/views/ParticipantsInputView',
   './ZplxInputView',
-  './ParticipantsInputView',
   'app/fa-ot/templates/edit/protocol'
 ], function(
   time,
   View,
-  ZplxInputView,
   ParticipantsInputView,
+  ZplxInputView,
   template
 ) {
   'use strict';
@@ -24,7 +24,10 @@ define([
     initialize: function()
     {
       this.zplxView = new ZplxInputView({model: this.model});
-      this.participantsView = new ParticipantsInputView({model: this.model});
+      this.participantsView = new ParticipantsInputView({
+        model: this.model,
+        label: this.t('protocol:participants')
+      });
 
       this.setView('#-zplx', this.zplxView);
       this.setView('#-participants', this.participantsView);
@@ -55,12 +58,6 @@ define([
         });
       }
 
-      actions.push({
-        id: 'printProtocol',
-        className: 'btn-default disabled',
-        icon: 'fa-print'
-      });
-
       return actions;
     },
 
@@ -69,10 +66,6 @@ define([
       if (action === 'authorize')
       {
         this.handleAuthorizeAction(formView);
-      }
-      else if (action === 'printProtocol')
-      {
-        this.handlePrintProtocolAction(formView);
       }
     },
 
@@ -83,29 +76,6 @@ define([
       formView.handleNextRequest = function()
       {
         formView.model.set('newStage', null);
-      };
-
-      formView.submit();
-    },
-
-    // TODO
-    handlePrintProtocolAction: function(formView)
-    {
-      if (!this.model.canEdit())
-      {
-        console.warn('TODO print protocol now');
-
-        return;
-      }
-
-      formView.handleNextRequest = function(fail)
-      {
-        if (fail)
-        {
-          return;
-        }
-
-        console.warn('TODO print protocol');
       };
 
       formView.submit();

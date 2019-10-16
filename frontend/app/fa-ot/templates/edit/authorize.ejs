@@ -32,6 +32,9 @@
         <% if (zplx.value) { %>
         (<%- zplx.value %>)
         <% } %>
+        <% if (zplx.auc) { %>
+        [<span class="text-fixed"><%= zplx.auc %></span>]
+        <% } %>
       </li>
       <% }) %>
     </ul>

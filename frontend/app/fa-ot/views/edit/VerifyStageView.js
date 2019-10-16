@@ -2,9 +2,17 @@
 
 define([
   'app/core/View',
+  'app/core/util/idAndLabel',
+  'app/fa-common/dictionaries',
+  'app/fa-common/views/ValueInputView',
+  './ZplxInputView',
   'app/fa-ot/templates/edit/verify'
 ], function(
   View,
+  idAndLabel,
+  dictionaries,
+  ValueInputView,
+  ZplxInputView,
   template
 ) {
   'use strict';
@@ -16,7 +24,7 @@ define([
     updateOnChange: false,
 
     events: {
-      'change #-redemptionRate': function(e)
+      'change #-deprecationRate': function(e)
       {
         var rr = +e.target.value;
 
@@ -54,6 +62,23 @@ define([
       }
     },
 
+    initialize: function()
+    {
+      this.zplxView = new ZplxInputView({
+        model: this.model,
+        readOnly: true,
+        auc: true
+      });
+      this.fiscalValueView = new ValueInputView({
+        model: this.model,
+        property: 'fiscalValue',
+        required: true
+      });
+
+      this.setView('#-zplx', this.zplxView);
+      this.setView('#-fiscalValue', this.fiscalValueView);
+    },
+
     getTemplateData: function()
     {
       var ot = this.model;
@@ -82,7 +107,7 @@ define([
         },
         {
           id: 'reject',
-          className: 'btn-danger',
+          className: 'btn-warning',
           icon: 'fa-times'
         }
       ];
@@ -124,8 +149,47 @@ define([
       formView.submit({toggleRequired: false});
     },
 
+    afterRender: function()
+    {
+      this.setUpDestinationSelect2();
+      this.zplxView.checkValidity();
+    },
+
+    setUpDestinationSelect2: function()
+    {
+      var id = this.model.get('destination');
+      var model = dictionaries.destinations.get(id);
+      var data = [];
+
+      if (id && !model)
+      {
+        data.push({
+          id: id,
+          text: id
+        });
+      }
+
+      dictionaries.destinations.forEach(function(d)
+      {
+        if (d.get('active') || d.id === id)
+        {
+          data.push(idAndLabel(d));
+        }
+      });
+
+      this.$id('destination').select2({
+        width: '100%',
+        allowClear: true,
+        placeholder: ' ',
+        data: data
+      });
+    },
+
     serializeToForm: function(formData)
     {
+      this.zplxView.serializeToForm(formData);
+      this.fiscalValueView.serializeToForm(formData);
+
       formData.economicPeriodY = Math.floor(formData.economicPeriod / 12);
       formData.economicPeriodM = formData.economicPeriod % 12;
       formData.fiscalPeriodY = Math.floor(formData.fiscalPeriod / 12);
@@ -136,13 +200,20 @@ define([
 
     serializeForm: function(formData)
     {
-      return {
+      var data = {
+        assetName: (formData.assetName || '').trim(),
+        destination: formData.destination || null,
         inventoryNo: (formData.inventoryNo || '').trim(),
-        redemptionRate: Math.min(100, Math.max(parseInt(formData.redemptionRate, 10) || 0, 0)),
+        deprecationRate: Math.min(100, Math.max(parseInt(formData.deprecationRate, 10) || 0, 0)),
         economicPeriod: ((+formData.economicPeriodY || 0) * 12) + (+formData.economicPeriodM || 0),
         fiscalPeriod: ((+formData.fiscalPeriodY || 0) * 12) + (+formData.fiscalPeriodM || 0),
         comment: (formData.comment || '').trim()
       };
+
+      this.zplxView.serializeForm(data);
+      this.fiscalValueView.serializeForm(data);
+
+      return data;
     }
 
   });

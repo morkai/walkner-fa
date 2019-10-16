@@ -360,6 +360,11 @@ function(
         return;
       }
 
+      if (value == null)
+      {
+        value = '';
+      }
+
       if (escape)
       {
         value = _.escape(value);

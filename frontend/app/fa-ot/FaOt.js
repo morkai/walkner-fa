@@ -17,6 +17,21 @@ define([
 ) {
   'use strict';
 
+  var STAGE_TO_CLASS_NAME = {
+    protocol: 'info',
+    authorize: 'info',
+    document: 'info',
+    verify: 'info',
+    accept: 'info',
+    record: 'info',
+    finished: '',
+    cancelled: 'danger'
+  };
+  var VALUE_PROPS = [
+    'value',
+    'fiscalValue'
+  ];
+
   function formatPeriod(months)
   {
     if (!months)
@@ -63,21 +78,25 @@ define([
 
     getLabel: function()
     {
-      return 'OT/' + this.get('no');
+      return this.get('documentNo') || this.get('protocolNo');
     },
 
     serializeRow: function()
     {
       var obj = this.toJSON();
 
+      obj.className = STAGE_TO_CLASS_NAME[obj.stage] || {};
       obj.url = this.url();
       obj.no = this.getLabel();
-      obj.protocolNo = 'P' + this.getLabel();
       obj.stage = t(this.nlsDomain, 'stage:' + obj.stage);
       obj.date = time.utc.format(obj.date, 'L');
-      obj.value = obj.value.toLocaleString('pl-PL', {
-        style: 'currency',
-        currency: 'PLN'
+
+      VALUE_PROPS.forEach(function(prop)
+      {
+        obj[prop] = (obj[prop] || 0).toLocaleString('pl-PL', {
+          style: 'currency',
+          currency: 'PLN'
+        });
       });
 
       return obj;
@@ -97,7 +116,7 @@ define([
       obj.usageDestination = t(this.nlsDomain, 'usageDestination:' + obj.usageDestination);
       obj.owner = userInfoTemplate({userInfo: obj.owner});
       obj.committee = obj.committee.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); });
-      obj.redemptionRate += '%';
+      obj.deprecationRate += '%';
 
       obj.zplx = obj.zplx.map(function(zplx)
       {
@@ -106,7 +125,8 @@ define([
           value: !zplx.value ? '' : zplx.value.toLocaleString('pl-PL', {
             style: 'currency',
             currency: 'PLN'
-          })
+          }),
+          auc: zplx.auc
         };
       });
 
@@ -196,9 +216,14 @@ define([
       {
         var stage = model.get('stage');
 
+        if (stage === 'cancelled')
+        {
+          return false;
+        }
+
         if (stage === 'finished')
         {
-          return user.data.login === 'root';
+          return user.isAllowedTo('SUPER');
         }
 
         return user.isAllowedTo('FA:MANAGE', 'FA:OT:MANAGE', 'FA:OT:' + model.get('stage'));
@@ -216,7 +241,8 @@ define([
       'verify',
       'accept',
       'record',
-      'finished'
+      'finished',
+      'cancelled'
     ]
 
   });

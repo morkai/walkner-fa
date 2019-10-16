@@ -33,20 +33,23 @@ define([
     {
       var actions = DetailsPage.prototype.actions.apply(this, arguments);
 
-      if (this.model.get('protocolNeeded'))
+      if (this.model.get('stage') !== 'cancelled')
       {
         actions.unshift({
           icon: 'print',
-          label: this.t('PAGE_ACTION:printProtocol'),
-          callback: this.printProtocol.bind(this)
+          label: this.t('PAGE_ACTION:printDocument'),
+          callback: this.printDocument.bind(this)
         });
-      }
 
-      actions.unshift({
-        icon: 'print',
-        label: this.t('PAGE_ACTION:printDocument'),
-        callback: this.printDocument.bind(this)
-      });
+        if (this.model.get('protocolNeeded'))
+        {
+          actions.unshift({
+            icon: 'print',
+            label: this.t('PAGE_ACTION:printProtocol'),
+            callback: this.printProtocol.bind(this)
+          });
+        }
+      }
 
       return actions;
     },

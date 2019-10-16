@@ -85,7 +85,9 @@ define([
       var zplx = this.model.get('zplx');
 
       return {
-        zplx: zplx.length ? zplx : [{code: '', value: ''}]
+        readOnly: !!this.options.readOnly,
+        auc: !!this.options.auc,
+        zplx: zplx.length ? zplx : [{code: '', value: '', auc: ''}]
       };
     },
 
@@ -102,11 +104,12 @@ define([
 
     serializeToForm: function(formData)
     {
-      formData.zplx = !formData.zplx.length ? [{code: '', value: ''}] : formData.zplx.map(function(d)
+      formData.zplx = !formData.zplx.length ? [{code: '', value: '', auc: ''}] : formData.zplx.map(function(d)
       {
         return {
           code: d.code,
-          value: d.value ? ValueInputView.formatValue(d.value) : ''
+          value: d.value ? ValueInputView.formatValue(d.value) : '',
+          auc: (d.auc || '').trim()
         };
       });
 
@@ -121,18 +124,23 @@ define([
       {
         var codeEl = this.querySelector('input[name$=".code"]');
         var valueEl = this.querySelector('input[name$=".value"]');
+        var aucEl = this.querySelector('input[name$=".auc"]');
 
         if (/^[0-9]{8}$/.test(codeEl.value))
         {
-          data.zplx[codeEl.value] = ValueInputView.parseValue(valueEl.value);
+          data.zplx[codeEl.value] = {
+            value: ValueInputView.parseValue(valueEl.value),
+            auc: aucEl ? aucEl.value.trim() : ''
+          };
         }
       });
 
-      data.zplx = _.map(data.zplx, function(value, code)
+      data.zplx = _.map(data.zplx, function(d, code)
       {
         return {
           code: code,
-          value: value
+          value: d.value,
+          auc: d.auc
         };
       });
     }

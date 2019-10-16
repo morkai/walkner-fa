@@ -29,6 +29,7 @@
       font-weight: bold;
       font-size: 18px;
       line-height: 1.4;
+      white-space: nowrap;
     }
     .value {
       font-size: 24px;
@@ -104,6 +105,9 @@
       <span class="text-fixed">ZPLX<%- zplx.code %></span>
       <% if (zplx.value) { %>
       (<%- zplx.value %>)
+      <% } %>
+      <% if (zplx.auc) { %>
+      [<span class="text-fixed"><%= zplx.auc %></span>]
       <% } %>
     </li>
     <% }) %>

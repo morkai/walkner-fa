@@ -1,4 +1,10 @@
 {
+  "FORM:edit:maxLength": "Wartość nie może być dłuższa niż {limit} znaków.",
+  "FORM:edit:committee:owner": "Właściciel środka trwałego:",
+  "FORM:edit:committee:person": "{no}. członek komisji:",
+  "FORM:edit:committee:add": "Dodaj {count, plural, =0{osobę} other{kolejną osobę}} z komisji",
+  "FORM:edit:committee:remove": "Usuń wybraną osobę z komisji",
+
   "changes:failure": "Komentownie nie powiodło się.",
   "changes:title": "Historia zmian",
   "changes:label": "Komentarz",

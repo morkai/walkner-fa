@@ -1,5 +1,11 @@
 {
   "root": {
+    "FORM:edit:maxLength": "Value cannot be longer than {limit} characters.",
+    "FORM:edit:committee:owner": "Fixed asset owner:",
+    "FORM:edit:committee:person": "{no}. committee member:",
+    "FORM:edit:committee:add": "Add {count, plural, =0{a new} other{an another}} committee person",
+    "FORM:edit:committee:remove": "Remove the selected committee person",
+
     "changes:failure": "Commenting failed.",
     "changes:title": "Change history",
     "changes:label": "Comment",

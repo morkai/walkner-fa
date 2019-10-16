@@ -19,10 +19,22 @@ define([
     'initialValue',
     'deprecationValue',
     'netValue',
+    'economicInitialValue',
     'economicDeprecationValue',
     'economicNetValue',
     'saleValue'
   ];
+  var STAGE_TO_CLASS_NAME = {
+    protocol: 'info',
+    verify: 'info',
+    acceptOwner: 'info',
+    acceptFinance: 'info',
+    acceptDepartment: 'info',
+    acceptDocument: 'info',
+    record: 'info',
+    finished: '',
+    cancelled: 'danger'
+  };
 
   return Model.extend({
 
@@ -40,17 +52,19 @@ define([
 
     getLabel: function()
     {
-      return 'LT/' + this.get('no');
+      return this.get('documentNo') || this.get('protocolNo');
     },
 
     serializeRow: function()
     {
       var obj = this.toJSON();
 
+      obj.className = STAGE_TO_CLASS_NAME[obj.stage] || {};
+      obj.url = this.url();
       obj.no = this.getLabel();
+      obj.stage = t(this.nlsDomain, 'stage:' + obj.stage, {kind: obj.kind});
       obj.kind = t(this.nlsDomain, 'kind:short:' + obj.kind);
-      obj.stage = t(this.nlsDomain, 'stage:' + obj.stage);
-      obj.date = time.utc.format(obj.date, 'LL');
+      obj.date = time.utc.format(obj.date, 'L');
 
       VALUE_PROPS.forEach(function(prop)
       {
@@ -67,9 +81,12 @@ define([
     {
       var obj = this.serializeRow();
 
+      obj.protocolDate = obj.protocolDate ? time.utc.format(obj.protocolDate, 'LL') : '';
+      obj.documentDate = obj.documentDate ? time.utc.format(obj.documentDate, 'LL') : '';
       obj.kind = t(this.nlsDomain, 'kind:' + this.get('kind'));
       obj.mergeType = obj.mergeType ? t(this.nlsDomain, 'mergeType:' + obj.mergeType) : '';
       obj.applicant = userInfoTemplate({userInfo: obj.applicant});
+      obj.committee = obj.committee.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); });
 
       obj.stages = {
         created: {
@@ -113,7 +130,8 @@ define([
       var obj = this.toJSON();
 
       obj.no = this.getLabel();
-      obj.date = obj.date ? time.utc.format(obj.date, 'YYYY-MM-DD') : '';
+      obj.protocolDate = obj.protocolDate ? time.utc.format(obj.protocolDate, 'YYYY-MM-DD') : '';
+      obj.documentDate = obj.documentDate ? time.utc.format(obj.documentDate, 'YYYY-MM-DD') : '';
 
       return obj;
     },
@@ -134,9 +152,14 @@ define([
       {
         var stage = model.get('stage');
 
+        if (stage === 'cancelled')
+        {
+          return false;
+        }
+
         if (stage === 'finished')
         {
-          return user.data.login === 'root';
+          return user.isAllowedTo('SUPER');
         }
 
         return user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE', 'FA:LT:' + model.get('stage'));
@@ -151,10 +174,12 @@ define([
       'protocol',
       'verify',
       'acceptOwner',
-      'acceptDepartment',
       'acceptFinance',
+      'acceptDepartment',
+      'acceptDocument',
       'record',
-      'finished'
+      'finished',
+      'cancelled'
     ],
 
     KINDS: [

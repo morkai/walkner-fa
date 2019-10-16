@@ -2,8 +2,8 @@
   "root": {
     "BREADCRUMBS:browse": "OT",
 
-    "PAGE_ACTION:jump:title": "Jump to OT by the document no",
-    "PAGE_ACTION:jump:placeholder": "Document no",
+    "PAGE_ACTION:jump:title": "Jump to OT by its number",
+    "PAGE_ACTION:jump:placeholder": "Number",
     "PAGE_ACTION:printDocument": "Print document",
     "PAGE_ACTION:printProtocol": "Print protocol",
 
@@ -13,7 +13,7 @@
     "PANEL:TITLE:addForm": "Fixed asset technical acceptance document add form",
     "PANEL:TITLE:editForm": "Fixed asset technical acceptance document edit form",
 
-    "FORM:ACTION:add": "Add a new LT document",
+    "FORM:ACTION:add": "Add a new OT document",
     "FORM:ACTION:edit": "Save changes",
     "FORM:ACTION:printProtocol": "Printable version",
     "FORM:ACTION:printDocument": "Printable version",
@@ -30,10 +30,6 @@
     "FORM:edit:zplx:add": "Add an another ZPLX number",
     "FORM:edit:zplx:remove": "Remove the selected ZPLX number",
     "FORM:edit:zplx:invalid": "Please specify at least one valid ZPLX number.",
-    "FORM:edit:committee:owner": "Fixed asset owner:",
-    "FORM:edit:committee:person": "{no}. committee member:",
-    "FORM:edit:committee:add": "Add {count, plural, =0{a new} other{an another}} committee person",
-    "FORM:edit:committee:remove": "Remove the selected committee person",
     "FORM:edit:attachment:old": "Current file:",
     "FORM:edit:attachment:new": "New file:",
     "FORM:edit:attachment:empty": "no file was attached.",
@@ -44,8 +40,9 @@
     "PROPERTY:protocolNeeded": "Protocol needed?",
     "PROPERTY:commissioningType": "Commissioning type",
     "PROPERTY:usageDestination": "Usage destination",
-    "PROPERTY:no": "Document no",
+    "PROPERTY:no": "Number",
     "PROPERTY:protocolNo": "Protocol no",
+    "PROPERTY:documentNo": "Document no",
     "PROPERTY:date": "Date",
     "PROPERTY:protocolDate": "Protocol date",
     "PROPERTY:documentDate": "Document date",
@@ -59,6 +56,7 @@
     "PROPERTY:notes": "Notes",
     "PROPERTY:protocolFile": "Signed protocol",
     "PROPERTY:value": "Value",
+    "PROPERTY:fiscalValue": "Value (fiscal)",
     "PROPERTY:destination": "Destination",
     "PROPERTY:costCenter": "Cost center",
     "PROPERTY:vendorNo": "SAP vendor no",
@@ -66,7 +64,7 @@
     "PROPERTY:checklistFile": "Checklist",
     "PROPERTY:certificateFile": "Certificate",
     "PROPERTY:nameplateFile": "Nameplate",
-    "PROPERTY:redemptionRate": "% redemption rate",
+    "PROPERTY:deprecationRate": "% deprecation rate",
     "PROPERTY:economicPeriod": "Economic depreciation period",
     "PROPERTY:fiscalPeriod": "Fiscal depreciation period",
     "PROPERTY:sapNo": "SAP no",
@@ -92,6 +90,7 @@
     "stage:accept": "Acceptance",
     "stage:record": "Recording",
     "stage:finished": "Accepted",
+    "stage:cancelled": "Cancelled",
 
     "filter:limit": "Limit",
 

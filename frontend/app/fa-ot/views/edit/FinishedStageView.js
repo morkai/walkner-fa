@@ -6,8 +6,8 @@ define([
   'app/core/util/idAndLabel',
   'app/fa-common/dictionaries',
   'app/fa-common/views/ValueInputView',
+  'app/fa-common/views/ParticipantsInputView',
   './ZplxInputView',
-  './ParticipantsInputView',
   './VerifyStageView',
   'app/fa-ot/templates/edit/finished'
 ], function(
@@ -16,8 +16,8 @@ define([
   idAndLabel,
   dictionaries,
   ValueInputView,
-  ZplxInputView,
   ParticipantsInputView,
+  ZplxInputView,
   VerifyStageView,
   template
 ) {
@@ -33,13 +33,22 @@ define([
 
     initialize: function()
     {
-      this.zplxView = new ZplxInputView({model: this.model});
-      this.participantsView = new ParticipantsInputView({model: this.model});
+      this.zplxView = new ZplxInputView({model: this.model, auc: true});
+      this.participantsView = new ParticipantsInputView({
+        model: this.model,
+        label: this.t('protocol:participants')
+      });
       this.valueView = new ValueInputView({model: this.model});
+      this.fiscalValueView = new ValueInputView({
+        model: this.model,
+        property: 'fiscalValue',
+        required: true
+      });
 
       this.setView('#-zplx', this.zplxView);
       this.setView('#-participants', this.participantsView);
       this.setView('#-value', this.valueView);
+      this.setView('#-fiscalValue', this.fiscalValueView);
     },
 
     getTemplateData: function()
@@ -147,6 +156,7 @@ define([
     {
       this.zplxView.serializeToForm(formData);
       this.valueView.serializeToForm(formData);
+      this.fiscalValueView.serializeToForm(formData);
 
       VerifyStageView.prototype.serializeToForm.call(this, formData);
 
@@ -177,6 +187,7 @@ define([
 
       view.zplxView.serializeForm(data);
       view.valueView.serializeForm(data);
+      view.fiscalValueView.serializeForm(data);
 
       if (protocolNeeded)
       {
@@ -185,7 +196,7 @@ define([
 
       var verifyData = VerifyStageView.prototype.serializeForm.call(this, formData);
 
-      data.redemptionRate = verifyData.redemptionRate;
+      data.deprecationRate = verifyData.deprecationRate;
       data.economicPeriod = verifyData.economicPeriod;
       data.fiscalPeriod = verifyData.fiscalPeriod;
 

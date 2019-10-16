@@ -1,11 +1,13 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'underscore',
   'app/core/View',
   'app/users/util/setUpUserSelect2',
-  'app/fa-ot/templates/edit/participantsInput',
-  'app/fa-ot/templates/edit/participant'
+  'app/fa-common/templates/participantsInput',
+  'app/fa-common/templates/participant'
 ], function(
+  _,
   View,
   setUpUserSelect2,
   template,
@@ -37,10 +39,14 @@ define([
           view.$('.fa-edit-participant').last().find('input').select2('focus');
           view.$('.fa-edit-participant-label').each(function(i)
           {
-            if (i > 0)
+            if (view.options.owner && i === 0)
             {
-              this.textContent = view.t('FORM:edit:committee:person', {no: i});
+              return;
             }
+
+            this.textContent = view.t('fa-common', 'FORM:edit:committee:person', {
+              no: i + (view.options.owner ? 0 : 1)
+            });
           });
           view.toggleAddParticipantLabel();
           view.model.trigger('dirty');
@@ -48,9 +54,18 @@ define([
       }
     },
 
+    initialize: function()
+    {
+      this.options.owner = this.options.owner !== false;
+      this.options.required = this.options.required !== false;
+    },
+
     getTemplateData: function()
     {
       return {
+        label: this.options.label || this.t('PROPERTY:committee'),
+        required: this.options.required,
+        owner: this.options.owner,
         committee: this.model.get('committee')
       };
     },
@@ -65,6 +80,11 @@ define([
       {
         view.addParticipant(user);
       });
+
+      if (this.$('.fa-edit-participant').length === 0)
+      {
+        view.addParticipant();
+      }
     },
 
     setUpUserSelect2: function($input, user)
@@ -86,7 +106,7 @@ define([
     {
       var $participants = this.$id('participants');
       var $tr = this.renderPartial(participantTemplate, {
-        no: $participants.children().length,
+        no: $participants.children().length + (this.options.owner ? 0 : 1),
         value: user ? user._id : ''
       });
 
@@ -101,8 +121,8 @@ define([
     toggleAddParticipantLabel: function()
     {
       this.$('.btn[data-action="committee:add"]').find('span').text(
-        this.t('FORM:edit:committee:add', {
-          count: this.$('.fa-edit-participant').length - 1
+        this.t('fa-common', 'FORM:edit:committee:add', {
+          count: this.$('.fa-edit-participant').length - (this.options.owner ? 1 : 0)
         })
       );
     },
@@ -121,12 +141,25 @@ define([
     {
       var view = this;
 
-      data.owner = view.serializeUserInfo(this.$id('owner'));
+      if (this.options.owner)
+      {
+        data.owner = view.serializeUserInfo(this.$id('owner'));
+      }
 
-      data.committee = view.$('input[name="committee[]"]')
+      var committee = {};
+
+      view.$('input[name="committee[]"]')
         .map(function() { return view.serializeUserInfo(view.$(this)); })
         .get()
-        .filter(function(v) { return !!v; });
+        .forEach(function(user)
+        {
+          if (user && !committee[user._id])
+          {
+            committee[user._id] = user;
+          }
+        });
+
+      data.committee = _.values(committee);
     }
 
   });

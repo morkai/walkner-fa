@@ -5,7 +5,7 @@
     <div id="<%- idPrefix %>-tabs" class="fa-edit-tabs">
       <% tabs.forEach(function(stage, i) { %>
       <div class="fa-edit-tab <%- model.stage === stage ? 'is-active' : '' %>" data-tab="<%- stage %>">
-        <%- i + 1 %>. <%- t.has('FORM:stage:' + stage) ? t('FORM:stage:' + stage, {kind: model.kind}) : t('stage:' + stage) %>
+        <%- i + 1 %>. <%- t.has('FORM:stage:' + stage) ? t('FORM:stage:' + stage, {kind: model.kind}) : t('stage:' + stage, {kind: model.kind}) %>
       </div>
       <% }) %>
     </div>

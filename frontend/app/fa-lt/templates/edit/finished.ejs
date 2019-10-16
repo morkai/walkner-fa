@@ -27,23 +27,31 @@
   <% } %>
   <div class="fa-edit-row">
     <div class="form-group fa-edit-short">
-      <label for="<%- idPrefix %>-date" class="control-label is-required"><%- t('PROPERTY:date') %></label>
-      <input id="<%- idPrefix %>-date" name="date" class="form-control" type="date" required>
+      <label for="<%- idPrefix %>-protocolDate" class="control-label is-required"><%- t('PROPERTY:protocolDate') %></label>
+      <input id="<%- idPrefix %>-protocolDate" name="protocolDate" class="form-control" type="date" required>
     </div>
     <div class="form-group">
-      <label class="control-label"><%- t('PROPERTY:no') %></label>
-      <p class="form-control-static is-along-inputs"><%- details.no %></p>
+      <label class="control-label"><%- t('PROPERTY:protocolNo') %></label>
+      <p class="form-control-static is-along-inputs"><%- details.protocolNo %></p>
     </div>
   </div>
   <div class="fa-edit-row">
     <div class="form-group fa-edit-short">
-      <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
-      <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" required>
+      <label for="<%- idPrefix %>-documentDate" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
+      <input id="<%- idPrefix %>-documentDate" name="documentDate" class="form-control" type="date" required>
     </div>
-    <div class="form-group fa-edit-flex" style="margin-bottom: 15px">
-      <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
-      <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control" type="text" required>
+    <div class="form-group">
+      <label class="control-label"><%- t('PROPERTY:documentNo') %></label>
+      <p class="form-control-static is-along-inputs"><%- details.documentNo %></p>
     </div>
+  </div>
+  <div class="form-group fa-edit-long">
+    <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
+    <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control" type="text" required maxlength="50">
+  </div>
+  <div class="form-group fa-edit-short">
+    <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
+    <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" required>
   </div>
   <div class="form-group fa-edit-short has-required-select2">
     <label for="<%- idPrefix %>-costCenter" class="control-label is-required"><%- t('PROPERTY:costCenter') %></label>
@@ -53,11 +61,15 @@
     <label for="<%- idPrefix %>-applicant" class="control-label is-required"><%- t('PROPERTY:applicant') %></label>
     <input id="<%- idPrefix %>-applicant" name="applicant" type="text" required>
   </div>
+  <div id="<%- idPrefix %>-participants" style="margin-bottom: 15px"></div>
   <div class="form-group fa-edit-long">
     <label for="<%- idPrefix %>-cause" class="control-label is-required"><%- t('PROPERTY:cause') %></label>
     <textarea id="<%- idPrefix %>-cause" name="cause" class="form-control" rows="3" required></textarea>
   </div>
-  <div id="<%- idPrefix %>-initialValue" style="margin-bottom: 15px"></div>
+  <div class="fa-edit-row">
+    <div id="<%- idPrefix %>-initialValue" style="margin: 0 15px 15px 0"></div>
+    <div id="<%- idPrefix %>-economicInitialValue" style="margin-bottom: 15px"></div>
+  </div>
   <div class="fa-edit-row">
     <div id="<%- idPrefix %>-deprecationValue" style="margin: 0 15px 15px 0"></div>
     <div id="<%- idPrefix %>-economicDeprecationValue" style="margin-bottom: 15px"></div>

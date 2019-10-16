@@ -1,24 +1,39 @@
 <div class="fa-edit-stage" data-stage="<%- stage %>">
   <%- helpers.props(details, [
     '!kind',
-    {id: 'mergeInventoryNo', visible: kind === 'merge', valueClassName: 'text-mono'},
-    {id: 'mergeLineSymbol', visible: kind === 'merge', valueClassName: 'text-mono'},
+    {id: 'mergeInventoryNo', visible: kind === 'merge', valueClassName: 'text-fixed'},
+    {id: 'mergeLineSymbol', visible: kind === 'merge', valueClassName: 'text-fixed'},
     {id: 'mergeType', visible: kind === 'merge'},
-    {id: 'no', valueClassName: 'text-mono'},
-    'date',
-    {id: 'inventoryNo', valueClassName: 'text-mono'},
+    {id: 'protocolNo', valueClassName: 'text-fixed'},
+    'protocolDate',
     'assetName',
-    {id: 'costCenter', valueClassName: 'text-mono'},
+    {id: 'inventoryNo', valueClassName: 'text-fixed'},
+    {id: 'costCenter', valueClassName: 'text-fixed'},
     {id: '!applicant'},
+    {id: '!committee', value: function(users)
+    {
+      if (users.length === 0)
+      {
+        return '';
+      }
+
+      if (users.length === 1)
+      {
+        return users[0];
+      }
+
+      return '<ul>'
+        + users.map(function(user) { return '<li>' + user; }).join('')
+        + '</ul>';
+    }},
     {id: 'cause', valueClassName: 'text-lines'},
     'initialValue',
     'deprecationValue',
     'netValue',
+    'economicInitialValue',
     'economicDeprecationValue',
     'economicNetValue',
-    {id: 'buyerName', visible: kind === 'sale'},
-    {id: 'buyerAddress', visible: kind === 'sale', valueClassName: 'text-lines'},
-    {id: 'saleValue', visible: kind === 'sale'}
+    {id: 'sapNo', valueClassName: 'text-fixed'}
   ]) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>

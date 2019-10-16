@@ -68,6 +68,11 @@ define([
         {
           this.$id('submit').click();
         }
+      },
+
+      'input input[data-maxlength]': function(e)
+      {
+        e.target.setCustomValidity('');
       }
 
     }, FormView.prototype.events),
@@ -83,7 +88,7 @@ define([
     {
       return {
         tabs: this.getTabs(),
-        actions: this.stageView.getFormActions(),
+        actions: this.stageView ? this.stageView.getFormActions() : [],
         canEdit: this.model.canEdit()
       };
     },
@@ -103,6 +108,11 @@ define([
     beforeRender: function()
     {
       var StageView = this.getStages()[this.model.get('stage')];
+
+      if (!StageView)
+      {
+        return;
+      }
 
       if (this.stageView instanceof StageView)
       {
@@ -147,7 +157,9 @@ define([
 
     serializeForm: function(formData)
     {
-      return this.stageView.serializeForm ? this.stageView.serializeForm(formData) : formData;
+      return this.stageView && this.stageView.serializeForm
+        ? this.stageView.serializeForm(formData)
+        : formData;
     },
 
     serializeToForm: function()
@@ -156,7 +168,9 @@ define([
 
       delete formData.comment;
 
-      return this.stageView.serializeToForm ? this.stageView.serializeToForm(formData) : formData;
+      return this.stageView && this.stageView.serializeToForm
+        ? this.stageView.serializeToForm(formData)
+        : formData;
     },
 
     submit: function(options)
@@ -189,17 +203,37 @@ define([
 
     toggleRequired: function(required)
     {
-      this.$('[data-required]').each(function()
+      var view = this;
+
+      view.$('[data-required]').each(function()
       {
         this.required = required;
       });
 
+      view.$('input[data-maxlength]').each(function()
+      {
+        var limits = this.dataset.maxlength.split(' ');
+        var maxLength = limits[1];
+        var error = '';
+
+        if (required)
+        {
+          maxLength = limits[0];
+          error = this.value.length > maxLength
+            ? view.t('fa-common', 'FORM:edit:maxLength', {limit: maxLength})
+            : '';
+        }
+
+        this.maxLength = maxLength;
+        this.setCustomValidity(error);
+      });
+
       if (!required)
       {
-        this.$('.is-invalid').removeClass('is-invalid');
+        view.$('.is-invalid').removeClass('is-invalid');
       }
 
-      this.model.trigger('required', required);
+      view.model.trigger('required', required);
     },
 
     toggleSelect2Validity: function()
@@ -293,11 +327,13 @@ define([
       }
 
       var newStage = this.model.get('stage');
+      var cancelled = newStage === 'cancelled';
       var record = this.oldStage === 'record' && newStage === this.oldStage;
       var finished = this.oldStage === 'finished' && newStage === this.oldStage;
       var finishing = this.oldStage === 'record' && newStage === 'finished';
 
-      if (finished
+      if (cancelled
+        || finished
         || finishing
         || (record && !this.model.constructor.can.edit(this.model)))
       {

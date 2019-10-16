@@ -209,6 +209,11 @@ define([
               }) + ')';
             }
 
+            if (zplx.auc)
+            {
+              str += ' [' + zplx.auc + ']';
+            }
+
             return str;
           }).join(', ');
         overflow = value.replace(/, /g, '\n');
@@ -226,7 +231,7 @@ define([
           return userInfoTemplate({userInfo: value});
 
         case 'stage':
-          return this.t('stage:' + value);
+          return this.t('stage:' + value, {kind: this.model.get('kind') || ''});
 
         case 'destination':
         case 'usageDestination':

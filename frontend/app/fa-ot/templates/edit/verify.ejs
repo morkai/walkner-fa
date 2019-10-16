@@ -5,20 +5,9 @@
     '!usageDestination',
     {id: '!protocolDate', visible: protocolNeeded},
     {id: 'protocolNo', visible: protocolNeeded, valueClassName: 'text-fixed'},
-    'documentDate',
-    {id: 'no', valueClassName: 'text-fixed'},
-    'assetName',
+    '!documentDate',
+    {id: 'documentNo', valueClassName: 'text-fixed'},
     {id: 'lineSymbol', visible: usageDestination === 'factory', valueClassName: 'text-fixed'},
-    {id: '!zplx', value: function(zplxs)
-    {
-      return '<ul>'
-        + zplxs.map(function(zplx)
-        {
-          return '<li><span class="text-mono">ZPLX' + zplx.code + '</span>'
-            + (zplx.value ? (' (' + zplx.value + ')') : '');
-        }).join('')
-        + '</ul>';
-    }},
     {id: '!owner', visible: protocolNeeded},
     {id: '!committee', visible: protocolNeeded, value: function(users)
     {
@@ -39,8 +28,7 @@
     'supplier',
     'value',
     {id: 'costCenter', valueClassName: 'text-fixed'},
-    'destination',
-    {id: 'vendorNo', visible: usageDestination === 'external-supplier'},
+    {id: 'vendorNo', visible: usageDestination === 'external-supplier', valueClassName: 'text-fixed'},
     {id: 'vendorName', visible: usageDestination === 'external-supplier'},
     {id: '!protocolFile', visible: protocolNeeded, value: function(file)
     {
@@ -67,14 +55,24 @@
         : t('FORM:edit:attachment:empty');
     }}
   ]) %>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
+    <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control fa-edit-long" type="text" data-required data-maxlength="50 200">
+  </div>
+  <div id="<%- idPrefix %>-zplx"></div>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- idPrefix %>-destination" class="control-label is-required"><%- t('PROPERTY:destination') %></label>
+    <input id="<%- idPrefix %>-destination" name="destination" type="text" data-required>
+  </div>
   <div class="form-group fa-edit-short">
     <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
-    <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" data-required>
+    <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" data-required maxlength="50">
   </div>
+  <div id="<%- idPrefix %>-fiscalValue" style="margin-bottom: 15px"></div>
   <div class="form-group">
-    <label for="<%- idPrefix %>-redemptionRate" class="control-label"><%- t('PROPERTY:redemptionRate') %></label>
+    <label for="<%- idPrefix %>-deprecationRate" class="control-label"><%- t('PROPERTY:deprecationRate') %></label>
     <div class="input-group">
-      <input id="<%- idPrefix %>-redemptionRate" name="redemptionRate" class="form-control text-right" type="number" min="0" max="100" style="width: 114px">
+      <input id="<%- idPrefix %>-deprecationRate" name="deprecationRate" class="form-control text-right" type="number" min="0" max="100" style="width: 114px">
       <div class="input-group-addon" style="width: 54px">%</div>
     </div>
   </div>

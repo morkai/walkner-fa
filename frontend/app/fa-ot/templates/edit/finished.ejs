@@ -15,36 +15,42 @@
       <p class="form-control-static"><%- details.usageDestination %></p>
     </div>
   </div>
+  <% if (model.protocolNeeded) { %>
   <div class="fa-edit-row">
-    <% if (model.protocolNeeded) { %>
     <div class="form-group fa-edit-short">
       <label for="<%- idPrefix %>-protocolDate" class="control-label is-required"><%- t('PROPERTY:protocolDate') %></label>
       <input id="<%- idPrefix %>-protocolDate" name="protocolDate" class="form-control fa-edit-long" type="date" required>
     </div>
-    <% } %>
+    <div class="form-group">
+      <label class="control-label"><%- t('PROPERTY:protocolNo') %></label>
+      <p class="form-control-static is-along-inputs"><%- details.protocolNo %></p>
+    </div>
+  </div>
+  <% } %>
+  <div class="fa-edit-row">
     <div class="form-group fa-edit-short">
       <label for="<%- idPrefix %>-documentDate" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
       <input id="<%- idPrefix %>-documentDate" name="documentDate" class="form-control" type="date" required>
     </div>
     <div class="form-group">
-      <label class="control-label"><%- t('PROPERTY:no') %></label>
-      <p class="form-control-static is-along-inputs"><%- details.no %></p>
+      <label class="control-label"><%- t('PROPERTY:documentNo') %></label>
+      <p class="form-control-static is-along-inputs"><%- details.documentNo %></p>
     </div>
   </div>
   <div class="fa-edit-row">
     <div class="form-group fa-edit-short">
       <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
-      <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" data-required>
+      <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" required maxlength="50">
     </div>
     <% if (model.usageDestination === 'factory') { %>
     <div class="form-group fa-edit-short">
       <label for="<%- idPrefix %>-lineSymbol" class="control-label"><%- t('PROPERTY:lineSymbol') %></label>
-      <input id="<%- idPrefix %>-lineSymbol" name="lineSymbol" class="form-control" type="text">
+      <input id="<%- idPrefix %>-lineSymbol" name="lineSymbol" class="form-control" type="text" maxlength="50">
     </div>
     <% } %>
     <div class="form-group fa-edit-flex">
       <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
-      <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control" type="text" required>
+      <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control" type="text" required maxlength="50">
     </div>
   </div>
   <div id="<%- idPrefix %>-zplx"></div>
@@ -52,10 +58,11 @@
   <div id="<%- idPrefix %>-participants" style="margin-top: -10px; margin-bottom: 15px"></div>
   <div class="form-group fa-edit-long" style="margin-top: -10px">
     <label for="<%- idPrefix %>-supplier" class="control-label <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'is-required' %>"><%- t('PROPERTY:supplier') %></label>
-    <input id="<%- idPrefix %>-supplier" name="supplier" class="form-control" type="text" <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'required' %>>
+    <input id="<%- idPrefix %>-supplier" name="supplier" class="form-control" type="text" <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'required' %> maxlength="200">
   </div>
   <% } %>
   <div id="<%- idPrefix %>-value" style="margin-top: <%- model.protocolNeeded ? 0 : '-10px' %>; margin-bottom: 15px"></div>
+  <div id="<%- idPrefix %>-fiscalValue" style="margin-top: <%- model.protocolNeeded ? 0 : '-10px' %>; margin-bottom: 15px"></div>
   <div class="fa-edit-row fa-edit-long">
     <div class="form-group fa-edit-short has-required-select2">
       <label for="<%- idPrefix %>-costCenter" class="control-label is-required"><%- t('PROPERTY:costCenter') %></label>
@@ -70,18 +77,18 @@
   <div class="fa-edit-row fa-edit-long">
     <div class="form-group fa-edit-short">
       <label for="<%- idPrefix %>-vendorNo" class="control-label"><%- t('PROPERTY:vendorNo') %></label>
-      <input id="<%- idPrefix %>-vendorNo" name="vendorNo" class="form-control" type="text">
+      <input id="<%- idPrefix %>-vendorNo" name="vendorNo" class="form-control" type="text" maxlength="50">
     </div>
     <div class="form-group fa-edit-flex">
       <label for="<%- idPrefix %>-vendorName" class="control-label"><%- t('PROPERTY:vendorName') %></label>
-      <input id="<%- idPrefix %>-vendorName" name="vendorName" class="form-control" type="text">
+      <input id="<%- idPrefix %>-vendorName" name="vendorName" class="form-control" type="text" maxlength="200">
     </div>
   </div>
   <% } %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-redemptionRate" class="control-label"><%- t('PROPERTY:redemptionRate') %></label>
+    <label for="<%- idPrefix %>-deprecationRate" class="control-label"><%- t('PROPERTY:deprecationRate') %></label>
     <div class="input-group">
-      <input id="<%- idPrefix %>-redemptionRate" name="redemptionRate" class="form-control text-right" type="number" min="0" max="100" style="width: 114px">
+      <input id="<%- idPrefix %>-deprecationRate" name="deprecationRate" class="form-control text-right" type="number" min="0" max="100" style="width: 114px">
       <div class="input-group-addon" style="width: 54px">%</div>
     </div>
   </div>
@@ -106,11 +113,11 @@
   <div class="fa-edit-row">
     <div class="form-group">
       <label for="<%- idPrefix %>-sapNo" class="control-label"><%- t('PROPERTY:sapNo') %></label>
-      <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text">
+      <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text" maxlength="50">
     </div>
     <div class="form-group">
       <label for="<%- idPrefix %>-accountingNo" class="control-label"><%- t('PROPERTY:accountingNo') %></label>
-      <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text">
+      <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" maxlength="50">
     </div>
   </div>
   <% files.forEach(function(file) { %>

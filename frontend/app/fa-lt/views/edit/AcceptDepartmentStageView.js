@@ -36,33 +36,42 @@ define([
 
       return [
         {
-          id: 'acceptFinance',
+          id: 'department:accept',
           className: 'btn-success',
           icon: 'fa-check'
         },
         {
-          id: 'reject',
-          className: 'btn-danger',
+          id: 'department:reject',
+          className: 'btn-warning',
           icon: 'fa-times'
+        },
+        {
+          id: 'department:cancel',
+          className: 'btn-danger',
+          icon: 'fa-thumbs-down'
         }
       ];
     },
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'acceptFinance')
+      if (action === 'department:accept')
       {
-        this.handleAcceptFinanceAction(formView);
+        this.handleAcceptAction(formView);
       }
-      else if (action === 'reject')
+      else if (action === 'department:reject')
       {
         this.handleRejectAction(formView);
       }
+      else if (action === 'department:cancel')
+      {
+        this.handleCancelAction(formView);
+      }
     },
 
-    handleAcceptFinanceAction: function(formView)
+    handleAcceptAction: function(formView)
     {
-      this.model.set('newStage', 'acceptFinance');
+      this.model.set('newStage', 'acceptDocument');
 
       formView.handleNextRequest = function()
       {
@@ -74,7 +83,19 @@ define([
 
     handleRejectAction: function(formView)
     {
-      this.model.set('newStage', 'acceptOwner');
+      this.model.set('newStage', 'acceptFinance');
+
+      formView.handleNextRequest = function()
+      {
+        formView.model.set('newStage', null);
+      };
+
+      formView.submit({toggleRequired: false});
+    },
+
+    handleCancelAction: function(formView)
+    {
+      this.model.set('newStage', 'cancelled');
 
       formView.handleNextRequest = function()
       {

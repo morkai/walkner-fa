@@ -9,7 +9,7 @@ define([
 
   return ListView.extend({
 
-    className: 'is-clickable',
+    className: 'is-clickable is-colored',
 
     events: Object.assign({
 

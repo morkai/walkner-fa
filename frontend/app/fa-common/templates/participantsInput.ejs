@@ -1,0 +1,15 @@
+<div class="form-group">
+  <label class="control-label <%- required ? 'is-required' : '' %>"><%- label %></label>
+  <table class="fa-edit-participants">
+    <tbody id="<%- idPrefix %>-participants">
+    <% if (owner) { %>
+    <tr class="fa-edit-participant">
+      <td class="fa-edit-participant-label"><%- t('fa-common', 'FORM:edit:committee:owner') %>
+      <td class="has-required-select2"><input id="<%- idPrefix %>-owner" name="owner" type="text" <%- required ? 'data-required' : '' %>>
+      <td>
+    </tr>
+    <% } %>
+    </tbody>
+  </table>
+  <button class="btn btn-link" type="button" data-action="committee:add"><i class="fa fa-plus"></i><span><%- t('fa-common', 'FORM:edit:committee:add', {count: committee.length}) %></span></button>
+</div>

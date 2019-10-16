@@ -18,7 +18,7 @@
     <label for="<%- idPrefix %>-stage"><%- t('PROPERTY:stage') %></label>
     <select id="<%- idPrefix %>-stage" class="form-control is-expandable" name="stage[]" multiple size="1" data-expanded-length="10">
       <% statuses.forEach(function(v) { %>
-      <option value="<%- v %>"><%- t('stage:' + v) %></option>
+      <option value="<%- v %>"><%- t('stage:' + v, {kind: 'unspecified'}) %></option>
       <% }) %>
     </select>
   </div>

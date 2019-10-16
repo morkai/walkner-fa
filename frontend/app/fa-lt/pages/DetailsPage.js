@@ -31,11 +31,14 @@ define([
     {
       var actions = DetailsPage.prototype.actions.apply(this, arguments);
 
-      actions.unshift({
-        icon: 'print',
-        label: this.t('PAGE_ACTION:printDocument'),
-        callback: this.printDocument.bind(this)
-      });
+      if (this.model.get('stage') !== 'cancelled')
+      {
+        actions.unshift({
+          icon: 'print',
+          label: this.t('PAGE_ACTION:printDocument'),
+          callback: this.printDocument.bind(this)
+        });
+      }
 
       return actions;
     },

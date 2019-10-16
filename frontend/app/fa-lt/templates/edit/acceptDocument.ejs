@@ -1,4 +1,4 @@
-<div class="fa-edit-stage" data-stage="record">
+<div class="fa-edit-stage" data-stage="acceptDocument">
   <%- helpers.props(details, [
     '!kind',
     {id: 'mergeInventoryNo', visible: kind === 'merge', valueClassName: 'text-fixed'},
@@ -7,7 +7,6 @@
     {id: 'protocolNo', valueClassName: 'text-fixed'},
     'protocolDate',
     {id: 'documentNo', valueClassName: 'text-fixed'},
-    'documentDate',
     'assetName',
     {id: 'inventoryNo', valueClassName: 'text-fixed'},
     {id: 'costCenter', valueClassName: 'text-fixed'},
@@ -35,15 +34,23 @@
     'economicInitialValue',
     'economicDeprecationValue',
     'economicNetValue',
-    {id: 'sapNo', valueClassName: 'text-fixed'},
-    {id: 'buyerName', visible: kind === 'sale'},
-    {id: 'buyerAddress', visible: kind === 'sale', valueClassName: 'text-lines'},
-    {id: 'saleValue', visible: kind === 'sale'}
+    {id: 'sapNo', valueClassName: 'text-fixed'}
   ]) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-accountingNo" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
-    <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" data-required>
+    <label for="<%- idPrefix %>-documentDate" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
+    <input id="<%- idPrefix %>-documentDate" name="documentDate" class="form-control fa-edit-short" type="date" data-required>
   </div>
+  <% if (kind === 'sale') { %>
+    <div class="form-group">
+      <label for="<%- idPrefix %>-buyerName" class="control-label is-required"><%- t('PROPERTY:buyerName') %></label>
+      <input id="<%- idPrefix %>-buyerName" class="form-control fa-edit-long" name="buyerName" data-required>
+    </div>
+    <div class="form-group">
+      <label for="<%- idPrefix %>-buyerAddress" class="control-label"><%- t('PROPERTY:buyerAddress') %></label>
+      <textarea id="<%- idPrefix %>-buyerAddress" class="form-control fa-edit-long" name="buyerAddress" rows="3"></textarea>
+    </div>
+    <div id="<%- idPrefix %>-saleValue" style="margin-bottom: 15px"></div>
+  <% } %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
     <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>

@@ -4,16 +4,18 @@ define([
   './ProtocolStageView',
   './VerifyStageView',
   './AcceptOwnerStageView',
-  './AcceptDepartmentStageView',
   './AcceptFinanceStageView',
+  './AcceptDepartmentStageView',
+  './AcceptDocumentStageView',
   './RecordStageView',
   './FinishedStageView'
 ], function(
   ProtocolStageView,
   VerifyStageView,
   AcceptOwnerStageView,
-  AcceptDepartmentStageView,
   AcceptFinanceStageView,
+  AcceptDepartmentStageView,
+  AcceptDocumentStageView,
   RecordStageView,
   FinishedStageView
 ) {
@@ -23,8 +25,9 @@ define([
     protocol: ProtocolStageView,
     verify: VerifyStageView,
     acceptOwner: AcceptOwnerStageView,
-    acceptDepartment: AcceptDepartmentStageView,
     acceptFinance: AcceptFinanceStageView,
+    acceptDepartment: AcceptDepartmentStageView,
+    acceptDocument: AcceptDocumentStageView,
     record: RecordStageView,
     finished: FinishedStageView
   };

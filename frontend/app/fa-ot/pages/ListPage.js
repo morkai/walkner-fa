@@ -24,10 +24,17 @@ define([
 
       return [
         pageActions.jump(page, page.collection, {
-          pattern: '^(OT\/)?[0-9]{1,4}\/[0-9]{1,2}/[0-9]{4}$',
+          pattern: '^(P?OT\/)?[0-9]{1,4}\/[0-9]{1,2}/[0-9]{4}$',
           prepareValue: function(value)
           {
-            return value.trim().replace('OT/', '');
+            value = value.trim().toUpperCase();
+
+            if (!/OT/.test(value))
+            {
+              value = 'OT/' + value;
+            }
+
+            return value;
           }
         }),
         pageActions.export(layout, page, page.collection, false),

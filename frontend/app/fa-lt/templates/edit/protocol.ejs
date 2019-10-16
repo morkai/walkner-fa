@@ -4,19 +4,19 @@
     {id: 'mergeInventoryNo', visible: kind === 'merge'},
     {id: 'mergeLineSymbol', visible: kind === 'merge'},
     {id: 'mergeType', visible: kind === 'merge'},
-    'no'
+    {id: 'protocolNo', valueClassName: 'text-fixed'}
   ]) %>
-  <div class="form-group fa-edit-short">
-    <label for="<%- idPrefix %>-date" class="control-label is-required"><%- t('PROPERTY:date') %></label>
-    <input id="<%- idPrefix %>-date" name="date" class="form-control fa-edit-long" type="date" data-required>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-protocolDate" class="control-label is-required"><%- t('PROPERTY:protocolDate') %></label>
+    <input id="<%- idPrefix %>-protocolDate" name="protocolDate" class="form-control fa-edit-short" type="date" data-required>
   </div>
   <div class="form-group fa-edit-short">
     <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
-    <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" data-required>
+    <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" data-required maxlength="50">
   </div>
   <div class="form-group fa-edit-long">
     <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
-    <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control" type="text" data-required>
+    <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control" type="text" data-required maxlength="200">
   </div>
   <div class="form-group fa-edit-short has-required-select2">
     <label for="<%- idPrefix %>-costCenter" class="control-label is-required"><%- t('PROPERTY:costCenter') %></label>

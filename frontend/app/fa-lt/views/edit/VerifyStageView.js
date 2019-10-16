@@ -37,6 +37,11 @@ define([
           required: false,
           model: view.model
         }),
+        economicInitialValue: new ValueInputView({
+          property: 'economicInitialValue',
+          required: true,
+          model: view.model
+        }),
         economicDeprecationValue: new ValueInputView({
           property: 'economicDeprecationValue',
           required: false,
@@ -57,7 +62,7 @@ define([
 
       view.listenTo(view.valueViews.initialValue, 'change', view.updateFiscalNetValue);
       view.listenTo(view.valueViews.deprecationValue, 'change', view.updateFiscalNetValue);
-      view.listenTo(view.valueViews.initialValue, 'change', view.updateEconomicNetValue);
+      view.listenTo(view.valueViews.economicInitialValue, 'change', view.updateEconomicNetValue);
       view.listenTo(view.valueViews.economicDeprecationValue, 'change', view.updateEconomicNetValue);
     },
 
@@ -87,7 +92,7 @@ define([
         },
         {
           id: 'reject',
-          className: 'btn-danger',
+          className: 'btn-warning',
           icon: 'fa-times'
         }
       ];
@@ -145,7 +150,9 @@ define([
     {
       var view = this;
       var data = {
-        comment: (formData.comment || '').trim()
+        comment: (formData.comment || '').trim(),
+        assetName: (formData.assetName || '').trim(),
+        sapNo: (formData.sapNo || '').trim()
       };
 
       Object.keys(view.valueViews).forEach(function(prop)
@@ -169,9 +176,9 @@ define([
     {
       var formData = {};
 
-      this.valueViews.initialValue.serializeForm(formData);
+      this.valueViews.economicInitialValue.serializeForm(formData);
       this.valueViews.economicDeprecationValue.serializeForm(formData);
-      this.valueViews.economicNetValue.setValue(formData.initialValue - formData.economicDeprecationValue);
+      this.valueViews.economicNetValue.setValue(formData.economicInitialValue - formData.economicDeprecationValue);
     }
 
   });

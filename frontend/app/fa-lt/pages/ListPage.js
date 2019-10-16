@@ -24,10 +24,17 @@ define([
 
       return [
         pageActions.jump(page, page.collection, {
-          pattern: '^(LT\/)?[0-9]{1,4}\/[0-9]{1,2}/[0-9]{4}$',
+          pattern: '^((PZ|LT|PT)\/)?[0-9]{1,4}\/[0-9]{1,2}/[0-9]{4}$',
           prepareValue: function(value)
           {
-            return value.trim().replace('LT/', '');
+            value = value.trim().toUpperCase();
+
+            if (/^[0-9]/.test(value))
+            {
+              value = 'LT/' + value;
+            }
+
+            return value;
           }
         }),
         pageActions.export(layout, page, page.collection, false),
