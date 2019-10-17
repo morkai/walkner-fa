@@ -2,20 +2,20 @@
 
 define([
   'app/time',
-  'app/core/View',
   'app/core/util/idAndLabel',
   'app/users/util/setUpUserSelect2',
   'app/fa-common/dictionaries',
+  'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
   'app/fa-common/views/ParticipantsInputView',
   'app/fa-lt/FaLt',
   'app/fa-lt/templates/edit/finished'
 ], function(
   time,
-  View,
   idAndLabel,
   setUpUserSelect2,
   dictionaries,
+  StageView,
   ValueInputView,
   ParticipantsInputView,
   FaLt,
@@ -23,7 +23,7 @@ define([
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -32,6 +32,8 @@ define([
     initialize: function()
     {
       var view = this;
+
+      StageView.prototype.initialize.apply(view, arguments);
 
       view.participantsView = new ParticipantsInputView({
         model: view.model,
@@ -97,7 +99,7 @@ define([
     getTemplateData: function()
     {
       var lt = this.model;
-      var files = [];
+      var files = ['attachment'];
 
       return {
         mergeTypes: FaLt.MERGE_TYPES,

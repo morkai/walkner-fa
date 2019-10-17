@@ -7,7 +7,7 @@
     <label class="control-label"><%- t('PROPERTY:protocolDate') %></label>
     <p class="form-control-static"><%- details.protocolDate %></p>
   </div>
-  <% if (commissioningType === 'inc-asset') { %>
+  <% if (model.commissioningType === 'inc-asset') { %>
   <div class="form-group">
     <label class="control-label"><%- t('PROPERTY:inventoryNo') %></label>
     <p class="form-control-static"><%= details.inventoryNo || '-' %></p>
@@ -17,7 +17,7 @@
     <label class="control-label"><%- t('PROPERTY:assetName') %></label>
     <p class="form-control-static"><%= details.assetName %></p>
   </div>
-  <% if (usageDestination === 'factory') { %>
+  <% if (model.usageDestination === 'factory') { %>
   <div class="form-group">
     <label class="control-label"><%- t('PROPERTY:lineSymbol') %></label>
     <p class="form-control-static"><%= details.lineSymbol || '-' %></p>
@@ -25,19 +25,7 @@
   <% } %>
   <div class="form-group">
     <label class="control-label"><%- t('PROPERTY:zplx') %></label>
-    <ul>
-      <% details.zplx.forEach(function(zplx) { %>
-      <li>
-        <span class="text-fixed">ZPLX<%- zplx.code %></span>
-        <% if (zplx.value) { %>
-        (<%- zplx.value %>)
-        <% } %>
-        <% if (zplx.auc) { %>
-        [<span class="text-fixed"><%= zplx.auc %></span>]
-        <% } %>
-      </li>
-      <% }) %>
-    </ul>
+    <%- helpers.fa.zplxList(details.zplx, true) %>
   </div>
   <p class="fa-ot-protocol-statement">
     <span class="fa-ot-protocol-statement-hd"><%- t('protocol:statement:hd') %></span>
@@ -46,42 +34,27 @@
   <div class="form-group">
     <label class="control-label"><%- t('protocol:participants') %></label>
     <ul>
-      <li><%- t('FORM:edit:committee:owner') %> <%- details.owner %></li>
+      <li><%- t('fa-common', 'FORM:edit:committee:owner') %> <%- details.owner %></li>
       <% details.committee.forEach(function(user, i) { %>
-      <li><%- t('FORM:edit:committee:person', {no: i + 1}) %> <%- user %></li>
+      <li><%- t('fa-common', 'FORM:edit:committee:person', {no: i + 1}) %> <%- user %></li>
       <% }) %>
     </ul>
   </div>
-  <% if (commissioningType === 'new-asset') { %>
+  <% if (model.commissioningType === 'new-asset') { %>
   <div class="form-group">
     <label class="control-label"><%- t('PROPERTY:supplier') %></label>
     <p class="form-control-static"><%= details.supplier %></p>
   </div>
   <% } %>
-  <div class="form-group fa-edit-long">
-    <label for="<%- idPrefix %>-protocolFile" class="control-label is-required"><%- t('PROPERTY:protocolFile') %></label>
-    <table class="fa-edit-attachment">
-      <tbody>
-      <tr>
-        <td class="is-min" style="padding: 0 10px 5px 0"><%- t('FORM:edit:attachment:old') %></td>
-        <td style="padding-bottom: 5px">
-          <% if (details.protocolFile) { %>
-            <a href="/fa/ot/<%- details._id %>/attachments/protocol" target="_blank"><%= details.protocolFile.name %></a>
-          <% } else { %>
-            <%- t('FORM:edit:attachment:empty') %>
-          <% } %>
-        </td>
-      </tr>
-      <tr>
-        <td class="is-min" style="padding-right: 10px"><%- t('FORM:edit:attachment:new') %></td>
-        <td><input id="<%- idPrefix %>-protocolFile" name="protocolFile" class="form-control" type="file" <%- details.protocolFile ? '' : 'data-required' %>></td>
-      </tr>
-      </tbody>
-    </table>
-    <% if (details.protocolFile) { %>
-    <p class="help-block"><%- t('FORM:edit:attachment:help') %></p>
-    <% } %>
-  </div>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'protocol',
+    help: false,
+    required: true
+  }) %>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'attachment',
+    help: !!model.protocolFile
+  }) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
     <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>

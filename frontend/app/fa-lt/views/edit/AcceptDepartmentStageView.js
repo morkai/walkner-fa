@@ -1,15 +1,15 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
-  'app/core/View',
+  'app/fa-common/views/StageView',
   'app/fa-lt/templates/edit/acceptStage'
 ], function(
-  View,
+  StageView,
   template
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -17,13 +17,10 @@ define([
 
     getTemplateData: function()
     {
-      var lt = this.model;
-
       return {
         stage: 'acceptDepartment',
-        url: lt.url(),
-        kind: lt.get('kind'),
-        details: lt.serializeDetails()
+        model: this.model.toJSON(),
+        details: this.model.serializeDetails()
       };
     },
 

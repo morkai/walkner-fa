@@ -1,17 +1,17 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
-  'app/core/View',
+  'app/fa-common/views/StageView',
   'app/fa-common/views/ParticipantsInputView',
   'app/fa-lt/templates/edit/acceptOwner'
 ], function(
-  View,
+  StageView,
   ParticipantsInputView,
   template
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -19,6 +19,8 @@ define([
 
     initialize: function()
     {
+      StageView.prototype.initialize.apply(this, arguments);
+
       this.participantsView = new ParticipantsInputView({
         model: this.model,
         owner: false,
@@ -30,12 +32,9 @@ define([
 
     getTemplateData: function()
     {
-      var lt = this.model;
-
       return {
-        url: lt.url(),
-        kind: lt.get('kind'),
-        details: lt.serializeDetails()
+        model: this.model.toJSON(),
+        details: this.model.serializeDetails()
       };
     },
 

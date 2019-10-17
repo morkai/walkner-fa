@@ -17,6 +17,7 @@
   "FORM:ACTION:reject": "Odrzuć",
   "FORM:ACTION:verify": "Do weryfikacji",
   "FORM:ACTION:acceptOwner": "Weryfikuj",
+  "FORM:ACTION:acceptFinance": "Akceptuj",
   "FORM:ACTION:finance:accept": "Akceptuj",
   "FORM:ACTION:finance:reject": "Do ponownej weryfikacji",
   "FORM:ACTION:finance:cancel": "Brak zgody",
@@ -75,7 +76,7 @@
   "PROPERTY:saleValue": "Wartość sprzedaży",
   "PROPERTY:sapNo": "Nr SAP",
   "PROPERTY:accountingNo": "Nr księgowy",
-  "PROPERTY:attachment": "Załącznik",
+  "PROPERTY:attachmentFile": "Załącznik",
   "PROPERTY:comment": "Komentarz",
 
   "kind:scrap": "Złomowanie",

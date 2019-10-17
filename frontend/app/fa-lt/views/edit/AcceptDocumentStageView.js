@@ -2,18 +2,18 @@
 
 define([
   'app/time',
-  'app/core/View',
+  'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
   'app/fa-lt/templates/edit/acceptDocument'
 ], function(
   time,
-  View,
+  StageView,
   ValueInputView,
   template
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -22,6 +22,8 @@ define([
     initialize: function()
     {
       var view = this;
+
+      StageView.prototype.initialize.apply(view, arguments);
 
       view.saleValueView = view.model.get('kind') !== 'sale' ? null : new ValueInputView({
         property: 'saleValue',
@@ -36,12 +38,9 @@ define([
 
     getTemplateData: function()
     {
-      var lt = this.model;
-
       return {
-        url: lt.url(),
-        kind: lt.get('kind'),
-        details: lt.serializeDetails()
+        model: this.model.toJSON(),
+        details: this.model.serializeDetails()
       };
     },
 

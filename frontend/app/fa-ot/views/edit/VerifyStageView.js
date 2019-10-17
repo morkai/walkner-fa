@@ -1,23 +1,23 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
-  'app/core/View',
   'app/core/util/idAndLabel',
   'app/fa-common/dictionaries',
+  'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
   './ZplxInputView',
   'app/fa-ot/templates/edit/verify'
 ], function(
-  View,
   idAndLabel,
   dictionaries,
+  StageView,
   ValueInputView,
   ZplxInputView,
   template
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -64,6 +64,8 @@ define([
 
     initialize: function()
     {
+      StageView.prototype.initialize.apply(this, arguments);
+
       this.zplxView = new ZplxInputView({
         model: this.model,
         readOnly: true,
@@ -81,14 +83,9 @@ define([
 
     getTemplateData: function()
     {
-      var ot = this.model;
-
       return {
-        url: ot.url(),
-        protocolNeeded: ot.get('protocolNeeded'),
-        commissioningType: ot.get('commissioningType'),
-        usageDestination: ot.get('usageDestination'),
-        details: ot.serializeDetails()
+        model: this.model.toJSON(),
+        details: this.model.serializeDetails()
       };
     },
 

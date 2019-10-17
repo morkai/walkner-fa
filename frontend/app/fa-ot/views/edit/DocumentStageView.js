@@ -2,24 +2,24 @@
 
 define([
   'app/time',
-  'app/core/View',
   'app/core/util/idAndLabel',
   'app/fa-common/dictionaries',
+  'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
   './ZplxInputView',
   'app/fa-ot/templates/edit/document'
 ], function(
   time,
-  View,
   idAndLabel,
   dictionaries,
+  StageView,
   ValueInputView,
   ZplxInputView,
   template
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -27,6 +27,8 @@ define([
 
     initialize: function()
     {
+      StageView.prototype.initialize.apply(this, arguments);
+
       this.zplxView = new ZplxInputView({model: this.model});
       this.valueView = new ValueInputView({model: this.model});
 

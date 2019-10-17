@@ -3,57 +3,22 @@
     '!protocolNeeded',
     '!commissioningType',
     '!usageDestination',
-    {id: '!protocolDate', visible: protocolNeeded},
-    {id: 'protocolNo', visible: protocolNeeded, valueClassName: 'text-fixed'},
-    '!documentDate',
+    {id: 'protocolNo', visible: model.protocolNeeded, valueClassName: 'text-fixed'},
+    {id: '!protocolDate', visible: model.protocolNeeded},
     {id: 'documentNo', valueClassName: 'text-fixed'},
-    {id: 'lineSymbol', visible: usageDestination === 'factory', valueClassName: 'text-fixed'},
-    {id: '!owner', visible: protocolNeeded},
-    {id: '!committee', visible: protocolNeeded, value: function(users)
-    {
-      if (users.length === 0)
-      {
-        return '';
-      }
-
-      if (users.length === 1)
-      {
-        return users[0];
-      }
-
-      return '<ul>'
-        + users.map(function(user) { return '<li>' + user; }).join('')
-        + '</ul>';
-    }},
+    '!documentDate',
+    {id: 'lineSymbol', visible: model.usageDestination === 'factory', valueClassName: 'text-fixed'},
+    {id: '!owner', visible: model.protocolNeeded},
+    helpers.fa.committeeProp({visible: model.protocolNeeded}),
     'supplier',
     'value',
     {id: 'costCenter', valueClassName: 'text-fixed'},
-    {id: 'vendorNo', visible: usageDestination === 'external-supplier', valueClassName: 'text-fixed'},
-    {id: 'vendorName', visible: usageDestination === 'external-supplier'},
-    {id: '!protocolFile', visible: protocolNeeded, value: function(file)
-    {
-      return file
-        ? ('<a href="' + url + '/attachments/protocol" target="_blank">' + _.escape(file.name) + '</a>')
-        : t('FORM:edit:attachment:empty');
-    }},
-    {id: '!checklistFile', value: function(file)
-    {
-      return file
-        ? ('<a href="' + url + '/attachments/checklist" target="_blank">' + _.escape(file.name) + '</a>')
-        : t('FORM:edit:attachment:empty');
-    }},
-    {id: '!certificateFile', visible: usageDestination === 'external-supplier', value: function(file)
-    {
-      return file
-        ? ('<a href="' + url + '/attachments/certificate" target="_blank">' + _.escape(file.name) + '</a>')
-        : t('FORM:edit:attachment:empty');
-    }},
-    {id: '!nameplateFile', visible: usageDestination === 'external-supplier', value: function(file)
-    {
-      return file
-        ? ('<a href="' + url + '/attachments/nameplate" target="_blank">' + _.escape(file.name) + '</a>')
-        : t('FORM:edit:attachment:empty');
-    }}
+    {id: 'vendorNo', visible: model.usageDestination === 'external-supplier', valueClassName: 'text-fixed'},
+    {id: 'vendorName', visible: model.usageDestination === 'external-supplier'},
+    helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded}),
+    helpers.fa.attachmentProp({name: 'checklist'}),
+    helpers.fa.attachmentProp({name: 'certificate', visible: model.usageDestination === 'external-supplier'}),
+    helpers.fa.attachmentProp({name: 'nameplate', visible: model.usageDestination === 'external-supplier'})
   ]) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
@@ -94,6 +59,7 @@
       <div class="input-group-addon"><%- t('fa-common', 'unit:month') %></div>
     </div>
   </div>
+  <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
     <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>

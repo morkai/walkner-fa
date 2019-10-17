@@ -3,23 +3,23 @@
 define([
   'app/time',
   'app/user',
-  'app/core/View',
   'app/core/util/idAndLabel',
   'app/users/util/setUpUserSelect2',
   'app/fa-common/dictionaries',
+  'app/fa-common/views/StageView',
   'app/fa-lt/templates/edit/protocol'
 ], function(
   time,
   user,
-  View,
   idAndLabel,
   setUpUserSelect2,
   dictionaries,
+  StageView,
   template
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -28,7 +28,7 @@ define([
     getTemplateData: function()
     {
       return {
-        kind: this.model.get('kind'),
+        model: this.model.toJSON(),
         details: this.model.serializeDetails()
       };
     },

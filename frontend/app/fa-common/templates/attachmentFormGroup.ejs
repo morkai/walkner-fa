@@ -1,0 +1,24 @@
+<div class="form-group fa-edit-long" style="<%- style %>">
+  <label for="<%- idPrefix %>-<%- property %>" class="control-label <%- required ? 'is-required' : '' %>"><%- t('PROPERTY:' + property) %></label>
+  <table class="fa-edit-attachment">
+    <tbody>
+    <tr>
+      <td class="is-min" style="padding: 0 10px 5px 0"><%- t('FORM:edit:attachment:old') %></td>
+      <td style="padding-bottom: 5px">
+        <% if (file) { %>
+        <a href="<%- url %>" target="_blank"><%= file.name %></a>
+        <% } else { %>
+        <%- t('FORM:edit:attachment:empty') %>
+        <% } %>
+      </td>
+    </tr>
+    <tr>
+      <td class="is-min" style="padding-right: 10px"><%- t('FORM:edit:attachment:new') %></td>
+      <td><input id="<%- idPrefix %>-<%- property %>" name="<%- property %>" class="form-control" type="file" <%- required && !file ? 'data-required' : '' %>></td>
+    </tr>
+    </tbody>
+  </table>
+  <% if (help && file) { %>
+  <p class="help-block"><%- t('FORM:edit:attachment:help') %></p>
+  <% } %>
+</div>

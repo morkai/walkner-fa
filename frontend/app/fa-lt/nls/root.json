@@ -17,6 +17,7 @@
     "FORM:ACTION:print": "Printable version",
     "FORM:ACTION:verify": "Verify",
     "FORM:ACTION:acceptOwner": "Accept",
+    "FORM:ACTION:acceptFinance": "Accept",
     "FORM:ACTION:finance:accept": "Accept",
     "FORM:ACTION:finance:reject": "To re-verification",
     "FORM:ACTION:finance:cancel": "No consent",
@@ -74,7 +75,7 @@
     "PROPERTY:saleValue": "Sale value",
     "PROPERTY:sapNo": "SAP no",
     "PROPERTY:accountingNo": "Accounting no",
-    "PROPERTY:attachment": "Attachment",
+    "PROPERTY:attachmentFile": "Attachment",
     "PROPERTY:comment": "Comment",
 
     "kind:scrap": "Scrapping",

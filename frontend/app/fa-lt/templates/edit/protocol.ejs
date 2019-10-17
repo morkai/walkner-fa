@@ -1,9 +1,9 @@
 <div class="fa-edit-stage" data-stage="protocol">
   <%- helpers.props(details, [
     '!kind',
-    {id: 'mergeInventoryNo', visible: kind === 'merge'},
-    {id: 'mergeLineSymbol', visible: kind === 'merge'},
-    {id: 'mergeType', visible: kind === 'merge'},
+    {id: 'mergeInventoryNo', visible: model.kind === 'merge'},
+    {id: 'mergeLineSymbol', visible: model.kind === 'merge'},
+    {id: 'mergeType', visible: model.kind === 'merge'},
     {id: 'protocolNo', valueClassName: 'text-fixed'}
   ]) %>
   <div class="form-group">
@@ -30,6 +30,7 @@
     <label for="<%- idPrefix %>-cause" class="control-label is-required"><%- t('PROPERTY:cause') %></label>
     <textarea id="<%- idPrefix %>-cause" name="cause" class="form-control" rows="3" data-required></textarea>
   </div>
+  <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
     <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>

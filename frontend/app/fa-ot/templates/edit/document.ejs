@@ -3,32 +3,12 @@
     '!protocolNeeded',
     '!commissioningType',
     '!usageDestination',
-    {id: '!protocolDate', visible: model.protocolNeeded},
     {id: 'protocolNo', visible: model.protocolNeeded, valueClassName: 'text-fixed'},
+    {id: '!protocolDate', visible: model.protocolNeeded},
     {id: 'documentNo', valueClassName: 'text-fixed'},
     {id: '!owner', visible: model.protocolNeeded},
-    {id: '!committee', visible: model.protocolNeeded, value: function(users)
-    {
-      if (users.length === 0)
-      {
-        return '';
-      }
-
-      if (users.length === 1)
-      {
-        return users[0];
-      }
-
-      return '<ul>'
-        + users.map(function(user) { return '<li>' + user; }).join('')
-        + '</ul>';
-    }},
-    {id: '!protocolFile', visible: model.protocolNeeded, value: function(file)
-    {
-      return file
-        ? ('<a href="' + details.url + '/attachments/protocol" target="_blank">' + _.escape(file.name) + '</a>')
-        : t('FORM:edit:attachment:empty');
-    }}
+    helpers.fa.committeeProp({visible: model.protocolNeeded}),
+    helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded})
   ]) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-documentDate" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
@@ -74,82 +54,31 @@
     </div>
   </div>
   <% } %>
-  <div class="form-group fa-edit-long">
-    <label for="<%- idPrefix %>-checklistFile" class="control-label is-required"><%- t('PROPERTY:checklistFile') %></label>
-    <table class="fa-edit-attachment">
-      <tbody>
-      <tr>
-        <td class="is-min" style="padding: 0 10px 5px 0"><%- t('FORM:edit:attachment:old') %></td>
-        <td style="padding-bottom: 5px">
-          <% if (model.checklistFile) { %>
-          <a href="/fa/ot/<%- model._id %>/attachments/checklist" target="_blank"><%= model.checklistFile.name %></a>
-          <% } else { %>
-          <%- t('FORM:edit:attachment:empty') %>
-          <% } %>
-        </td>
-      </tr>
-      <tr>
-        <td class="is-min" style="padding-right: 10px"><%- t('FORM:edit:attachment:new') %></td>
-        <td><input id="<%- idPrefix %>-checklistFile" name="checklistFile" class="form-control" type="file" <%- model.checklistFile ? '' : 'data-required' %>></td>
-      </tr>
-      </tbody>
-    </table>
-    <% if (model.usageDestination === 'factory' && model.checklistFile) { %>
-    <p class="help-block"><%- t('FORM:edit:attachment:help') %></p>
-    <% } %>
-  </div>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'checklist',
+    help: false,
+    required: true
+  }) %>
   <% if (model.usageDestination === 'external-supplier') { %>
-  <div class="form-group fa-edit-long">
-    <label for="<%- idPrefix %>-certificateFile" class="control-label is-required"><%- t('PROPERTY:certificateFile') %></label>
-    <table class="fa-edit-attachment">
-      <tbody>
-      <tr>
-        <td class="is-min" style="padding: 0 10px 5px 0"><%- t('FORM:edit:attachment:old') %></td>
-        <td style="padding-bottom: 5px">
-          <% if (model.certificateFile) { %>
-          <a href="/fa/ot/<%- model._id %>/attachments/certificate" target="_blank"><%= model.certificateFile.name %></a>
-          <% } else { %>
-          <%- t('FORM:edit:attachment:empty') %>
-          <% } %>
-        </td>
-      </tr>
-      <tr>
-        <td class="is-min" style="padding-right: 10px"><%- t('FORM:edit:attachment:new') %></td>
-        <td><input id="<%- idPrefix %>-certificateFile" name="certificateFile" class="form-control" type="file" <%- model.certificateFile ? '' : 'data-required' %>></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="form-group fa-edit-long">
-    <label for="<%- idPrefix %>-nameplateFile" class="control-label"><%- t('PROPERTY:nameplateFile') %></label>
-    <table class="fa-edit-attachment">
-      <tbody>
-      <tr>
-        <td class="is-min" style="padding: 0 10px 5px 0"><%- t('FORM:edit:attachment:old') %></td>
-        <td style="padding-bottom: 5px">
-          <% if (model.nameplateFile) { %>
-          <a href="/fa/ot/<%- model._id %>/attachments/nameplate" target="_blank"><%= model.nameplateFile.name %></a>
-          <% } else { %>
-          <%- t('FORM:edit:attachment:empty') %>
-          <% } %>
-        </td>
-      </tr>
-      <tr>
-        <td class="is-min" style="padding-right: 10px"><%- t('FORM:edit:attachment:new') %></td>
-        <td><input id="<%- idPrefix %>-nameplateFile" name="nameplateFile" class="form-control" type="file"></td>
-      </tr>
-      </tbody>
-    </table>
-    <% if (model.checklistFile || model.certificateFile || model.nameplateFile) { %>
-    <p class="help-block"><%- t('FORM:edit:attachment:help') %></p>
-    <% } %>
-  </div>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'certificate',
+    help: false,
+    required: true
+  }) %>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'nameplate',
+    help: false
+  }) %>
   <% } %>
   <% if (model.usageDestination === 'external-supplier' && !model.nameplateFile) { %>
   <div class="message message-inline message-warning">
     <p><%- t('FORM:edit:comment:nameplate') %></p>
   </div>
   <% } %>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'attachment',
+    help: !!(model.checklistFile || model.certificateFile || model.nameplateFile)
+  }) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
     <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>

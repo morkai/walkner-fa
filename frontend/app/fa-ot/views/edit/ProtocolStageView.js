@@ -2,20 +2,20 @@
 
 define([
   'app/time',
-  'app/core/View',
+  'app/fa-common/views/StageView',
   'app/fa-common/views/ParticipantsInputView',
   './ZplxInputView',
   'app/fa-ot/templates/edit/protocol'
 ], function(
   time,
-  View,
+  StageView,
   ParticipantsInputView,
   ZplxInputView,
   template
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -23,6 +23,8 @@ define([
 
     initialize: function()
     {
+      StageView.prototype.initialize.apply(this, arguments);
+
       this.zplxView = new ZplxInputView({model: this.model});
       this.participantsView = new ParticipantsInputView({
         model: this.model,
@@ -35,13 +37,8 @@ define([
 
     getTemplateData: function()
     {
-      var ot = this.model;
-
       return {
-        documentId: ot.id,
-        commissioningType: ot.get('commissioningType'),
-        usageDestination: ot.get('usageDestination'),
-        protocolFile: ot.get('protocolFile')
+        model: this.model.toJSON()
       };
     },
 

@@ -1,17 +1,17 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
-  'app/core/View',
+  'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
   'app/fa-lt/templates/edit/verify'
 ], function(
-  View,
+  StageView,
   ValueInputView,
   template
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -20,6 +20,8 @@ define([
     initialize: function()
     {
       var view = this;
+
+      StageView.prototype.initialize.apply(view, arguments);
 
       view.valueViews = {
         initialValue: new ValueInputView({
@@ -68,12 +70,9 @@ define([
 
     getTemplateData: function()
     {
-      var lt = this.model;
-
       return {
-        url: lt.url(),
-        kind: lt.get('kind'),
-        details: lt.serializeDetails()
+        model: this.model.toJSON(),
+        details: this.model.serializeDetails()
       };
     },
 

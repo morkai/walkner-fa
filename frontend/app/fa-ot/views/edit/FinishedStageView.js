@@ -2,9 +2,9 @@
 
 define([
   'app/time',
-  'app/core/View',
   'app/core/util/idAndLabel',
   'app/fa-common/dictionaries',
+  'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
   'app/fa-common/views/ParticipantsInputView',
   './ZplxInputView',
@@ -12,9 +12,9 @@ define([
   'app/fa-ot/templates/edit/finished'
 ], function(
   time,
-  View,
   idAndLabel,
   dictionaries,
+  StageView,
   ValueInputView,
   ParticipantsInputView,
   ZplxInputView,
@@ -23,7 +23,7 @@ define([
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -33,6 +33,8 @@ define([
 
     initialize: function()
     {
+      StageView.prototype.initialize.apply(this, arguments);
+
       this.zplxView = new ZplxInputView({model: this.model, auc: true});
       this.participantsView = new ParticipantsInputView({
         model: this.model,
@@ -53,24 +55,26 @@ define([
 
     getTemplateData: function()
     {
-      var ot = this.model;
+      var model = this.model;
       var files = [];
 
-      if (ot.get('protocolNeeded'))
+      if (model.get('protocolNeeded'))
       {
         files.push('protocol');
       }
 
       files.push('checklist');
 
-      if (ot.get('usageDestination') === 'external-supplier')
+      if (model.get('usageDestination') === 'external-supplier')
       {
         files.push('certificate', 'nameplate');
       }
 
+      files.push('attachment');
+
       return {
-        model: ot.toJSON(),
-        details: ot.serializeDetails(),
+        model: model.toJSON(),
+        details: model.serializeDetails(),
         files: files
       };
     },

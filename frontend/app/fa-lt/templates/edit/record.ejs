@@ -1,9 +1,9 @@
 <div class="fa-edit-stage" data-stage="record">
   <%- helpers.props(details, [
     '!kind',
-    {id: 'mergeInventoryNo', visible: kind === 'merge', valueClassName: 'text-fixed'},
-    {id: 'mergeLineSymbol', visible: kind === 'merge', valueClassName: 'text-fixed'},
-    {id: 'mergeType', visible: kind === 'merge'},
+    {id: 'mergeInventoryNo', visible: model.kind === 'merge', valueClassName: 'text-fixed'},
+    {id: 'mergeLineSymbol', visible: model.kind === 'merge', valueClassName: 'text-fixed'},
+    {id: 'mergeType', visible: model.kind === 'merge'},
     {id: 'protocolNo', valueClassName: 'text-fixed'},
     'protocolDate',
     {id: 'documentNo', valueClassName: 'text-fixed'},
@@ -12,22 +12,7 @@
     {id: 'inventoryNo', valueClassName: 'text-fixed'},
     {id: 'costCenter', valueClassName: 'text-fixed'},
     {id: '!applicant'},
-    {id: '!committee', value: function(users)
-    {
-      if (users.length === 0)
-      {
-        return '';
-      }
-
-      if (users.length === 1)
-      {
-        return users[0];
-      }
-
-      return '<ul>'
-        + users.map(function(user) { return '<li>' + user; }).join('')
-        + '</ul>';
-    }},
+    helpers.fa.committeeProp(),
     {id: 'cause', valueClassName: 'text-lines'},
     'initialValue',
     'deprecationValue',
@@ -36,14 +21,15 @@
     'economicDeprecationValue',
     'economicNetValue',
     {id: 'sapNo', valueClassName: 'text-fixed'},
-    {id: 'buyerName', visible: kind === 'sale'},
-    {id: 'buyerAddress', visible: kind === 'sale', valueClassName: 'text-lines'},
-    {id: 'saleValue', visible: kind === 'sale'}
+    {id: 'buyerName', visible: model.kind === 'sale'},
+    {id: 'buyerAddress', visible: model.kind === 'sale', valueClassName: 'text-lines'},
+    {id: 'saleValue', visible: model.kind === 'sale'}
   ]) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-accountingNo" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
     <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" data-required>
   </div>
+  <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
     <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>

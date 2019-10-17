@@ -63,6 +63,7 @@
   "PROPERTY:checklistFile": "Checklista",
   "PROPERTY:certificateFile": "Certyfikat",
   "PROPERTY:nameplateFile": "Tabliczka znamionowa",
+  "PROPERTY:attachmentFile": "Załącznik",
   "PROPERTY:deprecationRate": "Stopa % umorzenia",
   "PROPERTY:economicPeriod": "Okres amortyzacji ekonomicznej",
   "PROPERTY:fiscalPeriod": "Okres amortyzacji fiskalnej",

@@ -2,15 +2,15 @@
   <div class="col-md-6" style="margin-bottom: 20px">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <span class="visible-print"><%= model.no %></span>
+        <span class="visible-print"><%= details.no %></span>
         <span class="hidden-print"><%- helpers.t('PANEL:TITLE:details') %></span>
       </div>
       <div class="panel-details">
-        <%- helpers.props(model, [
+        <%- helpers.props(details, [
           '!kind',
-          {id: 'mergeInventoryNo', visible: kind === 'merge', valueClassName: 'text-fixed'},
-          {id: 'mergeLineSymbol', visible: kind === 'merge', valueClassName: 'text-fixed'},
-          {id: 'mergeType', visible: kind === 'merge'},
+          {id: 'mergeInventoryNo', visible: model.kind === 'merge', valueClassName: 'text-fixed'},
+          {id: 'mergeLineSymbol', visible: model.kind === 'merge', valueClassName: 'text-fixed'},
+          {id: 'mergeType', visible: model.kind === 'merge'},
           {id: 'protocolNo', valueClassName: 'text-fixed'},
           '!protocolDate',
           {id: 'documentNo', valueClassName: 'text-fixed'},
@@ -19,22 +19,7 @@
           {id: 'inventoryNo', valueClassName: 'text-fixed'},
           {id: 'costCenter', valueClassName: 'text-fixed'},
           {id: '!applicant'},
-          {id: '!committee', value: function(users)
-          {
-            if (users.length === 0)
-            {
-              return '';
-            }
-
-            if (users.length === 1)
-            {
-              return users[0];
-            }
-
-            return '<ul>'
-              + users.map(function(user) { return '<li>' + user; }).join('')
-              + '</ul>';
-          }},
+          helpers.fa.committeeProp(),
           {id: 'cause', valueClassName: 'text-lines'},
           'initialValue',
           'deprecationValue',
@@ -42,9 +27,9 @@
           'economicInitialValue',
           'economicDeprecationValue',
           'economicNetValue',
-          {id: 'buyerName', visible: kind === 'sale'},
-          {id: 'buyerAddress', visible: kind === 'sale', valueClassName: 'text-lines'},
-          {id: 'saleValue', visible: kind === 'sale'},
+          {id: 'buyerName', visible: model.kind === 'sale'},
+          {id: 'buyerAddress', visible: model.kind === 'sale', valueClassName: 'text-lines'},
+          {id: 'saleValue', visible: model.kind === 'sale'},
           {id: 'sapNo', valueClassName: 'text-fixed'},
           {id: 'accountingNo', valueClassName: 'text-fixed'}
         ]) %>
@@ -52,6 +37,14 @@
     </div>
   </div>
   <div class="col-md-6 hidden-print">
+    <div class="panel panel-default">
+      <div class="panel-heading"><%- helpers.t('PANEL:TITLE:attachments') %></div>
+      <div class="panel-details">
+        <%- helpers.props(details, [
+          helpers.fa.attachmentProp({name: 'attachment'})
+        ]) %>
+      </div>
+    </div>
     <div class="panel panel-default">
       <div class="panel-heading"><%- helpers.t('PANEL:TITLE:stages') %></div>
       <div class="panel-details">
@@ -70,17 +63,17 @@
             return html;
           }
 
-          var stages = Object.keys(model.stages).map(function(id)
+          var stages = Object.keys(details.stages).map(function(id)
           {
             return {
               id: '!stage:' + id,
-              label: t.has('details:stage:' + id) ? t('details:stage:' + id, {kind: model.kind}) : t('stage:' + id, {kind: model.kind}),
-              value: renderStage.bind(null, model.stages[id])
+              label: t.has('details:stage:' + id) ? t('details:stage:' + id, {kind: details.kind}) : t('stage:' + id, {kind: details.kind}),
+              value: renderStage.bind(null, details.stages[id])
             };
           });
 
         %>
-        <%- helpers.props(model, ['stage'].concat(stages)) %>
+        <%- helpers.props(details, ['stage'].concat(stages)) %>
       </div>
     </div>
   </div>

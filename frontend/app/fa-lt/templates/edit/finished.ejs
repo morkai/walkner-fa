@@ -99,28 +99,8 @@
       <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" required>
     </div>
   </div>
-  <% files.forEach(function(file) { %>
-  <div class="form-group fa-edit-long">
-    <label for="<%- idPrefix %>-<%- file %>File" class="control-label"><%- t('PROPERTY:' + file + 'File') %></label>
-    <table class="fa-edit-attachment">
-      <tbody>
-      <tr>
-        <td class="is-min" style="padding: 0 10px 5px 0"><%- t('FORM:edit:attachment:old') %></td>
-        <td style="padding-bottom: 5px">
-          <% if (model[file + 'File']) { %>
-          <a href="/fa/lt/<%- model._id %>/attachments/<%- file %>" target="_blank"><%= model[file + 'File'].name %></a>
-          <% } else { %>
-          <%- t('FORM:edit:attachment:empty') %>
-          <% } %>
-        </td>
-      </tr>
-      <tr>
-        <td class="is-min" style="padding-right: 10px"><%- t('FORM:edit:attachment:new') %></td>
-        <td><input id="<%- idPrefix %>-<%- file %>File" name="<%- file %>File" class="form-control" type="file"></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+  <% files.forEach(function(name) { %>
+    <%- helpers.fa.attachmentFormGroup({name: name}) %>
   <% }) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>

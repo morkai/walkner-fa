@@ -1,15 +1,15 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
-  'app/core/View',
+  'app/fa-common/views/StageView',
   'app/fa-ot/templates/edit/accept'
 ], function(
-  View,
+  StageView,
   template
 ) {
   'use strict';
 
-  return View.extend({
+  return StageView.extend({
 
     template: template,
 
@@ -17,14 +17,9 @@ define([
 
     getTemplateData: function()
     {
-      var ot = this.model;
-
       return {
-        url: ot.url(),
-        protocolNeeded: ot.get('protocolNeeded'),
-        commissioningType: ot.get('commissioningType'),
-        usageDestination: ot.get('usageDestination'),
-        details: ot.serializeDetails()
+        model: this.model.toJSON(),
+        details: this.model.serializeDetails()
       };
     },
 

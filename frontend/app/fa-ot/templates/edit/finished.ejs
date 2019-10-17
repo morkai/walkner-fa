@@ -37,23 +37,23 @@
       <p class="form-control-static is-along-inputs"><%- details.documentNo %></p>
     </div>
   </div>
+  <div class="form-group fa-edit-long">
+    <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
+    <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control" type="text" required maxlength="50">
+  </div>
   <div class="fa-edit-row">
-    <div class="form-group fa-edit-short">
-      <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
-      <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" required maxlength="50">
-    </div>
     <% if (model.usageDestination === 'factory') { %>
     <div class="form-group fa-edit-short">
       <label for="<%- idPrefix %>-lineSymbol" class="control-label"><%- t('PROPERTY:lineSymbol') %></label>
       <input id="<%- idPrefix %>-lineSymbol" name="lineSymbol" class="form-control" type="text" maxlength="50">
     </div>
     <% } %>
-    <div class="form-group fa-edit-flex">
-      <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
-      <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control" type="text" required maxlength="50">
+    <div class="form-group fa-edit-short">
+      <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
+      <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" required maxlength="50">
     </div>
   </div>
-  <div id="<%- idPrefix %>-zplx"></div>
+  <div id="<%- idPrefix %>-zplx" style="margin-top: 15px"></div>
   <% if (model.protocolNeeded) { %>
   <div id="<%- idPrefix %>-participants" style="margin-top: -10px; margin-bottom: 15px"></div>
   <div class="form-group fa-edit-long" style="margin-top: -10px">
@@ -120,28 +120,8 @@
       <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" maxlength="50">
     </div>
   </div>
-  <% files.forEach(function(file) { %>
-  <div class="form-group fa-edit-long">
-    <label for="<%- idPrefix %>-<%- file %>File" class="control-label"><%- t('PROPERTY:' + file + 'File') %></label>
-    <table class="fa-edit-attachment">
-      <tbody>
-      <tr>
-        <td class="is-min" style="padding: 0 10px 5px 0"><%- t('FORM:edit:attachment:old') %></td>
-        <td style="padding-bottom: 5px">
-          <% if (model[file + 'File']) { %>
-          <a href="/fa/ot/<%- model._id %>/attachments/<%- file %>" target="_blank"><%= model[file + 'File'].name %></a>
-          <% } else { %>
-          <%- t('FORM:edit:attachment:empty') %>
-          <% } %>
-        </td>
-      </tr>
-      <tr>
-        <td class="is-min" style="padding-right: 10px"><%- t('FORM:edit:attachment:new') %></td>
-        <td><input id="<%- idPrefix %>-<%- file %>File" name="<%- file %>File" class="form-control" type="file"></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+  <% files.forEach(function(name) { %>
+  <%- helpers.fa.attachmentFormGroup({name: name, help: false}) %>
   <% }) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>

@@ -1,9 +1,9 @@
 <div class="fa-edit-stage" data-stage="acceptOwner">
   <%- helpers.props(details, [
     '!kind',
-    {id: 'mergeInventoryNo', visible: kind === 'merge', valueClassName: 'text-fixed'},
-    {id: 'mergeLineSymbol', visible: kind === 'merge', valueClassName: 'text-fixed'},
-    {id: 'mergeType', visible: kind === 'merge'},
+    {id: 'mergeInventoryNo', visible: model.kind === 'merge', valueClassName: 'text-fixed'},
+    {id: 'mergeLineSymbol', visible: model.kind === 'merge', valueClassName: 'text-fixed'},
+    {id: 'mergeType', visible: model.kind === 'merge'},
     {id: 'protocolNo', valueClassName: 'text-fixed'},
     'protocolDate',
     'assetName',
@@ -20,6 +20,7 @@
     {id: 'sapNo', valueClassName: 'text-fixed'}
   ]) %>
   <div id="<%- idPrefix %>-participants" style="margin-bottom: 15px"></div>
+  <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
     <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>

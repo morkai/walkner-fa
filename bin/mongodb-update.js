@@ -3,7 +3,5 @@
 
 'use strict';
 
-db.faots.drop();
-db.falts.drop();
-db.events.deleteMany({});
-db.browsererrors.deleteMany({});
+db.faots.updateMany({attachmentFile: {$exists: false}}, {$set: {attachmentFile: null}});
+db.falts.updateMany({attachmentFile: {$exists: false}}, {$set: {attachmentFile: null}});
