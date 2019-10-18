@@ -60,7 +60,7 @@
   "PROPERTY:assetName": "Nazwa środka trwałego",
   "PROPERTY:costCenter": "Konto kosztów",
   "PROPERTY:applicant": "Osoba wnioskująca",
-  "PROPERTY:committee": "Komitet",
+  "PROPERTY:committee": "Skład komisji",
   "PROPERTY:cause": "Przyczyna",
   "PROPERTY:initialValue": "Wartość początkowa (fiskalna)",
   "PROPERTY:deprecationValue": "Wartość umorzenia (fiskalna)",

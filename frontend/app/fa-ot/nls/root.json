@@ -57,7 +57,7 @@
     "PROPERTY:protocolFile": "Signed protocol",
     "PROPERTY:value": "Value",
     "PROPERTY:fiscalValue": "Value (fiscal)",
-    "PROPERTY:destination": "Destination",
+    "PROPERTY:assetClass": "Asset class",
     "PROPERTY:costCenter": "Cost center",
     "PROPERTY:vendorNo": "SAP vendor no",
     "PROPERTY:vendorName": "SAP vendor name",

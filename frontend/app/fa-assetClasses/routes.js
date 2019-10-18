@@ -7,7 +7,7 @@ define([
   '../user',
   '../core/util/showDeleteFormPage',
   '../fa-common/dictionaries',
-  './Destination'
+  './AssetClass'
 ], function(
   _,
   router,
@@ -15,15 +15,15 @@ define([
   user,
   showDeleteFormPage,
   dictionaries,
-  Destination
+  AssetClass
 ) {
   'use strict';
 
-  var nls = 'i18n!app/nls/fa-destinations';
+  var nls = 'i18n!app/nls/fa-assetClasses';
   var canView = user.auth('FA:MANAGE');
   var canManage = canView;
 
-  router.map('/fa/destinations', canView, function()
+  router.map('/fa/assetClasses', canView, function()
   {
     viewport.loadPage(
       [
@@ -39,18 +39,18 @@ define([
             {id: 'active', className: 'is-min'},
             '-'
           ],
-          collection: dictionaries.destinations
+          collection: dictionaries.assetClasses
         }));
       }
     );
   });
 
-  router.map('/fa/destinations/:id', function(req)
+  router.map('/fa/assetClasses/:id', function(req)
   {
     viewport.loadPage(
       [
         'app/core/pages/DetailsPage',
-        'app/fa-destinations/templates/details',
+        'app/fa-assetClasses/templates/details',
         nls
       ],
       function(DetailsPage, detailsTemplate)
@@ -58,18 +58,18 @@ define([
         return dictionaries.bind(new DetailsPage({
           pageClassName: 'page-max-flex',
           detailsTemplate: detailsTemplate,
-          model: new Destination({_id: req.params.id})
+          model: new AssetClass({_id: req.params.id})
         }));
       }
     );
   });
 
-  router.map('/fa/destinations;add', canManage, function()
+  router.map('/fa/assetClasses;add', canManage, function()
   {
     viewport.loadPage(
       [
         'app/core/pages/AddFormPage',
-        'app/fa-destinations/templates/form',
+        'app/fa-assetClasses/templates/form',
         nls
       ],
       function(AddFormPage, formTemplate)
@@ -77,18 +77,18 @@ define([
         return dictionaries.bind(new AddFormPage({
           pageClassName: 'page-max-flex',
           formTemplate: formTemplate,
-          model: new Destination()
+          model: new AssetClass()
         }));
       }
     );
   });
 
-  router.map('/fa/destinations/:id;edit', canManage, function(req)
+  router.map('/fa/assetClasses/:id;edit', canManage, function(req)
   {
     viewport.loadPage(
       [
         'app/core/pages/EditFormPage',
-        'app/fa-destinations/templates/form',
+        'app/fa-assetClasses/templates/form',
         nls
       ],
       function(EditFormPage, formTemplate)
@@ -96,15 +96,15 @@ define([
         return dictionaries.bind(new EditFormPage({
           pageClassName: 'page-max-flex',
           formTemplate: formTemplate,
-          model: new Destination({_id: req.params.id})
+          model: new AssetClass({_id: req.params.id})
         }));
       }
     );
   });
 
   router.map(
-    '/fa/destinations/:id;delete',
+    '/fa/assetClasses/:id;delete',
     canManage,
-    _.partial(showDeleteFormPage, 'app/fa-destinations/Destination', _, _, {})
+    _.partial(showDeleteFormPage, 'app/fa-assetClasses/AssetClass', _, _, {})
   );
 });

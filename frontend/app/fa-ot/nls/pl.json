@@ -56,7 +56,7 @@
   "PROPERTY:protocolFile": "Podpisany protokół",
   "PROPERTY:value": "Wartość nabycia/wytworzenia",
   "PROPERTY:fiscalValue": "Wartość nabycia/wytworzenia (fiskalna)",
-  "PROPERTY:destination": "Miejsce docelowe",
+  "PROPERTY:assetClass": "Klasyfikacja ŚT",
   "PROPERTY:costCenter": "Konto kosztów",
   "PROPERTY:vendorNo": "Nr dostawcy SAP",
   "PROPERTY:vendorName": "Nazwa dostawcy SAP",

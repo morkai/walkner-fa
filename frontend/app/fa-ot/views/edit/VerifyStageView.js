@@ -148,14 +148,14 @@ define([
 
     afterRender: function()
     {
-      this.setUpDestinationSelect2();
+      this.setUpAssetClassSelect2();
       this.zplxView.checkValidity();
     },
 
-    setUpDestinationSelect2: function()
+    setUpAssetClassSelect2: function()
     {
-      var id = this.model.get('destination');
-      var model = dictionaries.destinations.get(id);
+      var id = this.model.get('assetClass');
+      var model = dictionaries.assetClasses.get(id);
       var data = [];
 
       if (id && !model)
@@ -166,7 +166,7 @@ define([
         });
       }
 
-      dictionaries.destinations.forEach(function(d)
+      dictionaries.assetClasses.forEach(function(d)
       {
         if (d.get('active') || d.id === id)
         {
@@ -174,7 +174,7 @@ define([
         }
       });
 
-      this.$id('destination').select2({
+      this.$id('assetClass').select2({
         width: '100%',
         allowClear: true,
         placeholder: ' ',
@@ -199,11 +199,12 @@ define([
     {
       var data = {
         assetName: (formData.assetName || '').trim(),
-        destination: formData.destination || null,
+        assetClass: formData.assetClass || null,
         inventoryNo: (formData.inventoryNo || '').trim(),
         deprecationRate: Math.min(100, Math.max(parseInt(formData.deprecationRate, 10) || 0, 0)),
         economicPeriod: ((+formData.economicPeriodY || 0) * 12) + (+formData.economicPeriodM || 0),
         fiscalPeriod: ((+formData.fiscalPeriodY || 0) * 12) + (+formData.fiscalPeriodM || 0),
+        sapNo: (formData.sapNo || '').trim(),
         comment: (formData.comment || '').trim()
       };
 

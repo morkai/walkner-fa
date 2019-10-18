@@ -27,7 +27,7 @@
   ]) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-accountingNo" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
-    <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" data-required>
+    <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" data-required maxlength="50">
   </div>
   <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">

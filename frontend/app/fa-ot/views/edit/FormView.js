@@ -153,6 +153,13 @@ define([
           inline: 'start'
         });
       }
+
+      this.toggleActionsVisibility();
+    },
+
+    toggleActionsVisibility: function()
+    {
+      this.$('.panel-footer').toggleClass('hidden', !this.model.canEdit());
     },
 
     serializeForm: function(formData)
@@ -371,24 +378,36 @@ define([
 
     onUpdated: function(message)
     {
-      var changes = this.model.get('changes');
-
-      if (_.isEqual(message.change, _.last(changes)))
+      if (message.socketId === this.socket.getId())
       {
         return;
       }
 
       var data = Object.assign(
-        {changes: changes.concat([message.change])},
+        {changes: this.model.get('changes').concat([message.change])},
         message.values
       );
+      var anyPropChanged = false;
 
       _.forEach(message.change.data, function(value, prop)
       {
+        anyPropChanged = true;
         data[prop] = value[1];
       });
 
       this.model.set(data);
+
+      if (message.socketId !== this.socket.getId() && anyPropChanged)
+      {
+        if (message.change.data.stage)
+        {
+          this.render();
+        }
+        else
+        {
+          this.stageView.render();
+        }
+      }
     },
 
     onDeleted: function(message)

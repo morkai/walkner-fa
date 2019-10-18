@@ -233,8 +233,7 @@ define([
         case 'stage':
           return this.t('stage:' + value, {kind: this.model.get('kind') || ''});
 
-        case 'destination':
-        case 'usageDestination':
+        case 'assetClass':
         case 'costCenter':
         {
           var model = dictionaries.forProperty(property).get(value);

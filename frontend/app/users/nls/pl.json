@@ -63,6 +63,7 @@
   "PRIVILEGE:DICTIONARIES:MANAGE": "Słowniki: zarządzanie",
 
   "PRIVILEGE:FA:VIEW": "ŚT: przeglądanie",
+  "PRIVILEGE:FA:VIEW:ALL": "ŚT: przeglądanie wszystkich",
   "PRIVILEGE:FA:MANAGE": "ŚT: zarządzanie",
   "PRIVILEGE:FA:OT:VIEW": "OT: przeglądanie",
   "PRIVILEGE:FA:OT:MANAGE": "OT: zarządzanie",

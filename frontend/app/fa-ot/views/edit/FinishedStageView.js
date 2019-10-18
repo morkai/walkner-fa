@@ -91,15 +91,15 @@ define([
 
     afterRender: function()
     {
-      this.setUpDestinationSelect2();
+      this.setUpAssetClassSelect2();
       this.setUpCostCenterSelect2();
       this.zplxView.checkValidity();
     },
 
-    setUpDestinationSelect2: function()
+    setUpAssetClassSelect2: function()
     {
-      var id = this.model.get('destination');
-      var model = dictionaries.destinations.get(id);
+      var id = this.model.get('assetClass');
+      var model = dictionaries.assetClasses.get(id);
       var data = [];
 
       if (id && !model)
@@ -110,7 +110,7 @@ define([
         });
       }
 
-      dictionaries.destinations.forEach(function(d)
+      dictionaries.assetClasses.forEach(function(d)
       {
         if (d.get('active') || d.id === id)
         {
@@ -118,7 +118,7 @@ define([
         }
       });
 
-      this.$id('destination').select2({
+      this.$id('assetClass').select2({
         width: '100%',
         allowClear: true,
         placeholder: ' ',
@@ -182,7 +182,7 @@ define([
         assetName: (formData.assetName || '').trim(),
         supplier: (formData.supplier || '').trim(),
         costCenter: formData.costCenter || null,
-        destination: formData.destination,
+        assetClass: formData.assetClass || null,
         vendorNo: (formData.vendorNo || '').trim(),
         vendorName: (formData.vendorName || '').trim(),
         sapNo: (formData.sapNo || '').trim(),

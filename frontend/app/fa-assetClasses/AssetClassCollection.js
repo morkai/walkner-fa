@@ -2,16 +2,16 @@
 
 define([
   '../core/Collection',
-  './Destination'
+  './AssetClass'
 ], function(
   Collection,
-  Destination
+  AssetClass
 ) {
   'use strict';
 
   return Collection.extend({
 
-    model: Destination,
+    model: AssetClass,
 
     rqlQuery: 'sort(name)',
 

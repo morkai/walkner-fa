@@ -11,15 +11,15 @@ define([
 
   return Model.extend({
 
-    urlRoot: '/fa/destinations',
+    urlRoot: '/fa/assetClasses',
 
-    clientUrlRoot: '#fa/destinations',
+    clientUrlRoot: '#fa/assetClasses',
 
-    topicPrefix: 'fa.destinations',
+    topicPrefix: 'fa.assetClasses',
 
     privilegePrefix: 'FA',
 
-    nlsDomain: 'fa-destinations',
+    nlsDomain: 'fa-assetClasses',
 
     labelAttribute: 'name',
 

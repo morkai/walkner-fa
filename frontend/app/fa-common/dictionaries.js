@@ -5,22 +5,21 @@ define([
   '../broker',
   '../pubsub',
   '../user',
-  '../fa-destinations/DestinationCollection',
+  '../fa-assetClasses/AssetClassCollection',
   '../fa-costCenters/CostCenterCollection'
 ], function(
   $,
   broker,
   pubsub,
   user,
-  DestinationCollection,
+  AssetClassCollection,
   CostCenterCollection
 ) {
   'use strict';
 
   var TOPIC_PREFIX = 'fa.';
   var PROP_TO_DICT = {
-    destination: 'destinations',
-    usageDestination: 'destinations',
+    assetClass: 'assetClasses',
     costCenter: 'costCenters'
   };
 
@@ -28,7 +27,7 @@ define([
   var releaseTimer = null;
   var pubsubSandbox = null;
   var dictionaries = {
-    destinations: new DestinationCollection(),
+    assetClasses: new AssetClassCollection(),
     costCenters: new CostCenterCollection(),
     loaded: false,
     load: function()

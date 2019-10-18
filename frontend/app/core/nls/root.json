@@ -79,7 +79,7 @@
     "NAVBAR:tools": "Tools",
     "NAVBAR:browserErrors": "Client-side errors",
 
-    "NAVBAR:fa:destinations": "Destinations",
+    "NAVBAR:fa:assetClasses": "Asset classes",
     "NAVBAR:fa:costCenters": "Cost centers",
     "NAVBAR:fa:ot": "OT documents",
     "NAVBAR:fa:lt": "LT documents",

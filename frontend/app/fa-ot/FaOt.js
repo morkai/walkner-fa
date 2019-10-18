@@ -130,11 +130,11 @@ define([
         };
       });
 
-      var destination = dictionaries.destinations.get(obj.destination);
+      var assetClass = dictionaries.assetClasses.get(obj.assetClass);
 
-      if (destination)
+      if (assetClass)
       {
-        obj.destination = destination.getLabel();
+        obj.assetClass = assetClass.getLabel();
       }
 
       var costCenter = dictionaries.costCenters.get(obj.costCenter);

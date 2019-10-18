@@ -5,8 +5,8 @@
   "version": "0.0.0",
   "updater": {
     "fa": {
-      "backend": 25,
-      "frontend": 37
+      "backend": 29,
+      "frontend": 41
     }
   },
   "description": "Fixed Assets application in Node.js.",

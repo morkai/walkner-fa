@@ -92,6 +92,11 @@
       headers['X-WMES-LINE'] = window.WMES_LINE_ID;
     }
 
+    if (window.socket && window.socket.getId)
+    {
+      headers['X-WMES-SOCKET'] = window.socket.getId();
+    }
+
     return headers;
   }
 

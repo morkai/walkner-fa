@@ -3,6 +3,7 @@
 define([
   'app/time',
   'app/core/util/idAndLabel',
+  'app/users/util/setUpUserSelect2',
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
@@ -11,6 +12,7 @@ define([
 ], function(
   time,
   idAndLabel,
+  setUpUserSelect2,
   dictionaries,
   StageView,
   ValueInputView,
@@ -82,8 +84,30 @@ define([
 
     afterRender: function()
     {
+      this.setUpOwnerSelect2();
       this.setUpCostCenterSelect2();
       this.zplxView.checkValidity();
+    },
+
+    setUpOwnerSelect2: function()
+    {
+      if (this.model.get('protocolNeeded'))
+      {
+        return;
+      }
+
+      var owner = this.model.get('owner');
+      var $owner = this.$id('owner');
+
+      setUpUserSelect2($owner);
+
+      if (owner)
+      {
+        $owner.select2('data', {
+          id: owner._id,
+          text: owner.label
+        });
+      }
     },
 
     setUpCostCenterSelect2: function()
@@ -147,6 +171,11 @@ define([
         supplier: (formData.supplier || '').trim(),
         costCenter: formData.costCenter || null
       };
+
+      if (!this.model.get('protocolNeeded'))
+      {
+        data.owner = setUpUserSelect2.getUserInfo(this.$id('owner'));
+      }
 
       if (usageDestination === 'factory')
       {
