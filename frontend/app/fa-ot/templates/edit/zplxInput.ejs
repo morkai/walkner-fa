@@ -5,8 +5,10 @@
     <div class="fa-edit-zplx-item">
       <span class="fa-edit-zplx-prefix">ZPLX</span>
       <input name="zplx[<%- i %>].code" class="form-control text-fixed fa-edit-zplx-code" type="text" value="" placeholder="00000000" maxlength="8" pattern="^[0-9]{8}$" <%- readOnly ? 'readonly' : '' %>>
+      <% if (value) { %>
       <span class="fa-edit-zplx-prefix"><%- t('fa-common', 'unit:currency') %></span>
       <input name="zplx[<%- i %>].value" class="form-control fa-edit-zplx-value" type="text" value="" placeholder="0 000 000,00" <%- readOnly ? 'readonly' : '' %>>
+      <% } %>
       <% if (auc) { %>
       <span class="fa-edit-zplx-prefix">AuC</span>
       <input name="zplx[<%- i %>].auc" class="form-control text-fixed fa-edit-zplx-auc" type="text" value="" maxlength="50">

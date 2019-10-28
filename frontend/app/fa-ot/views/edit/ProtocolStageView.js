@@ -25,7 +25,12 @@ define([
     {
       StageView.prototype.initialize.apply(this, arguments);
 
-      this.zplxView = new ZplxInputView({model: this.model});
+      this.zplxView = new ZplxInputView({
+        model: this.model,
+        value: false,
+        auc: false,
+        readOnly: false
+      });
       this.participantsView = new ParticipantsInputView({
         model: this.model,
         label: this.t('protocol:participants')

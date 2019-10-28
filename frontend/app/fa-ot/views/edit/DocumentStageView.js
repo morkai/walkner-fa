@@ -31,7 +31,12 @@ define([
     {
       StageView.prototype.initialize.apply(this, arguments);
 
-      this.zplxView = new ZplxInputView({model: this.model});
+      this.zplxView = new ZplxInputView({
+        model: this.model,
+        value: true,
+        auc: false,
+        readOnly: false
+      });
       this.valueView = new ValueInputView({model: this.model});
 
       this.setView('#-zplx', this.zplxView);

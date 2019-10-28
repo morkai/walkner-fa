@@ -87,6 +87,7 @@ define([
       return {
         readOnly: !!this.options.readOnly,
         auc: !!this.options.auc,
+        value: !!this.options.value,
         zplx: zplx.length ? zplx : [{code: '', value: '', auc: ''}]
       };
     },
@@ -129,7 +130,7 @@ define([
         if (/^[0-9]{8}$/.test(codeEl.value))
         {
           data.zplx[codeEl.value] = {
-            value: ValueInputView.parseValue(valueEl.value),
+            value: valueEl ? ValueInputView.parseValue(valueEl.value) : 0,
             auc: aucEl ? aucEl.value.trim() : ''
           };
         }

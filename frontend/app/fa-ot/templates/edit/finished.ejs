@@ -112,12 +112,12 @@
   </div>
   <div class="fa-edit-row">
     <div class="form-group">
-      <label for="<%- idPrefix %>-sapNo" class="control-label"><%- t('PROPERTY:sapNo') %></label>
-      <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text" maxlength="50">
+      <label for="<%- idPrefix %>-sapNo" class="control-label is-required"><%- t('PROPERTY:sapNo') %></label>
+      <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text" maxlength="50" required>
     </div>
     <div class="form-group">
-      <label for="<%- idPrefix %>-accountingNo" class="control-label"><%- t('PROPERTY:accountingNo') %></label>
-      <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" maxlength="50">
+      <label for="<%- idPrefix %>-accountingNo" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
+      <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" maxlength="50" required>
     </div>
   </div>
   <% files.forEach(function(name) { %>

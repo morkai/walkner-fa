@@ -68,8 +68,9 @@ define([
 
       this.zplxView = new ZplxInputView({
         model: this.model,
-        readOnly: true,
-        auc: true
+        value: true,
+        auc: true,
+        readOnly: true
       });
       this.fiscalValueView = new ValueInputView({
         model: this.model,
@@ -204,7 +205,6 @@ define([
         deprecationRate: Math.min(100, Math.max(parseInt(formData.deprecationRate, 10) || 0, 0)),
         economicPeriod: ((+formData.economicPeriodY || 0) * 12) + (+formData.economicPeriodM || 0),
         fiscalPeriod: ((+formData.fiscalPeriodY || 0) * 12) + (+formData.fiscalPeriodM || 0),
-        sapNo: (formData.sapNo || '').trim(),
         comment: (formData.comment || '').trim()
       };
 

@@ -62,6 +62,7 @@ define([
     serializeForm: function(formData)
     {
       return {
+        sapNo: (formData.sapNo || '').trim(),
         accountingNo: (formData.accountingNo || '').trim(),
         comment: (formData.comment || '').trim()
       };
