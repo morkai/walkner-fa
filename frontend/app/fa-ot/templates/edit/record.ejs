@@ -23,12 +23,15 @@
     'deprecationRate',
     'economicPeriod',
     'fiscalPeriod',
-    {id: 'sapNo', valueClassName: 'text-fixed'},
     helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded}),
     helpers.fa.attachmentProp({name: 'checklist'}),
     helpers.fa.attachmentProp({name: 'certificate', visible: model.usageDestination === 'external-supplier'}),
     helpers.fa.attachmentProp({name: 'nameplate', visible: model.usageDestination === 'external-supplier'})
   ]) %>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-sapNo" class="control-label is-required"><%- t('PROPERTY:sapNo') %></label>
+    <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text" data-required>
+  </div>
   <div class="form-group">
     <label for="<%- idPrefix %>-accountingNo" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
     <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" data-required>
