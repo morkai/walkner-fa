@@ -155,7 +155,7 @@
   }
   catch (err) {} // eslint-disable-line no-empty
 
-  if (window.ENV === 'testing')
+  if (window.ENV === 'production')
   {
     var matches = location.hash.match(/^(?:#proxy=([0-9]+))?(#.*?)?$/);
 
