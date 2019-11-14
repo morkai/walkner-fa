@@ -96,7 +96,7 @@ define([
       {
         return dictionaries.bind(new EditFormPage({
           pageClassName: 'page-max-flex',
-          FormView: formTemplate,
+          formTemplate: formTemplate,
           model: new CostCenter({_id: req.params.id})
         }));
       }
