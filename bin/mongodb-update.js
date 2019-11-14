@@ -3,16 +3,47 @@
 
 'use strict';
 
-db.faots.find({assetClass: {$exists: false}}).forEach(doc =>
-{
-  db.faots.updateOne({_id: doc._id}, {
-    $set: {assetClass: doc.destination},
-    $unset: {destination: 1}
-  });
-});
+db.facostcenters.updateMany({owner: {$exists: false}}, {$set: {owner: null}});
 
-db.fadestinations.find({active: true}).forEach(doc =>
+var stages = [
+  'protocol',
+  'verify',
+  'acceptOwner',
+  'acceptCommittee',
+  'acceptFinance',
+  'acceptDepartment',
+  'acceptDocument',
+  'record'
+];
+
+db.falts.find({}).forEach(lt =>
 {
-  db.faassetclasses.insertOne(doc);
+  var stageChangedAt = {};
+  var stageChangedBy = {};
+
+  stages.forEach(stage =>
+  {
+    stageChangedAt[stage] = lt.stageChangedAt[stage] || null;
+    stageChangedBy[stage] = lt.stageChangedBy[stage] || null;
+  });
+
+  if (!lt.committeeAcceptance)
+  {
+    lt.committeeAcceptance = {};
+
+    lt.committee.forEach(user =>
+    {
+      lt.committeeAcceptance[user._id] = {
+        time: new Date(),
+        user: user,
+        status: null
+      };
+    });
+  }
+
+  db.falts.updateOne({_id: lt._id}, {$set: {
+    stageChangedAt,
+    stageChangedBy,
+    committeeAcceptance: lt.committeeAcceptance
+  }});
 });
-db.fadestinations.drop();

@@ -28,6 +28,7 @@ define([
     protocol: 'info',
     verify: 'info',
     acceptOwner: 'info',
+    acceptCommittee: 'info',
     acceptFinance: 'info',
     acceptDepartment: 'info',
     acceptDocument: 'info',
@@ -139,6 +140,11 @@ define([
     canEdit: function()
     {
       return this.constructor.can.edit(this);
+    },
+
+    canManage: function()
+    {
+      return this.constructor.can.manage(this);
     }
 
   }, {
@@ -162,6 +168,20 @@ define([
           return user.isAllowedTo('SUPER');
         }
 
+        if (stage === 'acceptCommittee')
+        {
+          var committeeAcceptance = model.get('committeeAcceptance');
+
+          if (committeeAcceptance && committeeAcceptance[user.data[user.idProperty]])
+          {
+            return true;
+          }
+        }
+
+        return user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE', 'FA:LT:' + model.get('stage'));
+      },
+      manage: function(model)
+      {
         return user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE', 'FA:LT:' + model.get('stage'));
       },
       delete: function()
@@ -174,6 +194,7 @@ define([
       'protocol',
       'verify',
       'acceptOwner',
+      'acceptCommittee',
       'acceptFinance',
       'acceptDepartment',
       'acceptDocument',

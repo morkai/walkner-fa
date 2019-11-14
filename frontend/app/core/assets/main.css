@@ -253,6 +253,10 @@ code.multiline {
   text-shadow: 1px 1px 1px #333;
 }
 
+.btn-push-right {
+  margin-left: auto;
+}
+
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
   color: #fff;

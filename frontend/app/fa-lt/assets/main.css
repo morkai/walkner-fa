@@ -1,0 +1,6 @@
+.prop[data-prop="committee"] .fa-thumbs-up {
+  color: #5cb85c;
+}
+.prop[data-prop="committee"] .fa-thumbs-down {
+ color: #d9534f;
+}

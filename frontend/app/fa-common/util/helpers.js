@@ -2,9 +2,13 @@
 
 define([
   'underscore',
+  'app/user',
+  'app/time',
   'app/fa-common/templates/attachmentFormGroup'
 ], function(
   _,
+  user,
+  time,
   attachmentFormGroupTemplate
 ) {
   'use strict';
@@ -57,12 +61,68 @@ define([
           return '';
         }
 
-        if (users.length === 1)
+        var html = '';
+        var multi = users.length > 1;
+
+        if (multi)
         {
-          return users[0];
+          html += '<ul>';
         }
 
-        return '<ul><li>' + users.join('<li>') + '</ul>';
+        var idProperty = user.idProperty;
+        var committee = view.model.get('committee');
+        var committeeAcceptance = view.model.get('committeeAcceptance');
+
+        users.forEach(function(user, i)
+        {
+          if (multi)
+          {
+            html += '<li>';
+          }
+
+          html += user;
+
+          if (!committeeAcceptance)
+          {
+            return;
+          }
+
+          var userAcceptance = committeeAcceptance[committee[i][idProperty]];
+          var icon = '';
+          var title = '';
+
+          if (!userAcceptance || typeof userAcceptance.status !== 'boolean')
+          {
+            icon = 'fa-question';
+            title = view.t('committee:acceptance:null');
+          }
+          else
+          {
+            if (userAcceptance.status)
+            {
+              icon = 'fa-thumbs-up';
+            }
+            else
+            {
+              icon = 'fa-thumbs-down';
+            }
+
+            title = [
+              view.t('committee:acceptance:' + userAcceptance.status),
+              time.format(userAcceptance.time, 'LLLL'),
+              _.escape(userAcceptance.user.label)
+            ].join('\n');
+          }
+
+          html += ' <i class="fa ' + icon + '" title="' + title + '"></i>';
+        });
+
+        if (multi)
+        {
+          html += '</ul>';
+        }
+
+        return html;
       }
     }, options);
   }

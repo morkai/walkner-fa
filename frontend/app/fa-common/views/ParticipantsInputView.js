@@ -102,6 +102,15 @@ define([
       }
     },
 
+    hasAnyParticipants: function()
+    {
+      var data = {};
+
+      this.serializeForm(data);
+
+      return !!data.owner || data.committee.length > 0;
+    },
+
     addParticipant: function(user)
     {
       var $participants = this.$id('participants');

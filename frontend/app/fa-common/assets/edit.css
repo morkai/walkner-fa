@@ -137,6 +137,15 @@
 .fa-edit-stage .prop-value {
   max-width: 400px;
 }
+.fa-edit-form .panel-footer {
+  display: flex;
+}
+.fa-edit-form .panel-footer .btn {
+  margin-right: 10px;
+}
+.fa-edit-form .panel-footer .btn:last-child {
+  margin-right: 0;
+}
 @media (max-width: 1599px) {
   .fa-edit-page {
     display: block;

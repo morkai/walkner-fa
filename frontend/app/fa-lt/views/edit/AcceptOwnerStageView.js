@@ -1,10 +1,12 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'app/user',
   'app/fa-common/views/StageView',
   'app/fa-common/views/ParticipantsInputView',
   'app/fa-lt/templates/edit/acceptOwner'
 ], function(
+  user,
   StageView,
   ParticipantsInputView,
   template
@@ -47,7 +49,7 @@ define([
 
       return [
         {
-          id: 'acceptFinance',
+          id: 'acceptCommittee',
           className: 'btn-success',
           icon: 'fa-check'
         },
@@ -61,7 +63,7 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'acceptFinance')
+      if (action === 'acceptCommittee')
       {
         this.handleAcceptAction(formView);
       }
@@ -73,7 +75,7 @@ define([
 
     handleAcceptAction: function(formView)
     {
-      this.model.set('newStage', 'acceptFinance');
+      this.model.set('newStage', this.participantsView.hasAnyParticipants() ? 'acceptCommittee' : 'acceptFinance');
 
       formView.handleNextRequest = function()
       {
@@ -103,10 +105,20 @@ define([
     serializeForm: function(formData)
     {
       var data = {
-        comment: (formData.comment || '').trim()
+        comment: (formData.comment || '').trim(),
+        committeeAcceptance: {}
       };
 
       this.participantsView.serializeForm(data);
+
+      data.committee.forEach(function(userInfo)
+      {
+        data.committeeAcceptance[userInfo[user.idProperty]] = {
+          time: new Date(),
+          user: userInfo,
+          status: null
+        };
+      });
 
       return data;
     }

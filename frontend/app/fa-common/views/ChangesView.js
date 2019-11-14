@@ -166,7 +166,7 @@ define([
 
     serializeItemValue: function(property, value, old, changeIndex)
     {
-      if (value == null || value.length === 0)
+      if ((value == null || value.length === 0) && property !== 'committeeAcceptance')
       {
         return '-';
       }
@@ -194,7 +194,51 @@ define([
 
       var overflow = '';
 
-      if (property === 'zplx')
+      if (this.overflowProperties[property])
+      {
+        var values = this.overflowProperties[property].apply(this, arguments);
+
+        overflow = values[0];
+        value = values[1];
+      }
+
+      switch (property)
+      {
+        case 'owner':
+        case 'applicant':
+          return userInfoTemplate({userInfo: value});
+
+        case 'stage':
+          return this.t('stage:' + value, {kind: this.model.get('kind') || ''});
+
+        case 'assetClass':
+        case 'costCenter':
+        {
+          var model = dictionaries.forProperty(property).get(value);
+
+          return model ? _.escape(model.getLabel()) : value;
+        }
+
+        default:
+          if (overflow === null && value === null)
+          {
+            return null;
+          }
+
+          if (overflow)
+          {
+            return '<span class="fa-changes-overflow" title="' + _.escape(overflow) + '">' + value + '</span>';
+          }
+
+          return String(value).length <= 43 ? _.escape(value) : {
+            more: value,
+            toString: function() { return _.escape(value.substr(0, 40)) + '...'; }
+          };
+      }
+    },
+
+    overflowProperties: {
+      zplx: function(property, value)
       {
         value = value
           .map(function(zplx)
@@ -216,41 +260,62 @@ define([
 
             return str;
           }).join(', ');
-        overflow = value.replace(/, /g, '\n');
-      }
-      else if (property === 'committee')
+
+        return [value.replace(/, /g, '\n'), value];
+      },
+      committee: function(property, value)
       {
-        overflow = value.map(function(userInfo) { return userInfo.label; }).join('\n');
-        value = value.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); }).join(', ');
-      }
-
-      switch (property)
+        return [
+          value.map(function(userInfo) { return userInfo.label; }).join('\n'),
+          value.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); }).join(', ')
+        ];
+      },
+      committeeAcceptance: function(property, newValue, old, changeIndex)
       {
-        case 'owner':
-        case 'applicant':
-          return userInfoTemplate({userInfo: value});
-
-        case 'stage':
-          return this.t('stage:' + value, {kind: this.model.get('kind') || ''});
-
-        case 'assetClass':
-        case 'costCenter':
+        if (old)
         {
-          var model = dictionaries.forProperty(property).get(value);
-
-          return model ? _.escape(model.getLabel()) : value;
+          return [null, null];
         }
 
-        default:
-          if (overflow)
-          {
-            return '<span class="fa-changes-overflow" title="' + _.escape(overflow) + '">' + value + '</span>';
-          }
+        if (_.isEmpty(newValue) || _.every(newValue, function(a) { return a.status === null; }))
+        {
+          return [null, null];
+        }
 
-          return String(value).length <= 43 ? _.escape(value) : {
-            more: value,
-            toString: function() { return _.escape(value.substr(0, 40)) + '...'; }
-          };
+        var oldValue = this.model.get('changes')[changeIndex].data.committeeAcceptance[0];
+        var changed = [];
+
+        _.forEach(newValue, function(newAcceptance, userId)
+        {
+          var oldAcceptance = oldValue[userId] || {status: null};
+
+          if (newAcceptance.status !== oldAcceptance.status)
+          {
+            changed.push(newAcceptance);
+          }
+        });
+
+        if (!changed.length)
+        {
+          return [null, null];
+        }
+
+        return [
+          changed
+            .map(function(acceptance)
+            {
+              return acceptance.user.label
+                + ' ' + (acceptance.status ? '👍' : '👎');
+            })
+            .join('\n'),
+          changed
+            .map(function(acceptance)
+            {
+              return userInfoTemplate({userInfo: acceptance.user, noIp: true})
+                + ' <i class="fa fa-thumbs-' + (acceptance.status ? 'up' : 'down') + '"></i>';
+            })
+            .join(', ')
+        ];
       }
     },
 

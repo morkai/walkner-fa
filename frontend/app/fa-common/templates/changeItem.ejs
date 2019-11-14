@@ -4,12 +4,15 @@
   <% if (item.changes.length) { %>
   <table class="table table-condensed fa-changes-changes">
     <tbody>
-      <% item.changes.forEach(function(change) { %>
+      <% item.changes.forEach(function(change, i) { %>
+      <% if (change.oldValue === null && change.newValue === null) return %>
       <tr>
         <td class="is-min"><%- change.label %>:</td>
+        <% if (change.oldValue !== null) { %>
         <td class="is-min"><span class="<%- change.oldValue.more ? 'has-more' : '' %>" data-content="<%= change.oldValue.more %>"><%- change.oldValue %></span></td>
         <td class="is-min"><i class="fa fa-arrow-right"></i></td>
-        <td><span class="<%- change.newValue.more ? 'has-more' : '' %>" data-content="<%= change.newValue.more %>"><%- change.newValue %></span></td>
+        <% } %>
+        <td colspan="<%- change.oldValue === null ? 3 : 1 %>"><span class="<%- change.newValue.more ? 'has-more' : '' %>" data-content="<%= change.newValue.more %>"><%- change.newValue %></span></td>
         <td></td>
       </tr>
       <% }) %>
