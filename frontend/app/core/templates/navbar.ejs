@@ -3,8 +3,8 @@
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
       <li><a href="#"><%- t('NAVBAR:dashboard') %></a>
-      <li data-privilege="FA:VIEW FA:OT:VIEW" data-module="fa"><a href="#fa/ot"><%- t('NAVBAR:fa:ot') %></a>
-      <li data-privilege="FA:VIEW FA:LT:VIEW" data-module="fa"><a href="#fa/lt"><%- t('NAVBAR:fa:lt') %></a>
+      <li data-online data-privilege="FA:VIEW FA:OT:VIEW" data-module="fa"><a href="#fa/ot"><%- t('NAVBAR:fa:ot') %></a>
+      <li data-online data-privilege="FA:VIEW FA:LT:VIEW" data-module="fa"><a href="#fa/lt"><%- t('NAVBAR:fa:lt') %></a>
       <% include navbar/dictionaries.ejs %>
       <% include navbar/tools.ejs %>
     </ul>

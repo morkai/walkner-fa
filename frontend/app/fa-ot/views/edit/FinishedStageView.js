@@ -2,6 +2,7 @@
 
 define([
   'app/time',
+  'app/user',
   'app/core/util/idAndLabel',
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
@@ -12,6 +13,7 @@ define([
   'app/fa-ot/templates/edit/finished'
 ], function(
   time,
+  user,
   idAndLabel,
   dictionaries,
   StageView,
@@ -29,7 +31,36 @@ define([
 
     updateOnChange: false,
 
-    events: Object.assign({}, VerifyStageView.prototype.events),
+    events: Object.assign({
+
+      'change #-costCenter': function()
+      {
+        var costCenter = dictionaries.costCenters.get(this.$id('costCenter').val());
+
+        if (!costCenter)
+        {
+          return;
+        }
+
+        var owner = costCenter.get('owner');
+
+        if (!owner)
+        {
+          return;
+        }
+
+        var $owner = this.participantsView.$id('owner');
+
+        if ($owner.length)
+        {
+          $owner.select2('data', {
+            id: owner[user.idProperty],
+            text: owner.label
+          });
+        }
+      }
+
+    }, VerifyStageView.prototype.events),
 
     initialize: function()
     {

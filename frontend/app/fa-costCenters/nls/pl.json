@@ -3,5 +3,6 @@
 
   "PROPERTY:active": "Aktywne?",
   "PROPERTY:_id": "Symbol",
-  "PROPERTY:description": "Opis"
+  "PROPERTY:description": "Opis",
+  "PROPERTY:owner": "Właściciel ŚT"
 }

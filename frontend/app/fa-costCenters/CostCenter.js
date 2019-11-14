@@ -2,10 +2,12 @@
 
 define([
   '../i18n',
-  '../core/Model'
+  '../core/Model',
+  'app/core/templates/userInfo'
 ], function(
   t,
-  Model
+  Model,
+  userInfoTemplate
 ) {
   'use strict';
 
@@ -32,6 +34,7 @@ define([
       var obj = this.toJSON();
 
       obj.active = t('core', 'BOOL:' + obj.active);
+      obj.owner = userInfoTemplate({userInfo: obj.owner, noIp: true});
 
       return obj;
     }

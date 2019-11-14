@@ -38,7 +38,7 @@ define([
             {id: '_id', className: 'is-min'},
             {id: 'description', className: 'is-min'},
             {id: 'active', className: 'is-min'},
-            '-'
+            {id: 'owner'}
           ],
           collection: dictionaries.costCenters
         }));
@@ -70,14 +70,14 @@ define([
     viewport.loadPage(
       [
         'app/core/pages/AddFormPage',
-        'app/fa-costCenters/templates/form',
+        'app/fa-costCenters/views/FormView',
         nls
       ],
-      function(AddFormPage, formTemplate)
+      function(AddFormPage, FormView)
       {
         return dictionaries.bind(new AddFormPage({
           pageClassName: 'page-max-flex',
-          formTemplate: formTemplate,
+          FormView: FormView,
           model: new CostCenter()
         }));
       }
@@ -89,14 +89,14 @@ define([
     viewport.loadPage(
       [
         'app/core/pages/EditFormPage',
-        'app/fa-costCenters/templates/form',
+        'app/fa-costCenters/views/FormView',
         nls
       ],
-      function(EditFormPage, formTemplate)
+      function(EditFormPage, FormView)
       {
         return dictionaries.bind(new EditFormPage({
           pageClassName: 'page-max-flex',
-          formTemplate: formTemplate,
+          FormView: FormView,
           model: new CostCenter({_id: req.params.id})
         }));
       }

@@ -14,12 +14,6 @@
     <label for="<%- idPrefix %>-documentDate" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
     <input id="<%- idPrefix %>-documentDate" name="documentDate" class="form-control fa-edit-short" type="date" data-required>
   </div>
-  <% if (!model.protocolNeeded) { %>
-  <div class="form-group fa-edit-long has-required-select2">
-    <label for="<%- idPrefix %>-owner" class="control-label is-required"><%- t('PROPERTY:owner') %></label>
-    <input id="<%- idPrefix %>-owner" name="owner" type="text" data-required>
-  </div>
-  <% } %>
   <% if (model.commissioningType === 'inc-asset') { %>
   <div class="form-group fa-edit-short">
     <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
@@ -48,6 +42,12 @@
     <label for="<%- idPrefix %>-costCenter" class="control-label is-required"><%- t('PROPERTY:costCenter') %></label>
     <input id="<%- idPrefix %>-costCenter" name="costCenter" type="text" data-required>
   </div>
+  <% if (!model.protocolNeeded) { %>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- idPrefix %>-owner" class="control-label is-required"><%- t('PROPERTY:owner') %></label>
+    <input id="<%- idPrefix %>-owner" name="owner" type="text" data-required>
+  </div>
+  <% } %>
   <% if (model.usageDestination === 'external-supplier') { %>
   <div class="fa-edit-row fa-edit-long">
     <div class="form-group fa-edit-short">

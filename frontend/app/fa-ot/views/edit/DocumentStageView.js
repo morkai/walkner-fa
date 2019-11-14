@@ -2,6 +2,7 @@
 
 define([
   'app/time',
+  'app/user',
   'app/core/util/idAndLabel',
   'app/users/util/setUpUserSelect2',
   'app/fa-common/dictionaries',
@@ -11,6 +12,7 @@ define([
   'app/fa-ot/templates/edit/document'
 ], function(
   time,
+  user,
   idAndLabel,
   setUpUserSelect2,
   dictionaries,
@@ -26,6 +28,37 @@ define([
     template: template,
 
     updateOnChange: false,
+
+    events: {
+
+      'change #-costCenter': function()
+      {
+        var costCenter = dictionaries.costCenters.get(this.$id('costCenter').val());
+
+        if (!costCenter)
+        {
+          return;
+        }
+
+        var owner = costCenter.get('owner');
+
+        if (!owner)
+        {
+          return;
+        }
+
+        var $owner = this.$id('owner');
+
+        if ($owner.length)
+        {
+          $owner.select2('data', {
+            id: owner[user.idProperty],
+            text: owner.label
+          });
+        }
+      }
+
+    },
 
     initialize: function()
     {
@@ -177,7 +210,21 @@ define([
         costCenter: formData.costCenter || null
       };
 
-      if (!this.model.get('protocolNeeded'))
+      if (this.model.get('protocolNeeded'))
+      {
+        var costCenter = dictionaries.costCenters.get(data.costCenter);
+
+        if (costCenter)
+        {
+          var owner = costCenter.get('owner');
+
+          if (owner)
+          {
+            data.owner = owner;
+          }
+        }
+      }
+      else
       {
         data.owner = setUpUserSelect2.getUserInfo(this.$id('owner'));
       }

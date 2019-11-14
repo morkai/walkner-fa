@@ -4,7 +4,8 @@
 
     "PROPERTY:active": "Active?",
     "PROPERTY:_id": "Symbol",
-    "PROPERTY:full": "Description"
+    "PROPERTY:full": "Description",
+    "PROPERTY:owner": "FA owner"
   }
 ,
   "pl": true
