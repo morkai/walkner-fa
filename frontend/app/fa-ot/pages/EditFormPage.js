@@ -62,7 +62,14 @@ define([
 
     resize: function()
     {
-      var rect = this.$id('form')[0].getBoundingClientRect();
+      var formEl = this.$id('form')[0];
+
+      if (!formEl)
+      {
+        return;
+      }
+
+      var rect = formEl.getBoundingClientRect();
       var top = Math.max(rect.top, 30);
       var left = rect.right + 30;
       var height = window.innerHeight - top - 30;
