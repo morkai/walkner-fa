@@ -3,12 +3,14 @@
 define([
   'underscore',
   'backbone',
+  'jquery',
   'h5.rql/index',
   './util',
   './PaginationData'
 ], function(
   _,
   Backbone,
+  $,
   rql,
   util,
   PaginationData
@@ -179,7 +181,8 @@ define([
 
   Collection.prototype.getDefaultPageLimit = function()
   {
-    var hdHeight = 84 + 15;
+    var $hd = $('.hd').first();
+    var hdHeight = ($hd.length ? $hd.outerHeight() : 116) + 15;
     var filterHeight = 91 + 15;
     var pagerHeight = 39 + 15;
     var theadHeight = 32;
