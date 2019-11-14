@@ -181,7 +181,9 @@ exports.user = {
 };
 
 exports.users = {
-  browsePrivileges: ['USER']
+  browsePrivileges: ['USER'],
+  loginIn: {},
+  loginAs: {}
 };
 
 exports['mail/sender'] = {
