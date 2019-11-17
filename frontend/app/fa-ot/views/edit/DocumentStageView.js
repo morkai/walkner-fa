@@ -74,6 +74,8 @@ define([
 
       this.setView('#-zplx', this.zplxView);
       this.setView('#-value', this.valueView);
+
+      this.listenTo(this.zplxView, 'change', this.onZplxChange);
     },
 
     getTemplateData: function()
@@ -247,6 +249,11 @@ define([
       this.valueView.serializeForm(data);
 
       return data;
+    },
+
+    onZplxChange: function()
+    {
+      this.valueView.setValue(this.zplxView.getTotalValue());
     }
 
   });

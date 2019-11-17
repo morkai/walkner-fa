@@ -26,6 +26,7 @@ define([
         $zplx.appendTo(this.$id('zplx')).fadeIn('fast');
         $input.focus();
         this.model.trigger('dirty');
+        this.trigger('change');
       },
 
       'click .btn[data-action="zplx:remove"]': function(e)
@@ -44,6 +45,7 @@ define([
             $zplx.remove();
             view.$('.fa-edit-zplx-item').last().find('input').first().select();
             view.model.trigger('dirty');
+            view.trigger('change');
           });
         }
       },
@@ -66,6 +68,8 @@ define([
         var value = ValueInputView.parseValue(e.target.value);
 
         e.target.value = value ? ValueInputView.formatValue(value) : '';
+
+        this.trigger('change');
       }
     },
 
@@ -144,6 +148,20 @@ define([
           auc: d.auc
         };
       });
+    },
+
+    getTotalValue: function()
+    {
+      var value = 0;
+
+      this.$('.fa-edit-zplx-item').each(function()
+      {
+        var valueEl = this.querySelector('input[name$=".value"]');
+
+        value += valueEl ? ValueInputView.parseValue(valueEl.value) : 0;
+      });
+
+      return value;
     }
 
   });

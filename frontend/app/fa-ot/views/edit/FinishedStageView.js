@@ -87,6 +87,8 @@ define([
       this.setView('#-participants', this.participantsView);
       this.setView('#-value', this.valueView);
       this.setView('#-fiscalValue', this.fiscalValueView);
+
+      this.listenTo(this.zplxView, 'change', this.onZplxChange);
     },
 
     getTemplateData: function()
@@ -241,6 +243,11 @@ define([
       data.fiscalPeriod = verifyData.fiscalPeriod;
 
       return data;
+    },
+
+    onZplxChange: function()
+    {
+      this.valueView.setValue(this.zplxView.getTotalValue());
     }
 
   });
