@@ -22,6 +22,10 @@
           return '<ul>'
             + mobiles.map(function(mobile) { return '<li>' + helpers.t('DETAILS:mobile:item', mobile); })
             + '</ul>';
+        }},
+        {id: 'preferences:language', value: function()
+        {
+          return t('language:' + (model.preferences.language || 'pl'));
         }}
       ]) %>
     </div>

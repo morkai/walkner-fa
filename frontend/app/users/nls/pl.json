@@ -36,12 +36,16 @@
   "PROPERTY:mobile": "Telefony komórkowe",
   "PROPERTY:notifications": "Powiadomienia",
   "PROPERTY:apiKey": "Klucz API",
+  "PROPERTY:preferences:language": "Język",
 
   "active:true": "Tak",
   "active:false": "Nie",
 
   "gender:female": "Żeńska",
   "gender:male": "Męska",
+
+  "language:pl": "polski",
+  "language:en": "angielski",
 
   "FORM:ERROR:passwordMismatch": "Podane hasła nie pasują do siebie.",
   "FORM:ERROR:LOGIN_USED": "Podany login jest już wykorzystany w innym aktywnym koncie.",

@@ -42,18 +42,16 @@
             <label for="<%- idPrefix %>-lastName" class="control-label"><%- helpers.t('PROPERTY:lastName') %></label>
             <input id="<%- idPrefix %>-lastName" class="form-control" type="text" autocomplete="new-password" name="lastName" maxlength="50">
           </div>
-          <!--
           <div class="form-group">
-            <label for="<%- idPrefix %>-gender" class="control-label is-required"><%- helpers.t('PROPERTY:gender') %></label>
+            <label for="<%- idPrefix %>-language" class="control-label is-required"><%- helpers.t('PROPERTY:preferences:language') %></label>
             <div>
-              <% ['female', 'male'].forEach(function(gender) { %>
+              <% ['pl', 'en'].forEach(function(lang) { %>
               <label class="radio-inline">
-                <input type="radio" name="gender" value="<%- gender %>" required> <%- helpers.t('gender:' + gender) %>
+                <input type="radio" name="preferences.language" value="<%- lang %>" required> <%- helpers.t('language:' + lang) %>
               </label>
               <% }) %>
             </div>
           </div>
-          //-->
         </div>
         <div class="col-lg-5">
           <div class="form-group">

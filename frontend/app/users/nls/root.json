@@ -35,12 +35,16 @@
     "PROPERTY:mobile": "Mobile phone numbers",
     "PROPERTY:notifications": "Notifications",
     "PROPERTY:apiKey": "API key",
+    "PROPERTY:preferences:language": "Language",
 
     "active:true": "Yes",
     "active:false": "No",
 
     "gender:female": "Female",
     "gender:male": "Male",
+
+    "language:pl": "Polish",
+    "language:en": "English",
 
     "FORM:ERROR:passwordMismatch": "The specified password do not match.",
     "FORM:ERROR:LOGIN_USED": "The specified login is already used in another active account.",
