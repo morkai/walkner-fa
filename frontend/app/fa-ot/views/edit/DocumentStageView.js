@@ -206,11 +206,15 @@ define([
       var data = {
         comment: (formData.comment || '').trim(),
         documentDate: time.utc.getMoment(formData.documentDate, 'YYYY-MM-DD').toISOString(),
-        inventoryNo: (formData.inventoryNo || '').trim(),
         assetName: (formData.assetName || '').trim(),
         supplier: (formData.supplier || '').trim(),
         costCenter: formData.costCenter || null
       };
+
+      if (this.model.get('commissioningType') === 'inc-asset')
+      {
+        data.inventoryNo = (formData.inventoryNo || '').trim();
+      }
 
       if (this.model.get('protocolNeeded'))
       {
