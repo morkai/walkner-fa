@@ -1,4 +1,4 @@
-<div class="fa-edit-stage" data-stage="acceptOwner">
+<div class="fa-edit-stage" data-stage="acceptCommittee">
   <%- helpers.props(details, [
     '!kind',
     {id: 'mergeInventoryNo', visible: model.kind === 'merge', valueClassName: 'text-fixed'},
@@ -11,14 +11,7 @@
     {id: 'costCenter', valueClassName: 'text-fixed'},
     {id: '!applicant'},
     helpers.fa.committeeProp(),
-    {id: 'cause', valueClassName: 'text-lines'},
-    'initialValue',
-    'deprecationValue',
-    'netValue',
-    'economicInitialValue',
-    'economicDeprecationValue',
-    'economicNetValue',
-    {id: 'sapNo', valueClassName: 'text-fixed'}
+    {id: 'cause', valueClassName: 'text-lines'}
   ]) %>
   <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
