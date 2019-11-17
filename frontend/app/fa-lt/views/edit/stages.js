@@ -2,9 +2,9 @@
 
 define([
   './ProtocolStageView',
+  './AcceptCommitteeStageView',
   './VerifyStageView',
   './AcceptOwnerStageView',
-  './AcceptCommitteeStageView',
   './AcceptFinanceStageView',
   './AcceptDepartmentStageView',
   './AcceptDocumentStageView',
@@ -12,9 +12,9 @@ define([
   './FinishedStageView'
 ], function(
   ProtocolStageView,
+  AcceptCommitteeStageView,
   VerifyStageView,
   AcceptOwnerStageView,
-  AcceptCommitteeStageView,
   AcceptFinanceStageView,
   AcceptDepartmentStageView,
   AcceptDocumentStageView,
@@ -25,9 +25,9 @@ define([
 
   return {
     protocol: ProtocolStageView,
+    acceptCommittee: AcceptCommitteeStageView,
     verify: VerifyStageView,
     acceptOwner: AcceptOwnerStageView,
-    acceptCommittee: AcceptCommitteeStageView,
     acceptFinance: AcceptFinanceStageView,
     acceptDepartment: AcceptDepartmentStageView,
     acceptDocument: AcceptDocumentStageView,

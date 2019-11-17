@@ -10,6 +10,7 @@
     {id: 'inventoryNo', valueClassName: 'text-fixed'},
     {id: 'costCenter', valueClassName: 'text-fixed'},
     {id: '!applicant'},
+    helpers.fa.committeeProp(),
     {id: 'cause', valueClassName: 'text-lines'},
     'initialValue',
     'deprecationValue',
@@ -19,7 +20,6 @@
     'economicNetValue',
     {id: 'sapNo', valueClassName: 'text-fixed'}
   ]) %>
-  <div id="<%- idPrefix %>-participants" style="margin-bottom: 15px"></div>
   <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>

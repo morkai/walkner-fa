@@ -89,7 +89,8 @@ define([
       return {
         tabs: this.getTabs(),
         actions: this.stageView ? this.stageView.getFormActions() : [],
-        canEdit: this.model.canEdit()
+        canEdit: this.model.canEdit(),
+        stage: this.model.get('stage')
       };
     },
 

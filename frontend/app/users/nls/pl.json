@@ -76,7 +76,7 @@
   "PRIVILEGE:FA:LT:VIEW": "LT: przeglądanie",
   "PRIVILEGE:FA:LT:MANAGE": "LT: zarządzanie",
   "PRIVILEGE:FA:LT:protocol": "LT: etap 1: protokół",
-  "PRIVILEGE:FA:LT:verify": "LT: etap 2: weryfikacja",
+  "PRIVILEGE:FA:LT:verify": "LT: etap 3: weryfikacja",
   "PRIVILEGE:FA:LT:acceptOwner": "LT: etap 4: akceptacja właściciela",
   "PRIVILEGE:FA:LT:acceptFinance": "LT: etap 5: akceptacja dyrektora finansowego",
   "PRIVILEGE:FA:LT:acceptDepartment": "LT: etap 6: akceptacja dyrektora oddziału",

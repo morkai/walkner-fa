@@ -7,6 +7,7 @@ define([
   'app/users/util/setUpUserSelect2',
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
+  'app/fa-common/views/ParticipantsInputView',
   'app/fa-lt/templates/edit/protocol'
 ], function(
   time,
@@ -15,6 +16,7 @@ define([
   setUpUserSelect2,
   dictionaries,
   StageView,
+  ParticipantsInputView,
   template
 ) {
   'use strict';
@@ -24,6 +26,19 @@ define([
     template: template,
 
     updateOnChange: false,
+
+    initialize: function()
+    {
+      StageView.prototype.initialize.apply(this, arguments);
+
+      this.participantsView = new ParticipantsInputView({
+        model: this.model,
+        owner: false,
+        required: false
+      });
+
+      this.setView('#-participants', this.participantsView);
+    },
 
     getTemplateData: function()
     {
@@ -98,7 +113,7 @@ define([
       if (this.model.canEdit())
       {
         actions.push({
-          id: 'verify',
+          id: 'nextStep',
           className: 'btn-success',
           icon: 'fa-check'
         });
@@ -109,15 +124,15 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'verify')
+      if (action === 'nextStep')
       {
-        this.handleVerifyAction(formView);
+        this.handleNextStepAction(formView);
       }
     },
 
-    handleVerifyAction: function(formView)
+    handleNextStepAction: function(formView)
     {
-      this.model.set('newStage', 'verify');
+      this.model.set('newStage', this.participantsView.hasAnyParticipants() ? 'acceptCommittee' : 'verify');
 
       formView.handleNextRequest = function()
       {
@@ -129,7 +144,7 @@ define([
 
     serializeForm: function(formData)
     {
-      return {
+      var data = {
         comment: (formData.comment || '').trim(),
         protocolDate: formData.protocolDate
           ? time.utc.getMoment(formData.protocolDate, 'YYYY-MM-DD').toISOString()
@@ -138,8 +153,22 @@ define([
         assetName: (formData.assetName || '').trim(),
         costCenter: formData.costCenter || null,
         applicant: setUpUserSelect2.getUserInfo(this.$id('applicant')),
-        cause: (formData.cause || '').trim()
+        cause: (formData.cause || '').trim(),
+        committeeAcceptance: {}
       };
+
+      this.participantsView.serializeForm(data);
+
+      data.committee.forEach(function(userInfo)
+      {
+        data.committeeAcceptance[userInfo[user.idProperty]] = {
+          time: new Date(),
+          user: userInfo,
+          status: null
+        };
+      });
+
+      return data;
     }
 
   });

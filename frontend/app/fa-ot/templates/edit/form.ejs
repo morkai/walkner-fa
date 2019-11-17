@@ -13,7 +13,7 @@
     <div class="panel-footer <%- canEdit ? '' : 'hidden' %>">
       <button id="<%- idPrefix %>-submit" type="submit" class="btn btn-primary" disabled><i class="fa fa-save"></i><span><%- formActionText %></span></button>
       <% actions.forEach(function(action) { %>
-      <button type="button" class="btn <%- action.className %>" value="<%- action.id %>"><i class="fa <%- action.icon %>"></i><span><%- t('FORM:ACTION:' + action.id) %></span></button>
+      <button type="button" class="btn <%- action.className %>" value="<%- action.id %>"><i class="fa <%- action.icon %>"></i><span><%- t('FORM:ACTION:' + (action.id === 'nextStep' ? (stage + ':') : '') + action.id) %></span></button>
       <% }) %>
     </div>
   </div>

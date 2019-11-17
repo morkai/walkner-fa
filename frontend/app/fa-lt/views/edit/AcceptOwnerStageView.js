@@ -3,12 +3,10 @@
 define([
   'app/user',
   'app/fa-common/views/StageView',
-  'app/fa-common/views/ParticipantsInputView',
   'app/fa-lt/templates/edit/acceptOwner'
 ], function(
   user,
   StageView,
-  ParticipantsInputView,
   template
 ) {
   'use strict';
@@ -18,19 +16,6 @@ define([
     template: template,
 
     updateOnChange: false,
-
-    initialize: function()
-    {
-      StageView.prototype.initialize.apply(this, arguments);
-
-      this.participantsView = new ParticipantsInputView({
-        model: this.model,
-        owner: false,
-        required: false
-      });
-
-      this.setView('#-participants', this.participantsView);
-    },
 
     getTemplateData: function()
     {
@@ -49,7 +34,7 @@ define([
 
       return [
         {
-          id: 'acceptCommittee',
+          id: 'accept',
           className: 'btn-success',
           icon: 'fa-check'
         },
@@ -63,7 +48,7 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'acceptCommittee')
+      if (action === 'accept')
       {
         this.handleAcceptAction(formView);
       }
@@ -75,7 +60,7 @@ define([
 
     handleAcceptAction: function(formView)
     {
-      this.model.set('newStage', this.participantsView.hasAnyParticipants() ? 'acceptCommittee' : 'acceptFinance');
+      this.model.set('newStage', 'acceptFinance');
 
       formView.handleNextRequest = function()
       {
@@ -105,20 +90,8 @@ define([
     serializeForm: function(formData)
     {
       var data = {
-        comment: (formData.comment || '').trim(),
-        committeeAcceptance: {}
+        comment: (formData.comment || '').trim()
       };
-
-      this.participantsView.serializeForm(data);
-
-      data.committee.forEach(function(userInfo)
-      {
-        data.committeeAcceptance[userInfo[user.idProperty]] = {
-          time: new Date(),
-          user: userInfo,
-          status: null
-        };
-      });
 
       return data;
     }

@@ -192,9 +192,9 @@ define([
 
     STATUSES: [
       'protocol',
+      'acceptCommittee',
       'verify',
       'acceptOwner',
-      'acceptCommittee',
       'acceptFinance',
       'acceptDepartment',
       'acceptDocument',

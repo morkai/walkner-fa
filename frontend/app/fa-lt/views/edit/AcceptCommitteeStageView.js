@@ -105,7 +105,7 @@ define([
 
       if (_.every(committeeAcceptance, function(a) { return a.status; }))
       {
-        this.model.set('newStage', 'acceptFinance');
+        this.model.set('newStage', 'verify');
 
         formView.handleNextRequest = function()
         {
@@ -135,7 +135,7 @@ define([
 
     handleSkipAction: function(formView)
     {
-      this.model.set('newStage', 'acceptFinance');
+      this.model.set('newStage', 'verify');
 
       formView.handleNextRequest = function()
       {
