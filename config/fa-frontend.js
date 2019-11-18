@@ -176,9 +176,7 @@ exports.express = {
 exports.user = {
   userInfoIdProperty: '_id',
   localAddresses: [/^192\.168\.1\./],
-  privileges: [
-    'DICTIONARIES:VIEW', 'DICTIONARIES:MANAGE'
-  ]
+  privileges: []
 };
 
 exports.users = {
