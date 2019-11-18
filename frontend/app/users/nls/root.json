@@ -36,6 +36,7 @@
     "PROPERTY:notifications": "Notifications",
     "PROPERTY:apiKey": "API key",
     "PROPERTY:preferences:language": "Language",
+    "PROPERTY:preferences:emails": "E-mail notifications",
 
     "active:true": "Yes",
     "active:false": "No",
@@ -118,7 +119,9 @@
     "anonymize:message": "<p>Are you sure you want to anonimyze the chosen user?</p><p>User's account will be deactivated and identification data removed from the database.</p><p><strong>This operation is irreversible!</strong></p>",
     "anonymize:yes": "Anonymize user",
     "anonymize:no": "Cancel",
-    "anonymize:started": "User anonymization started..."
+    "anonymize:started": "User anonymization started...",
+
+    "preferences:emails": "Send e-mails about stage changes"
   },
   "pl": true
 }

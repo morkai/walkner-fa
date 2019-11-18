@@ -11,7 +11,9 @@ define([
 ) {
   'use strict';
 
-  var NOTIFICATIONS = [];
+  var NOTIFICATIONS = [
+    'emails'
+  ];
 
   function parseMobileTime(time)
   {
