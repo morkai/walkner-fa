@@ -67,6 +67,7 @@
   "PROPERTY:inventoryNo": "Nr inwentarzowy",
   "PROPERTY:assetName": "Nazwa środka trwałego",
   "PROPERTY:costCenter": "Konto kosztów",
+  "PROPERTY:owner": "Właściciel ŚT",
   "PROPERTY:applicant": "Osoba wnioskująca",
   "PROPERTY:committee": "Skład komisji",
   "PROPERTY:committeeAcceptance": "Akceptacja komisji",

@@ -69,6 +69,7 @@
     "PROPERTY:assetName": "Asset name",
     "PROPERTY:costCenter": "Cost center",
     "PROPERTY:applicant": "Applicant",
+    "PROPERTY:owner": "Owner",
     "PROPERTY:committee": "Committee",
     "PROPERTY:committeeAcceptance": "Committee acceptance",
     "PROPERTY:cause": "Cause",

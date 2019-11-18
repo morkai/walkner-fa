@@ -2,6 +2,7 @@
 
 define([
   'app/time',
+  'app/user',
   'app/core/util/idAndLabel',
   'app/users/util/setUpUserSelect2',
   'app/fa-common/dictionaries',
@@ -12,6 +13,7 @@ define([
   'app/fa-lt/templates/edit/finished'
 ], function(
   time,
+  user,
   idAndLabel,
   setUpUserSelect2,
   dictionaries,
@@ -28,6 +30,37 @@ define([
     template: template,
 
     updateOnChange: false,
+
+    events: {
+
+      'change #-costCenter': function()
+      {
+        var costCenter = dictionaries.costCenters.get(this.$id('costCenter').val());
+
+        if (!costCenter)
+        {
+          return;
+        }
+
+        var owner = costCenter.get('owner');
+
+        if (!owner)
+        {
+          return;
+        }
+
+        var $owner = this.$id('owner');
+
+        if ($owner.length)
+        {
+          $owner.select2('data', {
+            id: owner[user.idProperty],
+            text: owner.label
+          });
+        }
+      }
+
+    },
 
     initialize: function()
     {
@@ -114,6 +147,7 @@ define([
       var view = this;
 
       view.setUpCostCenterSelect2();
+      view.setUpUserSelect2(view.$id('owner'), view.model.get('owner'));
       view.setUpUserSelect2(view.$id('applicant'), view.model.get('applicant'));
     },
 
@@ -195,6 +229,7 @@ define([
         inventoryNo: (formData.inventoryNo || '').trim(),
         assetName: (formData.assetName || '').trim(),
         costCenter: formData.costCenter || null,
+        owner: setUpUserSelect2.getUserInfo(this.$id('owner')),
         applicant: setUpUserSelect2.getUserInfo(this.$id('applicant')),
         cause: (formData.cause || '').trim(),
         sapNo: (formData.sapNo || '').trim(),

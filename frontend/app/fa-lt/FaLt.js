@@ -86,6 +86,7 @@ define([
       obj.documentDate = obj.documentDate ? time.utc.format(obj.documentDate, 'LL') : '';
       obj.kind = t(this.nlsDomain, 'kind:' + this.get('kind'));
       obj.mergeType = obj.mergeType ? t(this.nlsDomain, 'mergeType:' + obj.mergeType) : '';
+      obj.owner = userInfoTemplate({userInfo: obj.owner});
       obj.applicant = userInfoTemplate({userInfo: obj.applicant});
       obj.committee = obj.committee.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); });
 

@@ -27,6 +27,37 @@ define([
 
     updateOnChange: false,
 
+    events: {
+
+      'change #-costCenter': function()
+      {
+        var costCenter = dictionaries.costCenters.get(this.$id('costCenter').val());
+
+        if (!costCenter)
+        {
+          return;
+        }
+
+        var owner = costCenter.get('owner');
+
+        if (!owner)
+        {
+          return;
+        }
+
+        var $owner = this.$id('owner');
+
+        if ($owner.length)
+        {
+          $owner.select2('data', {
+            id: owner[user.idProperty],
+            text: owner.label
+          });
+        }
+      }
+
+    },
+
     initialize: function()
     {
       StageView.prototype.initialize.apply(this, arguments);
@@ -53,7 +84,8 @@ define([
       var view = this;
 
       view.setUpCostCenterSelect2();
-      view.setUpUserSelect2(view.$id('applicant'), view.model.get('applicant'));
+      view.setUpUserSelect2(view.$id('owner'), view.model.get('owner'), false);
+      view.setUpUserSelect2(view.$id('applicant'), view.model.get('applicant'), true);
     },
 
     setUpCostCenterSelect2: function()
@@ -86,13 +118,13 @@ define([
       });
     },
 
-    setUpUserSelect2: function($input, userData)
+    setUpUserSelect2: function($input, userData, current)
     {
       setUpUserSelect2($input, {
         width: '100%'
       });
 
-      if (!userData)
+      if (!userData && current)
       {
         userData = user.getInfo();
       }
@@ -152,6 +184,7 @@ define([
         inventoryNo: (formData.inventoryNo || '').trim(),
         assetName: (formData.assetName || '').trim(),
         costCenter: formData.costCenter || null,
+        owner: setUpUserSelect2.getUserInfo(this.$id('owner')),
         applicant: setUpUserSelect2.getUserInfo(this.$id('applicant')),
         cause: (formData.cause || '').trim(),
         committeeAcceptance: {}
