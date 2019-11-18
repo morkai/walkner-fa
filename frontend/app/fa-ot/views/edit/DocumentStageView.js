@@ -99,6 +99,15 @@ define([
         });
       }
 
+      if (!this.model.get('protocolNeeded') && this.model.canCancel())
+      {
+        actions.push({
+          id: 'cancel',
+          className: 'btn-danger btn-push-right',
+          icon: 'fa-stop'
+        });
+      }
+
       return actions;
     },
 

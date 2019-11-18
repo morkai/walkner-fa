@@ -34,16 +34,8 @@ define([
   'use strict';
 
   var canView = user.auth('FA:VIEW', 'FA:LT:VIEW');
-  var canAdd = user.auth('FA:MANAGE', 'FA:LT:MANAGE', 'FA:LT:protocol');
-  var canEdit = user.auth(
-    'FA:LT:MANAGE',
-    'FA:LT:protocol',
-    'FA:LT:verify',
-    'FA:LT:acceptOwner',
-    'FA:LT:acceptDepartment',
-    'FA:LT:acceptFinance',
-    'FA:LT:record'
-  );
+  var canAdd = user.auth('FA:MANAGE', 'FA:LT:MANAGE', 'FA:LT:ADD');
+  var canEdit = user.auth('FA:LT:MANAGE', 'FA:LT:*');
   var canDelete = user.auth('FA:MANAGE', 'FA:LT:MANAGE');
 
   router.map('/fa/lt', canView, function(req)

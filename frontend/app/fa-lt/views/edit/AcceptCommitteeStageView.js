@@ -64,7 +64,7 @@ define([
           className: 'btn-info btn-push-right',
           icon: 'fa-step-forward'
         }, {
-          id: 'committee:cancel',
+          id: 'cancel',
           className: 'btn-danger',
           icon: 'fa-stop'
         });
@@ -86,10 +86,6 @@ define([
       else if (action === 'committee:skip')
       {
         this.handleSkipAction(formView);
-      }
-      else if (action === 'committee:cancel')
-      {
-        this.handleCancelAction(formView);
       }
     },
 
@@ -136,18 +132,6 @@ define([
     handleSkipAction: function(formView)
     {
       this.model.set('newStage', 'verify');
-
-      formView.handleNextRequest = function()
-      {
-        formView.model.set('newStage', null);
-      };
-
-      formView.submit({toggleRequired: false});
-    },
-
-    handleCancelAction: function(formView)
-    {
-      this.model.set('newStage', 'cancelled');
 
       formView.handleNextRequest = function()
       {

@@ -18,6 +18,8 @@
     "FORM:ACTION:verify": "Verify",
     "FORM:ACTION:accept": "Accept",
     "FORM:ACTION:reject": "Reject",
+    "FORM:ACTION:cancel": "Cancel",
+    "FORM:ACTION:skip": "Skip",
     "FORM:ACTION:protocol:nextStep": "Ready for approval",
     "FORM:ACTION:acceptOwner": "Accept",
     "FORM:ACTION:acceptCommittee": "Accept",

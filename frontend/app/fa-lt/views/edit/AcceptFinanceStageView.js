@@ -60,10 +60,6 @@ define([
       {
         this.handleRejectAction(formView);
       }
-      else if (action === 'finance:cancel')
-      {
-        this.handleCancelAction(formView);
-      }
     },
 
     handleAcceptAction: function(formView)
@@ -81,18 +77,6 @@ define([
     handleRejectAction: function(formView)
     {
       this.model.set('newStage', 'acceptOwner');
-
-      formView.handleNextRequest = function()
-      {
-        formView.model.set('newStage', null);
-      };
-
-      formView.submit({toggleRequired: false});
-    },
-
-    handleCancelAction: function(formView)
-    {
-      this.model.set('newStage', 'cancelled');
 
       formView.handleNextRequest = function()
       {

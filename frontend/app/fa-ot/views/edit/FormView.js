@@ -42,7 +42,16 @@ define([
 
       'click .panel-footer .btn[value]': function(e)
       {
-        this.stageView.handleFormAction(e.currentTarget.value, this);
+        var action = e.currentTarget.value;
+
+        if (/cancel$/.test(action))
+        {
+          this.handleCancelAction(this);
+        }
+        else
+        {
+          this.stageView.handleFormAction(e.currentTarget.value, this);
+        }
       },
 
       'click #-submit': function(e)
@@ -414,6 +423,18 @@ define([
     onDeleted: function(message)
     {
       onModelDeleted(this.broker, this.model, message, false);
+    },
+
+    handleCancelAction: function(formView)
+    {
+      this.model.set('newStage', 'cancelled');
+
+      formView.handleNextRequest = function()
+      {
+        formView.model.set('newStage', null);
+      };
+
+      formView.submit({toggleRequired: false});
     }
 
   });

@@ -17,6 +17,8 @@
   "FORM:ACTION:printProtocol": "Wersja do druku",
   "FORM:ACTION:printDocument": "Wersja do druku",
   "FORM:ACTION:reject": "Odrzuć",
+  "FORM:ACTION:cancel": "Anuluj",
+  "FORM:ACTION:skip": "Pomiń",
   "FORM:ACTION:authorize": "Do autoryzacji",
   "FORM:ACTION:document": "Autoryzuj protokół",
   "FORM:ACTION:verify": "Do weryfikacji",

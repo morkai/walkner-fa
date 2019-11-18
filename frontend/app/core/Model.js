@@ -122,5 +122,25 @@ define([
       model.currentReadRequest = req;
     }
 
+  }, {
+
+    extend: function(protoProps, staticProps)
+    {
+      var Model = Backbone.Model.extend.call(this, protoProps, staticProps);
+
+      if (staticProps && staticProps.can)
+      {
+        Object.keys(staticProps.can).forEach(function(action)
+        {
+          if (typeof staticProps.can[action] === 'function')
+          {
+            staticProps.can[action] = staticProps.can[action].bind(Model);
+          }
+        });
+      }
+
+      return Model;
+    }
+
   });
 });

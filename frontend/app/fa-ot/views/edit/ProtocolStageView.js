@@ -60,6 +60,15 @@ define([
         });
       }
 
+      if (this.model.canCancel())
+      {
+        actions.push({
+          id: 'cancel',
+          className: 'btn-danger btn-push-right',
+          icon: 'fa-stop'
+        });
+      }
+
       return actions;
     },
 

@@ -1,12 +1,14 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'underscore',
   'app/i18n',
   'app/time',
   'app/user',
   'app/core/Model',
   'app/core/templates/userInfo'
 ], function(
+  _,
   t,
   time,
   user,
@@ -146,6 +148,36 @@ define([
     canManage: function()
     {
       return this.constructor.can.manage(this);
+    },
+
+    canCancel: function()
+    {
+      return this.constructor.can.cancel(this);
+    },
+
+    isUser: function()
+    {
+      return _.includes(this.get('users'), user.data._id);
+    },
+
+    isCreator: function()
+    {
+      return this.get('createdBy')._id === user.data._id;
+    },
+
+    isApplicant: function()
+    {
+      return this.get('applicant')._id === user.data._id;
+    },
+
+    isOwner: function()
+    {
+      return this.get('owner')._id === user.data._id;
+    },
+
+    isCommittee: function()
+    {
+      return _.some(this.get('committee'), function(u) { return u._id === user.data._id; });
     }
 
   }, {
@@ -153,37 +185,51 @@ define([
     can: {
       add: function()
       {
-        return user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE', 'FA:LT:protocol');
+        return user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE', 'FA:LT:ADD');
       },
       edit: function(model)
       {
+        if (user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE'))
+        {
+          return true;
+        }
+
         var stage = model.get('stage');
 
-        if (stage === 'cancelled')
+        switch (stage)
         {
-          return false;
+          case 'protocol':
+            return model.isCreator() || model.isApplicant();
+
+          case 'acceptCommittee':
+            return model.isCommittee();
+
+          case 'acceptOwner':
+          case 'acceptDocument':
+            return model.isOwner();
+
+          case 'verify':
+          case 'record':
+          case 'acceptFinance':
+          case 'acceptDepartment':
+            return user.isAllowedTo('FA:LT:' + stage);
+
+          case 'finished':
+            return user.isAllowedTo('SUPER');
+
+          case 'cancelled':
+            return user.data.login === 'root';
         }
 
-        if (stage === 'finished')
-        {
-          return user.isAllowedTo('SUPER');
-        }
-
-        if (stage === 'acceptCommittee')
-        {
-          var committeeAcceptance = model.get('committeeAcceptance');
-
-          if (committeeAcceptance && committeeAcceptance[user.data[user.idProperty]])
-          {
-            return true;
-          }
-        }
-
-        return user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE', 'FA:LT:' + model.get('stage'));
+        return false;
       },
-      manage: function(model)
+      manage: function()
       {
-        return user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE', 'FA:LT:' + model.get('stage'));
+        return user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE');
+      },
+      cancel: function(model)
+      {
+        return model.isCreator() || user.isAllowedTo('FA:MANAGE', 'FA:LT:MANAGE');
       },
       delete: function()
       {

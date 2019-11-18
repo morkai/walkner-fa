@@ -6,14 +6,16 @@ define([
   'app/user',
   'app/core/Model',
   'app/core/templates/userInfo',
-  'app/fa-common/dictionaries'
+  'app/fa-common/dictionaries',
+  'app/fa-common/util/formatPeriod'
 ], function(
   t,
   time,
   user,
   Model,
   userInfoTemplate,
-  dictionaries
+  dictionaries,
+  formatPeriod
 ) {
   'use strict';
 
@@ -31,36 +33,6 @@ define([
     'value',
     'fiscalValue'
   ];
-
-  function formatPeriod(months)
-  {
-    if (!months)
-    {
-      return '';
-    }
-
-    var y = Math.floor(months / 12);
-    var m = months % 12;
-    var key = 'period:';
-
-    if (y && m)
-    {
-      key += 'both';
-    }
-    else if (y)
-    {
-      key += 'y';
-    }
-    else if (m)
-    {
-      key += 'm';
-    }
-
-    return t('fa-common', key, {
-      years: y,
-      months: m
-    });
-  }
 
   return Model.extend({
 
@@ -203,6 +175,26 @@ define([
     canEdit: function()
     {
       return this.constructor.can.edit(this);
+    },
+
+    canCancel: function()
+    {
+      return this.constructor.can.cancel(this);
+    },
+
+    isUser: function()
+    {
+      return _.includes(this.get('users'), user.data._id);
+    },
+
+    isCreator: function()
+    {
+      return this.get('createdBy')._id === user.data._id;
+    },
+
+    isOwner: function()
+    {
+      return this.get('owner')._id === user.data._id;
     }
 
   }, {
@@ -210,23 +202,43 @@ define([
     can: {
       add: function()
       {
-        return user.isAllowedTo('FA:MANAGE', 'FA:OT:MANAGE', 'FA:OT:protocol', 'FA:OT:document');
+        return user.isAllowedTo('FA:MANAGE', 'FA:OT:MANAGE', 'FA:OT:ADD');
       },
       edit: function(model)
       {
+        if (user.isAllowedTo('FA:MANAGE', 'FA:OT:MANAGE'))
+        {
+          return true;
+        }
+
         var stage = model.get('stage');
 
-        if (stage === 'cancelled')
+        switch (stage)
         {
-          return false;
+          case 'protocol':
+          case 'authorize':
+          case 'document':
+            return model.isCreator();
+
+          case 'accept':
+            return model.isOwner();
+
+          case 'verify':
+          case 'record':
+            return user.isAllowedTo('FA:OT:' + stage);
+
+          case 'finished':
+            return user.isAllowedTo('SUPER');
+
+          case 'cancelled':
+            return user.data.login === 'root';
         }
 
-        if (stage === 'finished')
-        {
-          return user.isAllowedTo('SUPER');
-        }
-
-        return user.isAllowedTo('FA:MANAGE', 'FA:OT:MANAGE', 'FA:OT:' + model.get('stage'));
+        return false;
+      },
+      cancel: function(model)
+      {
+        return model.isCreator() || user.isAllowedTo('FA:MANAGE', 'FA:OT:MANAGE');
       },
       delete: function()
       {

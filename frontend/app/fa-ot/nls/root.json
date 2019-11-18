@@ -18,6 +18,8 @@
     "FORM:ACTION:printProtocol": "Printable version",
     "FORM:ACTION:printDocument": "Printable version",
     "FORM:ACTION:reject": "Reject",
+    "FORM:ACTION:cancel": "Cancel",
+    "FORM:ACTION:skip": "Skip",
     "FORM:ACTION:authorize": "To authorization",
     "FORM:ACTION:document": "Authorize",
     "FORM:ACTION:verify": "To verification",

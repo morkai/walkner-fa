@@ -83,12 +83,13 @@ exports.events = {
   insertDelay: 1000,
   topics: {
     debug: [
-
+      '*.added', '*.edited'
     ],
     warning: [
-
+      '*.deleted'
     ],
     error: [
+      '*.syncFailed',
       'app.started'
     ]
   },
