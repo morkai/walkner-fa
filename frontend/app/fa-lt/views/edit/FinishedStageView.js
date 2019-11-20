@@ -8,7 +8,6 @@ define([
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
-  'app/fa-common/views/ParticipantsInputView',
   'app/fa-lt/FaLt',
   'app/fa-lt/templates/edit/finished'
 ], function(
@@ -19,7 +18,6 @@ define([
   dictionaries,
   StageView,
   ValueInputView,
-  ParticipantsInputView,
   FaLt,
   template
 ) {
@@ -68,12 +66,6 @@ define([
 
       StageView.prototype.initialize.apply(view, arguments);
 
-      view.participantsView = new ParticipantsInputView({
-        model: view.model,
-        owner: false,
-        required: false
-      });
-
       view.valueViews = {
         initialValue: new ValueInputView({
           property: 'initialValue',
@@ -107,8 +99,6 @@ define([
           model: view.model
         })
       };
-
-      view.setView('#-participants', view.participantsView);
 
       if (view.model.get('kind') === 'sale')
       {
@@ -149,6 +139,10 @@ define([
       view.setUpCostCenterSelect2();
       view.setUpUserSelect2(view.$id('owner'), view.model.get('owner'));
       view.setUpUserSelect2(view.$id('applicant'), view.model.get('applicant'));
+      view.setUpUserSelect2(view.$id('committee'), view.model.get('committee'), {
+        collection: dictionaries.committee,
+        multiple: true
+      });
     },
 
     setUpCostCenterSelect2: function()
@@ -181,18 +175,28 @@ define([
       });
     },
 
-    setUpUserSelect2: function($input, user)
+    setUpUserSelect2: function($input, users, options)
     {
-      setUpUserSelect2($input, {
+      setUpUserSelect2($input, _.assign({
         width: '100%'
-      });
+      }, options));
 
-      if (user)
+      if (users)
       {
-        $input.select2('data', {
-          id: user._id,
-          text: user.label
+        if (!Array.isArray(users))
+        {
+          users = [users];
+        }
+
+        var data = users.map(function(u)
+        {
+          return {
+            id: u._id,
+            text: u.label
+          };
         });
+
+        $input.select2('data', options && options.multiple ? data : data[0]);
       }
     },
 
@@ -231,6 +235,8 @@ define([
         costCenter: formData.costCenter || null,
         owner: setUpUserSelect2.getUserInfo(this.$id('owner')),
         applicant: setUpUserSelect2.getUserInfo(this.$id('applicant')),
+        committee: setUpUserSelect2.getUserInfo(this.$id('committee')),
+        committeeAcceptance: {},
         cause: (formData.cause || '').trim(),
         sapNo: (formData.sapNo || '').trim(),
         accountingNo: (formData.accountingNo || '').trim()
@@ -252,7 +258,18 @@ define([
         });
       }
 
-      view.participantsView.serializeForm(data);
+      var oldCommitteeAcceptance = view.model.get('committeeAcceptance') || {};
+
+      data.committee.forEach(function(userInfo)
+      {
+        var userId = userInfo[user.idProperty];
+
+        data.committeeAcceptance[userId] = oldCommitteeAcceptance[userId] || {
+          time: new Date(),
+          user: userInfo,
+          status: null
+        };
+      });
 
       Object.keys(view.valueViews).forEach(function(prop)
       {

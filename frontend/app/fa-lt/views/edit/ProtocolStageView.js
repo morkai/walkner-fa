@@ -1,22 +1,22 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'underscore',
   'app/time',
   'app/user',
   'app/core/util/idAndLabel',
   'app/users/util/setUpUserSelect2',
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
-  'app/fa-common/views/ParticipantsInputView',
   'app/fa-lt/templates/edit/protocol'
 ], function(
+  _,
   time,
   user,
   idAndLabel,
   setUpUserSelect2,
   dictionaries,
   StageView,
-  ParticipantsInputView,
   template
 ) {
   'use strict';
@@ -58,19 +58,6 @@ define([
 
     },
 
-    initialize: function()
-    {
-      StageView.prototype.initialize.apply(this, arguments);
-
-      this.participantsView = new ParticipantsInputView({
-        model: this.model,
-        owner: false,
-        required: false
-      });
-
-      this.setView('#-participants', this.participantsView);
-    },
-
     getTemplateData: function()
     {
       return {
@@ -84,8 +71,12 @@ define([
       var view = this;
 
       view.setUpCostCenterSelect2();
-      view.setUpUserSelect2(view.$id('owner'), view.model.get('owner'), false);
-      view.setUpUserSelect2(view.$id('applicant'), view.model.get('applicant'), true);
+      view.setUpUserSelect2(view.$id('owner'), view.model.get('owner'));
+      view.setUpUserSelect2(view.$id('applicant'), view.model.get('applicant') || user.getInfo());
+      view.setUpUserSelect2(view.$id('committee'), view.model.get('committee'), {
+        collection: dictionaries.committee,
+        multiple: true
+      });
     },
 
     setUpCostCenterSelect2: function()
@@ -118,23 +109,28 @@ define([
       });
     },
 
-    setUpUserSelect2: function($input, userData, current)
+    setUpUserSelect2: function($input, users, options)
     {
-      setUpUserSelect2($input, {
+      setUpUserSelect2($input, _.assign({
         width: '100%'
-      });
+      }, options));
 
-      if (!userData && current)
+      if (users)
       {
-        userData = user.getInfo();
-      }
+        if (!Array.isArray(users))
+        {
+          users = [users];
+        }
 
-      if (userData)
-      {
-        $input.select2('data', {
-          id: userData._id,
-          text: userData.label
+        var data = users.map(function(u)
+        {
+          return {
+            id: u._id,
+            text: u.label
+          };
         });
+
+        $input.select2('data', options && options.multiple ? data : data[0]);
       }
     },
 
@@ -173,7 +169,7 @@ define([
 
     handleNextStepAction: function(formView)
     {
-      this.model.set('newStage', this.participantsView.hasAnyParticipants() ? 'acceptCommittee' : 'verify');
+      this.model.set('newStage', 'acceptCommittee');
 
       formView.handleNextRequest = function()
       {
@@ -195,11 +191,10 @@ define([
         costCenter: formData.costCenter || null,
         owner: setUpUserSelect2.getUserInfo(this.$id('owner')),
         applicant: setUpUserSelect2.getUserInfo(this.$id('applicant')),
-        cause: (formData.cause || '').trim(),
-        committeeAcceptance: {}
+        committee: setUpUserSelect2.getUserInfo(this.$id('committee')),
+        committeeAcceptance: {},
+        cause: (formData.cause || '').trim()
       };
-
-      this.participantsView.serializeForm(data);
 
       data.committee.forEach(function(userInfo)
       {

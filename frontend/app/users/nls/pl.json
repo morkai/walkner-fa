@@ -82,6 +82,7 @@
   "PRIVILEGE:FA:LT:acceptFinance": "LT: akceptacja dyrektora finansowego",
   "PRIVILEGE:FA:LT:acceptDepartment": "LT: akceptacja dyrektora oddziału",
   "PRIVILEGE:FA:LT:record": "LT: księgowanie",
+  "PRIVILEGE:FA:LT:committee": "LT: członek komisji",
 
   "select2:placeholder": "Szukaj po nazwisku...",
   "select2:users:system": "System",

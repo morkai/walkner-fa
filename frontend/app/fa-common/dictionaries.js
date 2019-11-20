@@ -1,17 +1,21 @@
 // Part of <https://miracle.systems/p/walkner-wmes> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'underscore',
   'jquery',
   '../broker',
   '../pubsub',
   '../user',
+  '../users/UserCollection',
   '../fa-assetClasses/AssetClassCollection',
   '../fa-costCenters/CostCenterCollection'
 ], function(
+  _,
   $,
   broker,
   pubsub,
   user,
+  UserCollection,
   AssetClassCollection,
   CostCenterCollection
 ) {
@@ -29,6 +33,10 @@ define([
   var dictionaries = {
     assetClasses: new AssetClassCollection(),
     costCenters: new CostCenterCollection(),
+    committee: new UserCollection(null, {
+      rqlQuery: 'select(firstName,lastName,login,privileges)&sort(searchName)&limit(0)'
+        + '&privileges=' + encodeURIComponent('FA:LT:committee')
+    }),
     loaded: false,
     load: function()
     {
@@ -69,6 +77,8 @@ define([
       {
         pubsubSandbox.subscribe(TOPIC_PREFIX + PROP_TO_DICT[prop] + '.**', handleDictionaryMessage);
       });
+
+      pubsubSandbox.subscribe('users.edited', handleUserEdited);
 
       return req;
     },
@@ -131,6 +141,8 @@ define([
 
       dictionaries[dict].reset(data ? data[dict] : []);
     });
+
+    dictionaries.committee.reset(data ? data.committee : []);
   }
 
   function unload()
@@ -181,6 +193,24 @@ define([
     }
 
     broker.publish(topic, message);
+  }
+
+  function handleUserEdited(message)
+  {
+    var newUser = message.model;
+    var oldUser = dictionaries.committee.get(newUser._id);
+
+    if (_.includes(newUser.privileges, 'FA:LT:committee'))
+    {
+      if (!oldUser)
+      {
+        dictionaries.committee.add(newUser);
+      }
+    }
+    else if (oldUser)
+    {
+      dictionaries.committee.remove(oldUser);
+    }
   }
 
   return dictionaries;

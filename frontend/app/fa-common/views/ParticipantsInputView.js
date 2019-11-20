@@ -89,6 +89,11 @@ define([
 
     setUpUserSelect2: function($input, user)
     {
+      if (!$input.length)
+      {
+        return;
+      }
+
       setUpUserSelect2($input, {
         width: '292px'
       });

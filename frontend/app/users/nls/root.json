@@ -81,6 +81,7 @@
     "PRIVILEGE:FA:LT:acceptFinance": "LT: finance acceptation",
     "PRIVILEGE:FA:LT:acceptDepartment": "LT: department acceptation",
     "PRIVILEGE:FA:LT:record": "LT: recording",
+    "PRIVILEGE:FA:LT:committee": "LT: committee member",
 
     "select2:placeholder": "Search by last name...",
     "select2:users:system": "System",
