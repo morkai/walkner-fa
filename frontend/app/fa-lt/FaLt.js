@@ -167,12 +167,16 @@ define([
 
     isApplicant: function()
     {
-      return this.get('applicant')._id === user.data._id;
+      var applicant = this.get('applicant');
+
+      return !!applicant && applicant._id === user.data._id;
     },
 
     isOwner: function()
     {
-      return this.get('owner')._id === user.data._id;
+      var owner = this.get('owner');
+
+      return !!owner && owner._id === user.data._id;
     },
 
     isCommittee: function()
