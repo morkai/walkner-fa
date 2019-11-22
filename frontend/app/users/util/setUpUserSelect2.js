@@ -258,9 +258,9 @@ define([
         oldDestroy.apply(instance, arguments);
       };
 
-      options.collection.on('reset add change remove', function()
+      options.collection.once('reset add change remove', function()
       {
-
+        setUpUserSelect2($input, options);
       });
     }
 
@@ -291,7 +291,7 @@ define([
             return userToData(userData, textFormatter);
           });
 
-          $input.select2('data', options.multiple ? sdata : data[0]);
+          $input.select2('data', options.multiple ? data : data[0]);
 
           if (options.onDataLoaded)
           {
