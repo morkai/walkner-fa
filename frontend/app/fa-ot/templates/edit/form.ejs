@@ -13,7 +13,20 @@
     <div class="panel-footer <%- canEdit ? '' : 'hidden' %>">
       <button id="<%- idPrefix %>-submit" type="submit" class="btn btn-primary" disabled title="<%- t('FORM:ACTION:edit:title') %>"><i class="fa fa-save"></i><span><%- formActionText %></span></button>
       <% actions.forEach(function(action) { %>
+      <% if (action.actions.length) { %>
+      <div class="btn-group dropup">
+        <button type="button" class="btn <%- action.className %> dropdown-toggle" data-toggle="dropdown" value="<%- action.id %>" title="<%- action.title %>">
+          <i class="fa <%- action.icon %>"></i><span><%- action.label %></span>
+        </button>
+        <ul class="dropdown-menu">
+          <% action.actions.forEach(function(subAction) { %>
+          <li><a href="javascript:void(0)" data-action="<%- subAction.id %>"><%- subAction.label %></a></li>
+          <% }) %>
+        </ul>
+      </div>
+      <% } else { %>
       <button type="button" class="btn <%- action.className %>" value="<%- action.id %>" title="<%- action.title %>"><i class="fa <%- action.icon %>"></i><span><%- action.label %></span></button>
+      <% } %>
       <% }) %>
     </div>
   </div>

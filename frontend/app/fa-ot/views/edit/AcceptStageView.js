@@ -39,7 +39,8 @@ define([
         {
           id: 'reject',
           className: 'btn-warning',
-          icon: 'fa-times'
+          icon: 'fa-times',
+          actions: ['document', 'verify']
         },
         {
           id: 'cancel',
@@ -53,36 +54,12 @@ define([
     {
       if (action === 'nextStep')
       {
-        this.handleNextStepAction(formView);
+        formView.handleNewStageAction('record');
       }
-      else if (action === 'reject')
+      else if (action === 'document' || action === 'verify')
       {
-        this.handleRejectAction(formView);
+        formView.handleNewStageAction(action, {submit: {toggleRequired: false}});
       }
-    },
-
-    handleNextStepAction: function(formView)
-    {
-      this.model.set('newStage', 'record');
-
-      formView.handleNextRequest = function()
-      {
-        formView.model.set('newStage', null);
-      };
-
-      formView.submit();
-    },
-
-    handleRejectAction: function(formView)
-    {
-      this.model.set('newStage', 'verify');
-
-      formView.handleNextRequest = function()
-      {
-        formView.model.set('newStage', null);
-      };
-
-      formView.submit({toggleRequired: false});
     },
 
     serializeForm: function(formData)

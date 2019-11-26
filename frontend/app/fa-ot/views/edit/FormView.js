@@ -42,16 +42,15 @@ define([
 
       'click .panel-footer .btn[value]': function(e)
       {
-        var action = e.currentTarget.value;
+        if (!e.currentTarget.parentNode.classList.contains('btn-group'))
+        {
+          this.handleFormAction(e.currentTarget.value);
+        }
+      },
 
-        if (/cancel$/.test(action))
-        {
-          this.handleCancelAction(this);
-        }
-        else
-        {
-          this.stageView.handleFormAction(e.currentTarget.value, this);
-        }
+      'click a[data-action]': function(e)
+      {
+        this.handleFormAction(e.currentTarget.dataset.action);
       },
 
       'click #-submit': function(e)
@@ -119,6 +118,23 @@ define([
               ? view.t('FORM:ACTION:' + action.id + ':title', data)
               : '';
         }
+
+        action.actions = (action.actions || []).map(function(subAction)
+        {
+          if (typeof subAction === 'string')
+          {
+            subAction = {id: subAction};
+          }
+
+          if (!subAction.label)
+          {
+            subAction.label = view.t.has('FORM:ACTION:' + stage + ':' + action.id + ':' + subAction.id)
+              ? view.t('FORM:ACTION:' + stage + ':' + action.id + ':' + subAction.id)
+              : view.t('FORM:ACTION:' + action.id + ':' + subAction.id);
+          }
+
+          return subAction;
+        });
 
         return action;
       });
@@ -468,6 +484,32 @@ define([
     onDeleted: function(message)
     {
       onModelDeleted(this.broker, this.model, message, false);
+    },
+
+    handleFormAction: function(action)
+    {
+      if (/cancel$/.test(action))
+      {
+        this.handleCancelAction(this);
+      }
+      else
+      {
+        this.stageView.handleFormAction(action, this);
+      }
+    },
+
+    handleNewStageAction: function(newStage, options)
+    {
+      var view = this;
+
+      view.model.set('newStage', newStage);
+
+      view.handleNextRequest = function()
+      {
+        view.model.set('newStage', null);
+      };
+
+      view.submit(options && options.submit || {});
     },
 
     handleCancelAction: function(formView)

@@ -41,7 +41,8 @@ define([
         {
           id: 'reject',
           className: 'btn-warning',
-          icon: 'fa-times'
+          icon: 'fa-times',
+          actions: ['protocol', 'verify']
         },
         {
           id: 'cancel',
@@ -55,36 +56,12 @@ define([
     {
       if (action === 'accept')
       {
-        this.handleAcceptAction(formView);
+        formView.handleNewStageAction('acceptFinance');
       }
-      else if (action === 'reject')
+      else if (action === 'protocol' || action === 'verify')
       {
-        this.handleRejectAction(formView);
+        formView.handleNewStageAction(action, {submit: {toggleRequired: false}});
       }
-    },
-
-    handleAcceptAction: function(formView)
-    {
-      this.model.set('newStage', 'acceptFinance');
-
-      formView.handleNextRequest = function()
-      {
-        formView.model.set('newStage', null);
-      };
-
-      formView.submit();
-    },
-
-    handleRejectAction: function(formView)
-    {
-      this.model.set('newStage', 'verify');
-
-      formView.handleNextRequest = function()
-      {
-        formView.model.set('newStage', null);
-      };
-
-      formView.submit({toggleRequired: false});
     },
 
     serializeToForm: function(formData)
@@ -94,11 +71,9 @@ define([
 
     serializeForm: function(formData)
     {
-      var data = {
+      return {
         comment: (formData.comment || '').trim()
       };
-
-      return data;
     }
 
   });
