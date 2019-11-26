@@ -41,11 +41,18 @@
     name: 'protocol',
     style: 'margin-top: ' + (model.commissioningType === 'inc-asset' ? '-10px' : '0'),
     help: false,
-    required: true
+    required: true,
+    accept: ['doc', 'img']
+  }) %>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'photo',
+    help: false,
+    accept: 'img',
+    visible: model.commissioningType === 'new-asset'
   }) %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'attachment',
-    help: !!model.protocolFile
+    help: !!(model.protocolFile || model.photoFile)
   }) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>

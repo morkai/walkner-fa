@@ -66,6 +66,7 @@
     "PROPERTY:checklistFile": "Checklist",
     "PROPERTY:certificateFile": "Certificate",
     "PROPERTY:nameplateFile": "Nameplate",
+    "PROPERTY:photoFile": "Photo",
     "PROPERTY:attachmentFile": "Attachment",
     "PROPERTY:deprecationRate": "% deprecation rate",
     "PROPERTY:economicPeriod": "Economic depreciation period",

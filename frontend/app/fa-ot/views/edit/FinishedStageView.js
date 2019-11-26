@@ -108,6 +108,11 @@ define([
         files.push('certificate', 'nameplate');
       }
 
+      if (model.get('commissioningType') === 'new-asset')
+      {
+        files.push('photo');
+      }
+
       files.push('attachment');
 
       return {

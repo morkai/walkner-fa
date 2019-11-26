@@ -15,11 +15,31 @@ define([
 
   function attachmentFormGroup(view, options)
   {
+    if (options.visible === false)
+    {
+      return '';
+    }
+
     var name = options.name || 'attachment';
     var property = name + 'File';
     var file = view.model.get(property);
+    var accept = [].concat(options.accept || '*.*').map(function(type)
+      {
+        if (type === 'doc')
+        {
+          return '.docx,.xlsx,.pdf';
+        }
+
+        if (type === 'img')
+        {
+          return '.jpg,.jpeg,.png,.webp';
+        }
+
+        return type;
+      }).join(',');
 
     return view.renderPartialHtml(attachmentFormGroupTemplate, _.assign({
+      editable: true,
       url: view.model.url() + '/attachments/' + name,
       file: file,
       name: name,
@@ -27,7 +47,9 @@ define([
       help: true,
       required: false,
       style: ''
-    }, options));
+    }, options, {
+      accept: accept
+    }));
   }
 
   function attachmentProp(view, options)

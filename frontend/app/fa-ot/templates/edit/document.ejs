@@ -8,7 +8,8 @@
     {id: 'documentNo', valueClassName: 'text-fixed'},
     {id: '!owner', visible: model.protocolNeeded},
     helpers.fa.committeeProp({visible: model.protocolNeeded}),
-    helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded})
+    helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded}),
+    helpers.fa.attachmentProp({name: 'photo', visible: model.protocolNeeded && model.commissioningType === 'new-asset'})
   ]) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-documentDate" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
@@ -63,27 +64,36 @@
   <%- helpers.fa.attachmentFormGroup({
     name: 'checklist',
     help: false,
-    required: true
+    required: true,
+    accept: ['doc', 'img']
   }) %>
-  <% if (model.usageDestination === 'external-supplier') { %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'certificate',
     help: false,
-    required: true
+    required: true,
+    visible: model.usageDestination === 'external-supplier',
+    accept: ['doc', 'img']
   }) %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'nameplate',
-    help: false
+    help: false,
+    visible: model.usageDestination === 'external-supplier',
+    accept: ['doc', 'img']
   }) %>
-  <% } %>
   <% if (model.usageDestination === 'external-supplier' && !model.nameplateFile) { %>
   <div class="message message-inline message-warning">
     <p><%- t('FORM:edit:comment:nameplate') %></p>
   </div>
   <% } %>
   <%- helpers.fa.attachmentFormGroup({
+    name: 'photo',
+    help: false,
+    accept: 'img',
+    visible: !model.protocolNeeded && model.commissioningType === 'new-asset'
+  }) %>
+  <%- helpers.fa.attachmentFormGroup({
     name: 'attachment',
-    help: !!(model.checklistFile || model.certificateFile || model.nameplateFile)
+    help: !!(model.checklistFile || model.certificateFile || model.nameplateFile || (!model.protocolNeeded && model.commissioningType === 'new-asset' && model.photoFile))
   }) %>
   <div class="form-group">
     <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>

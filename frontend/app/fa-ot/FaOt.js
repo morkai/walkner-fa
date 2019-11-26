@@ -1,6 +1,7 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'underscore',
   'app/i18n',
   'app/time',
   'app/user',
@@ -9,6 +10,7 @@ define([
   'app/fa-common/dictionaries',
   'app/fa-common/util/formatPeriod'
 ], function(
+  _,
   t,
   time,
   user,

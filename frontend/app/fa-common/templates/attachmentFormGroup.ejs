@@ -1,3 +1,4 @@
+<% if (editable) { %>
 <div class="form-group fa-edit-long" style="<%- style %>">
   <label for="<%- idPrefix %>-<%- property %>" class="control-label <%- required ? 'is-required' : '' %>"><%- t('PROPERTY:' + property) %></label>
   <table class="fa-edit-attachment">
@@ -14,7 +15,7 @@
     </tr>
     <tr>
       <td class="is-min" style="padding-right: 10px"><%- t('FORM:edit:attachment:new') %></td>
-      <td><input id="<%- idPrefix %>-<%- property %>" name="<%- property %>" class="form-control" type="file" <%- required && !file ? 'data-required' : '' %>></td>
+      <td><input id="<%- idPrefix %>-<%- property %>" name="<%- property %>" class="form-control" type="file" accept="<%- accept %>" <%- required && !file ? 'data-required' : '' %>></td>
     </tr>
     </tbody>
   </table>
@@ -22,3 +23,18 @@
   <p class="help-block"><%- t('FORM:edit:attachment:help') %></p>
   <% } %>
 </div>
+<% } else { %>
+<div class="form-group">
+  <label class="control-label"><%- t('PROPERTY:' + property) %></label>
+  <p class="form-control-static">
+    <% if (file) { %>
+    <a href="<%- url %>" target="_blank"><%= file.name %></a>
+    <% } else { %>
+    <%- t('FORM:edit:attachment:empty') %>
+    <% } %>
+  </p>
+  <% if (help && file) { %>
+  <p class="help-block"><%- t('FORM:edit:attachment:help') %></p>
+  <% } %>
+</div>
+<% } %>
