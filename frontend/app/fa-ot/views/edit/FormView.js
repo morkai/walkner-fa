@@ -215,6 +215,8 @@ define([
         this.toggleRequired(true);
       }
 
+      this.timers.resetChangedStage = setTimeout(this.resetChangedStage.bind(this, false), 1);
+
       this.$id('submit').prop('disabled', false).click();
     },
 
@@ -261,9 +263,21 @@ define([
       });
     },
 
+    resetChangedStage: function()
+    {
+      if (this.handleNextRequest)
+      {
+        this.handleNextRequest(false);
+        this.handleNextRequest = null;
+      }
+    },
+
     submitRequest: function()
     {
       this.saving = true;
+
+      clearTimeout(this.timers.resetChangedStage);
+      this.timers.resetChangedStage = null;
 
       clearTimeout(this.timers.toggleSelect2Validity);
       this.timers.toggleSelect2Validity = null;
