@@ -4,3 +4,8 @@
 .prop[data-prop="committee"] .fa-thumbs-down {
  color: #d9534f;
 }
+@media (max-width: 2400px) {
+  .fa-lt-edit-page .bd {
+    justify-content: left;
+  }
+}

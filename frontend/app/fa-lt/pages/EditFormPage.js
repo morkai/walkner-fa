@@ -19,7 +19,7 @@ define([
 
   return EditFormPage.extend({
 
-    pageClassName: 'page-max-flex',
+    pageClassName: 'page-max-flex fa-lt-edit-page',
 
     template: template,
 
