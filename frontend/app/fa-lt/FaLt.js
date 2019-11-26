@@ -84,6 +84,7 @@ define([
     {
       var obj = this.serializeRow();
 
+      obj.acceptable = this.isAcceptable();
       obj.protocolDate = obj.protocolDate ? time.utc.format(obj.protocolDate, 'LL') : '';
       obj.documentDate = obj.documentDate ? time.utc.format(obj.documentDate, 'LL') : '';
       obj.kind = t(this.nlsDomain, 'kind:' + this.get('kind'));
@@ -182,6 +183,29 @@ define([
     isCommittee: function()
     {
       return _.some(this.get('committee'), function(u) { return u._id === user.data._id; });
+    },
+
+    isAcceptable: function()
+    {
+      if (!this.attributes.stageChangedAt.verify)
+      {
+        return false;
+      }
+
+      var verifiedAt = time.getMoment(this.attributes.stageChangedAt.verify);
+      var now = time.getMoment();
+
+      if (verifiedAt.format('MMYYYY') === now.format('MMYYYY'))
+      {
+        return true;
+      }
+
+      if (this.attributes.netValue > 0 || this.attributes.economicNetValue > 0)
+      {
+        return false;
+      }
+
+      return true;
     }
 
   }, {

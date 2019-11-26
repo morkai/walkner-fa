@@ -85,6 +85,9 @@
   line-height: 1.4;
   text-align: justify;
 }
+.fa-edit-form .message-inline:last-child {
+  max-width: none;
+}
 .fa-edit-form textarea[rows="3"] {
   height: 74px;
   min-height: 74px;

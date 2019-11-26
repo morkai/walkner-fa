@@ -31,6 +31,24 @@ define([
         return [];
       }
 
+      if (!this.model.isAcceptable())
+      {
+        return [
+          {
+            id: 'reject',
+            className: 'btn-warning',
+            icon: 'fa-times',
+            label: this.t('FORM:ACTION:reject'),
+            title: this.t('FORM:ACTION:reject:unacceptable')
+          },
+          {
+            id: 'cancel',
+            className: 'btn-danger',
+            icon: 'fa-stop'
+          }
+        ];
+      }
+
       return [
         {
           id: 'accept',
@@ -56,6 +74,10 @@ define([
       if (action === 'accept')
       {
         formView.handleNewStageAction('acceptDocument');
+      }
+      else if (action === 'reject')
+      {
+        formView.handleNewStageAction('verify', {submit: {toggleRequired: false}});
       }
       else if (action === 'protocol'
         || action === 'verify'

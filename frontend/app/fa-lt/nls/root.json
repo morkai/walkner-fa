@@ -17,6 +17,7 @@
     "FORM:ACTION:cancel": "Cancel",
     "FORM:ACTION:cancel:title": "Save changes and cancel the document",
     "FORM:ACTION:reject": "Reject",
+    "FORM:ACTION:reject:unacceptable": "Save changes and go back to:\nVerification",
     "FORM:ACTION:reject:protocol": "...to protocol",
     "FORM:ACTION:reject:verify": "...to verification",
     "FORM:ACTION:reject:acceptOwner": "...to owner",
