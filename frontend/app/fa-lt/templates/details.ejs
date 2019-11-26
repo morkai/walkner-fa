@@ -69,7 +69,8 @@
             return {
               id: '!stage:' + id,
               label: t.has('details:stage:' + id) ? t('details:stage:' + id, {kind: details.kind}) : t('stage:' + id, {kind: details.kind}),
-              value: renderStage.bind(null, details.stages[id])
+              value: renderStage.bind(null, details.stages[id]),
+              visible: id !== 'finished' && id !== 'cancelled'
             };
           });
 
