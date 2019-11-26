@@ -20,7 +20,21 @@
     "period:y": "{years, plural, one{1 year} other{{years} years}}",
     "period:m": "{months, plural, one{1 month} other{{months} months}}",
 
-    "print:division": "Kętrzyn division"
+    "print:division": "Kętrzyn division",
+
+    "files:openInvestments": "Open investments",
+    "files:sapFixedAssets": "SAP fixed assets",
+
+    "fileEditDialog:title": "File edit",
+    "fileEditDialog:submit": "Save the new file",
+    "fileEditDialog:cancel": "Cancel",
+    "fileEditDialog:id": "File type",
+    "fileEditDialog:updater": "Last updated by",
+    "fileEditDialog:updatedAt": "Last updated at",
+    "fileEditDialog:oldFile": "Current file",
+    "fileEditDialog:newFile": "New file",
+    "fileEditDialog:msg:failure": "Failed to edit file.",
+    "fileEditDialog:msg:success": "File edited successfully."
   },
   "pl": true
 }

@@ -69,6 +69,7 @@
     "PRIVILEGE:FA:VIEW": "FA: view",
     "PRIVILEGE:FA:VIEW:ALL": "FA: view all",
     "PRIVILEGE:FA:MANAGE": "FA: manage",
+    "PRIVILEGE:FA:MANAGE:FILES": "FA: manage files",
     "PRIVILEGE:FA:OT:VIEW": "OT: view",
     "PRIVILEGE:FA:OT:MANAGE": "OT: manage",
     "PRIVILEGE:FA:OT:ADD": "OT: add",

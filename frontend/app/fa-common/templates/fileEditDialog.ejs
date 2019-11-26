@@ -1,0 +1,50 @@
+<form>
+  <div class="form-group">
+    <label class="control-label"><%- t('fileEditDialog:id') %></label>
+    <p class="form-control-static"><%- t('files:' + id) %></p>
+  </div>
+  <div class="form-group">
+    <label class="control-label"><%- t('fileEditDialog:updater') %></label>
+    <p class="form-control-static">
+      <% if (loading) { %>
+        <i class="fa fa-spinner fa-spin"></i>
+      <% } else if (setting && setting.updater) { %>
+        <%= setting.updater.label %>
+      <% } else { %>
+        -
+      <% } %>
+    </p>
+  </div>
+  <div class="form-group">
+    <label class="control-label"><%- t('fileEditDialog:updatedAt') %></label>
+    <p class="form-control-static">
+      <% if (loading) { %>
+        <i class="fa fa-spinner fa-spin"></i>
+      <% } else if (setting && setting.updatedAt) { %>
+        <%- time.format(setting.updatedAt, 'LLL') %>
+      <% } else { %>
+        -
+      <% } %>
+    </p>
+  </div>
+  <div class="form-group">
+    <label class="control-label"><%- t('fileEditDialog:oldFile') %></label>
+    <p class="form-control-static">
+      <% if (loading) { %>
+        <i class="fa fa-spinner fa-spin"></i>
+      <% } else if (setting && setting.value) { %>
+        <a href="/fa/files/<%- id %>?download=1" target="_blank"><%= setting.value.name %></a>
+      <% } else { %>
+        -
+      <% } %>
+    </p>
+  </div>
+  <div class="form-group">
+    <label for="<%- idPrefix %>-file" class="control-label"><%- t('fileEditDialog:newFile') %></label>
+    <input id="<%- idPrefix %>-file" name="file" class="form-control" type="file" required>
+  </div>
+  <div class="form-actions">
+    <button id="<%- idPrefix %>-submit" type="submit" class="btn btn-primary"><%- t('fileEditDialog:submit') %></button>
+    <button type="button" class="cancel btn btn-link"><%- t('fileEditDialog:cancel') %></button>
+  </div>
+</form>

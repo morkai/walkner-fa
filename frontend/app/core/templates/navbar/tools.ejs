@@ -4,6 +4,21 @@
     <b class="caret"></b>
   </a>
   <ul class="dropdown-menu">
+    <li data-privilege="USER" data-module="fa" class="navbar-with-button">
+      <a href="/fa/files/openInvestments?download=1" target="_blank">
+        <%- t('fa-common', 'files:openInvestments') %>
+        &nbsp;
+        <i class="fa fa-external-link"></i>
+      </a>
+      <button class="btn btn-default" data-href="/fa/files/openInvestments" data-privilege="FA:MANAGE:FILES"><i class="fa fa-edit"></i></button>
+    <li data-privilege="USER" data-module="fa" class="navbar-with-button">
+      <a href="/fa/files/sapFixedAssets?download=1" target="_blank">
+        <%- t('fa-common', 'files:sapFixedAssets') %>
+        &nbsp;
+        <i class="fa fa-external-link"></i>
+      </a>
+      <button class="btn btn-default" data-href="/fa/files/sapFixedAssets" data-privilege="FA:MANAGE:FILES"><i class="fa fa-edit"></i></button>
+    <li class="divider"></li>
     <li data-privilege="EVENTS:VIEW" data-module><a href="#events"><%- t('NAVBAR:events') %></a>
     <li data-privilege="SUPER" data-module><a href="#logs/browserErrors"><%- t('NAVBAR:browserErrors') %></a>
   </ul>

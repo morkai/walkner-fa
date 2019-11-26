@@ -70,6 +70,7 @@
   "PRIVILEGE:FA:VIEW": "ŚT: przeglądanie",
   "PRIVILEGE:FA:VIEW:ALL": "ŚT: przeglądanie wszystkich",
   "PRIVILEGE:FA:MANAGE": "ŚT: zarządzanie",
+  "PRIVILEGE:FA:MANAGE:FILES": "ŚT: zarządzanie plikami",
   "PRIVILEGE:FA:OT:VIEW": "OT: przeglądanie",
   "PRIVILEGE:FA:OT:MANAGE": "OT: zarządzanie",
   "PRIVILEGE:FA:OT:ADD": "OT: dodawanie",

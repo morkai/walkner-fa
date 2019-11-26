@@ -58,6 +58,9 @@
 .dropdown-menu > .navbar-with-button {
   position: relative;
 }
+.dropdown-menu > .navbar-with-button > a {
+  padding-right: 36px;
+}
 .navbar-with-button > .btn {
   position: absolute;
   right: 0;

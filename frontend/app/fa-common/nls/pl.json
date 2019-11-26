@@ -19,5 +19,19 @@
   "period:y": "{years, plural, one{1 rok} few{{years} lata} other{{years} lat}}",
   "period:m": "{months, plural, one{1 miesiąc} few{{months} miesiące} other{{months} miesięcy}}",
 
-  "print:division": "Oddział w Kętrzynie"
+  "print:division": "Oddział w Kętrzynie",
+
+  "files:openInvestments": "Otwarte inwestycje",
+  "files:sapFixedAssets": "Środki trwałe z SAP",
+
+  "fileEditDialog:title": "Edycja pliku",
+  "fileEditDialog:submit": "Zapisz nowy plik",
+  "fileEditDialog:cancel": "Anuluj",
+  "fileEditDialog:id": "Typ pliku",
+  "fileEditDialog:updater": "Ostatnio zmieniany przez",
+  "fileEditDialog:updatedAt": "Czas ostatniej zmiany",
+  "fileEditDialog:oldFile": "Aktualny plik",
+  "fileEditDialog:newFile": "Nowy plik",
+  "fileEditDialog:msg:failure": "Edycja pliku nie powiodła się.",
+  "fileEditDialog:msg:success": "Plik zmieniony pomyślnie."
 }

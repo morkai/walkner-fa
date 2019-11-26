@@ -58,6 +58,7 @@
     "FORM:edit:attachment:new": "New file:",
     "FORM:edit:attachment:empty": "no file was attached.",
     "FORM:edit:attachment:help": "Select a new file only if you want to override the existing one.",
+    "FORM:edit:unacceptable": "Document can not be accepted and must go through re-verification, because it was verified in the previous months with a non-zero net value.",
     "FORM:stage:protocol": "Redundancy<br>protocol",
     "FORM:stage:acceptOwner": "Owner<br>acceptance",
     "FORM:stage:acceptCommittee": "Committee<br>acceptance",

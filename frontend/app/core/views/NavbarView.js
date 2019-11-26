@@ -10,7 +10,10 @@ define([
   '../View',
   'app/users/util/setUpUserSelect2',
   'app/core/templates/navbar',
-  'app/core/templates/navbar/searchResults'
+  'app/core/templates/navbar/searchResults',
+
+  'app/fa-common/views/FaFileEditDialogView',
+  'i18n!app/nls/fa-common'
 ], function(
   _,
   t,
@@ -21,7 +24,9 @@ define([
   View,
   setUpUserSelect2,
   navbarTemplate,
-  searchResultsTemplate
+  searchResultsTemplate,
+
+  FaFileEditDialogView
 ) {
   'use strict';
 
@@ -101,7 +106,11 @@ define([
 
         var href = e.currentTarget.dataset.href;
 
-        if (e.ctrlKey || e.button === 1)
+        if (href.indexOf('/fa/files/') === 0)
+        {
+          FaFileEditDialogView.showDialog(href.split('/')[3]);
+        }
+        else if (e.ctrlKey || e.button === 1)
         {
           window.open(href);
         }
