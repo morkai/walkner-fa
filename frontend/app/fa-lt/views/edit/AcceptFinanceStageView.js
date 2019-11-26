@@ -33,30 +33,30 @@ define([
 
       return [
         {
-          id: 'finance:accept',
+          id: 'accept',
           className: 'btn-success',
           icon: 'fa-check'
         },
         {
-          id: 'finance:reject',
+          id: 'reject',
           className: 'btn-warning',
           icon: 'fa-times'
         },
         {
-          id: 'finance:cancel',
+          id: 'cancel',
           className: 'btn-danger',
-          icon: 'fa-thumbs-down'
+          icon: 'fa-stop'
         }
       ];
     },
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'finance:accept')
+      if (action === 'accept')
       {
         this.handleAcceptAction(formView);
       }
-      else if (action === 'finance:reject')
+      else if (action === 'reject')
       {
         this.handleRejectAction(formView);
       }

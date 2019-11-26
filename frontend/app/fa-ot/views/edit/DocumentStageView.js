@@ -93,7 +93,7 @@ define([
       if (this.model.canEdit())
       {
         actions.push({
-          id: 'verify',
+          id: 'nextStep',
           className: 'btn-success',
           icon: 'fa-check'
         });
@@ -113,13 +113,13 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'verify')
+      if (action === 'nextStep')
       {
-        this.handleVerifyAction(formView);
+        this.handleNextStepAction(formView);
       }
     },
 
-    handleVerifyAction: function(formView)
+    handleNextStepAction: function(formView)
     {
       this.model.set('newStage', 'verify');
 

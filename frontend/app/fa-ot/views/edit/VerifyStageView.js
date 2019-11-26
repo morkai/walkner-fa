@@ -99,7 +99,7 @@ define([
 
       return [
         {
-          id: 'accept',
+          id: 'nextStep',
           className: 'btn-success',
           icon: 'fa-check'
         },
@@ -113,9 +113,9 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'accept')
+      if (action === 'nextStep')
       {
-        this.handleAcceptAction(formView);
+        this.handleNextStepAction(formView);
       }
       else if (action === 'reject')
       {
@@ -123,7 +123,7 @@ define([
       }
     },
 
-    handleAcceptAction: function(formView)
+    handleNextStepAction: function(formView)
     {
       this.model.set('newStage', 'accept');
 

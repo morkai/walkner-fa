@@ -93,11 +93,42 @@ define([
       this.listenTo(this.model, 'dirty', this.enableSubmit);
     },
 
+    serializeFormActions: function()
+    {
+      var view = this;
+      var stage = view.model.get('stage');
+
+      return (this.stageView ? this.stageView.getFormActions() : []).map(function(action)
+      {
+        if (!action.label)
+        {
+          action.label = view.t.has('FORM:ACTION:' + stage + ':' + action.id)
+            ? view.t('FORM:ACTION:' + stage + ':' + action.id)
+            : view.t('FORM:ACTION:' + action.id);
+        }
+
+        if (!action.title)
+        {
+          var data = {
+            kind: view.model.get('kind')
+          };
+
+          action.title = view.t.has('FORM:ACTION:' + stage + ':' + action.id + ':title')
+            ? view.t('FORM:ACTION:' + stage + ':' + action.id + ':title', data)
+            : view.t.has('FORM:ACTION:' + action.id + ':title')
+              ? view.t('FORM:ACTION:' + action.id + ':title', data)
+              : '';
+        }
+
+        return action;
+      });
+    },
+
     getTemplateData: function()
     {
       return {
         tabs: this.getTabs(),
-        actions: this.stageView ? this.stageView.getFormActions() : [],
+        actions: this.serializeFormActions(),
         canEdit: this.model.canEdit(),
         stage: this.model.get('stage')
       };

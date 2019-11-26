@@ -11,9 +11,9 @@
     </div>
     <div id="<%- idPrefix %>-stage" class="panel-body"></div>
     <div class="panel-footer <%- canEdit ? '' : 'hidden' %>">
-      <button id="<%- idPrefix %>-submit" type="submit" class="btn btn-primary" disabled><i class="fa fa-save"></i><span><%- formActionText %></span></button>
+      <button id="<%- idPrefix %>-submit" type="submit" class="btn btn-primary" disabled title="<%- t('FORM:ACTION:edit:title') %>"><i class="fa fa-save"></i><span><%- formActionText %></span></button>
       <% actions.forEach(function(action) { %>
-      <button type="button" class="btn <%- action.className %>" value="<%- action.id %>"><i class="fa <%- action.icon %>"></i><span><%- t('FORM:ACTION:' + (action.id === 'nextStep' ? (stage + ':') : '') + action.id) %></span></button>
+      <button type="button" class="btn <%- action.className %>" value="<%- action.id %>" title="<%- action.title %>"><i class="fa <%- action.icon %>"></i><span><%- action.label %></span></button>
       <% }) %>
     </div>
   </div>

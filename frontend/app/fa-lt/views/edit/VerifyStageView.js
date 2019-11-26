@@ -85,7 +85,7 @@ define([
 
       return [
         {
-          id: 'acceptOwner',
+          id: 'accept',
           className: 'btn-success',
           icon: 'fa-check'
         },
@@ -99,9 +99,9 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'acceptOwner')
+      if (action === 'accept')
       {
-        this.handleAcceptOwnerAction(formView);
+        this.handleAcceptAction(formView);
       }
       else if (action === 'reject')
       {
@@ -109,7 +109,7 @@ define([
       }
     },
 
-    handleAcceptOwnerAction: function(formView)
+    handleAcceptAction: function(formView)
     {
       this.model.set('newStage', 'acceptOwner');
 

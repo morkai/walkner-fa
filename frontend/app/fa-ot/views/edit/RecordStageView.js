@@ -32,7 +32,7 @@ define([
 
       return [
         {
-          id: 'finished',
+          id: 'nextStep',
           className: 'btn-success',
           icon: 'fa-check'
         }
@@ -41,13 +41,13 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'finished')
+      if (action === 'nextStep')
       {
-        this.handleFinishedAction(formView);
+        this.handleNextStepAction(formView);
       }
     },
 
-    handleFinishedAction: function(formView)
+    handleNextStepAction: function(formView)
     {
       this.model.set('newStage', 'finished');
 

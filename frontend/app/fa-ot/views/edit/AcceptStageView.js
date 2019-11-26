@@ -32,7 +32,7 @@ define([
 
       return [
         {
-          id: 'record',
+          id: 'nextStep',
           className: 'btn-success',
           icon: 'fa-check'
         },
@@ -40,15 +40,20 @@ define([
           id: 'reject',
           className: 'btn-warning',
           icon: 'fa-times'
+        },
+        {
+          id: 'cancel',
+          className: 'btn-danger',
+          icon: 'fa-stop'
         }
       ];
     },
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'record')
+      if (action === 'nextStep')
       {
-        this.handleRecordAction(formView);
+        this.handleNextStepAction(formView);
       }
       else if (action === 'reject')
       {
@@ -56,7 +61,7 @@ define([
       }
     },
 
-    handleRecordAction: function(formView)
+    handleNextStepAction: function(formView)
     {
       this.model.set('newStage', 'record');
 

@@ -54,7 +54,7 @@ define([
       if (this.model.canEdit())
       {
         actions.push({
-          id: 'authorize',
+          id: 'nextStep',
           className: 'btn-success',
           icon: 'fa-check'
         });
@@ -74,13 +74,13 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'authorize')
+      if (action === 'nextStep')
       {
-        this.handleAuthorizeAction(formView);
+        this.handleNextStepAction(formView);
       }
     },
 
-    handleAuthorizeAction: function(formView)
+    handleNextStepAction: function(formView)
     {
       this.model.set('newStage', 'authorize');
 

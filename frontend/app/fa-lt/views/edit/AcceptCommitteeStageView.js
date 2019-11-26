@@ -31,12 +31,12 @@ define([
     {
       var actions = [];
       var accept = {
-        id: 'committee:accept',
+        id: 'accept',
         className: 'btn-success',
         icon: 'fa-check'
       };
       var reject = {
-        id: 'committee:reject',
+        id: 'reject',
         className: 'btn-warning',
         icon: 'fa-times'
       };
@@ -48,11 +48,25 @@ define([
       {
         if (userAcceptance.status !== true)
         {
+          var othersAccepted = _.every(userAcceptance, function(a)
+          {
+            return a === userAcceptance || userAcceptance.status === true;
+          });
+
+          if (othersAccepted || Object.keys(userAcceptance).length === 1)
+          {
+            accept.title = this.t('FORM:ACTION:acceptCommittee:acceptGo:title');
+          }
+
           actions.push(accept);
         }
 
         if (userAcceptance.status !== false)
         {
+          reject.title = userAcceptance.status
+            ? this.t('FORM:ACTION:acceptCommittee:undoAccept:title')
+            : this.t('FORM:ACTION:acceptCommittee:reject:title');
+
           actions.push(reject);
         }
       }
@@ -60,7 +74,7 @@ define([
       if (this.model.canManage())
       {
         actions.push({
-          id: 'committee:skip',
+          id: 'skip',
           className: 'btn-info btn-push-right',
           icon: 'fa-step-forward'
         }, {
@@ -75,15 +89,15 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'committee:accept')
+      if (action === 'accept')
       {
         this.handleAcceptAction(formView);
       }
-      else if (action === 'committee:reject')
+      else if (action === 'reject')
       {
         this.handleRejectAction(formView);
       }
-      else if (action === 'committee:skip')
+      else if (action === 'skip')
       {
         this.handleSkipAction(formView);
       }

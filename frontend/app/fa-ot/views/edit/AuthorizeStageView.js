@@ -32,7 +32,7 @@ define([
 
       return [
         {
-          id: 'document',
+          id: 'nextStep',
           className: 'btn-success',
           icon: 'fa-check'
         },
@@ -46,9 +46,9 @@ define([
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'document')
+      if (action === 'nextStep')
       {
-        this.handleDocumentAction(formView);
+        this.handleNextStepAction(formView);
       }
       else if (action === 'reject')
       {
@@ -56,7 +56,7 @@ define([
       }
     },
 
-    handleDocumentAction: function(formView)
+    handleNextStepAction: function(formView)
     {
       this.model.set('newStage', 'document');
 

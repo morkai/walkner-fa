@@ -33,30 +33,30 @@ define([
 
       return [
         {
-          id: 'department:accept',
+          id: 'accept',
           className: 'btn-success',
           icon: 'fa-check'
         },
         {
-          id: 'department:reject',
+          id: 'reject',
           className: 'btn-warning',
           icon: 'fa-times'
         },
         {
-          id: 'department:cancel',
+          id: 'cancel',
           className: 'btn-danger',
-          icon: 'fa-thumbs-down'
+          icon: 'fa-stop'
         }
       ];
     },
 
     handleFormAction: function(action, formView)
     {
-      if (action === 'department:accept')
+      if (action === 'accept')
       {
         this.handleAcceptAction(formView);
       }
-      else if (action === 'department:reject')
+      else if (action === 'reject')
       {
         this.handleRejectAction(formView);
       }
