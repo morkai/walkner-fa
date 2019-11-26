@@ -40,7 +40,8 @@
   <%- helpers.fa.attachmentFormGroup({
     name: 'protocol',
     style: 'margin-top: ' + (model.commissioningType === 'inc-asset' ? '-10px' : '0'),
-    help: false
+    help: false,
+    required: true
   }) %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'attachment',
