@@ -24,7 +24,7 @@ define([
 
       return [
         pageActions.jump(page, page.collection, {
-          pattern: '^(P?OT\/)?[0-9]{1,4}\/[0-9]{1,2}/[0-9]{4}$',
+          pattern: '^([pP]?[oO][tT]\/)?[0-9]{1,5}\/[0-9]{4}$',
           prepareValue: function(value)
           {
             value = value.trim().toUpperCase();
