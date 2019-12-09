@@ -78,6 +78,7 @@
     "NAVBAR:dictionaries": "Dictionaries",
     "NAVBAR:tools": "Tools",
     "NAVBAR:browserErrors": "Client-side errors",
+    "NAVBAR:help": "Help",
 
     "NAVBAR:fa:assetClasses": "Asset classes",
     "NAVBAR:fa:costCenters": "Cost centers",

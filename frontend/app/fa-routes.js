@@ -6,6 +6,7 @@ define([
   './users/routes',
   './changelog/routes',
   './logs-browserErrors/routes',
+  './fa-common/routes',
   './fa-assetClasses/routes',
   './fa-costCenters/routes',
   './fa-ot/routes',

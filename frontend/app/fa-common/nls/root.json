@@ -1,5 +1,7 @@
 {
   "root": {
+    "BREADCRUMBS:help": "Help",
+
     "FORM:edit:maxLength": "Value cannot be longer than {limit} characters.",
     "FORM:edit:committee:owner": "Fixed asset owner:",
     "FORM:edit:committee:person": "{no}. committee member:",

@@ -1,4 +1,6 @@
 {
+  "BREADCRUMBS:help": "Instrukcje",
+
   "FORM:edit:maxLength": "Wartość nie może być dłuższa niż {limit} znaków.",
   "FORM:edit:committee:owner": "Właściciel środka trwałego:",
   "FORM:edit:committee:person": "{no}. członek komisji:",

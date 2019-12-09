@@ -1,0 +1,45 @@
+<div class="fa-help">
+  <ul class="nav nav-tabs">
+    <li><a href="#ot-init" data-toggle="tab">Inicjator OT</a>
+    <li><a href="#ot-owner" data-toggle="tab">Akceptacja<br>właściciela OT</a>
+    <li><a href="#verification" data-toggle="tab">Weryfikacja<br>INFOSYS</a>
+    <li><a href="#lt-init" data-toggle="tab">Inicjator<br>i Komisja LT</a>
+    <li><a href="#lt-owner" data-toggle="tab">Akceptacja<br>właściciela LT</a>
+    <li><a href="#lt-director" data-toggle="tab">Akceptacja<br>zarządu LT</a>
+    <li>
+      <a href="#pune" data-toggle="tab">
+        <% if (locale === 'pl') { %>
+        Księgowanie<br>PUNE
+        <% } else { %>
+        PUNE accounting
+        <% } %>
+      </a>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane" id="ot-init">
+      <% include ot-init.ejs %>
+    </div>
+    <div class="tab-pane" id="ot-owner">
+      <% include ot-owner.ejs %>
+    </div>
+    <div class="tab-pane" id="verification">
+      <% include verification.ejs %>
+    </div>
+    <div class="tab-pane" id="lt-init">
+      <% include lt-init.ejs %>
+    </div>
+    <div class="tab-pane" id="lt-owner">
+      <% include lt-owner.ejs %>
+    </div>
+    <div class="tab-pane" id="lt-director">
+      <% include lt-director.ejs %>
+    </div>
+    <div class="tab-pane" id="pune">
+      <% if (locale === 'pl') { %>
+      <% include pune.pl.ejs%>
+      <% } else { %>
+      <% include pune.en.ejs %>
+      <% } %>
+    </div>
+  </div>
+</div>

@@ -64,6 +64,16 @@ function(
    */
   user.reload = function(userData)
   {
+    if (!userData)
+    {
+      userData = {};
+    }
+
+    if (userData.loggedIn === false)
+    {
+      userData.name = t('core', 'GUEST_USER_NAME');
+    }
+
     var a = _.omit(userData, ['privilegesMap', 'privilegesString']);
     var b = _.omit(user.data, ['privilegesMap', 'privilegesString']);
 
@@ -74,19 +84,8 @@ function(
 
     var wasLoggedIn = user.isLoggedIn();
 
-    if (_.isObject(userData) && Object.keys(userData).length > 0)
+    if (Object.keys(userData).length > 0)
     {
-      if (userData.loggedIn === false)
-      {
-        userData.name = t.bound('core', 'GUEST_USER_NAME');
-      }
-
-      if (userData.orgUnitType === 'unspecified')
-      {
-        userData.orgUnitType = null;
-        userData.orgUnitId = null;
-      }
-
       user.data = userData;
     }
 

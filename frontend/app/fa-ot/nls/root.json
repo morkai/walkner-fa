@@ -102,7 +102,7 @@
     "stage:document": "OT",
     "stage:verify": "Verification",
     "stage:accept": "Acceptance",
-    "stage:record": "Recording",
+    "stage:record": "Booking",
     "stage:finished": "Accepted",
     "stage:cancelled": "Cancelled",
 
