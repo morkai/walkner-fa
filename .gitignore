@@ -8,6 +8,7 @@
 /config/development
 /config/vps
 /data
+/bin/fix
 
 # Project exclude paths
 /frontend-build/
