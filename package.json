@@ -2,11 +2,11 @@
   "private": true,
   "guid": "2593B58C-CEC9-4844-9053-A1CB512E3A31",
   "name": "walkner-fa",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "updater": {
     "fa": {
-      "backend": 36,
-      "frontend": 51
+      "backend": 45,
+      "frontend": 59
     }
   },
   "description": "Fixed Assets application in Node.js.",
