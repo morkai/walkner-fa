@@ -26,6 +26,10 @@
 
     "files:openInvestments": "Open investments",
     "files:sapFixedAssets": "SAP fixed assets",
+    "files:assetBailmentEn": "Asset Bailment Certificate (EN)",
+    "files:assetBailmentPl": "Asset Bailment Certificate (PL)",
+    "files:checklist": "Checklist",
+    "files:pot": "Technical acceptance protocol",
 
     "fileEditDialog:title": "File edit",
     "fileEditDialog:submit": "Save the new file",
