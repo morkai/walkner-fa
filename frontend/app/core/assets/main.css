@@ -276,6 +276,19 @@ code.multiline {
   animation: yellow-fade 1s ease-out 1;
 }
 
+@-webkit-keyframes red-fade {
+  0% { background: #f88; }
+  100% { background: none; }
+}
+@keyframes red-fade {
+  0% { background: #f88; }
+  100% { background: none; }
+}
+.highlight-error {
+  -webkit-animation: red-fade 1s ease-out 1;
+  animation: red-fade 1s ease-out 1;
+}
+
 .btn-default.zeroclipboard-is-hover {
   background-color: #EBEBEB;
   border-color: #ADADAD;

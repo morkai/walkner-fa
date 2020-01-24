@@ -50,7 +50,12 @@ define([
 
       'click a[data-action]': function(e)
       {
-        this.handleFormAction(e.currentTarget.dataset.action);
+        var parentAction = this.$(e.target).closest('.btn-group').find('.dropdown-toggle[value]')[0];
+
+        this.handleFormAction(
+          e.currentTarget.dataset.action,
+          parentAction ? parentAction.value : null
+        );
       },
 
       'click #-submit': function(e)
@@ -486,11 +491,16 @@ define([
       onModelDeleted(this.broker, this.model, message, false);
     },
 
-    handleFormAction: function(action)
+    handleFormAction: function(action, parentAction)
     {
-      if (/cancel$/.test(action))
+      console.log({parentAction, action});
+      if (/cancel$/i.test(action) || /cancel/i.test(parentAction))
       {
         this.handleCancelAction(this);
+      }
+      else if (/reject$/i.test(action) || /reject$/i.test(parentAction))
+      {
+        this.handleRejectAction(action, this);
       }
       else
       {
@@ -514,6 +524,11 @@ define([
 
     handleCancelAction: function(formView)
     {
+      if (!this.requireComment())
+      {
+        return;
+      }
+
       this.model.set('newStage', 'cancelled');
 
       formView.handleNextRequest = function()
@@ -522,6 +537,32 @@ define([
       };
 
       formView.submit({toggleRequired: false});
+    },
+
+    handleRejectAction: function(action, formView)
+    {
+      if (!this.requireComment())
+      {
+        return;
+      }
+
+      this.stageView.handleFormAction(action, formView);
+    },
+
+    requireComment: function()
+    {
+      var $comment = this.stageView.$id('comment').removeClass('highlight-error');
+
+      if ($comment.length && $comment.val().trim().length === 0)
+      {
+        $comment.focus();
+
+        $comment.addClass('highlight-error');
+
+        return false;
+      }
+
+      return true;
     }
 
   });
