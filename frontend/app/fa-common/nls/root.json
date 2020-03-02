@@ -3,6 +3,7 @@
     "BREADCRUMBS:help": "Help",
 
     "FORM:edit:maxLength": "Value cannot be longer than {limit} characters.",
+    "FORM:edit:maxSize": "File cannot be bigger than {size}MB.",
     "FORM:edit:committee:owner": "Fixed asset owner:",
     "FORM:edit:committee:person": "{no}. committee member:",
     "FORM:edit:committee:add": "Add {count, plural, =0{a new} other{an another}} committee person",

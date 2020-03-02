@@ -1,10 +1,10 @@
 'use strict';
 
 const DATA_PATH = `${__dirname}/../data`;
+const MAX_UPLOAD_SIZE = 10 * 1024 * 1024;
 
 const fs = require('fs');
 const later = require('later');
-const ports = require('./fa-ports');
 const mongodb = require('./fa-mongodb');
 
 later.date.localTime();
@@ -71,7 +71,9 @@ exports.updater = {
         XLSX_EXPORT: true,
         OFFICE365_TENANT: null,
         CORS_PING_URL: 'https://test.wmes.pl/ping',
-        SERVICE_WORKER: null
+        SERVICE_WORKER: null,
+        FA_ATTACHMENT_MAX_SIZE: MAX_UPLOAD_SIZE,
+        FA_FILE_MAX_SIZE: MAX_UPLOAD_SIZE
       },
       dictionaryModules: frontendDictionaryModules
     }
@@ -198,5 +200,7 @@ exports.html2pdf = {
 };
 
 exports.fa = {
-  uploadsDest: `${DATA_PATH}/uploads/fa/`
+  uploadsDest: `${DATA_PATH}/uploads/fa/`,
+  maxAttachmentSize: MAX_UPLOAD_SIZE,
+  maxFileSize: MAX_UPLOAD_SIZE
 };
