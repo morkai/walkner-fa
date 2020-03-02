@@ -2,10 +2,10 @@
   "private": true,
   "guid": "2593B58C-CEC9-4844-9053-A1CB512E3A31",
   "name": "walkner-fa",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "updater": {
     "fa": {
-      "backend": 45,
+      "backend": 46,
       "frontend": 60
     }
   },
