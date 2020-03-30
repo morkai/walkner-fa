@@ -93,7 +93,7 @@ define([
         var inputEl = e.currentTarget;
         var error = '';
 
-        if (inputEl.files[0].size > window.FA_ATTACHMENT_MAX_SIZE)
+        if (inputEl.files.length && inputEl.files[0].size > window.FA_ATTACHMENT_MAX_SIZE)
         {
           error = this.t('fa-common', 'FORM:edit:maxSize', {
             size: Math.floor(window.FA_ATTACHMENT_MAX_SIZE / 1024 / 1024)
