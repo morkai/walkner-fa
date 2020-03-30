@@ -54,9 +54,9 @@
   <div class="form-group fa-edit-period">
     <label class="control-label"><%- t('PROPERTY:fiscalPeriod') %></label>
     <div class="input-group">
-      <input id="<%- idPrefix %>-fiscalPeriodY" name="fiscalPeriodY" class="form-control text-right" type="text" readonly>
+      <input id="<%- idPrefix %>-fiscalPeriodY" name="fiscalPeriodY" class="form-control text-right" type="number" min="0" max="99">
       <div class="input-group-addon"><%- t('fa-common', 'unit:year') %></div>
-      <input id="<%- idPrefix %>-fiscalPeriodM" name="fiscalPeriodM" class="form-control text-right" type="text" readonly>
+      <input id="<%- idPrefix %>-fiscalPeriodM" name="fiscalPeriodM" class="form-control text-right" type="number" min="0" max="12">
       <div class="input-group-addon"><%- t('fa-common', 'unit:month') %></div>
     </div>
   </div>

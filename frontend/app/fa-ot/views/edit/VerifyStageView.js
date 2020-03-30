@@ -65,6 +65,19 @@ define([
         var $y = this.$id('economicPeriodY');
 
         $y.val((parseInt($y.val(), 10) || 0) + 1);
+      },
+      'blur #-fiscalPeriodM': function(e)
+      {
+        if (e.target.value !== '12')
+        {
+          return;
+        }
+
+        e.target.value = '0';
+
+        var $y = this.$id('fiscalPeriodY');
+
+        $y.val((parseInt($y.val(), 10) || 0) + 1);
       }
     },
 
