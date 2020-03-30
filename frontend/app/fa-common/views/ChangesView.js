@@ -230,6 +230,11 @@ define([
             return '<span class="fa-changes-overflow" title="' + _.escape(overflow) + '">' + value + '</span>';
           }
 
+          if (typeof value === 'number')
+          {
+            return value.toLocaleString();
+          }
+
           return String(value).length <= 43 ? _.escape(value) : {
             more: value,
             toString: function() { return _.escape(value.substr(0, 40)) + '...'; }

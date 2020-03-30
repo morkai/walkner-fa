@@ -26,7 +26,7 @@ define([
     events: {
       'change #-deprecationRate': function(e)
       {
-        var rr = +e.target.value;
+        var rr = e.target.valueAsNumber;
 
         if (!rr || rr < 0)
         {
@@ -38,11 +38,17 @@ define([
           rr = 100;
         }
 
-        e.target.value = rr;
+        e.target.value = (Math.round(rr * 100) / 100).toLocaleString();
 
         var ratio = 100 / rr;
         var years = Math.floor(ratio);
         var months = Math.ceil(12 * (ratio % 1));
+
+        if (months === 12)
+        {
+          years += 1;
+          months = 0;
+        }
 
         this.$id('fiscalPeriodY').val(years && isFinite(years) ? years : '0');
         this.$id('fiscalPeriodM').val(months && isFinite(months) ? months : '0');
@@ -202,7 +208,7 @@ define([
         assetName: (formData.assetName || '').trim(),
         assetClass: formData.assetClass || null,
         inventoryNo: (formData.inventoryNo || '').trim(),
-        deprecationRate: Math.min(100, Math.max(parseInt(formData.deprecationRate, 10) || 0, 0)),
+        deprecationRate: Math.round(Math.min(100, Math.max(parseFloat(formData.deprecationRate) || 0, 0)) * 100) / 100,
         economicPeriod: ((+formData.economicPeriodY || 0) * 12) + (+formData.economicPeriodM || 0),
         fiscalPeriod: ((+formData.fiscalPeriodY || 0) * 12) + (+formData.fiscalPeriodM || 0),
         comment: (formData.comment || '').trim()

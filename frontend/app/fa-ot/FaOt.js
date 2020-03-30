@@ -90,7 +90,7 @@ define([
       obj.usageDestination = t(this.nlsDomain, 'usageDestination:' + obj.usageDestination);
       obj.owner = userInfoTemplate({userInfo: obj.owner});
       obj.committee = obj.committee.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); });
-      obj.deprecationRate += '%';
+      obj.deprecationRate = obj.deprecationRate.toLocaleString() + '%';
 
       obj.zplx = obj.zplx.map(function(zplx)
       {
