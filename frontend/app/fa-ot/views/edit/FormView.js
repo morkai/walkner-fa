@@ -245,7 +245,18 @@ define([
 
     toggleActionsVisibility: function()
     {
-      this.$('.panel-footer').toggleClass('hidden', !this.model.canEdit());
+      var canEdit = this.model.canEdit();
+
+      this.$('.panel-footer').toggleClass('hidden', !canEdit);
+
+      if (!canEdit)
+      {
+        this.broker.publish('router.navigate', {
+          url: this.model.genClientUrl(),
+          trigger: true,
+          replace: true
+        });
+      }
     },
 
     serializeForm: function(formData)
@@ -439,10 +450,7 @@ define([
       var finished = this.oldStage === 'finished' && newStage === this.oldStage;
       var finishing = this.oldStage === 'record' && newStage === 'finished';
 
-      if (cancelled
-        || finished
-        || finishing
-        || (record && !this.model.constructor.can.edit(this.model)))
+      if (!this.model.canEdit() || cancelled || record || finished || finishing)
       {
         FormView.prototype.handleSuccess.apply(this, arguments);
       }
