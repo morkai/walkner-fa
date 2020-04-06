@@ -35,7 +35,7 @@ define([
 
   var canView = user.auth('FA:VIEW', 'FA:OT:VIEW');
   var canAdd = user.auth('FA:MANAGE', 'FA:OT:MANAGE', 'FA:OT:ADD');
-  var canEdit = user.auth('FA:MANAGE', 'FA:OT:*');
+  var canEdit = canView;
   var canDelete = user.auth('FA:MANAGE', 'FA:OT:MANAGE');
 
   router.map('/fa/ot', canView, function(req)
