@@ -54,6 +54,16 @@ define([
       return actions;
     },
 
+    initialize: function()
+    {
+      DetailsPage.prototype.initialize.apply(this, arguments);
+
+      this.once('afterRender', function()
+      {
+        this.listenTo(this.model, 'change', this.onModelChange);
+      });
+    },
+
     defineViews: function()
     {
       DetailsPage.prototype.defineViews.apply(this, arguments);
@@ -79,6 +89,19 @@ define([
         model: this.model.toJSON(),
         details: this.model.serializeDetails()
       }));
+    },
+
+    setUpLayout: function(layout)
+    {
+      this.layout = layout;
+    },
+
+    onModelChange: function()
+    {
+      if (this.layout)
+      {
+        this.layout.setActions(this.actions, this);
+      }
     }
 
   });
