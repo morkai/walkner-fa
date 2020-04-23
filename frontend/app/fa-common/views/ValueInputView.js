@@ -20,7 +20,7 @@ define([
     if (matches)
     {
       integer = parseInt(matches[1].replace(/[^0-9]+/g, ''), 10);
-      decimal = parseInt(matches[2], 10);
+      decimal = matches[2];
     }
     else
     {
