@@ -31,6 +31,7 @@ define([
         {id: 'inventoryNo', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         {id: 'value', className: 'is-min is-number', thClassName: 'is-filter', label: this.t('list:value')},
         {id: 'costCenter', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
+        {id: 'zplx', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         '-'
       ];
     }

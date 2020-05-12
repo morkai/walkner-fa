@@ -55,7 +55,7 @@ define([
       return this.get('documentNo') || this.get('protocolNo');
     },
 
-    serializeRow: function()
+    serialize: function()
     {
       var obj = this.toJSON();
 
@@ -76,9 +76,29 @@ define([
       return obj;
     },
 
+    serializeRow: function()
+    {
+      var obj = this.serialize();
+
+      if (obj.zplx.length > 1)
+      {
+        obj.zplx = obj.zplx[0].code + ' +' + (obj.zplx.length - 1);
+      }
+      else if (obj.zplx.length === 1)
+      {
+        obj.zplx = obj.zplx[0].code;
+      }
+      else
+      {
+        obj.zplx = '';
+      }
+
+      return obj;
+    },
+
     serializeDetails: function()
     {
-      var obj = this.serializeRow();
+      var obj = this.serialize();
       var protocolNeeded = obj.protocolNeeded;
 
       obj.protocolDate = obj.protocolDate ? time.utc.format(obj.protocolDate, 'LL') : '';

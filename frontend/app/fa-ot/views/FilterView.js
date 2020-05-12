@@ -6,6 +6,7 @@ define([
   'app/core/util/idAndLabel',
   'app/core/util/forms/dateTimeRange',
   'app/core/util/ExpandableSelect',
+  'app/core/util/padString',
   'app/core/views/FilterView',
   'app/fa-common/dictionaries',
   'app/fa-common/views/ValueInputView',
@@ -16,6 +17,7 @@ define([
   idAndLabel,
   dateTimeRange,
   ExpandableSelect,
+  padString,
   FilterView,
   dictionaries,
   ValueInputView,
@@ -30,6 +32,7 @@ define([
     'inventoryNo',
     'value',
     'costCenter',
+    'zplx',
     'limit'
   ];
   var FILTER_MAP = {
@@ -76,6 +79,7 @@ define([
       'assetName': 'sapNo',
       'inventoryNo': 'sapNo',
       'costCenter': 'sapNo',
+      'zplx.code': 'sapNo',
       'stage': function(propertyName, term, formData)
       {
         formData[propertyName] = term.name === 'in' ? term.args[1] : [term.args[1]];
@@ -135,6 +139,13 @@ define([
           name: operators[matches ? matches[1] : null] || 'eq',
           args: ['value', ValueInputView.parseValue(value)]
         });
+      }
+
+      var zplx = padString.start(this.$id('zplx').val().trim().replace(/^0+/, ''), 8, '0');
+
+      if (zplx !== '00000000' && /^[0-9]{8}$/.test(zplx))
+      {
+        selector.push({name: 'eq', args: ['zplx.code', zplx]});
       }
     },
 
