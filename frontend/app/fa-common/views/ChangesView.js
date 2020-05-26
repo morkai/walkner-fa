@@ -55,8 +55,10 @@ define([
           data: JSON.stringify({comment: comment})
         });
 
-        req.done(function()
+        req.done(function(res)
         {
+          view.model.set('changes', res.changes);
+
           $comment.val('');
         });
 
