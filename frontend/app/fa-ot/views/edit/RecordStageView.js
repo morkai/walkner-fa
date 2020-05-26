@@ -25,18 +25,29 @@ define([
 
     getFormActions: function()
     {
+      var actions = [];
+
       if (!this.model.canEdit())
       {
-        return [];
+        return actions;
       }
 
-      return [
-        {
-          id: 'nextStep',
-          className: 'btn-success',
-          icon: 'fa-check'
-        }
-      ];
+      actions.push({
+        id: 'nextStep',
+        className: 'btn-success',
+        icon: 'fa-check'
+      });
+
+      if (this.model.canCancel())
+      {
+        actions.push({
+          id: 'cancel',
+          className: 'btn-danger btn-push-right',
+          icon: 'fa-stop'
+        });
+      }
+
+      return actions;
     },
 
     handleFormAction: function(action, formView)
