@@ -48,21 +48,21 @@
       <input id="<%- idPrefix %>-lineSymbol" name="lineSymbol" class="form-control" type="text" maxlength="50">
     </div>
     <% } %>
-    <div class="form-group fa-edit-short">
+    <div class="form-group fa-edit-short" style="margin-bottom: 15px">
       <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
       <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" required maxlength="50">
     </div>
   </div>
-  <div id="<%- idPrefix %>-zplx" style="margin-top: 15px"></div>
+  <div id="<%- idPrefix %>-zplx"></div>
   <% if (model.protocolNeeded) { %>
   <div id="<%- idPrefix %>-participants" style="margin-top: -10px; margin-bottom: 15px"></div>
+  <% } %>
   <div class="form-group fa-edit-long" style="margin-top: -10px">
     <label for="<%- idPrefix %>-supplier" class="control-label <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'is-required' %>"><%- t('PROPERTY:supplier') %></label>
     <input id="<%- idPrefix %>-supplier" name="supplier" class="form-control" type="text" <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'required' %> maxlength="200">
   </div>
-  <% } %>
-  <div id="<%- idPrefix %>-value" style="margin-top: <%- model.protocolNeeded ? 0 : '-10px' %>; margin-bottom: 15px"></div>
-  <div id="<%- idPrefix %>-fiscalValue" style="margin-top: <%- model.protocolNeeded ? 0 : '-10px' %>; margin-bottom: 15px"></div>
+  <div id="<%- idPrefix %>-value" style="margin-bottom: 15px"></div>
+  <div id="<%- idPrefix %>-fiscalValue" style="margin-bottom: 15px"></div>
   <div class="fa-edit-row fa-edit-long">
     <div class="form-group fa-edit-short has-required-select2">
       <label for="<%- idPrefix %>-costCenter" class="control-label is-required"><%- t('PROPERTY:costCenter') %></label>
