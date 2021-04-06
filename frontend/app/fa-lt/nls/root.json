@@ -138,7 +138,7 @@
 
     "changes:created": "<i>added a new LT document</i>",
 
-    "print:document:title": "{kind, select, sale{Fixed asset sale} other{Fixed asset decommission}}"
+    "print:document:title": "{kind, select, sale{Fixed asset sale} other{Decommission protocol}}"
   },
   "pl": true
 }

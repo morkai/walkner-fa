@@ -134,5 +134,5 @@
 
   "changes:created": "<i>dodano nowy dokument LT</i>",
 
-  "print:document:title": "{kind, select, sale{Sprzedaż środka trwałego} other{Likwidacja środka trwałego}}"
+  "print:document:title": "{kind, select, sale{Sprzedaż środka trwałego} other{Protokół zbędności}}"
 }
