@@ -5,7 +5,7 @@
   </a>
   <ul class="dropdown-menu">
     <% ['openInvestments', 'sapFixedAssets', 'assetBailmentEn', 'assetBailmentPl', 'checklist', 'pot'].forEach(function(id) { %>
-    <li data-privilege="USER" data-module="fa" class="navbar-with-button">
+    <li data-privilege="FA:VIEW FA:OT:VIEW FA:LT:VIEW" data-module="fa" class="navbar-with-button">
       <a href="/fa/files/<%- id %>?download=1" target="_blank">
         <%- t('fa-common', 'files:' + id) %>
         &nbsp;
