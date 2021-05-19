@@ -3,17 +3,17 @@
 define([
   'underscore',
   'backbone',
-  'jquery',
   'h5.rql/index',
   './util',
-  './PaginationData'
+  './PaginationData',
+  './Model'
 ], function(
   _,
   Backbone,
-  $,
   rql,
   util,
-  PaginationData
+  PaginationData,
+  Model
 ) {
   'use strict';
 
@@ -48,8 +48,15 @@ define([
 
   util.inherits(Collection, Backbone.Collection);
 
+  Collection.prototype.model = Model;
+
   Collection.prototype.parse = function(res)
   {
+    if (!res)
+    {
+      res = {totalCount: 0, collection: []};
+    }
+
     if (this.paginationData)
     {
       this.paginationData.set(this.getPaginationData(res));
@@ -68,14 +75,35 @@ define([
     return Backbone.Collection.prototype.sync.call(this, type, model, options);
   };
 
-  Collection.prototype.genClientUrl = function(action)
+  Collection.prototype.genUrl = function(action)
   {
-    if (this.model.prototype.clientUrlRoot === null)
+    var urlRoot = _.result(this.model.prototype, 'urlRoot');
+
+    if (!urlRoot)
     {
-      throw new Error("Model's `clientUrlRoot` was not specified");
+      throw new Error("'urlRoot' was not specified");
     }
 
-    var url = this.model.prototype.clientUrlRoot;
+    var url = urlRoot;
+
+    if (typeof action === 'string')
+    {
+      url += ';' + action;
+    }
+
+    return url;
+  };
+
+  Collection.prototype.genClientUrl = function(action)
+  {
+    var clientUrlRoot = _.result(this.model.prototype, 'clientUrlRoot');
+
+    if (!clientUrlRoot)
+    {
+      throw new Error("'clientUrlRoot' was not specified");
+    }
+
+    var url = clientUrlRoot;
 
     if (typeof action === 'string')
     {
@@ -100,11 +128,21 @@ define([
     return this.nlsDomain || this.model.prototype.nlsDomain;
   };
 
-  Collection.prototype.getLabel = function(id)
+  Collection.prototype.getLabel = function(id, options)
   {
+    if (!id)
+    {
+      return '';
+    }
+
     var model = this.get(id);
 
-    return model ? model.getLabel() : null;
+    return model ? model.getLabel(options) : String(id);
+  };
+
+  Collection.prototype.getLabels = function(ids, options)
+  {
+    return ids.map(function(id) { return this.getLabel(id, options); }, this);
   };
 
   Collection.prototype.createRqlQuery = function(rqlQuery)
@@ -116,6 +154,11 @@ define([
     else if (_.isFunction(rqlQuery))
     {
       rqlQuery = rqlQuery.call(this, rql);
+
+      if (rqlQuery && !(rqlQuery instanceof rql.Query))
+      {
+        return this.createRqlQuery(rqlQuery);
+      }
     }
     else if (_.isObject(rqlQuery))
     {
@@ -134,7 +177,14 @@ define([
 
     if (_.isFunction(this.rqlQuery))
     {
-      return this.rqlQuery.call(this, rql);
+      rqlQuery = this.rqlQuery.call(this, rql);
+
+      if (rqlQuery && !(rqlQuery instanceof rql.Query))
+      {
+        rqlQuery = this.createRqlQuery(rqlQuery);
+      }
+
+      return rqlQuery;
     }
 
     if (_.isObject(this.rqlQuery))
@@ -148,7 +198,7 @@ define([
   Collection.prototype.getPaginationData = function(res)
   {
     return {
-      totalCount: res.totalCount,
+      totalCount: res.totalCount || 0,
       urlTemplate: this.genPaginationUrlTemplate(),
       skip: this.rqlQuery.skip,
       limit: this.rqlQuery.limit
@@ -181,8 +231,7 @@ define([
 
   Collection.prototype.getDefaultPageLimit = function()
   {
-    var $hd = $('.hd').first();
-    var hdHeight = ($hd.length ? $hd.outerHeight() : 116) + 15;
+    var hdHeight = 84 + 15;
     var filterHeight = 91 + 15;
     var pagerHeight = 39 + 15;
     var theadHeight = 32;
@@ -216,6 +265,24 @@ define([
     var availHeight = window.innerHeight - hdHeight - filterHeight - pagerHeight - theadHeight;
 
     return Math.max(10, Math.floor(availHeight / rowHeight));
+  };
+
+  Collection.prototype.findRqlTerm = function(prop, name)
+  {
+    return _.find(this.rqlQuery.selector.args, function(term)
+    {
+      if (term.args[0] !== prop)
+      {
+        return false;
+      }
+
+      if (Array.isArray(name))
+      {
+        return name.indexOf(term.name) !== -1;
+      }
+
+      return !name || term.name === name;
+    });
   };
 
   return Collection;

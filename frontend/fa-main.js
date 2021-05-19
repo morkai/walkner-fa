@@ -29,6 +29,7 @@
       'app/core/layouts/PageLayout',
       'app/core/layouts/BlankLayout',
       'app/core/views/NavbarView',
+      'app/core/templates/navbar/inner',
       'app/core/views/FormView',
       'app/users/views/LogInFormView',
       'app/time',
@@ -60,6 +61,7 @@
     PageLayout,
     BlankLayout,
     NavbarView,
+    navbarTemplate,
     FormView,
     LogInFormView)
   {
@@ -98,7 +100,8 @@
         views: views,
         version: updater.getCurrentVersionString(),
         changelogUrl: '#changelog',
-        hdHidden: !!window.toolbar && !window.toolbar.visible && !window.IS_MOBILE
+        hdHidden: !!window.toolbar && !window.toolbar.visible && !window.IS_MOBILE,
+        navbarClassName: 'navbar-default'
       });
     });
 
@@ -137,6 +140,7 @@
     {
       var req = router.getCurrentRequest();
       var navbarView = new NavbarView({
+        template: navbarTemplate,
         currentPath: req === null ? '/' : req.path,
         loadedModules: loadedModules.map
       });

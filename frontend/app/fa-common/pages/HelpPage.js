@@ -22,7 +22,7 @@ define([
     breadcrumbs: function()
     {
       return [
-        this.t('BREADCRUMBS:help')
+        this.t('BREADCRUMB:help')
       ];
     },
 

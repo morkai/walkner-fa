@@ -1,6 +1,6 @@
 {
   "root": {
-    "BREADCRUMBS:browse": "LT",
+    "BREADCRUMB:browse": "LT",
 
     "PAGE_ACTION:jump:title": "Jump to LT by its number",
     "PAGE_ACTION:jump:placeholder": "Number",

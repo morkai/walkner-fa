@@ -1,5 +1,7 @@
 'use strict';
 
+exports.packages = [];
+
 exports.paths = {
   'text': 'vendor/require/text',
   'i18n': 'vendor/require/i18n',
@@ -24,16 +26,10 @@ exports.paths = {
   'reltime': 'vendor/reltime',
   'select2': 'vendor/select2/select2',
   'select2-lang': 'vendor/select2-lang',
-  'highcharts': 'vendor/highcharts/highcharts.src',
-  'highcharts.exporting': 'vendor/highcharts/modules/exporting.src',
-  'highcharts.grouped-categories': 'vendor/highcharts/modules/grouped-categories.src',
-  'highcharts.no-data-to-display': 'vendor/highcharts/modules/no-data-to-display.src',
   'zeroclipboard': 'vendor/zeroclipboard/ZeroClipboard',
   'Sortable': 'vendor/Sortable',
   'autolinker': 'vendor/autolinker',
-  'getCaretCoordinates': 'vendor/getCaretCoordinates',
-  'datatables.net': 'vendor/datatables/DataTables-1.10.18/js/jquery.dataTables',
-  'datatables.net-scroller': 'vendor/datatables/Scroller-2.0.0/js/dataTables.scroller'
+  'getCaretCoordinates': 'vendor/getCaretCoordinates'
 };
 
 exports.shim = {

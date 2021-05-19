@@ -1,6 +1,6 @@
 {
   "root": {
-    "BREADCRUMBS:browse": "Asset classes",
+    "BREADCRUMB:browse": "Asset classes",
 
     "PROPERTY:active": "Active?",
     "PROPERTY:name": "Name",

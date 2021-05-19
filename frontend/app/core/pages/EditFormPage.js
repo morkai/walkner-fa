@@ -27,7 +27,7 @@ define([
     {
       return createPageBreadcrumbs(this, [
         {
-          label: this.model.getLabel() || t.bound(this.model.getNlsDomain(), 'BREADCRUMBS:details'),
+          label: this.model.getLabel() || t.bound(this.model.getNlsDomain(), 'BREADCRUMB:details'),
           href: this.model.genClientUrl()
         },
         ':editForm'
@@ -42,7 +42,14 @@ define([
 
     load: function(when)
     {
-      return when(this.model.fetch(this.options.fetchOptions));
+      var model = this.model;
+
+      if (model.isSynced && model.isSynced())
+      {
+        return when();
+      }
+
+      return when(model.fetch(this.options.fetchOptions));
     },
 
     defineModels: function()

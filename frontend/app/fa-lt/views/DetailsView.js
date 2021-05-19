@@ -22,9 +22,9 @@ define([
       helpers.extend(this);
     },
 
-    getTemplateData: function()
+    serialize: function()
     {
-      var data = DetailsView.prototype.getTemplateData.apply(this, arguments);
+      var data = DetailsView.prototype.serialize.apply(this, arguments);
 
       data.details = data.model;
       data.model = this.model.toJSON();

@@ -1,12 +1,14 @@
 // Part of <https://miracle.systems/p/walkner-wmes> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'underscore',
   'jquery',
   'backbone',
   'bootstrap',
   'select2'
 ],
 function(
+  _,
   $,
   Backbone
 ) {
@@ -132,30 +134,55 @@ function(
 
   $.fn.popover.Constructor.prototype.hasContent = function()
   {
-    return this.options.hasContent === true || !!this.getTitle() || !!this.getContent();
+    if (typeof this.options.hasContent === 'function')
+    {
+      return !!this.options.hasContent.call(this.$element[0]);
+    }
+
+    if (typeof this.options.hasContent === 'boolean')
+    {
+      return this.options.hasContent;
+    }
+
+    return !!this.getTitle() || !!this.getContent();
   };
 
   $.fn.popover.Constructor.prototype.tip = function()
   {
-    if (!this.$tip)
+    if (this.$tip)
     {
-      var template = this.options.template;
+      return this.$tip;
+    }
 
-      if (typeof template === 'function')
+    var options = this.options;
+    var template = options.template;
+
+    if (typeof template === 'function')
+    {
+      template = template.call(this.$element[0], $.fn.popover.Constructor.DEFAULTS.template);
+    }
+
+    this.$tip = typeof template === 'string' ? $(template) : template;
+
+    if (options.css)
+    {
+      this.$tip.css(options.css);
+    }
+
+    if (options.contentCss)
+    {
+      this.$tip.find('.popover-content').first().css(options.contentCss);
+    }
+
+    if (options.className)
+    {
+      if (typeof options.className === 'function')
       {
-        template = template.call(this.$element[0], $.fn.popover.Constructor.DEFAULTS.template);
+        this.$tip.addClass(options.className(this));
       }
-
-      this.$tip = typeof template === 'string' ? $(template) : template;
-
-      if (this.options.css)
+      else
       {
-        this.$tip.css(this.options.css);
-      }
-
-      if (this.options.className)
-      {
-        this.$tip.addClass(this.options.className);
+        this.$tip.addClass(options.className);
       }
     }
 

@@ -104,10 +104,19 @@ module.exports = grunt =>
           dir: './frontend-build',
           optimize: 'none',
           optimizeCss: 'standard',
-          buildCSS: false,
+          buildCSS: true,
           modules: [
-            {name: 'fa-main'}
+            {
+              name: 'fa-main',
+              include: [
+                'select2-lang/en',
+                'select2-lang/pl',
+                'moment-lang/en',
+                'moment-lang/pl'
+              ]
+            }
           ],
+          packages: requirejsConfig.packages,
           paths: requirejsConfig.buildPaths,
           shim: requirejsConfig.buildShim,
           locale: 'pl'

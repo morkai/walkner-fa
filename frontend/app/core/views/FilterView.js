@@ -10,6 +10,7 @@ define([
   'app/core/util',
   'app/core/util/buttonGroup',
   'app/core/templates/filterLimit',
+  'app/core/templates/filterButton',
   'select2'
 ], function(
   _,
@@ -20,7 +21,8 @@ define([
   View,
   util,
   buttonGroup,
-  filterLimitTemplate
+  filterLimitTemplate,
+  filterButtonTemplate
 ) {
   'use strict';
 
@@ -31,22 +33,27 @@ define([
     termToForm: {},
     defaultFormData: {},
     formData: null,
-
-    localTopics: {
-      'viewport.resized': function()
-      {
-        this.repositionResetButton();
-      }
-    },
+    filterList: [],
+    filterMap: {},
 
     events: {
+
       'submit': function()
       {
         this.changeFilter();
 
         return false;
       },
-      'click .filter-toggle': 'toggle'
+
+      'click .filter-toggle': 'toggleExpand',
+
+      'click a[data-filter]': function(e)
+      {
+        e.preventDefault();
+
+        this.showFilter(e.currentTarget.dataset.filter);
+      }
+
     },
 
     collapsed: false,
@@ -56,13 +63,19 @@ define([
       var view = this;
 
       return _.assign(View.prototype.serialize.apply(view, arguments), {
+        filterList: _.result(this, 'filterList'),
         renderLimit: function(templateData)
         {
-          return filterLimitTemplate(_.assign({
-            idPrefix: view.idPrefix,
+          return view.renderPartialHtml(filterLimitTemplate, _.assign({
             min: view.minLimit,
             max: view.maxLimit,
             hidden: false
+          }, templateData));
+        },
+        renderButton: function(templateData)
+        {
+          return view.renderPartialHtml(filterButtonTemplate, _.assign({
+            filters: _.result(view, 'filterList')
           }, templateData));
         }
       });
@@ -73,9 +86,9 @@ define([
       return buttonGroup.toggle(this.$id(groupName));
     },
 
-    getButtonGroupValue: function(groupName)
+    getButtonGroupValue: function(groupName, defaultValue)
     {
-      return buttonGroup.getValue(this.$id(groupName));
+      return buttonGroup.getValue(this.$id(groupName)) || defaultValue;
     },
 
     afterRender: function()
@@ -84,7 +97,10 @@ define([
 
       js2form(this.el, this.formData);
 
-      this.$resetFilter = this.$id('reset');
+      if (_.result(this, 'filterList').length)
+      {
+        this.$id('limit').parent().attr('data-filter', 'limit');
+      }
 
       this.$toggleFilter = $('<button class="btn btn-default btn-block filter-toggle" type="button"></button>')
         .append('<i class="fa"></i>')
@@ -92,10 +108,11 @@ define([
 
       this.$el.append(this.$toggleFilter);
 
-      this.toggle();
+      this.toggleExpand();
+      this.toggleFilters();
     },
 
-    toggle: function()
+    toggleExpand: function()
     {
       if (window.innerWidth < 768)
       {
@@ -110,25 +127,61 @@ define([
       this.$toggleFilter.find('.fa')
         .removeClass('fa-caret-up fa-caret-down')
         .addClass('fa-caret-' + (this.collapsed ? 'down' : 'up'));
-
-      this.repositionResetButton();
     },
 
-    repositionResetButton: function()
+    toggleFilters: function()
     {
-      if (!this.$resetFilter.length)
-      {
-        return;
-      }
+      var view = this;
 
-      if (window.innerWidth < 768)
+      _.result(view, 'filterList').forEach(function(filter)
       {
-        this.$resetFilter.insertBefore(this.$toggleFilter).toggleClass('hidden', this.collapsed);
+        view.$('.form-group[data-filter="' + filter + '"]').toggleClass('hidden', !view.filterHasValue(filter));
+      });
+    },
+
+    filterHasValue: function(filter)
+    {
+      var $input = this.$id(filter);
+      var value;
+
+      if ($input.hasClass('btn-group'))
+      {
+        value = $input.find('input:checked').val();
+      }
+      else if ($input.find('.orgUnits-picker').length)
+      {
+        value = $input.find('.btn.active').length === 1;
       }
       else
       {
-        this.$resetFilter.insertAfter(this.$('.btn[type="submit"]')).removeClass('hidden');
+        value = $input.val();
       }
+
+      if (filter === 'limit')
+      {
+        return +value !== _.result(this.model, 'getDefaultPageLimit', 20);
+      }
+
+      if (!value)
+      {
+        return false;
+      }
+
+      if (value.length)
+      {
+        return true;
+      }
+
+      return !!value;
+    },
+
+    showFilter: function(filter)
+    {
+      this.$('.form-group[data-filter="' + (this.filterMap[filter] || filter) + '"]')
+        .removeClass('hidden')
+        .find('input, select')
+        .first()
+        .focus();
     },
 
     serializeQueryToForm: function()
@@ -151,8 +204,13 @@ define([
 
     serializeTermToForm: function(term, formData)
     {
+      if (!term || !Array.isArray(term.args))
+      {
+        return;
+      }
+
       var propertyName = typeof term.args[0] === 'string' ? term.args[0] : null;
-      var termToForm = this.termToForm[propertyName];
+      var termToForm = this.termToForm['@' + term.name] || this.termToForm[propertyName];
 
       if (!termToForm)
       {
@@ -200,6 +258,7 @@ define([
       }
 
       this.trigger('filterChanged', rqlQuery);
+      this.toggleFilters();
     },
 
     copyPopulateTerms: function(selector)
@@ -218,6 +277,21 @@ define([
 
     },
 
+    serializeEqTerm: function(selector, property)
+    {
+      var $el = this.$id(property.replace(/\./g, '-'));
+      var value = $el.val().trim();
+
+      if (value === '-')
+      {
+        selector.push({name: 'eq', args: [property, null]});
+      }
+      else if (value.length)
+      {
+        selector.push({name: 'eq', args: [property, value]});
+      }
+    },
+
     serializeRegexTerm: function(selector, property, maxLength, replaceRe, ignoreCase, startAnchor)
     {
       var $el = this.$id(property.replace(/\./g, '-'));
@@ -225,7 +299,7 @@ define([
 
       if (value !== '-' && replaceRe !== null)
       {
-        value = value.replace(replaceRe === undefined ? /[^0-9]/g : replaceRe, '');
+        value = value.replace(replaceRe === undefined ? /[^0-9]+/g : replaceRe, '');
       }
 
       $el.val(value);
@@ -254,7 +328,7 @@ define([
         args.push('i');
       }
 
-      args[1] = util.escapeRegExp(args[1]);
+      args[1] = this.escapeRegExp(args[1]);
 
       if (value.length === maxLength)
       {
@@ -266,6 +340,11 @@ define([
       }
 
       selector.push({name: 'regex', args: args});
+    },
+
+    escapeRegExp: function(string)
+    {
+      return util.escapeRegExp(string);
     },
 
     unescapeRegExp: function(string)

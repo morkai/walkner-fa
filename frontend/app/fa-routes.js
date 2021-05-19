@@ -10,7 +10,8 @@ define([
   './fa-assetClasses/routes',
   './fa-costCenters/routes',
   './fa-ot/routes',
-  './fa-lt/routes'
+  './fa-lt/routes',
+  'i18n!app/nls/fa-common'
 ], function()
 {
   'use strict';

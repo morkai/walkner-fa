@@ -32,7 +32,7 @@ define([
       var model = this[this.modelProperty];
 
       return createPageBreadcrumbs(this, [
-        model.getLabel() || t.bound(model.getNlsDomain(), 'BREADCRUMBS:details')
+        model.getLabel() || t.bound(model.getNlsDomain(), 'BREADCRUMB:details')
       ]);
     },
 
@@ -64,7 +64,14 @@ define([
 
     load: function(when)
     {
-      return when(this[this.modelProperty].fetch(this.fetchOptions));
+      var model = this[this.modelProperty];
+
+      if (model.isSynced && model.isSynced())
+      {
+        return when();
+      }
+
+      return when(model.fetch(this.fetchOptions));
     },
 
     getViewClass: function()

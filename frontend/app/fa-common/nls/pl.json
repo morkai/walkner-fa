@@ -1,5 +1,5 @@
 {
-  "BREADCRUMBS:help": "Instrukcje",
+  "BREADCRUMB:help": "Instrukcje",
 
   "FORM:edit:maxLength": "Wartość nie może być dłuższa niż {limit} znaków.",
   "FORM:edit:maxSize": "Plik nie może być większy niż {size}MB.",

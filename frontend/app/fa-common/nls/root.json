@@ -1,6 +1,6 @@
 {
   "root": {
-    "BREADCRUMBS:help": "Help",
+    "BREADCRUMB:help": "Help",
 
     "FORM:edit:maxLength": "Value cannot be longer than {limit} characters.",
     "FORM:edit:maxSize": "File cannot be bigger than {size}MB.",

@@ -1,31 +1,30 @@
 // Part of <https://miracle.systems/p/walkner-wmes> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'require',
   'underscore',
   'app/i18n',
   'app/user',
   'app/time',
   'app/viewport',
   'app/data/localStorage',
-  '../View',
+  'app/data/loadedModules',
+  'app/core/View',
   'app/users/util/setUpUserSelect2',
-  'app/core/templates/navbar',
   'app/core/templates/navbar/searchResults',
-
-  'app/fa-common/views/FaFileEditDialogView',
-  'i18n!app/nls/fa-common'
+  'app/fa-common/views/FaFileEditDialogView'
 ], function(
+  require,
   _,
   t,
   user,
   time,
   viewport,
   localStorage,
+  loadedModules,
   View,
   setUpUserSelect2,
-  navbarTemplate,
   searchResultsTemplate,
-
   FaFileEditDialogView
 ) {
   'use strict';
@@ -36,8 +35,6 @@ define([
    * @param {Object} [options]
    */
   var NavbarView = View.extend({
-
-    template: navbarTemplate,
 
     nlsDomain: 'core',
 
@@ -97,6 +94,17 @@ define([
 
         this.trigger('logOut');
       },
+      'click .navbar-feedback': function onFeedbackClick(e)
+      {
+        e.preventDefault();
+
+        e.target.disabled = true;
+
+        this.trigger('feedback', function()
+        {
+          e.target.disabled = false;
+        });
+      },
       'mouseup .btn[data-href]': function(e)
       {
         if (e.button === 2)
@@ -105,14 +113,15 @@ define([
         }
 
         var href = e.currentTarget.dataset.href;
+        var target = e.currentTarget.dataset.target;
 
         if (href.indexOf('/fa/files/') === 0)
         {
           FaFileEditDialogView.showDialog(href.split('/')[3]);
         }
-        else if (e.ctrlKey || e.button === 1)
+        else if (e.ctrlKey || e.button === 1 || (target && target !== '_self'))
         {
-          window.open(href);
+          window.open(href, target);
         }
         else
         {
@@ -190,6 +199,53 @@ define([
 
         this.timers.handleSearch = setTimeout(this.handleSearch.bind(this), 1000 / 30);
       },
+      'mouseup #-mor': function(e)
+      {
+        if (!e.ctrlKey && e.button === 0)
+        {
+          this.showMor();
+
+          return false;
+        }
+      },
+      'click #-mor': function(e)
+      {
+        if (!e.ctrlKey && e.button === 0)
+        {
+          return false;
+        }
+      },
+      'click #-openLayout': function(e)
+      {
+        if (e.button !== 0)
+        {
+          return;
+        }
+
+        var screen = window.screen;
+        var width = screen.availWidth * 0.8;
+        var height = screen.availHeight * 0.9;
+        var left = Math.floor((screen.availWidth - width) / 2);
+        var top = Math.floor((screen.availHeight - height) / 2) - (screen.height - screen.availHeight);
+        var windowFeatures = 'resizable,scrollbars,location=no'
+          + ',top=' + top
+          + ',left=' + left
+          + ',width=' + Math.floor(width)
+          + ',height=' + Math.floor(height);
+
+        var win = window.open(e.target.href, 'WMES_LAYOUT', windowFeatures);
+
+        if (win)
+        {
+          win.focus();
+        }
+        else
+        {
+          window.location.href = e.target.href;
+        }
+
+        return false;
+      },
       'click a[data-group]': function(e)
       {
         this.toggleGroup(e.currentTarget.dataset.group);
@@ -235,9 +291,9 @@ define([
 
     /**
      * @private
-     * @type {string}
+     * @type {?string}
      */
-    this.activePath = '';
+    this.activeModuleName = null;
 
     /**
      * @private
@@ -257,7 +313,11 @@ define([
      */
     this.lastSearchPhrase = '';
 
-    this.activateNavItem(this.options.currentPath);
+    /**
+     * @private
+     * @type {?string}
+     */
+    this.initialPath = this.options.currentPath;
   };
 
   NavbarView.prototype.beforeRender = function()
@@ -272,7 +332,16 @@ define([
       view: this
     });
 
-    this.selectActiveNavItem();
+    if (this.initialPath !== null)
+    {
+      this.activateNavItem(this.initialPath);
+      this.initialPath = null;
+    }
+    else
+    {
+      this.selectActiveNavItem();
+    }
+
     this.setConnectionStatus(this.socket.isConnected() ? 'online' : 'offline');
     this.hideNotAllowedEntries();
     this.hideEmptyEntries();
@@ -288,17 +357,33 @@ define([
    */
   NavbarView.prototype.activateNavItem = function(path)
   {
-    if (/^[\/#]/.test(path))
+    if (!this.navItems)
     {
-      path = path.substring(1);
+      this.cacheNavItems();
     }
 
-    if (path === this.activePath)
+    var matches = path.substring(1).match(/^([a-zA-Z0-9\/\-_]+)/);
+    var candidates = this.getNavItemKeysFromPath(matches ? matches[1] : '');
+    var moduleName = '';
+
+    for (var i = candidates.length - 1; i >= 0; --i)
+    {
+      var candidate = candidates[i];
+
+      if (this.navItems[candidate])
+      {
+        moduleName = candidate;
+
+        break;
+      }
+    }
+
+    if (moduleName === this.activeModuleName)
     {
       return;
     }
 
-    this.activePath = path;
+    this.activeModuleName = moduleName;
 
     this.selectActiveNavItem();
   };
@@ -335,7 +420,7 @@ define([
    * @param {HTMLLIElement} liEl
    * @param {boolean} useAnchor
    * @param {boolean} [clientModule]
-   * @returns {string|null}
+   * @returns {string}
    */
   NavbarView.prototype.getModuleNameFromLi = function(liEl, useAnchor, clientModule)
   {
@@ -343,7 +428,7 @@ define([
 
     if (module === undefined && !useAnchor)
     {
-      return null;
+      return '';
     }
 
     if (module)
@@ -355,52 +440,14 @@ define([
 
     if (!aEl)
     {
-      return null;
+      return '';
     }
 
     var href = aEl.getAttribute('href');
 
     if (!href)
     {
-      return null;
-    }
-
-    return this.getModuleNameFromPath(href);
-  };
-
-  /**
-   * @private
-   * @param {HTMLLIElement} liEl
-   * @param {boolean} useAnchor
-   * @param {boolean} [clientModule]
-   * @returns {string|null}
-   */
-  NavbarView.prototype.getBackendModuleNameFromLi = function(liEl, useAnchor, clientModule)
-  {
-    var module = liEl.dataset[clientModule ? 'clientModule' : 'module'];
-
-    if (module === undefined && !useAnchor)
-    {
-      return null;
-    }
-
-    if (module)
-    {
-      return module;
-    }
-
-    var aEl = liEl.querySelector('a');
-
-    if (!aEl)
-    {
-      return null;
-    }
-
-    var href = aEl.getAttribute('href');
-
-    if (!href)
-    {
-      return null;
+      return '';
     }
 
     return this.getModuleNameFromPath(href);
@@ -425,7 +472,7 @@ define([
 
     var matches = path.match(/^([a-z0-9][a-z0-9\-]*[a-z0-9]*)/i);
 
-    return matches ? matches[1] : null;
+    return matches ? matches[1] : '';
   };
 
   /**
@@ -438,7 +485,7 @@ define([
       return;
     }
 
-    if (this.navItems === null)
+    if (!this.navItems)
     {
       this.cacheNavItems();
     }
@@ -450,16 +497,12 @@ define([
       this.$activeNavItem.removeClass(activeItemClassName);
     }
 
-    var $newActiveNavItem;
-    var activePath = this.activePath.split('/');
+    var $newActiveNavItem = this.navItems[this.activeModuleName];
 
-    do
+    if (!$newActiveNavItem && viewport.currentPage && viewport.currentPage.navbarModuleName)
     {
-      $newActiveNavItem = this.navItems[activePath.join('/').replace(/;.*?$/, '')];
-
-      activePath.pop();
+      $newActiveNavItem = this.navItems[viewport.currentPage.navbarModuleName];
     }
-    while (activePath.length && !$newActiveNavItem);
 
     if (!$newActiveNavItem)
     {
@@ -478,82 +521,116 @@ define([
    */
   NavbarView.prototype.cacheNavItems = function()
   {
-    this.navItems = {};
+    var view = this;
 
-    this.$('.nav > li').each(this.cacheNavItem.bind(this));
+    view.navItems = {};
+
+    view.$('.nav > li').each(function()
+    {
+      view.cacheNavItem(this);
+    });
   };
 
   /**
    * @private
-   * @param {number} i
    * @param {Element} navItemEl
    */
-  NavbarView.prototype.cacheNavItem = function(i, navItemEl)
+  NavbarView.prototype.cacheNavItem = function(navItemEl)
   {
     var view = this;
     var $navItem = view.$(navItemEl);
 
     if ($navItem.hasClass(view.options.activeItemClassName))
     {
-      this.$activeNavItem = $navItem;
+      view.$activeNavItem = $navItem;
     }
 
-    var href = $navItem.find('a').attr('href');
+    var href = $navItem.find('a').first().attr('href');
 
-    if (href && href[0] === '#')
+    if (href && href.charAt(0) === '#')
     {
-      var navItemId = view.getNavItemId(navItemEl);
-
-      view.navItems[navItemId] = $navItem;
+      view.getNavItemKeysFromLi($navItem[0]).forEach(function(key)
+      {
+        if (!view.navItems[key])
+        {
+          view.navItems[key] = $navItem;
+        }
+      });
     }
     else if ($navItem.hasClass('dropdown'))
     {
       $navItem.find('.dropdown-menu > li').each(function()
       {
-        var navItemId = view.getNavItemId(this);
-
-        if (navItemId)
+        view.getNavItemKeysFromLi(this).forEach(function(key)
         {
-          view.navItems[navItemId] = $navItem;
-        }
+          if (!view.navItems[key])
+          {
+            view.navItems[key] = $navItem;
+          }
+        });
       });
     }
   };
 
   /**
    * @private
-   * @param {Element} navItemEl
-   * @returns {?string}
+   * @param {Element} liEl
+   * @returns {string[]}
    */
-  NavbarView.prototype.getNavItemId = function(navItemEl)
+  NavbarView.prototype.getNavItemKeysFromLi = function(liEl)
   {
-    if (navItemEl.dataset.navId)
-    {
-      return navItemEl.dataset.navId;
-    }
-
-    var aEl = navItemEl.querySelector('a');
+    var aEl = liEl.querySelector('a');
 
     if (!aEl)
     {
-      return null;
+      return [''];
     }
 
-    var href = aEl.getAttribute('href');
+    var navPath = liEl.dataset.navPath;
 
-    if (href.charAt(0) !== '#')
+    if (!navPath)
     {
-      return null;
+      var href = aEl.getAttribute('href');
+
+      if (!href || (href.charAt(0) !== '/' && href.charAt(0) !== '#'))
+      {
+        return [''];
+      }
+
+      navPath = href.substring(1);
     }
 
-    var qsIndex = href.indexOf('?');
+    var matches = navPath.match(/^([a-zA-Z0-9\/\-_]+)/);
 
-    if (qsIndex === -1)
+    if (!matches)
     {
-      return href.substring(1);
+      return [''];
     }
 
-    return href.substring(1, qsIndex);
+    return this.getNavItemKeysFromPath(matches[1]);
+  };
+
+  /**
+   * @private
+   * @param {string} path
+   * @returns {string[]}
+   */
+  NavbarView.prototype.getNavItemKeysFromPath = function(path)
+  {
+    var parts = path.split('/');
+    var keys = [];
+
+    parts.forEach(function(part, i)
+    {
+      if (keys[i - 1])
+      {
+        part = keys[i - i] + '/' + part;
+      }
+
+      keys.push(part);
+    });
+
+    return keys;
   };
 
   /**
@@ -639,6 +716,11 @@ define([
 
     function isEntryVisible($li)
     {
+      if (window.NAVBAR_ITEMS && window.NAVBAR_ITEMS[$li.attr('data-item')] === false)
+      {
+        return false;
+      }
+
       var loggedIn = $li.attr('data-loggedin');
 
       if (typeof loggedIn === 'string')
@@ -651,11 +733,11 @@ define([
         }
       }
 
-      var moduleName = navbarView.getBackendModuleNameFromLi($li[0], false);
+      var moduleName = navbarView.getModuleNameFromLi($li[0], false);
 
-      if (moduleName !== null
+      if (moduleName !== ''
         && $li.attr('data-no-module') === undefined
-        && !navbarView.options.loadedModules[moduleName])
+        && _.some(moduleName.split(' '), function(n) { return !navbarView.options.loadedModules[n]; }))
       {
         return false;
       }
@@ -787,7 +869,7 @@ define([
     {
       this.$id('searchResults').html(
         '<li class="disabled"><a>'
-        + t('core', 'NAVBAR:SEARCH:' + (searchPhrase === '' ? 'help' : 'empty'))
+        + this.t('NAVBAR:SEARCH:' + (searchPhrase === '' ? 'help' : 'empty'))
         + '</a></li>'
       );
     }
@@ -938,9 +1020,27 @@ define([
    */
   NavbarView.prototype.renderSearchResults = function(results)
   {
-    return this.renderPartial(searchResultsTemplate, {
-      results: results
-    });
+    var templateData = {
+      loadedModules: loadedModules,
+      results: results,
+      oshEntries: []
+    };
+
+    if (loadedModules.isLoaded('wmes-osh'))
+    {
+      var oshDictionaries = require('app/wmes-osh-common/dictionaries');
+
+      Object.keys(oshDictionaries.TYPE_TO_PREFIX).forEach(function(type)
+      {
+        templateData.oshEntries.push({
+          type: type,
+          prefix: oshDictionaries.TYPE_TO_PREFIX[type],
+          module: oshDictionaries.TYPE_TO_MODULE[type]
+        });
+      });
+    }
+
+    return this.renderPartial(searchResultsTemplate, templateData);
   };
 
   /**
@@ -949,12 +1049,14 @@ define([
    */
   NavbarView.prototype.parseSearchPhrase = function(searchPhrase)
   {
+    var productionEnabled = loadedModules.isLoaded('production');
     var results = {
       fullOrderNo: null,
       partialOrderNo: null,
       fullNc12: null,
       partialNc12: null,
       fullNc15: null,
+      oshEntry: null,
       entryId: null,
       year: null,
       month: null,
@@ -973,37 +1075,66 @@ define([
 
     searchPhrase = ' ' + searchPhrase.toUpperCase() + ' ';
 
-    // Full 15NC
-    matches = searchPhrase.match(/[^0-9A-Z]([0-9]{15})[^0-9A-Z]/);
-
-    if (matches)
+    if (loadedModules.isLoaded('orderDocuments'))
     {
-      results.fullNc15 = matches[1];
-      searchPhrase = searchPhrase.replace(results.fullNc15, '');
-    }
+      // Full 15NC
+      matches = searchPhrase.match(/[^0-9A-Z]([0-9]{15})[^0-9A-Z]/);
 
-    // Full 12NC
-    matches = searchPhrase.match(/[^0-9A-Z]([0-9]{12}|[A-Z]{2}[A-Z0-9]{5})[^0-9A-Z]/);
-
-    if (matches && (matches[1].length === 12 || /[0-9]+/.test(matches[1])))
-    {
-      results.fullNc12 = matches[1].toUpperCase();
-      searchPhrase = searchPhrase.replace(/([0-9]{12}|[A-Z]{2}[A-Z0-9]{5})/g, '');
-    }
-
-    // Full order no
-    matches = searchPhrase.match(/[^0-9](1[0-9]{8})[^0-9]/);
-
-    if (matches)
-    {
-      results.fullOrderNo = matches[1];
-
-      if (/^1111/.test(matches[1]))
+      if (matches)
       {
-        results.partialNc12 = matches[1];
+        results.fullNc15 = matches[1];
+        searchPhrase = searchPhrase.replace(results.fullNc15, '');
+      }
+    }
+
+    if (productionEnabled)
+    {
+      // Full 12NC
+      matches = searchPhrase.match(/[^0-9A-Z]([0-9]{12}|[A-Z]{2}[A-Z0-9]{5})[^0-9A-Z]/);
+
+      if (matches && (matches[1].length === 12 || /[0-9]+/.test(matches[1])))
+      {
+        results.fullNc12 = matches[1].toUpperCase();
+        searchPhrase = searchPhrase.replace(/([0-9]{12}|[A-Z]{2}[A-Z0-9]{5})/g, '');
       }
 
-      searchPhrase = searchPhrase.replace(/(1[0-9]{8})/g, '');
+      // Full order no
+      matches = searchPhrase.match(/[^0-9](1[0-9]{8})[^0-9]/);
+
+      if (matches)
+      {
+        results.fullOrderNo = matches[1];
+
+        if (/^1111/.test(matches[1]))
+        {
+          results.partialNc12 = matches[1];
+        }
+
+        searchPhrase = searchPhrase.replace(/(1[0-9]{8})/g, '');
+      }
+    }
+
+    // OSH entry
+    if (loadedModules.isLoaded('wmes-osh'))
+    {
+      matches = searchPhrase.match(/[^0-9]([ZKAO])[^0-9]?([0-9]{4})?[^0-9]?([0-9]{1,6})[^0-9]/);
+
+      if (matches)
+      {
+        var oshDictionaries = require('app/wmes-osh-common/dictionaries');
+        var oshPrefix = matches[1];
+        var oshType = oshDictionaries.PREFIX_TO_TYPE[oshPrefix];
+        var oshYear = matches[2] || time.format(Date.now(), 'YYYY');
+        var oshInc = parseInt(matches[3], 10).toString().padStart(6, '0');
+
+        results.oshEntry = {
+          type: oshType,
+          module: oshDictionaries.TYPE_TO_MODULE[oshType],
+          rid: oshPrefix + '-' + oshYear + '-' + oshInc
+        };
+
+        searchPhrase = searchPhrase.replace(/([ZKAO]).?([0-9]{4})?.?([0-9]{1,6})/g, '');
+      }
     }
 
     // Shift
@@ -1098,7 +1229,7 @@ define([
 
     if (matches)
     {
-      if (/^1[0-9]*$/.test(matches[1]) && matches[1].length < 9)
+      if (productionEnabled && /^1[0-9]*$/.test(matches[1]) && matches[1].length < 9)
       {
         results.partialOrderNo = matches[1];
       }
@@ -1108,7 +1239,7 @@ define([
         results.entryId = matches[1];
       }
 
-      if (matches[1].length < 12)
+      if (productionEnabled && matches[1].length < 12)
       {
         results.partialNc12 = matches[1].toUpperCase();
       }
@@ -1179,8 +1310,11 @@ define([
       users.slice(0, 5).reverse().forEach(function(user)
       {
         var $user = $tpl.clone();
+        var name = user.lastName || user.firstName
+          ? (user.lastName + ' ' + user.firstName).trim()
+          : user.login;
 
-        $user.find('a').attr('href', '#users/' + user._id).text(user.lastName + ' ' + user.firstName);
+        $user.find('a').attr('href', '#users/' + user._id).text(name);
 
         $user.insertAfter($hd);
       });

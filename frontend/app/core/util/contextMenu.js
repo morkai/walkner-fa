@@ -5,22 +5,21 @@ define([
   'jquery',
   'app/i18n',
   'app/broker',
+  'app/core/util/scrollbarSize',
   'app/core/templates/contextMenu'
 ], function(
   _,
   $,
   t,
   broker,
+  scrollbarSize,
   template
 ) {
   'use strict';
 
   function focusPrev(e)
   {
-    var items = $(e.currentTarget)
-      .closest('.contextMenu')
-      .find('[tabindex]:not(.contextMenu-disabled)')
-      .toArray();
+    var items = $(e.currentTarget).closest('.planning-menu').find('[tabindex]:not(.planning-menu-disabled)').toArray();
     var index = items.indexOf(e.currentTarget) - 1;
 
     if (index === -1)
@@ -35,10 +34,7 @@ define([
 
   function focusNext(e)
   {
-    var items = $(e.currentTarget)
-      .closest('.contextMenu')
-      .find('[tabindex]:not(.contextMenu-disabled)')
-      .toArray();
+    var items = $(e.currentTarget).closest('.planning-menu').find('[tabindex]:not(.planning-menu-disabled)').toArray();
     var index = items.indexOf(e.currentTarget) + 1;
 
     if (index >= items.length)
@@ -167,8 +163,8 @@ define([
       {
         var el = e.currentTarget;
 
-        if (el.classList.contains('contextMenu-disabled')
-          || el.classList.contains('contextMenu-loading'))
+        if (el.classList.contains('planning-menu-disabled')
+          || el.classList.contains('planning-menu-loading'))
         {
           return;
         }
@@ -176,7 +172,7 @@ define([
         var action = el.dataset.action;
         var item = menu[action];
 
-        $menu.find('a').addClass('contextMenu-loading');
+        $menu.find('a').addClass('planning-menu-loading');
 
         e.contextMenu = {
           hide: true,
@@ -258,7 +254,7 @@ define([
         }
       });
 
-      var $backdrop = $('<div class="contextMenu-backdrop"></div>').one('mousedown', hideMenu);
+      var $backdrop = $('<div class="planning-menu-backdrop"></div>').one('mousedown', hideMenu);
 
       $menu.data('backdrop', $backdrop);
       $menu.data('options', options);
@@ -297,7 +293,7 @@ define([
         }
         else
         {
-          $menu.find('[tabindex]:not(.contextMenu-disabled)').first().focus();
+          $menu.find('[tabindex]:not(.planning-menu-disabled)').first().focus();
         }
       }
 
@@ -312,30 +308,101 @@ define([
       }
 
       var $menu = view.$contextMenu;
-      var width = $menu.outerWidth();
-      var height = $menu.outerHeight();
 
-      if (left + width >= document.body.clientWidth)
+      position(false);
+
+      function position(again)
       {
-        left -= (left + width) - document.body.clientWidth + 5;
+        var width = $menu.outerWidth();
+        var height = $menu.outerHeight();
+
+        if (left + width >= document.body.clientWidth)
+        {
+          left -= (left + width) - document.body.clientWidth + 5;
+        }
+
+        var maxHeight = window.innerHeight + window.pageYOffset;
+
+        if (top + height >= maxHeight)
+        {
+          top -= (top + height) - maxHeight + 5;
+        }
+
+        $menu.css({
+          top: top + 'px',
+          left: left + 'px'
+        });
+
+        _.assign($menu.data('options'), {
+          top: top,
+          left: left
+        });
+
+        if (!again && $menu[0].scrollHeight > $menu[0].offsetHeight)
+        {
+          position(true);
+        }
+      }
+    },
+
+    actions: {
+
+      sapOrder: function(orderNo)
+      {
+        return {
+          icon: 'fa-file-o',
+          label: t.bound('planning', 'orders:menu:sapOrder'),
+          handler: function()
+          {
+            window.open('/#orders/' + orderNo);
+          }
+        };
+      },
+
+      comment: function(orderNo)
+      {
+        return {
+          icon: 'fa-comment-o',
+          label: t('planning', 'orders:menu:comment'),
+          handler: function()
+          {
+            var width = Math.min(window.screen.availWidth - 200, 1400);
+            var height = Math.min(window.screen.availHeight - 160, 800);
+            var left = window.screen.availWidth - width - 80;
+
+            var win = window.open(
+              '/#orders/' + orderNo,
+              'WMES_ORDER_DETAILS',
+              'top=80,left=' + left + ',width=' + width + ',height=' + height
+            );
+
+            if (!win)
+            {
+              return;
+            }
+
+            win.onPageShown = function()
+            {
+              if (!win)
+              {
+                return;
+              }
+
+              win.focus();
+
+              var commentEl = win.document.querySelector('textarea[name="comment"]');
+
+              if (commentEl)
+              {
+                commentEl.focus();
+              }
+
+              setTimeout(function() { win.scrollTo(0, win.document.body.scrollHeight); }, 1);
+            };
+          }
+        };
       }
 
-      var maxHeight = window.innerHeight + window.pageYOffset;
-
-      if (top + height >= maxHeight)
-      {
-        top -= (top + height) - maxHeight + 5;
-      }
-
-      $menu.css({
-        top: top + 'px',
-        left: left + 'px'
-      });
-
-      _.assign($menu.data('options'), {
-        top: top,
-        left: left
-      });
     }
 
   };

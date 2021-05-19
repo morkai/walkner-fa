@@ -40,17 +40,12 @@ define([
 
   time.getServerMoment = function()
   {
-    return moment(Date.now() + time.offset).tz(time.zone);
+    return moment.tz(Date.now() + time.offset, time.zone);
   };
 
   time.getMoment = function(date, inputFormat)
   {
-    return moment(date, inputFormat).tz(time.zone);
-  };
-
-  time.getMomentUtc = function(date, inputFormat)
-  {
-    return moment.utc(date, inputFormat);
+    return moment.tz(date, inputFormat, time.zone);
   };
 
   time.format = function(date, format)
@@ -67,7 +62,7 @@ define([
     },
     format: function(date, format)
     {
-      var dateMoment = time.getMomentUtc(date);
+      var dateMoment = moment.utc(date);
 
       return dateMoment.isValid() ? dateMoment.format(format) : null;
     }
@@ -166,6 +161,8 @@ define([
     {
       return compact ? '00:00:00' : '0s';
     }
+
+    time = Math.round(time * 1000) / 1000;
 
     var str = '';
     var hours = Math.floor(time / 3600);

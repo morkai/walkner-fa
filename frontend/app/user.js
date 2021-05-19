@@ -159,8 +159,15 @@ function(
     userInfo.cname = window.COMPUTERNAME;
     userInfo.label = user.getLabel();
 
+    user.getInfo.decorators.forEach(function(decorate)
+    {
+      decorate(userInfo, user.data);
+    });
+
     return userInfo;
   };
+
+  user.getInfo.decorators = [];
 
   user.isAllowedTo = function(privilege)
   {
@@ -202,15 +209,17 @@ function(
       for (var ii = 0; ii < requiredMatches; ++ii)
       {
         var requiredPrivilege = allPrivileges[ii];
+        var type = typeof requiredPrivilege;
 
-        if (typeof requiredPrivilege !== 'string')
+        if (type === 'function')
+        {
+          actualMatches += requiredPrivilege() ? 1 : 0;
+        }
+        else if (type !== 'string')
         {
           requiredMatches -= 1;
-
-          continue;
         }
-
-        if (requiredPrivilege === 'USER')
+        else if (requiredPrivilege === 'USER')
         {
           actualMatches += isLoggedIn ? 1 : 0;
         }
@@ -224,7 +233,18 @@ function(
         }
         else if (/^FN:/.test(requiredPrivilege))
         {
-          actualMatches += user.data.prodFunction === requiredPrivilege.substring(3) ? 1 : 0;
+          var requiredFn = requiredPrivilege.substring(3);
+
+          if (requiredFn.indexOf('*') !== -1)
+          {
+            var requiredFnRe = new RegExp('^' + requiredFn.replace(/\*/g, '.*?') + '$');
+
+            actualMatches += requiredFnRe.test(user.data.prodFunction) ? 1 : 0;
+          }
+          else
+          {
+            actualMatches += user.data.prodFunction === requiredFn ? 1 : 0;
+          }
         }
         else
         {
@@ -385,6 +405,8 @@ function(
       privileges: []
     };
   };
+
+  user.can = {};
 
   window.user = user;
 

@@ -1,6 +1,6 @@
 {
   "root": {
-    "BREADCRUMBS:browse": "Cost centers",
+    "BREADCRUMB:browse": "Cost centers",
 
     "PROPERTY:active": "Active?",
     "PROPERTY:_id": "Symbol",

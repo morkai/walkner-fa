@@ -3,22 +3,28 @@
 define([
   'underscore',
   'jquery',
+  'backbone',
   'backbone.layout',
   'app/broker',
   'app/socket',
   'app/pubsub',
   'app/i18n',
-  './util'
+  './util',
+  './util/html',
+  './util/forms/formGroup'
 ],
 function(
   _,
   $,
+  Backbone,
   Layout,
   broker,
   socket,
   pubsub,
   t,
-  util
+  util,
+  html,
+  formGroup
 ) {
   'use strict';
 
@@ -136,6 +142,22 @@ function(
     }, this);
   };
 
+  View.prototype.listenTo = function(obj)
+  {
+    if (obj)
+    {
+      return Layout.prototype.listenTo.apply(this, arguments);
+    }
+  };
+
+  View.prototype.listenToOnce = function(obj)
+  {
+    if (obj)
+    {
+      return Layout.prototype.listenToOnce.apply(this, arguments);
+    }
+  };
+
   View.prototype.getViews = function(fn)
   {
     if (typeof fn === 'string' && /^#-/.test(fn))
@@ -153,6 +175,11 @@ function(
       name = name.replace('#-', '#' + this.idPrefix + '-');
     }
 
+    if (!(name instanceof Backbone.View) && !(view instanceof Backbone.View))
+    {
+      return null;
+    }
+
     return Layout.prototype.setView.call(this, name, view, insert, insertOptions);
   };
 
@@ -160,6 +187,7 @@ function(
   {
     this.destroy();
     this.cleanupSelect2();
+    this.cleanupPopovers();
 
     util.cleanupSandboxedProperties(this);
 
@@ -179,9 +207,28 @@ function(
   {
     var view = this;
 
-    this.$('.select2-container').each(function()
+    view.$('.select2-container').each(function()
     {
       view.$('#' + this.id.replace('s2id_', '')).select2('destroy');
+    });
+  };
+
+  View.prototype.cleanupPopovers = function()
+  {
+    var view = this;
+
+    view.$('[aria-describedby]').each(function()
+    {
+      var describedBy = this.getAttribute('aria-describedby');
+
+      if (/^popover/.test(describedBy))
+      {
+        view.$(this).popover('destroy');
+      }
+      else if (/^tooltip/.test(describedBy))
+      {
+        view.$(this).tooltip('destroy');
+      }
     });
   };
 
@@ -199,7 +246,9 @@ function(
     return {
       idPrefix: this.idPrefix,
       helpers: helpers,
-      t: helpers.t
+      t: helpers.t,
+      id: helpers.id,
+      cn: helpers.cn
     };
   };
 
@@ -210,9 +259,21 @@ function(
 
   View.prototype.getTemplateHelpers = function()
   {
+    var idPrefix = this.idPrefix;
+    var classPrefix = this.classPrefix;
+
     return {
       t: this.t,
-      props: this.props.bind(this)
+      id: function()
+      {
+        return idPrefix + '-' + Array.prototype.slice.call(arguments).join('-');
+      },
+      cn: function()
+      {
+        return (classPrefix ? (classPrefix + '-') : '') + Array.prototype.slice.call(arguments).join('-');
+      },
+      props: this.props.bind(this),
+      formGroup: formGroup.bind(null, this)
     };
   };
 
@@ -280,14 +341,18 @@ function(
 
   View.prototype.$id = function(idSuffix)
   {
-    var id = '#';
+    var selector = '#';
 
     if (_.isString(this.idPrefix))
     {
-      id += this.idPrefix + '-';
+      selector += this.idPrefix + '-';
     }
 
-    return $(id + idSuffix);
+    selector += idSuffix;
+
+    var $el = this.$el.find(selector);
+
+    return $el.length ? $el : $(selector);
   };
 
   View.prototype.getDefaultModel = function()
@@ -299,7 +364,7 @@ function(
   {
     if (this.nlsDomain)
     {
-      return this.nlsDomain;
+      return _.result(this, 'nlsDomain');
     }
 
     var model = this.getDefaultModel();
@@ -330,7 +395,7 @@ function(
       data = options.data;
     }
 
-    var html = '<div class="props ' + (options.first ? 'first' : '') + '">';
+    var propsHtml = '<div class="props ' + (options.first ? 'first' : '') + '">';
     var defaultNlsDomain = view.getDefaultNlsDomain();
 
     [].concat(_.isArray(options) ? options : options.props).forEach(function(prop)
@@ -342,8 +407,6 @@ function(
 
       var escape = prop.escape === false ? false : (prop.id.charAt(0) !== '!');
       var id = escape ? prop.id : prop.id.substring(1);
-      var className = prop.className || '';
-      var valueClassName = prop.valueClassName || '';
       var nlsDomain = prop.nlsDomain || options.nlsDomain || defaultNlsDomain;
       var label = prop.label || t(nlsDomain, 'PROPERTY:' + id);
       var value = _.isFunction(prop.value)
@@ -360,9 +423,87 @@ function(
         return;
       }
 
-      if (value == null)
+      var propAttrs = Object.assign(
+        {'data-prop': id},
+        prop.attrs,
+        {className: {prop: true}}
+      );
+
+      [prop.className, prop.attrs && prop.attrs.className].forEach(function(rawClassName)
       {
-        value = '';
+        if (typeof rawClassName === 'string' && rawClassName.length)
+        {
+          rawClassName = rawClassName.split(' ');
+        }
+
+        if (Array.isArray(rawClassName))
+        {
+          rawClassName.forEach(function(className)
+          {
+            propAttrs.className[className] = true;
+          });
+        }
+        else if (rawClassName && typeof rawClassName === 'object')
+        {
+          Object.assign(propAttrs.className, rawClassName);
+        }
+      });
+
+      var nameAttrs = Object.assign(
+        {},
+        prop.nameAttrs,
+        {className: {'prop-name': true}}
+      );
+
+      [prop.nameClassName, prop.nameAttrs && prop.nameAttrs.className].forEach(function(rawClassName)
+      {
+        if (typeof rawClassName === 'string' && rawClassName.length)
+        {
+          rawClassName = rawClassName.split(' ');
+        }
+
+        if (Array.isArray(rawClassName))
+        {
+          rawClassName.forEach(function(className)
+          {
+            nameAttrs.className[className] = true;
+          });
+        }
+        else if (rawClassName && typeof rawClassName === 'object')
+        {
+          Object.assign(nameAttrs.className, rawClassName);
+        }
+      });
+
+      var valueAttrs = Object.assign(
+        {},
+        prop.valueAttrs,
+        {className: {'prop-value': true}}
+      );
+
+      [prop.valueClassName, prop.valueAttrs && prop.valueAttrs.className].forEach(function(rawClassName)
+      {
+        if (typeof rawClassName === 'string' && rawClassName.length)
+        {
+          rawClassName = rawClassName.split(' ');
+        }
+
+        if (Array.isArray(rawClassName))
+        {
+          rawClassName.forEach(function(className)
+          {
+            valueAttrs.className[className] = true;
+          });
+        }
+        else if (rawClassName && typeof rawClassName === 'object')
+        {
+          Object.assign(valueAttrs.className, rawClassName);
+        }
+      });
+
+      if (typeof value !== 'string')
+      {
+        value = value == null ? '' : String(value);
       }
 
       if (escape)
@@ -370,13 +511,13 @@ function(
         value = _.escape(value);
       }
 
-      html += '<div class="prop ' + className + '" data-prop="' + id + '">'
-        + '<div class="prop-name">' + label + '</div>'
-        + '<div class="prop-value ' + valueClassName + '">' + value + '</div>'
-        + '</div>';
+      var nameTag = html.tag('div', nameAttrs, label);
+      var valueTag = html.tag('div', valueAttrs, value);
+
+      propsHtml += html.tag('div', propAttrs, nameTag + valueTag);
     });
 
-    return html + '</div>';
+    return propsHtml + '</div>';
   };
 
   return View;

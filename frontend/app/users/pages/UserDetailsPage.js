@@ -34,7 +34,7 @@ define([
         return DetailsPage.prototype.breadcrumbs.call(this);
       }
 
-      return [this.t('BREADCRUMBS:myAccount')];
+      return [this.t('BREADCRUMB:myAccount')];
     },
 
     actions: function()

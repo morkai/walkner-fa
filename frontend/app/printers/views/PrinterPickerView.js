@@ -8,7 +8,7 @@ define([
   'app/pubsub',
   'app/viewport',
   'app/core/View',
-  'app/planning/util/contextMenu',
+  'app/core/util/contextMenu',
   'app/printers/templates/pageAction'
 ], function(
   _,

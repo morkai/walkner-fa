@@ -1,5 +1,5 @@
 {
-  "BREADCRUMBS:browse": "LT",
+  "BREADCRUMB:browse": "LT",
 
   "PAGE_ACTION:jump:title": "Skocz do LT po numerze",
   "PAGE_ACTION:jump:placeholder": "Numer",

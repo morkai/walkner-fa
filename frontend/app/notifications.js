@@ -50,13 +50,37 @@ function(
     {
       if (err)
       {
-        setTimeout(getClientId, 3000);
+        if (/No active/.test(err.message))
+        {
+          setTimeout(reregister, 3000);
+        }
+        else
+        {
+          setTimeout(getClientId, 3000);
+        }
 
         return console.error('Failed to get the client ID: %s', err.message);
       }
 
       clientId = res.clientId;
     });
+  }
+
+  function reregister()
+  {
+    window.navigator.serviceWorker.register(window.SERVICE_WORKER)
+      .then(function()
+      {
+        console.log('[sw] Registered!');
+
+        setTimeout(getClientId, 100);
+      })
+      .catch(function(err)
+      {
+        console.error('[sw] Failed to register:', err);
+
+        setTimeout(reregister, 5000);
+      });
   }
 
   function act(message, reply)
@@ -70,6 +94,11 @@ function(
     {
       if (!registration.active)
       {
+        if (window.ENV === 'development')
+        {
+          console.log('[sw] Inactive registration:', registration);
+        }
+
         return complete(new Error('No active registration!'));
       }
 

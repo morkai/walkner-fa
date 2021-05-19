@@ -89,6 +89,41 @@ define([
 
       this.$el.prop('size', 1);
       this.$el.removeClass(this.options.isExpandedClassName);
+
+      if (this.$el[0].selectedIndex !== -1)
+      {
+        var scrollTop = 0;
+
+        for (var i = 0, l = this.$el[0].selectedIndex; i < l; ++i)
+        {
+          scrollTop += this.$el[0].options[i].offsetHeight;
+        }
+
+        this.$el[0].scrollTop = scrollTop;
+      }
+    },
+
+    toggleSelection: function()
+    {
+      var options = this.$el[0].options;
+      var anyUnselected = false;
+
+      for (var i = 0; i < options.length; ++i)
+      {
+        if (anyUnselected || !options[i].selected)
+        {
+          options[i].selected = true;
+          anyUnselected = true;
+        }
+      }
+
+      if (!anyUnselected)
+      {
+        for (var j = 0; j < options.length; ++j)
+        {
+          options[j].selected = false;
+        }
+      }
     },
 
     onWindowResize: function()
@@ -112,9 +147,18 @@ define([
 
     onKeyDown: function(e)
     {
-      if (e.keyCode === 27)
+      if (e.key === 'Escape')
       {
         this.$el.blur();
+
+        return false;
+      }
+
+      if (e.key.toLowerCase() === 'a')
+      {
+        this.toggleSelection();
+
+        return false;
       }
     },
 

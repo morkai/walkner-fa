@@ -125,12 +125,8 @@ exports.sio = {
 exports.pubsub = {
   statsPublishInterval: 60000,
   republishTopics: [
-    'ping',
-    'sockets.connected', 'sockets.disconnected',
     'dictionaries.updated',
-    '*.added', '*.edited', '*.deleted', '*.synced',
-    'settings.updated.**',
-    'printing.**'
+    '*.added', '*.edited', '*.deleted', '*.synced'
   ]
 };
 
@@ -150,7 +146,9 @@ exports.express = {
   sessionCookie: {
     httpOnly: true,
     path: '/',
-    maxAge: 3600 * 24 * 30 * 1000
+    maxAge: 3600 * 24 * 90 * 1000,
+    sameSite: 'lax',
+    secure: false
   },
   sessionStore: {
     touchInterval: 10 * 60 * 1000,

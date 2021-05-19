@@ -11,8 +11,7 @@ define([
   {
     var result = {
       id: model.id,
-      text: model.getLabel(),
-      model: model
+      text: model.getLabel()
     };
 
     if (more)
