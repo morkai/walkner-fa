@@ -112,7 +112,8 @@ define([
         assetName: (formData.assetName || '').trim(),
         lineSymbol: (formData.lineSymbol || '').trim(),
         supplier: (formData.supplier || '').trim(),
-        inventoryNo: (formData.inventoryNo || '').trim()
+        inventoryNo: (formData.inventoryNo || '').trim(),
+        serialNo: (formData.serialNo || '').trim()
       };
 
       this.zplxView.serializeForm(data);

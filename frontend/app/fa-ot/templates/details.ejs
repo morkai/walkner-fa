@@ -31,7 +31,9 @@
           'economicPeriod',
           'fiscalPeriod',
           {id: 'sapNo', valueClassName: 'text-fixed'},
-          {id: 'accountingNo', valueClassName: 'text-fixed'}
+          {id: 'accountingNo', valueClassName: 'text-fixed'},
+          {id: 'odwNo', valueClassName: 'text-fixed'},
+          {id: 'tplNotes', valueClassName: 'text-lines'}
         ]) %>
       </div>
     </div>
@@ -43,6 +45,7 @@
         <%- helpers.props(details, [
           helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded}),
           helpers.fa.attachmentProp({name: 'checklist'}),
+          helpers.fa.attachmentProp({name: 'outlay'}),
           helpers.fa.attachmentProp({name: 'certificate', visible: model.usageDestination === 'external-supplier'}),
           helpers.fa.attachmentProp({name: 'nameplate', visible: model.usageDestination === 'external-supplier'}),
           helpers.fa.attachmentProp({name: 'photo', visible: model.commissioningType === 'new-asset'}),

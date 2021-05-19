@@ -221,9 +221,11 @@ define([
         assetName: (formData.assetName || '').trim(),
         assetClass: formData.assetClass || null,
         inventoryNo: (formData.inventoryNo || '').trim(),
+        serialNo: (formData.serialNo || '').trim(),
         deprecationRate: Math.round(Math.min(100, Math.max(parseFloat(formData.deprecationRate) || 0, 0)) * 100) / 100,
         economicPeriod: ((+formData.economicPeriodY || 0) * 12) + (+formData.economicPeriodM || 0),
         fiscalPeriod: ((+formData.fiscalPeriodY || 0) * 12) + (+formData.fiscalPeriodM || 0),
+        tplNotes: (formData.tplNotes || '').trim(),
         comment: (formData.comment || '').trim()
       };
 

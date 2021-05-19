@@ -17,52 +17,63 @@
     {id: 'vendorName', visible: model.usageDestination === 'external-supplier'},
     helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded}),
     helpers.fa.attachmentProp({name: 'checklist'}),
+    helpers.fa.attachmentProp({name: 'outlay'}),
     helpers.fa.attachmentProp({name: 'certificate', visible: model.usageDestination === 'external-supplier'}),
     helpers.fa.attachmentProp({name: 'photo', visible: model.commissioningType === 'new-asset'}),
     helpers.fa.attachmentProp({name: 'nameplate', visible: model.usageDestination === 'external-supplier'})
   ]) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
-    <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control fa-edit-long" type="text" data-required data-maxlength="50 200">
+    <label for="<%- id('assetName') %>" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
+    <input id="<%- id('assetName') %>" name="assetName" class="form-control fa-edit-long" type="text" data-required data-maxlength="50 200">
   </div>
-  <div id="<%- idPrefix %>-zplx"></div>
+  <div class="fa-edit-row">
+    <div class="form-group fa-edit-short">
+      <label for="<%- id('inventoryNo') %>" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
+      <input id="<%- id('inventoryNo') %>" name="inventoryNo" class="form-control" type="text" data-required maxlength="50">
+    </div>
+    <div class="form-group fa-edit-short">
+      <label for="<%- id('serialNo') %>" class="control-label"><%- t('PROPERTY:serialNo') %></label>
+      <input id="<%- id('serialNo') %>" name="serialNo" class="form-control" type="text" maxlength="50">
+    </div>
+  </div>
+  <div id="<%- id('zplx') %>"></div>
   <div class="form-group fa-edit-long has-required-select2">
-    <label for="<%- idPrefix %>-assetClass" class="control-label is-required"><%- t('PROPERTY:assetClass') %></label>
-    <input id="<%- idPrefix %>-assetClass" name="assetClass" type="text" data-required>
+    <label for="<%- id('assetClass') %>" class="control-label is-required"><%- t('PROPERTY:assetClass') %></label>
+    <input id="<%- id('assetClass') %>" name="assetClass" type="text" data-required>
   </div>
-  <div class="form-group fa-edit-short">
-    <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
-    <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" data-required maxlength="50">
-  </div>
-  <div id="<%- idPrefix %>-fiscalValue" style="margin-bottom: 15px"></div>
+  <div id="<%- id('fiscalValue') %>" style="margin-bottom: 15px"></div>
   <div class="form-group">
-    <label for="<%- idPrefix %>-deprecationRate" class="control-label"><%- t('PROPERTY:deprecationRate') %></label>
+    <label for="<%- id('deprecationRate') %>" class="control-label"><%- t('PROPERTY:deprecationRate') %></label>
     <div class="input-group">
-      <input id="<%- idPrefix %>-deprecationRate" name="deprecationRate" class="form-control text-right" type="number" min="0" max="100" step="0.01" style="width: 114px">
+      <input id="<%- id('deprecationRate') %>" name="deprecationRate" class="form-control text-right" type="number" min="0" max="100" step="0.01" style="width: 114px">
       <div class="input-group-addon" style="width: 54px">%</div>
     </div>
   </div>
   <div class="form-group fa-edit-period" style="margin-top: -5px">
-    <label for="<%- idPrefix %>-economicPeriodY" class="control-label"><%- t('PROPERTY:economicPeriod') %></label>
+    <label for="<%- id('economicPeriodY') %>" class="control-label"><%- t('PROPERTY:economicPeriod') %></label>
     <div class="input-group">
-      <input id="<%- idPrefix %>-economicPeriodY" name="economicPeriodY" class="form-control text-right" type="number" min="0" max="99">
+      <input id="<%- id('economicPeriodY') %>" name="economicPeriodY" class="form-control text-right" type="number" min="0" max="99">
       <div class="input-group-addon"><%- t('fa-common', 'unit:year') %></div>
-      <input id="<%- idPrefix %>-economicPeriodM" name="economicPeriodM" class="form-control text-right" type="number" min="0" max="12">
+      <input id="<%- id('economicPeriodM') %>" name="economicPeriodM" class="form-control text-right" type="number" min="0" max="12">
       <div class="input-group-addon"><%- t('fa-common', 'unit:month') %></div>
     </div>
   </div>
   <div class="form-group fa-edit-period">
     <label class="control-label"><%- t('PROPERTY:fiscalPeriod') %></label>
     <div class="input-group">
-      <input id="<%- idPrefix %>-fiscalPeriodY" name="fiscalPeriodY" class="form-control text-right" type="number" min="0" max="99">
+      <input id="<%- id('fiscalPeriodY') %>" name="fiscalPeriodY" class="form-control text-right" type="number" min="0" max="99">
       <div class="input-group-addon"><%- t('fa-common', 'unit:year') %></div>
-      <input id="<%- idPrefix %>-fiscalPeriodM" name="fiscalPeriodM" class="form-control text-right" type="number" min="0" max="12">
+      <input id="<%- id('fiscalPeriodM') %>" name="fiscalPeriodM" class="form-control text-right" type="number" min="0" max="12">
       <div class="input-group-addon"><%- t('fa-common', 'unit:month') %></div>
     </div>
   </div>
+  <div class="form-group">
+    <label for="<%- id('tplNotes') %>" class="control-label"><%- t('PROPERTY:tplNotes') %></label>
+    <textarea id="<%- id('tplNotes') %>" class="form-control" name="tplNotes" rows="3"></textarea>
+  </div>
   <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
-    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+    <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- id('comment') %>" class="form-control" name="comment" rows="3"></textarea>
   </div>
 </div>

@@ -71,6 +71,9 @@
 .fa-edit-form input[type="date"].fa-edit-short {
   width: 168px;
 }
+.fa-edit-row .form-group:last-child {
+  margin-bottom: 15px;
+}
 .fa-edit-row .form-group + .form-group {
   margin-left: 15px;
 }

@@ -2,16 +2,16 @@
   <input type="hidden" name="_method" value="<%- formMethod %>">
   <div class="panel panel-primary">
     <div class="panel-heading"><%- panelTitleText %></div>
-    <div id="<%- idPrefix %>-tabs" class="fa-edit-tabs">
+    <div id="<%- id('tabs') %>" class="fa-edit-tabs">
       <% tabs.forEach(function(stage, i) { %>
       <div class="fa-edit-tab <%- model.stage === stage ? 'is-active' : '' %>" data-tab="<%- stage %>">
         <%- i + 1 %>. <%- t.has('FORM:stage:' + stage) ? t('FORM:stage:' + stage, {kind: model.kind}) : t('stage:' + stage, {kind: model.kind}) %>
       </div>
       <% }) %>
     </div>
-    <div id="<%- idPrefix %>-stage" class="panel-body"></div>
+    <div id="<%- id('stage') %>" class="panel-body"></div>
     <div class="panel-footer <%- canEdit ? '' : 'hidden' %>">
-      <button id="<%- idPrefix %>-submit" type="submit" class="btn btn-primary" disabled title="<%- t('FORM:ACTION:edit:title') %>"><i class="fa fa-save"></i><span><%- formActionText %></span></button>
+      <button id="<%- id('submit') %>" type="submit" class="btn btn-primary" disabled title="<%- t('FORM:ACTION:edit:title') %>"><i class="fa fa-save"></i><span><%- formActionText %></span></button>
       <% actions.forEach(function(action) { %>
       <% if (action.actions.length) { %>
       <div class="btn-group dropup">

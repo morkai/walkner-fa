@@ -217,7 +217,8 @@ define([
         documentDate: time.utc.getMoment(formData.documentDate, 'YYYY-MM-DD').toISOString(),
         assetName: (formData.assetName || '').trim(),
         supplier: (formData.supplier || '').trim(),
-        costCenter: formData.costCenter || null
+        costCenter: formData.costCenter || null,
+        serialNo: (formData.serialNo || '').trim()
       };
 
       if (this.model.get('commissioningType') === 'inc-asset')

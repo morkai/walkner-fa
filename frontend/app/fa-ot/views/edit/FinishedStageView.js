@@ -101,7 +101,7 @@ define([
         files.push('protocol');
       }
 
-      files.push('checklist');
+      files.push('checklist', 'outlay');
 
       if (model.get('usageDestination') === 'external-supplier')
       {
@@ -216,11 +216,13 @@ define([
       var protocolNeeded = view.model.get('protocolNeeded');
       var data = {
         comment: (formData.comment || '').trim(),
+        tplNotes: (formData.tplNotes || '').trim(),
         protocolDate: protocolNeeded
           ? time.utc.getMoment(formData.protocolDate, 'YYYY-MM-DD').toISOString()
           : null,
         documentDate: time.utc.getMoment(formData.documentDate, 'YYYY-MM-DD').toISOString(),
         inventoryNo: (formData.inventoryNo || '').trim(),
+        serialNo: (formData.serialNo || '').trim(),
         lineSymbol: (formData.lineSymbol || '').trim(),
         assetName: (formData.assetName || '').trim(),
         supplier: (formData.supplier || '').trim(),
@@ -229,7 +231,8 @@ define([
         vendorNo: (formData.vendorNo || '').trim(),
         vendorName: (formData.vendorName || '').trim(),
         sapNo: (formData.sapNo || '').trim(),
-        accountingNo: (formData.accountingNo || '').trim()
+        accountingNo: (formData.accountingNo || '').trim(),
+        odwNo: (formData.odwNo || '').trim()
       };
 
       view.zplxView.serializeForm(data);

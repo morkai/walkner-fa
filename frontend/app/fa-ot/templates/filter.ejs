@@ -7,42 +7,42 @@
     labels: {text: t('PROPERTY:date'), ranges: true}
   }) %>
   <div class="form-group hidden" data-filter="stage">
-    <label for="<%- idPrefix %>-stage"><%- t('PROPERTY:stage') %></label>
-    <select id="<%- idPrefix %>-stage" class="form-control is-expandable" name="stage[]" multiple size="1" data-expanded-length="10">
+    <label for="<%- id('stage') %>"><%- t('PROPERTY:stage') %></label>
+    <select id="<%- id('stage') %>" class="form-control is-expandable" name="stage[]" multiple size="1" data-expanded-length="10">
       <% ['protocol', 'authorize', 'document', 'verify', 'accept', 'record', 'finished'].forEach(function(v) { %>
       <option value="<%- v %>"><%- t('stage:' + v) %></option>
       <% }) %>
     </select>
   </div>
   <div class="form-group hidden" data-filter="sapNo">
-    <label for="<%- idPrefix %>-sapNo"><%- t('PROPERTY:sapNo') %></label>
-    <input id="<%- idPrefix %>-sapNo" class="form-control" name="sapNo" type="text" style="width: 130px">
+    <label for="<%- id('sapNo') %>"><%- t('PROPERTY:sapNo') %></label>
+    <input id="<%- id('sapNo') %>" class="form-control" name="sapNo" type="text" style="width: 130px">
   </div>
   <div class="form-group hidden" data-filter="assetName">
-    <label for="<%- idPrefix %>-assetName"><%- t('PROPERTY:assetName') %></label>
-    <input id="<%- idPrefix %>-assetName" class="form-control" name="assetName" type="text">
+    <label for="<%- id('assetName') %>"><%- t('PROPERTY:assetName') %></label>
+    <input id="<%- id('assetName') %>" class="form-control" name="assetName" type="text">
   </div>
   <div class="form-group hidden" data-filter="inventoryNo">
-    <label for="<%- idPrefix %>-inventoryNo"><%- t('PROPERTY:inventoryNo') %></label>
-    <input id="<%- idPrefix %>-inventoryNo" class="form-control" name="inventoryNo" type="text" style="width: 130px">
+    <label for="<%- id('inventoryNo') %>"><%- t('PROPERTY:inventoryNo') %></label>
+    <input id="<%- id('inventoryNo') %>" class="form-control" name="inventoryNo" type="text" style="width: 130px">
   </div>
   <div class="form-group hidden" data-filter="value">
-    <label for="<%- idPrefix %>-value"><%- t('list:value') %></label>
-    <input id="<%- idPrefix %>-value" class="form-control" name="value" type="text" style="width: 110px">
+    <label for="<%- id('value') %>"><%- t('list:value') %></label>
+    <input id="<%- id('value') %>" class="form-control" name="value" type="text" style="width: 110px">
   </div>
   <div class="form-group hidden" data-filter="costCenter">
-    <label for="<%- idPrefix %>-costCenter"><%- t('PROPERTY:costCenter') %></label>
-    <input id="<%- idPrefix %>-costCenter" name="costCenter" type="text">
+    <label for="<%- id('costCenter') %>"><%- t('PROPERTY:costCenter') %></label>
+    <input id="<%- id('costCenter') %>" name="costCenter" type="text">
   </div>
   <div class="form-group hidden" data-filter="zplx">
-    <label for="<%- idPrefix %>-zplx"><%- t('PROPERTY:zplx') %></label>
-    <input id="<%- idPrefix %>-zplx" class="form-control" name="zplx" type="text" style="width: 80px">
+    <label for="<%- id('zplx') %>"><%- t('PROPERTY:zplx') %></label>
+    <input id="<%- id('zplx') %>" class="form-control" name="zplx" type="text" style="width: 80px">
   </div>
   <%- renderLimit({hidden: true}) %>
   <div class="form-group filter-actions">
     <div class="btn-group">
-      <button id="<%- idPrefix %>-submit" type="submit" class="btn btn-default"><i class="fa fa-filter"></i><span><%- t('core', 'filter:submit') %></span></button>
-      <button id="<%- idPrefix %>-reset" type="button" class="btn btn-default filter-reset" title="<%- t('core', 'filter:reset') %>"><i class="fa fa-eraser"></i><span><%- t('core', 'filter:reset') %></span></button>
+      <button id="<%- id('submit') %>" type="submit" class="btn btn-default"><i class="fa fa-filter"></i><span><%- t('core', 'filter:submit') %></span></button>
+      <button id="<%- id('reset') %>" type="button" class="btn btn-default filter-reset" title="<%- t('core', 'filter:reset') %>"><i class="fa fa-eraser"></i><span><%- t('core', 'filter:reset') %></span></button>
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="<%- t('core', 'filter:filters') %>"><span class="caret"></span></button>
       <ul class="dropdown-menu">
         <% filters.forEach(function(filter) { %>

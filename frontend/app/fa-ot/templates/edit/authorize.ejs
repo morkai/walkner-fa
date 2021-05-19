@@ -14,6 +14,10 @@
   </div>
   <% } %>
   <div class="form-group">
+    <label class="control-label"><%- t('PROPERTY:serialNo') %></label>
+    <p class="form-control-static"><%= details.serialNo || '-' %></p>
+  </div>
+  <div class="form-group">
     <label class="control-label"><%- t('PROPERTY:assetName') %></label>
     <p class="form-control-static"><%= details.assetName %></p>
   </div>
@@ -62,7 +66,7 @@
     help: !!model.protocolFile
   }) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
-    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+    <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- id('comment') %>" class="form-control" name="comment" rows="3"></textarea>
   </div>
 </div>

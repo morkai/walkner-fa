@@ -10,6 +10,7 @@
     'assetName',
     {id: 'lineSymbol', visible: model.usageDestination === 'factory', valueClassName: 'text-fixed'},
     {id: 'inventoryNo', valueClassName: 'text-fixed'},
+    {id: 'serialNo', valueClassName: 'text-fixed'},
     helpers.fa.zplxProp(),
     {id: '!owner', visible: model.protocolNeeded},
     helpers.fa.committeeProp({visible: model.protocolNeeded}),
@@ -25,21 +26,22 @@
     'fiscalPeriod',
     helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded}),
     helpers.fa.attachmentProp({name: 'checklist'}),
+    helpers.fa.attachmentProp({name: 'outlay'}),
     helpers.fa.attachmentProp({name: 'certificate', visible: model.usageDestination === 'external-supplier'}),
     helpers.fa.attachmentProp({name: 'photo', visible: model.commissioningType === 'new-asset'}),
     helpers.fa.attachmentProp({name: 'nameplate', visible: model.usageDestination === 'external-supplier'})
   ]) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-sapNo" class="control-label is-required"><%- t('PROPERTY:sapNo') %></label>
-    <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text" data-required>
+    <label for="<%- id('sapNo') %>" class="control-label is-required"><%- t('PROPERTY:sapNo') %></label>
+    <input id="<%- id('sapNo') %>" name="sapNo" class="form-control fa-edit-short" type="text" data-required>
   </div>
   <div class="form-group">
-    <label for="<%- idPrefix %>-accountingNo" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
-    <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" data-required>
+    <label for="<%- id('accountingNo') %>" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
+    <input id="<%- id('accountingNo') %>" name="accountingNo" class="form-control fa-edit-short" type="text" data-required>
   </div>
   <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
-    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+    <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- id('comment') %>" class="form-control" name="comment" rows="3"></textarea>
   </div>
 </div>
