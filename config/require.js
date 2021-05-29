@@ -29,7 +29,8 @@ exports.paths = {
   'zeroclipboard': 'vendor/zeroclipboard/ZeroClipboard',
   'Sortable': 'vendor/Sortable',
   'autolinker': 'vendor/autolinker',
-  'getCaretCoordinates': 'vendor/getCaretCoordinates'
+  'getCaretCoordinates': 'vendor/getCaretCoordinates',
+  'utf8': 'vendor/utf8'
 };
 
 exports.shim = {
@@ -52,6 +53,9 @@ exports.shim = {
   'jquery.stickytableheaders': ['jquery'],
   'getCaretCoordinates': {
     exports: 'getCaretCoordinates'
+  },
+  'utf8': {
+    exports: 'utf8'
   }
 };
 

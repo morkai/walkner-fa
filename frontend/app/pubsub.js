@@ -2,19 +2,14 @@
 
 define([
   'underscore',
+  'utf8',
   'h5.pubsub/MessageBroker',
   'app/broker',
   'app/socket'
 ],
-/**
- * @param {underscore} _
- * @param {function(new:h5.pubsub.MessageBroker)} MessageBroker
- * @param {h5.pubsub.Broker} broker
- * @param {Socket} socket
- * @returns {h5.pubsub.Broker}
- */
 function(
   _,
+  utf8,
   MessageBroker,
   broker,
   socket
@@ -98,16 +93,30 @@ function(
     }
   });
 
-  socket.on('pubsub.message', function(topic, message, meta)
+  socket.on('pubsub.message', function(message)
   {
-    meta.remote = true;
-
-    if (meta.json && typeof message === 'string')
+    try
     {
-      message = JSON.parse(message);
+      if (message instanceof ArrayBuffer)
+      {
+        message = utf8.decode(String.fromCharCode.apply(null, new Uint8Array(message)));
+      }
+
+      if (typeof message === 'string')
+      {
+        message = JSON.parse(message);
+      }
+
+      message[2].remote = true;
+    }
+    catch (err)
+    {
+      return console.error('[pubsub] Failed to parse remote message:', {
+        message: message
+      });
     }
 
-    pubsub.publish(topic, message, meta);
+    pubsub.publish(message[0], message[1], message[2]);
   });
 
   function onSocketSubscribe(topics, err, notAllowedTopics)
