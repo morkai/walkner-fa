@@ -51,7 +51,7 @@ const frontendDictionaryModules = {
 };
 
 exports.updater = {
-  manifestPath: `${__dirname}/fa-manifest.appcache`,
+  manifestPath: null,
   packageJsonPath: `${__dirname}/../package.json`,
   restartDelay: 5000,
   pull: {
@@ -63,7 +63,7 @@ exports.updater = {
   manifests: [
     {
       frontendVersionKey: 'frontend',
-      path: '/manifest.appcache',
+      path: null,
       mainJsFile: '/fa-main.js',
       mainCssFile: '/assets/fa-main.css',
       template: manifestTemplates.main,

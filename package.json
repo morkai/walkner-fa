@@ -2,11 +2,11 @@
   "private": true,
   "guid": "2593B58C-CEC9-4844-9053-A1CB512E3A31",
   "name": "walkner-fa",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "updater": {
     "fa": {
-      "backend": 48,
-      "frontend": 70
+      "backend": 54,
+      "frontend": 78
     }
   },
   "description": "Fixed Assets application in Node.js.",
@@ -84,11 +84,11 @@
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-requirejs": "^1.0.0",
-    "grunt-uglify-es-multicore": "morkai/grunt-uglify-es-multicore",
     "grunt-ejs-amd": "morkai/grunt-ejs-amd",
     "grunt-eslint": "^23.0.0",
     "grunt-messageformat-amd": "morkai/grunt-messageformat-amd",
     "grunt-run": "^0.8.1",
-    "grunt-text-replace": "^0.4.0"
+    "grunt-text-replace": "^0.4.0",
+    "grunt-uglify-es-multicore": "morkai/grunt-uglify-es-multicore"
   }
 }
