@@ -7,6 +7,7 @@ define([
   './AcceptOwnerStageView',
   './AcceptFinanceStageView',
   './AcceptDepartmentStageView',
+  './VerifyDocumentStageView',
   './AcceptDocumentStageView',
   './RecordStageView',
   './FinishedStageView'
@@ -17,6 +18,7 @@ define([
   AcceptOwnerStageView,
   AcceptFinanceStageView,
   AcceptDepartmentStageView,
+  VerifyDocumentStageView,
   AcceptDocumentStageView,
   RecordStageView,
   FinishedStageView
@@ -30,6 +32,7 @@ define([
     acceptOwner: AcceptOwnerStageView,
     acceptFinance: AcceptFinanceStageView,
     acceptDepartment: AcceptDepartmentStageView,
+    verifyDocument: VerifyDocumentStageView,
     acceptDocument: AcceptDocumentStageView,
     record: RecordStageView,
     finished: FinishedStageView

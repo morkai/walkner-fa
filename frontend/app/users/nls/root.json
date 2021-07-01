@@ -79,6 +79,7 @@
     "PRIVILEGE:FA:LT:MANAGE": "LT: manage",
     "PRIVILEGE:FA:LT:ADD": "LT: add",
     "PRIVILEGE:FA:LT:verify": "LT: verification",
+    "PRIVILEGE:FA:LT:verifyDocument": "LT: document verification",
     "PRIVILEGE:FA:LT:acceptFinance": "LT: finance acceptation",
     "PRIVILEGE:FA:LT:acceptDepartment": "LT: department acceptation",
     "PRIVILEGE:FA:LT:record": "LT: recording",

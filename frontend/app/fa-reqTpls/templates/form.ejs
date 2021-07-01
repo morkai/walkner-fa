@@ -1,0 +1,78 @@
+<form method="post" action="<%- formAction %>">
+  <input type="hidden" name="_method" value="<%- formMethod %>">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><%- panelTitleText %></div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="<%- id('_id') %>" class="control-label is-required"><%- t('PROPERTY:_id') %></label>
+        <select id="<%- id('_id') %>" class="form-control" name="_id" required>
+          <% ['ot.new-asset', 'ot.inc-asset', 'lt.scrap', 'lt.merge', 'lt.sale', 'lt.other'].forEach(type => { %>
+          <option value="<%- type %>"><%- t(`type:${type}`) %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="<%- id('worksheet') %>" class="control-label is-required"><%- t('PROPERTY:worksheet') %></label>
+        <input id="<%- id('worksheet') %>" class="form-control" type="text" name="worksheet" required>
+      </div>
+      <% if (editMode) { %>
+      <div class="form-group">
+        <label class="control-label"><%- t('FORM:inputFile:current') %></label>
+        <p class="form-control-static"><a href="/fa/reqTpls/<%- model._id %>.xlsx" target="_blank"><%= model.inputFile.name %></a></p>
+      </div>
+      <% } %>
+      <div class="form-group">
+        <label for="<%- id('inputFile') %>" class="control-label <%- editMode ? '' : 'is-required' %>"><%- t('FORM:inputFile:new') %></label>
+        <input id="<%- id('inputFile') %>" class="form-control" type="file" <%- editMode ? '' : 'required' %> accept=".xlsx">
+      </div>
+      <div class="form-group">
+        <label for="<%- id('outputFileName') %>" class="control-label is-required"><%- t('PROPERTY:outputFileName') %></label>
+        <input id="<%- id('outputFileName') %>" class="form-control" type="text" name="outputFileName" required>
+      </div>
+      <div class="form-group">
+        <label class="control-label"><%- t('PROPERTY:cells') %></label>
+        <table class="table table-bordered table-condensed" style="margin-bottom: 0">
+          <thead>
+          <tr>
+            <th style="width: 250px"><%- t('PROPERTY:cells.target') %></th>
+            <th><%- t('PROPERTY:cells.value') %></th>
+            <th class="actions"><%- t('core', 'LIST:COLUMN:actions') %></th>
+          </tr>
+          </thead>
+          <tbody id="<%- id('cells') %>"></tbody>
+        </table>
+        <button id="<%- id('addCell') %>" type="button" class="btn btn-default" style="margin-top: -1px"><i class="fa fa-plus"></i><span><%- t('FORM:cells:add') %></span></button>
+      </div>
+      <div class="form-group">
+        <label class="control-label"><%- t('vars:label') %></label>
+        <table class="table table-condensed table-bordered table-hover">
+          <thead>
+            <tr>
+              <th class="is-min"><%- t('vars:var') %></th>
+              <th><%- t('vars:description') %></th>
+            </tr>
+          </thead>
+          <tbody class="hidden" data-types="ot.new-asset ot.inc-asset">
+            <% ['eol', 'protocolNo', 'documentNo', 'protocolDate', 'documentDate', 'inventoryNo', 'serialNo', 'assetName', 'lineSymbol', 'zplx', 'auc', 'owner', 'committee', 'supplier', 'costCenter', 'evalGroup1', 'evalGroup5', 'assetClass', 'depRate', 'depKey', 'economicMethod', 'fiscalMethod', 'taxMethod', 'economicPeriodY', 'economicPeriodM', 'fiscalPeriodY', 'fiscalPeriodM', 'taxPeriodY', 'taxPeriodM', 'economicDate', 'fiscalDate', 'taxDate', 'value', 'transactionType', 'transactionAmount1', 'transactionAmount2', 'postingDate', 'vendorNo', 'vendorName', 'assetNo', 'accountingNo', 'odwNo', 'tplNotes'].forEach(v => { %>
+              <tr>
+                <td class="is-min text-fixed">$<%- v %></td>
+                <td><%- t(`vars:${v}`) %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+          <tbody class="hidden" data-types="lt.scrap lt.merge lt.sale lt.other">
+            <% ['eol', 'protocolNo', 'documentNo', 'protocolDate', 'documentDate', 'inventoryNo', 'assetName', 'owner', 'committee', 'applicant', 'supplier', 'costCenter', 'transactionType', 'postingDate', 'valuationDate', 'assetNo', 'subAssetNo', 'accountingNo', 'odwNo', 'tplNotes', 'cause', 'initialValue', 'deprecationValue', 'netValue', 'economicInitialValue', 'economicDeprecationValue', 'economicNetValue', 'mergeInventoryNo', 'mergeLineSymbol', 'mergeType', 'buyerName', 'buyerAddress', 'saleValue'].forEach(v => { %>
+              <tr>
+                <td class="is-min text-fixed">$<%- v %></td>
+                <td><%- t(`vars:${v}`) %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button type="submit" class="btn btn-primary"><%- formActionText %></button>
+    </div>
+  </div>
+</form>

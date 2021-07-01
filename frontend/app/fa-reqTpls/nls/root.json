@@ -1,0 +1,26 @@
+{
+  "root": {
+    "BREADCRUMB:browse": "Templates",
+
+    "PROPERTY:_id": "Template",
+    "PROPERTY:worksheet": "Worksheet",
+    "PROPERTY:inputFile": "Template input file",
+    "PROPERTY:outputFileName": "Output file name",
+    "PROPERTY:cells": "Cells",
+    "PROPERTY:cells.target": "Target",
+    "PROPERTY:cells.value": "Value",
+
+    "type:ot.new-asset": "OT: new asset",
+    "type:ot.inc-asset": "OT: increase in value",
+    "type:lt.scrap": "LT: scrapping",
+    "type:lt.merge": "LT: new asset",
+    "type:lt.sale": "LT: sale",
+    "type:lt.other": "LT: other",
+
+    "FORM:inputFile:current": "Current template input file",
+    "FORM:inputFile:new": "New template input file",
+    "FORM:cells:add": "Add cell"
+  }
+,
+  "pl": true
+}

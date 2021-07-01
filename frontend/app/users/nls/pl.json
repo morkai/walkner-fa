@@ -80,6 +80,7 @@
   "PRIVILEGE:FA:LT:MANAGE": "LT: zarządzanie",
   "PRIVILEGE:FA:LT:ADD": "LT: dodawanie",
   "PRIVILEGE:FA:LT:verify": "LT: weryfikacja",
+  "PRIVILEGE:FA:LT:verifyDocument": "LT: weryfikacja dokumentu",
   "PRIVILEGE:FA:LT:acceptFinance": "LT: akceptacja dyrektora finansowego",
   "PRIVILEGE:FA:LT:acceptDepartment": "LT: akceptacja dyrektora oddziału",
   "PRIVILEGE:FA:LT:record": "LT: księgowanie",

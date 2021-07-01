@@ -4,7 +4,8 @@
 
     "PROPERTY:active": "Active?",
     "PROPERTY:name": "Name",
-    "PROPERTY:description": "Description"
+    "PROPERTY:description": "Description",
+    "PROPERTY:tplKey": "Template key"
   }
 ,
   "pl": true

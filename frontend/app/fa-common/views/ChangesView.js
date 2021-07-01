@@ -188,10 +188,7 @@ define([
 
       if (/value$/i.test(property))
       {
-        return value === 0 ? '-' : value.toLocaleString('pl-PL', {
-          style: 'currency',
-          currency: 'PLN'
-        });
+        return value === 0 ? '-' : dictionaries.currencyFormatter.format(value);
       }
 
       var overflow = '';
@@ -229,7 +226,7 @@ define([
 
           if (overflow)
           {
-            return '<span class="fa-changes-overflow" title="' + _.escape(overflow) + '">' + value + '</span>';
+            return '<span class="fa-changes-overflow has-more" data-content="' + _.escape(overflow) + '">' + value + '</span>';
           }
 
           if (typeof value === 'number')
@@ -237,7 +234,9 @@ define([
             return value.toLocaleString();
           }
 
-          return String(value).length <= 43 ? _.escape(value) : {
+          value = String(value);
+
+          return value.length <= 43 ? _.escape(value) : {
             more: value,
             toString: function() { return _.escape(value.substr(0, 40)) + '...'; }
           };
@@ -248,27 +247,47 @@ define([
       zplx: function(property, value)
       {
         value = value
-          .map(function(zplx)
+          .map(zplx =>
           {
-            var str = zplx.code;
+            let str = `<span class="text-fixed">${zplx.code}</span>`;
 
             if (zplx.value)
             {
-              str += ' (' + zplx.value.toLocaleString('pl-PL', {
-                style: 'currency',
-                currency: 'PLN'
-              }) + ')';
+              str += ' (' + dictionaries.currencyFormatter.format(zplx.value) + ')';
             }
 
             if (zplx.auc)
             {
-              str += ' [' + zplx.auc + ']';
+              str += ` [<span class="text-fixed">${zplx.auc}</span>]`;
             }
 
             return str;
-          }).join(', ');
+          }).join('; ');
 
-        return [value.replace(/, /g, '\n'), value];
+        return [value.replace(/; /g, '\n'), value];
+      },
+      transactions: function(property, value)
+      {
+        value = value
+          .map(t =>
+          {
+            const amount1 = dictionaries.currencyFormatter.format(t.amount1);
+            const amount2 = dictionaries.currencyFormatter.format(t.amount2);
+
+            return `<span class="text-fixed">${t.type}</span> / ${amount1} / ${amount2}`;
+          }).join('; ');
+
+        return [value.replace(/; /g, '\n'), value];
+      },
+      assets: function(property, value)
+      {
+        value = value
+          .map(t =>
+          {
+            return `<span class="text-fixed">${t.no}</span> / <span class="text-fixed">${t.transactionType}</span>`;
+          }).join('; ');
+
+        return [value.replace(/; /g, '\n'), value];
       },
       committee: function(property, value)
       {
@@ -340,10 +359,8 @@ define([
         selector: '.has-more',
         placement: 'top',
         trigger: 'hover',
-        template: this.$el.popover.Constructor.DEFAULTS.template.replace(
-          'class="popover"',
-          'class="popover fa-changes-popover"'
-        ),
+        className: 'fa-changes-popover',
+        html: 1,
         title: function()
         {
           return $(this).closest('tr').children().first().text();

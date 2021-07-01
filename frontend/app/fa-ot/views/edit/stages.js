@@ -2,7 +2,6 @@
 
 define([
   './ProtocolStageView',
-  './AuthorizeStageView',
   './DocumentStageView',
   './VerifyStageView',
   './AcceptStageView',
@@ -10,7 +9,6 @@ define([
   './FinishedStageView'
 ], function(
   ProtocolStageView,
-  AuthorizeStageView,
   DocumentStageView,
   VerifyStageView,
   AcceptStageView,
@@ -21,7 +19,6 @@ define([
 
   return {
     protocol: ProtocolStageView,
-    authorize: AuthorizeStageView,
     document: DocumentStageView,
     verify: VerifyStageView,
     accept: AcceptStageView,

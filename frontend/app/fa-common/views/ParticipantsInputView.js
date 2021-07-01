@@ -95,7 +95,7 @@ define([
       }
 
       setUpUserSelect2($input, {
-        width: '292px'
+        width: '359px'
       });
 
       if (user)

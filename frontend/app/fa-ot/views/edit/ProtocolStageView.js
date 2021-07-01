@@ -31,13 +31,8 @@ define([
         auc: false,
         readOnly: false
       });
-      this.participantsView = new ParticipantsInputView({
-        model: this.model,
-        label: this.t('protocol:participants')
-      });
 
       this.setView('#-zplx', this.zplxView);
-      this.setView('#-participants', this.participantsView);
     },
 
     getTemplateData: function()
@@ -82,7 +77,7 @@ define([
 
     handleNextStepAction: function(formView)
     {
-      this.model.set('newStage', 'authorize');
+      this.model.set('newStage', 'document');
 
       formView.handleNextRequest = function()
       {
@@ -108,7 +103,9 @@ define([
     {
       var data = {
         comment: (formData.comment || '').trim(),
-        protocolDate: time.utc.getMoment(formData.protocolDate, 'YYYY-MM-DD').toISOString(),
+        protocolDate: formData.protocolDate
+          ? time.utc.getMoment(formData.protocolDate, 'YYYY-MM-DD').toISOString()
+          : null,
         assetName: (formData.assetName || '').trim(),
         lineSymbol: (formData.lineSymbol || '').trim(),
         supplier: (formData.supplier || '').trim(),
@@ -117,7 +114,6 @@ define([
       };
 
       this.zplxView.serializeForm(data);
-      this.participantsView.serializeForm(data);
 
       return data;
     }

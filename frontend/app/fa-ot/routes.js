@@ -58,6 +58,7 @@ define([
       model: new FaOt({
         protocolNeeded: true,
         commissioningType: 'new-asset',
+        extendedDep: false,
         usageDestination: 'factory'
       })
     }));

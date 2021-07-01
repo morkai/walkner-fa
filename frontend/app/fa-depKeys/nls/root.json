@@ -1,0 +1,13 @@
+{
+  "root": {
+    "BREADCRUMB:browse": "Deprecation keys",
+
+    "PROPERTY:active": "Active?",
+    "PROPERTY:_id": "Key",
+    "PROPERTY:name": "Name",
+    "PROPERTY:percent": "Percentage",
+    "PROPERTY:years": "Useful years",
+    "PROPERTY:months": "Useful months"
+  },
+  "pl": true
+}

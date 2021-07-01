@@ -1,0 +1,25 @@
+<div class="form-group" style="margin-bottom: 15px">
+  <label class="control-label is-required"><%- t('PROPERTY:transactions') %></label>
+  <div class="fa-edit-transactions-labels">
+    <label><%- t('PROPERTY:transactions.type') %></label>
+    <label><%- t('PROPERTY:transactions.amount1') %></label>
+    <label><%- t('PROPERTY:transactions.amount2') %></label>
+  </div>
+  <div id="<%- id('transactions') %>" class="fa-edit-transactions-list">
+    <% transactions.forEach((d, i) => { %>
+    <div class="fa-edit-transactions-item">
+      <input name="transactions[<%- i %>].type" class="form-control text-fixed fa-edit-transactions-type" type="text" value="" placeholder="---" maxlength="3" pattern="^[A-Za-z0-9]{3}$" <%- readOnly ? 'readonly tabindex="-1"' : '' %>>
+      <span class="fa-edit-transactions-prefix"><%- t('fa-common', 'unit:currency') %></span>
+      <input name="transactions[<%- i %>].amount1" class="form-control fa-edit-transactions-value" type="text" value="" placeholder="0 000 000,00" <%- readOnly ? 'readonly tabindex="-1"' : '' %>>
+      <span class="fa-edit-transactions-prefix"><%- t('fa-common', 'unit:currency') %></span>
+      <input name="transactions[<%- i %>].amount2" class="form-control fa-edit-transactions-value" type="text" value="" placeholder="0 000 000,00" <%- readOnly ? 'readonly tabindex="-1"' : '' %>>
+      <% if (!readOnly) { %>
+      <button class="btn btn-link" type="button" data-action="transactions:remove" title="<%- t('fa-common', 'FORM:edit:transactions:remove') %>"><i class="fa fa-times"></i></button>
+      <% } %>
+    </div>
+    <% }) %>
+  </div>
+  <% if (!readOnly) { %>
+  <button class="btn btn-link" type="button" data-action="transactions:add"><i class="fa fa-plus"></i><span><%- t('fa-common', 'FORM:edit:transactions:add') %></span></button>
+  <% } %>
+</div>

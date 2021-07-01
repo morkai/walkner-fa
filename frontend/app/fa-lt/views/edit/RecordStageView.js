@@ -11,7 +11,7 @@ define([
 
   return StageView.extend({
 
-    template: template,
+    template,
 
     updateOnChange: false,
 
@@ -25,7 +25,7 @@ define([
 
     getFormActions: function()
     {
-      var actions = [];
+      const actions = [];
 
       if (!this.model.canEdit())
       {
@@ -73,8 +73,9 @@ define([
     serializeForm: function(formData)
     {
       return {
-        comment: (formData.comment || '').trim(),
-        accountingNo: (formData.accountingNo || '').trim()
+        accountingNo: (formData.accountingNo || '').trim(),
+        odwNo: (formData.odwNo || '').trim(),
+        comment: (formData.comment || '').trim()
       };
     }
 

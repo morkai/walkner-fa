@@ -1,7 +1,7 @@
 <% if (editable) { %>
-<div class="form-group fa-edit-long" style="<%- style %>">
+<div class="form-group" style="<%- style %>">
   <label for="<%- idPrefix %>-<%- property %>" class="control-label <%- required ? 'is-required' : '' %>"><%- t('PROPERTY:' + property) %></label>
-  <table class="fa-edit-attachment">
+  <table class="fa-edit-attachment fa-edit-long">
     <tbody>
     <tr>
       <td class="is-min" style="padding: 0 10px 5px 0"><%- t('FORM:edit:attachment:old') %></td>
@@ -19,12 +19,9 @@
     </tr>
     </tbody>
   </table>
-  <% if (help && file) { %>
-  <p class="help-block"><%- t('FORM:edit:attachment:help') %></p>
-  <% } %>
 </div>
 <% } else { %>
-<div class="form-group">
+<div class="form-group" style="<%- style %>">
   <label class="control-label"><%- t('PROPERTY:' + property) %></label>
   <p class="form-control-static">
     <% if (file) { %>
@@ -33,8 +30,5 @@
     <%- t('FORM:edit:attachment:empty') %>
     <% } %>
   </p>
-  <% if (help && file) { %>
-  <p class="help-block"><%- t('FORM:edit:attachment:help') %></p>
-  <% } %>
 </div>
 <% } %>

@@ -27,7 +27,7 @@ define([
         {id: 'date', className: 'is-min', thClassName: 'is-filter'},
         {id: 'kind', className: 'is-min', thClassName: 'is-filter'},
         {id: 'stage', className: 'is-min', thClassName: 'is-filter'},
-        {id: 'sapNo', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
+        {id: 'assetNo', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         {id: 'assetName', className: 'is-min', thClassName: 'is-filter'},
         {id: 'inventoryNo', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         {id: 'costCenter', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},

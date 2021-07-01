@@ -6,12 +6,12 @@
   <% if (model.kind === 'merge') { %>
   <div class="fa-edit-row">
     <div class="form-group fa-edit-short">
-      <label for="<%- idPrefix %>-mergeInventoryNo" class="control-label is-required"><%- t('PROPERTY:mergeInventoryNo') %></label>
-      <input id="<%- idPrefix %>-mergeInventoryNo" name="mergeInventoryNo" class="form-control" type="text" required>
+      <label for="<%- id('mergeInventoryNo') %>" class="control-label is-required"><%- t('PROPERTY:mergeInventoryNo') %></label>
+      <input id="<%- id('mergeInventoryNo') %>" name="mergeInventoryNo" class="form-control" type="text" required>
     </div>
     <div class="form-group fa-edit-short">
-      <label for="<%- idPrefix %>-mergeLineSymbol" class="control-label"><%- t('PROPERTY:mergeLineSymbol') %></label>
-      <input id="<%- idPrefix %>-mergeLineSymbol" name="mergeLineSymbol" class="form-control" type="text">
+      <label for="<%- id('mergeLineSymbol') %>" class="control-label"><%- t('PROPERTY:mergeLineSymbol') %></label>
+      <input id="<%- id('mergeLineSymbol') %>" name="mergeLineSymbol" class="form-control" type="text">
     </div>
     <div class="form-group">
       <label class="control-label"><%- t('PROPERTY:mergeType') %></label>
@@ -27,8 +27,8 @@
   <% } %>
   <div class="fa-edit-row">
     <div class="form-group fa-edit-short">
-      <label for="<%- idPrefix %>-protocolDate" class="control-label is-required"><%- t('PROPERTY:protocolDate') %></label>
-      <input id="<%- idPrefix %>-protocolDate" name="protocolDate" class="form-control" type="date" required>
+      <label for="<%- id('protocolDate') %>" class="control-label is-required"><%- t('PROPERTY:protocolDate') %></label>
+      <input id="<%- id('protocolDate') %>" name="protocolDate" class="form-control" type="date" required>
     </div>
     <div class="form-group">
       <label class="control-label"><%- t('PROPERTY:protocolNo') %></label>
@@ -37,8 +37,8 @@
   </div>
   <div class="fa-edit-row">
     <div class="form-group fa-edit-short">
-      <label for="<%- idPrefix %>-documentDate" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
-      <input id="<%- idPrefix %>-documentDate" name="documentDate" class="form-control" type="date" required>
+      <label for="<%- id('documentDate') %>" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
+      <input id="<%- id('documentDate') %>" name="documentDate" class="form-control" type="date" required>
     </div>
     <div class="form-group">
       <label class="control-label"><%- t('PROPERTY:documentNo') %></label>
@@ -46,71 +46,104 @@
     </div>
   </div>
   <div class="form-group fa-edit-long">
-    <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
-    <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control" type="text" required maxlength="50">
+    <label for="<%- id('assetName') %>" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
+    <input id="<%- id('assetName') %>" name="assetName" class="form-control" type="text" required maxlength="50">
   </div>
   <div class="form-group fa-edit-short">
-    <label for="<%- idPrefix %>-inventoryNo" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
-    <input id="<%- idPrefix %>-inventoryNo" name="inventoryNo" class="form-control" type="text" required maxlength="50">
+    <label for="<%- id('inventoryNo') %>" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
+    <input id="<%- id('inventoryNo') %>" name="inventoryNo" class="form-control" type="text" required maxlength="50">
   </div>
   <div class="form-group fa-edit-short has-required-select2">
-    <label for="<%- idPrefix %>-costCenter" class="control-label is-required"><%- t('PROPERTY:costCenter') %></label>
-    <input id="<%- idPrefix %>-costCenter" name="costCenter" required>
+    <label for="<%- id('costCenter') %>" class="control-label is-required"><%- t('PROPERTY:costCenter') %></label>
+    <input id="<%- id('costCenter') %>" name="costCenter" required>
   </div>
   <div class="form-group fa-edit-long has-required-select2">
-    <label for="<%- idPrefix %>-owner" class="control-label is-required"><%- t('PROPERTY:owner') %></label>
-    <input id="<%- idPrefix %>-owner" name="owner" type="text" required>
+    <label for="<%- id('owner') %>" class="control-label is-required"><%- t('PROPERTY:owner') %></label>
+    <input id="<%- id('owner') %>" name="owner" type="text" required>
   </div>
   <div class="form-group fa-edit-long has-required-select2">
-    <label for="<%- idPrefix %>-applicant" class="control-label is-required"><%- t('PROPERTY:applicant') %></label>
-    <input id="<%- idPrefix %>-applicant" name="applicant" type="text" required>
+    <label for="<%- id('applicant') %>" class="control-label is-required"><%- t('PROPERTY:applicant') %></label>
+    <input id="<%- id('applicant') %>" name="applicant" type="text" required>
   </div>
   <div class="form-group fa-edit-long has-required-select2">
-    <label for="<%- idPrefix %>-committee" class="control-label is-required"><%- t('PROPERTY:committee') %></label>
-    <input id="<%- idPrefix %>-committee" name="committee" type="text" required>
+    <label for="<%- id('committee') %>" class="control-label is-required"><%- t('PROPERTY:committee') %></label>
+    <input id="<%- id('committee') %>" name="committee" type="text" required>
   </div>
   <div class="form-group fa-edit-long">
-    <label for="<%- idPrefix %>-cause" class="control-label is-required"><%- t('PROPERTY:cause') %></label>
-    <textarea id="<%- idPrefix %>-cause" name="cause" class="form-control" rows="3" required></textarea>
+    <label for="<%- id('cause') %>" class="control-label is-required"><%- t('PROPERTY:cause') %></label>
+    <textarea id="<%- id('cause') %>" name="cause" class="form-control" rows="3" required></textarea>
   </div>
   <div class="fa-edit-row">
-    <div id="<%- idPrefix %>-initialValue" style="margin: 0 15px 15px 0"></div>
-    <div id="<%- idPrefix %>-economicInitialValue" style="margin-bottom: 15px"></div>
+    <div id="<%- id('initialValue') %>" style="margin-right: 15px"></div>
+    <div id="<%- id('economicInitialValue') %>"></div>
   </div>
   <div class="fa-edit-row">
-    <div id="<%- idPrefix %>-deprecationValue" style="margin: 0 15px 15px 0"></div>
-    <div id="<%- idPrefix %>-economicDeprecationValue" style="margin-bottom: 15px"></div>
+    <div id="<%- id('deprecationValue') %>" style="margin-right: 15px"></div>
+    <div id="<%- id('economicDeprecationValue') %>"></div>
   </div>
   <div class="fa-edit-row">
-    <div id="<%- idPrefix %>-netValue" style="margin: 0 15px 15px 0"></div>
-    <div id="<%- idPrefix %>-economicNetValue" style="margin-bottom: 15px"></div>
+    <div id="<%- id('netValue') %>" style="margin-right: 15px"></div>
+    <div id="<%- id('economicNetValue') %>"></div>
   </div>
   <% if (model.kind === 'sale') { %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-buyerName" class="control-label is-required"><%- t('PROPERTY:buyerName') %></label>
-    <input id="<%- idPrefix %>-buyerName" class="form-control fa-edit-long" name="buyerName" required maxlength="200">
+    <label for="<%- id('buyerName') %>" class="control-label is-required"><%- t('PROPERTY:buyerName') %></label>
+    <input id="<%- id('buyerName') %>" class="form-control fa-edit-long" name="buyerName" required maxlength="200">
   </div>
   <div class="form-group">
-    <label for="<%- idPrefix %>-buyerAddress" class="control-label"><%- t('PROPERTY:buyerAddress') %></label>
-    <textarea id="<%- idPrefix %>-buyerAddress" class="form-control fa-edit-long" name="buyerAddress" rows="3"></textarea>
+    <label for="<%- id('buyerAddress') %>" class="control-label"><%- t('PROPERTY:buyerAddress') %></label>
+    <textarea id="<%- id('buyerAddress') %>" class="form-control fa-edit-long" name="buyerAddress" rows="3"></textarea>
   </div>
-  <div id="<%- idPrefix %>-saleValue" style="margin-bottom: 15px"></div>
+  <div id="<%- id('saleValue') %>" style="margin-bottom: 15px"></div>
   <% } %>
   <div class="fa-edit-row">
-    <div class="form-group">
-      <label for="<%- idPrefix %>-sapNo" class="control-label is-required"><%- t('PROPERTY:sapNo') %></label>
-      <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text" required maxlength="50">
+    <div class="form-group fa-edit-short">
+      <label for="<%- id(`postingDate`) %>" class="control-label is-required"><%- t(`PROPERTY:postingDate`) %></label>
+      <input id="<%- id(`postingDate`) %>" name="postingDate" class="form-control" type="date" required>
     </div>
-    <div class="form-group">
-      <label for="<%- idPrefix %>-accountingNo" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
-      <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" required maxlength="50">
+    <div class="form-group fa-edit-short">
+      <label for="<%- id(`valuationDate`) %>" class="control-label"><%- t(`PROPERTY:valuationDate`) %></label>
+      <input id="<%- id(`valuationDate`) %>" name="valuationDate" class="form-control" type="date">
     </div>
   </div>
-  <% files.forEach(function(name) { %>
-    <%- helpers.fa.attachmentFormGroup({name: name}) %>
+  <div class="form-group">
+    <label for="<%- id('transactionType') %>" class="control-label"><%- t('PROPERTY:transactionType') %></label>
+    <input id="<%- id('transactionType') %>" name="transactionType" class="form-control fa-edit-short" type="text" maxlength="3" pattern="^[A-Za-z0-9]{3}$" placeholder="---">
+  </div>
+  <div class="fa-edit-row">
+    <div class="form-group">
+      <label for="<%- id('assetNo') %>" class="control-label is-required"><%- t('PROPERTY:assetNo') %></label>
+      <input id="<%- id('assetNo') %>" name="assetNo" class="form-control fa-edit-short" type="text" required maxlength="50">
+    </div>
+    <div class="form-group">
+      <label for="<%- id('subAssetNo') %>" class="control-label"><%- t('PROPERTY:subAssetNo') %></label>
+      <input id="<%- id('subAssetNo') %>" name="subAssetNo" class="form-control fa-edit-short" type="text" maxlength="50">
+    </div>
+  </div>
+  <div class="fa-edit-row">
+    <div class="form-group">
+      <label for="<%- id('accountingNo') %>" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
+      <input id="<%- id('accountingNo') %>" name="accountingNo" class="form-control fa-edit-short" type="text" required maxlength="50">
+    </div>
+    <div class="form-group">
+      <label for="<%- id('odwNo') %>" class="control-label is-required"><%- t('PROPERTY:odwNo') %></label>
+      <input id="<%- id('odwNo') %>" name="odwNo" class="form-control fa-edit-short" type="text" required maxlength="50">
+    </div>
+  </div>
+  <div class="form-group fa-edit-long">
+    <label for="<%- id('tplNotes') %>" class="control-label"><%- t('PROPERTY:tplNotes') %></label>
+    <textarea id="<%- id('tplNotes') %>" class="form-control" name="tplNotes" rows="3"></textarea>
+  </div>
+  <% files.forEach(name => { %>
+    <%- helpers.fa.attachmentFormGroup({name}) %>
+    <% if (name === 'hrt') { %>
+      <button id="<%- id('previewHrt') %>" type="button" class="btn btn-default" style="margin-top: -5px; margin-bottom: 15px">
+        <i class="fa fa-file-excel-o"></i><span><%- t('FORM:previewHrt:button') %></span>
+      </button>
+    <% } %>
   <% }) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
-    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+    <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- id('comment') %>" class="form-control" name="comment" rows="3"></textarea>
   </div>
 </div>

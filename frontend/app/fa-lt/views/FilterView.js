@@ -26,7 +26,7 @@ define([
   var FILTER_LIST = [
     'kind',
     'stage',
-    'sapNo',
+    'assetNo',
     'assetName',
     'inventoryNo',
     'costCenter',
@@ -69,12 +69,15 @@ define([
 
     termToForm: {
       'date': dateTimeRange.rqlToForm,
-      'sapNo': function(propertyName, term, formData)
+      'assets.no': function(propertyName, term, formData)
+      {
+        formData.assetNo = term.args[1];
+      },
+      'assetName': function(propertyName, term, formData)
       {
         formData[propertyName] = term.args[1];
       },
-      'assetName': 'sapNo',
-      'inventoryNo': 'sapNo',
+      'inventoryNo': 'assetName',
       'stage': function(propertyName, term, formData)
       {
         formData[propertyName] = term.name === 'in' ? term.args[1] : [term.args[1]];
@@ -98,7 +101,7 @@ define([
         }
       });
 
-      ['sapNo', 'assetName', 'inventoryNo'].forEach(function(prop)
+      ['assetName', 'inventoryNo'].forEach(function(prop)
       {
         var value = view.$id(prop).val().trim();
 
@@ -107,6 +110,13 @@ define([
           selector.push({name: 'eq', args: [prop, value]});
         }
       });
+
+      var assetNo = view.$id('assetNo').val().trim();
+
+      if (assetNo.length)
+      {
+        selector.push({name: 'eq', args: ['assets.no', assetNo]});
+      }
     },
 
     changeFilter: function()

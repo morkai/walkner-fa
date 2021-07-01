@@ -1,0 +1,60 @@
+<div class="fa-edit-stage" data-stage="verify">
+  <%- helpers.props(details, [
+    '!kind',
+    {id: 'mergeInventoryNo', visible: model.kind === 'merge', valueClassName: 'text-fixed'},
+    {id: 'mergeLineSymbol', visible: model.kind === 'merge', valueClassName: 'text-fixed'},
+    {id: 'mergeType', visible: model.kind === 'merge'},
+    {id: 'protocolNo', valueClassName: 'text-fixed'},
+    'protocolDate',
+    'assetName',
+    {id: 'inventoryNo', valueClassName: 'text-fixed'},
+    {id: 'costCenter', valueClassName: 'text-fixed'},
+    {id: '!owner'},
+    {id: '!applicant'},
+    helpers.fa.committeeProp(),
+    {id: 'cause', valueClassName: 'text-lines'},
+    'initialValue',
+    'deprecationValue',
+    'netValue',
+    'economicInitialValue',
+    'economicDeprecationValue',
+    'economicNetValue'
+  ]) %>
+  <div id="<%- id('assets') %>"></div>
+  <div class="form-group" style="margin-top: -10px">
+    <label for="<%- id('subAssetNo') %>" class="control-label"><%- t('PROPERTY:subAssetNo') %></label>
+    <input id="<%- id('subAssetNo') %>" name="subAssetNo" class="form-control fa-edit-short" type="text" maxlength="50">
+  </div>
+  <div class="form-group">
+    <label for="<%- id(`postingDate`) %>" class="control-label is-required"><%- t(`PROPERTY:postingDate`) %></label>
+    <input id="<%- id(`postingDate`) %>" name="postingDate" class="form-control fa-edit-short" type="date" data-required>
+  </div>
+  <div class="form-group fa-edit-short">
+    <label for="<%- id(`valuationDate`) %>" class="control-label"><%- t(`PROPERTY:valuationDate`) %></label>
+    <input id="<%- id(`valuationDate`) %>" name="valuationDate" class="form-control" type="date">
+  </div>
+  <div class="form-group fa-edit-long">
+    <label for="<%- id('tplNotes') %>" class="control-label"><%- t('PROPERTY:tplNotes') %></label>
+    <textarea id="<%- id('tplNotes') %>" class="form-control" name="tplNotes" rows="3"></textarea>
+  </div>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'handover',
+    required: true,
+    visible: model.kind === 'sale'
+  }) %>
+  <%- helpers.fa.attachmentFormGroup({
+    accept: '.xlsx,.xlsm,.xlsb',
+    name: 'hrt'
+  }) %>
+  <p class="message message-inline message-info" style="margin-top: -5px"><%- t('FORM:previewHrt:info') %></p>
+  <button id="<%- id('previewHrt') %>" type="button" class="btn btn-default" style="margin-top: 10px; margin-bottom: 15px">
+    <i class="fa fa-file-excel-o"></i><span><%- t('FORM:previewHrt:button') %></span>
+  </button>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'attachment'
+  }) %>
+  <div class="form-group">
+    <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- id('comment') %>" class="form-control" name="comment" rows="3"></textarea>
+  </div>
+</div>

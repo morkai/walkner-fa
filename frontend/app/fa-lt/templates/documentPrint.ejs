@@ -165,30 +165,16 @@
     <th><%- t('PROPERTY:economicNetValue') %></th>
     <td><%= details.economicNetValue %></td>
   </tr>
-  <% if (model.kind === 'sale') { %>
   <tr>
-    <th><%- t('PROPERTY:buyerName') %></th>
-    <td><%= details.buyerName %></td>
+    <th><%- t('PROPERTY:assets.no') %></th>
+    <td class="text-fixed"><%= details.assetNo %></td>
   </tr>
-  <% if (details.buyerAddress) { %>
-  <tr>
-    <th><%- t('PROPERTY:buyerAddress') %></th>
-    <td class="text-lines"><%= details.buyerAddress %></td>
-  </tr>
-  <% } %>
-  <tr>
-    <th><%- t('PROPERTY:saleValue') %></th>
-    <td><%= details.saleValue %></td>
-  </tr>
-  <% } %>
-  <tr>
-    <th><%- t('PROPERTY:sapNo') %></th>
-    <td class="text-fixed"><%= details.sapNo %></td>
-  </tr>
+  <% if (model.kind !== 'scrap' && model.kind !== 'sale') { %>
   <tr>
     <th><%- t('PROPERTY:accountingNo') %></th>
     <td class="text-fixed"><%= details.accountingNo %></td>
   </tr>
+  <% } %>
   </tbody>
 </table>
 </div>

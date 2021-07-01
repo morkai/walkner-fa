@@ -20,27 +20,33 @@
     'economicInitialValue',
     'economicDeprecationValue',
     'economicNetValue',
-    {id: 'sapNo', valueClassName: 'text-fixed'}
+    helpers.fa.assetsProp(),
+    {id: 'subAssetNo', valueClassName: 'text-fixed'},
+    'postingDate',
+    'valuationDate',
+    {id: 'tplNotes', valueClassName: 'text-lines'},
+    helpers.fa.attachmentProp({name: 'handover', visible: model.kind === 'sale'}),
+    helpers.fa.attachmentProp({name: 'hrt'})
   ]) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-documentDate" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
-    <input id="<%- idPrefix %>-documentDate" name="documentDate" class="form-control fa-edit-short" type="date" data-required>
+    <label for="<%- id('documentDate') %>" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
+    <input id="<%- id('documentDate') %>" name="documentDate" class="form-control fa-edit-short" type="date" data-required>
   </div>
   <% if (model.kind === 'sale') { %>
     <div class="form-group">
-      <label for="<%- idPrefix %>-buyerName" class="control-label is-required"><%- t('PROPERTY:buyerName') %></label>
-      <input id="<%- idPrefix %>-buyerName" class="form-control fa-edit-long" name="buyerName" data-required maxlength="200">
+      <label for="<%- id('buyerName') %>" class="control-label is-required"><%- t('PROPERTY:buyerName') %></label>
+      <input id="<%- id('buyerName') %>" class="form-control fa-edit-long" name="buyerName" data-required maxlength="200">
     </div>
     <div class="form-group">
-      <label for="<%- idPrefix %>-buyerAddress" class="control-label"><%- t('PROPERTY:buyerAddress') %></label>
-      <textarea id="<%- idPrefix %>-buyerAddress" class="form-control fa-edit-long" name="buyerAddress" rows="3"></textarea>
+      <label for="<%- id('buyerAddress') %>" class="control-label"><%- t('PROPERTY:buyerAddress') %></label>
+      <textarea id="<%- id('buyerAddress') %>" class="form-control fa-edit-long" name="buyerAddress" rows="3"></textarea>
     </div>
-    <div id="<%- idPrefix %>-saleValue" style="margin-bottom: 15px"></div>
+    <div id="<%- id('saleValue') %>" style="margin-bottom: 15px"></div>
   <% } %>
   <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
-    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+    <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- id('comment') %>" class="form-control" name="comment" rows="3"></textarea>
   </div>
   <% include _unacceptable.ejs %>
 </div>

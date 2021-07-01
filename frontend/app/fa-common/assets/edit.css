@@ -51,6 +51,64 @@
 .fa-edit-zplx-auc {
   width: 134px;
 }
+.fa-edit-transactions-item {
+  display: flex;
+  margin-bottom: 5px;
+}
+.fa-edit-transactions-item:only-child .btn {
+  display: none;
+}
+.fa-edit-transactions-labels {
+  display: flex;
+}
+.fa-edit-transactions-labels > label {
+  width: 168px;
+  font-weight: normal;
+}
+.fa-edit-transactions-labels > label + label {
+  margin-left: 15px;
+}
+.fa-edit-transactions-prefix {
+  width: 54px;
+  text-align: center;
+  line-height: 32px;
+  background: #eee;
+  border: 1px solid #ccc;
+  border-right: none;
+}
+.form-control + .fa-edit-transactions-prefix {
+  margin-left: 15px;
+}
+.fa-edit-transactions-type {
+  width: 168px;
+}
+.fa-edit-transactions-value {
+  width: 114px;
+}
+.fa-edit-assets-item {
+  display: flex;
+  margin-bottom: 5px;
+}
+.fa-edit-assets-item:only-child .btn {
+  display: none;
+}
+.fa-edit-assets-labels {
+  display: flex;
+}
+.fa-edit-assets-labels > label {
+  width: 168px;
+  font-weight: normal;
+}
+.fa-edit-assets-labels > label + label {
+  margin-left: 15px;
+}
+.fa-edit-assets-no,
+.fa-edit-assets-transactionType {
+  width: 168px;
+}
+.fa-edit-assets-no {
+  margin-right: 15px;
+}
 .fa-edit-participants tbody {
   vertical-align: top;
 }
@@ -78,13 +136,13 @@
   margin-left: 15px;
 }
 .fa-edit-long {
-  max-width: 504px;
+  max-width: 534px;
 }
 .fa-edit-attachment {
   width: 100%;
 }
 .fa-edit-form .message-inline {
-  max-width: 504px;
+  max-width: 534px;
   line-height: 1.4;
   text-align: justify;
 }
@@ -99,13 +157,16 @@
 .fa-edit-form .message-inline + .form-group {
   margin-top: 15px;
 }
+.fa-edit-period .control-label {
+  width: 168px;
+}
 .fa-edit-period .input-group {
   width: 168px;
 }
 .fa-edit-period .input-group-addon {
   padding-left: 0;
   padding-right: 0;
-  width: 30px;
+  width: 25px;
   text-align: center;
   border-left: none;
   border-right: 0;
@@ -200,6 +261,9 @@
     width: auto;
     max-width: none;
     min-width: auto;
+  }
+  .fa-edit-long {
+    width: 100%;
   }
   .fa-edit-form .panel-footer {
     padding: 0;

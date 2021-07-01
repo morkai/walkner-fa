@@ -4,17 +4,21 @@
       <label class="control-label"><%- t('PROPERTY:protocolNeeded') %></label>
       <p class="form-control-static"><%- details.protocolNeeded %></p>
     </div>
-    <% if (model.protocolNeeded) { %>
     <div class="form-group fa-edit-short">
       <label class="control-label"><%- t('PROPERTY:commissioningType') %></label>
       <p class="form-control-static"><%- details.commissioningType %></p>
     </div>
-    <% } %>
     <div class="form-group">
       <label class="control-label"><%- t('PROPERTY:usageDestination') %></label>
       <p class="form-control-static"><%- details.usageDestination %></p>
     </div>
   </div>
+  <% if (model.commissioningType === 'inc-asset') { %>
+  <div class="form-group">
+    <label class="control-label"><%- t('PROPERTY:extendedDep') %></label>
+    <p class="form-control-static"><%- details.extendedDep %></p>
+  </div>
+  <% } %>
   <% if (model.protocolNeeded) { %>
   <div class="fa-edit-row">
     <div class="form-group fa-edit-short">
@@ -58,25 +62,21 @@
     </div>
   </div>
   <div id="<%- id('zplx') %>"></div>
-  <% if (model.protocolNeeded) { %>
-  <div id="<%- id('participants') %>" style="margin-top: -10px; margin-bottom: 15px"></div>
-  <% } %>
-  <div class="form-group fa-edit-long" style="margin-top: -10px">
+  <div class="form-group fa-edit-long">
     <label for="<%- id('supplier') %>" class="control-label <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'is-required' %>"><%- t('PROPERTY:supplier') %></label>
     <input id="<%- id('supplier') %>" name="supplier" class="form-control" type="text" <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'required' %> maxlength="200">
   </div>
   <div id="<%- id('value') %>" style="margin-bottom: 15px"></div>
-  <div id="<%- id('fiscalValue') %>" style="margin-bottom: 15px"></div>
-  <div class="fa-edit-row fa-edit-long">
-    <div class="form-group fa-edit-short has-required-select2">
-      <label for="<%- id('costCenter') %>" class="control-label is-required"><%- t('PROPERTY:costCenter') %></label>
-      <input id="<%- id('costCenter') %>" name="costCenter" type="text" required>
-    </div>
-    <div class="form-group fa-edit-flex has-required-select2">
-      <label for="<%- id('assetClass') %>" class="control-label is-required"><%- t('PROPERTY:assetClass') %></label>
-      <input id="<%- id('assetClass') %>" name="assetClass" type="text" required>
-    </div>
+  <div class="form-group fa-edit-short has-required-select2">
+    <label for="<%- id('costCenter') %>" class="control-label is-required"><%- t('PROPERTY:costCenter') %></label>
+    <input id="<%- id('costCenter') %>" name="costCenter" type="text" required>
   </div>
+  <% if (!model.protocolNeeded) { %>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- id('owner') %>" class="control-label is-required"><%- t('PROPERTY:owner') %></label>
+    <input id="<%- id('owner') %>" name="owner" type="text" required>
+  </div>
+  <% } %>
   <% if (model.usageDestination === 'external-supplier') { %>
   <div class="fa-edit-row fa-edit-long">
     <div class="form-group fa-edit-short">
@@ -89,51 +89,92 @@
     </div>
   </div>
   <% } %>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- id('evalGroup1') %>" class="control-label is-required"><%- t('PROPERTY:evalGroup1') %></label>
+    <input id="<%- id('evalGroup1') %>" name="evalGroup1" type="text" required>
+  </div>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- id('evalGroup5') %>" class="control-label is-required"><%- t('PROPERTY:evalGroup5') %></label>
+    <input id="<%- id('evalGroup5') %>" name="evalGroup5" type="text" required>
+  </div>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- id('assetClass') %>" class="control-label is-required"><%- t('PROPERTY:assetClass') %></label>
+    <input id="<%- id('assetClass') %>" name="assetClass" type="text" required>
+  </div>
   <div class="form-group">
-    <label for="<%- id('deprecationRate') %>" class="control-label"><%- t('PROPERTY:deprecationRate') %></label>
+    <label for="<%- id('depRate') %>" class="control-label"><%- t('PROPERTY:depRate') %></label>
     <div class="input-group">
-      <input id="<%- id('deprecationRate') %>" name="deprecationRate" class="form-control text-right" type="number" min="0" max="100" step="0.01" style="width: 114px">
+      <input id="<%- id('depRate') %>" name="depRate" class="form-control text-right" type="number" min="0" max="100" step="0.01" style="width: 114px">
       <div class="input-group-addon" style="width: 54px">%</div>
     </div>
   </div>
-  <div class="form-group fa-edit-period" style="margin-top: -5px">
-    <label for="<%- id('economicPeriodY') %>" class="control-label"><%- t('PROPERTY:economicPeriod') %></label>
-    <div class="input-group">
-      <input id="<%- id('economicPeriodY') %>" name="economicPeriodY" class="form-control text-right" type="number" min="0" max="99">
-      <div class="input-group-addon"><%- t('fa-common', 'unit:year') %></div>
-      <input id="<%- id('economicPeriodM') %>" name="economicPeriodM" class="form-control text-right" type="number" min="0" max="12">
-      <div class="input-group-addon"><%- t('fa-common', 'unit:month') %></div>
-    </div>
+  <div class="form-group fa-edit-short has-required-select2">
+    <label for="<%- id('depKey') %>" class="control-label is-required"><%- t('PROPERTY:depKey') %></label>
+    <input id="<%- id('depKey') %>" name="depKey" type="text" required>
   </div>
-  <div class="form-group fa-edit-period">
-    <label class="control-label"><%- t('PROPERTY:fiscalPeriod') %></label>
-    <div class="input-group">
-      <input id="<%- id('fiscalPeriodY') %>" name="fiscalPeriodY" class="form-control text-right"  type="number" min="0" max="99">
-      <div class="input-group-addon"><%- t('fa-common', 'unit:year') %></div>
-      <input id="<%- id('fiscalPeriodM') %>" name="fiscalPeriodM" class="form-control text-right"  type="number" min="0" max="12">
-      <div class="input-group-addon"><%- t('fa-common', 'unit:month') %></div>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- id('economicMethod') %>" class="control-label is-required"><%- t('PROPERTY:economicMethod') %></label>
+    <input id="<%- id('economicMethod') %>" name="economicMethod" type="text" required>
+  </div>
+  <div class="form-group fa-edit-long">
+    <label for="<%- id('fiscalMethod') %>" class="control-label is-required"><%- t('PROPERTY:fiscalMethod') %></label>
+    <input id="<%- id('fiscalMethod') %>" name="fiscalMethod" class="form-control" type="text" required>
+  </div>
+  <div class="form-group fa-edit-long">
+    <label for="<%- id('taxMethod') %>" class="control-label is-required"><%- t('PROPERTY:taxMethod') %></label>
+    <input id="<%- id('taxMethod') %>" name="taxMethod" class="form-control" type="text" required>
+  </div>
+  <div class="fa-edit-row">
+    <% ['economic', 'fiscal', 'tax'].forEach(k => { %>
+    <div class="form-group fa-edit-period">
+      <label for="<%- id(`${k}PeriodY`) %>" class="control-label"><%- t(`PROPERTY:${k}Period`) %></label>
+      <div class="input-group">
+        <input id="<%- id(`${k}PeriodY`) %>" name="<%- k %>PeriodY" class="form-control text-right" type="number" min="0" max="100">
+        <div class="input-group-addon"><%- t('fa-common', 'unit:year') %></div>
+        <input id="<%- id(`${k}PeriodM`) %>" name="<%- k %>PeriodM" class="form-control text-right" type="number" min="0" max="12">
+        <div class="input-group-addon"><%- t('fa-common', 'unit:month') %></div>
+      </div>
     </div>
+    <% }) %>
+  </div>
+  <div class="fa-edit-row">
+    <% ['economic', 'fiscal', 'tax'].forEach(k => { %>
+    <div class="form-group fa-edit-short">
+      <label for="<%- id(`${k}Date`) %>" class="control-label is-required"><%- t(`PROPERTY:${k}Date`) %></label>
+      <input id="<%- id(`${k}Date`) %>" name="<%- k %>Date" class="form-control" type="date" required>
+    </div>
+    <% }) %>
+  </div>
+  <div id="<%- id('transactions') %>"></div>
+  <div class="form-group fa-edit-short" style="margin-top: -10px">
+    <label for="<%- id(`postingDate`) %>" class="control-label is-required"><%- t(`PROPERTY:postingDate`) %></label>
+    <input id="<%- id(`postingDate`) %>" name="postingDate" class="form-control" type="date" required>
   </div>
   <div class="fa-edit-row">
     <div class="form-group">
-      <label for="<%- id('sapNo') %>" class="control-label is-required"><%- t('PROPERTY:sapNo') %></label>
-      <input id="<%- id('sapNo') %>" name="sapNo" class="form-control fa-edit-short" type="text" maxlength="50" required>
+      <label for="<%- id('assetNo') %>" class="control-label is-required"><%- t('PROPERTY:assetNo') %></label>
+      <input id="<%- id('assetNo') %>" name="assetNo" class="form-control fa-edit-short" type="text" maxlength="50" required>
     </div>
     <div class="form-group">
       <label for="<%- id('accountingNo') %>" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
       <input id="<%- id('accountingNo') %>" name="accountingNo" class="form-control fa-edit-short" type="text" maxlength="50" required>
     </div>
+    <div class="form-group">
+      <label for="<%- id('odwNo') %>" class="control-label is-required"><%- t('PROPERTY:odwNo') %></label>
+      <input id="<%- id('odwNo') %>" name="odwNo" class="form-control fa-edit-short" type="text" maxlength="50" required>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="<%- id('odwNo') %>" class="control-label"><%- t('PROPERTY:odwNo') %></label>
-    <input id="<%- id('odwNo') %>" name="odwNo" class="form-control fa-edit-short" type="text" maxlength="50">
-  </div>
-  <div class="form-group">
+  <div class="form-group fa-edit-long">
     <label for="<%- id('tplNotes') %>" class="control-label"><%- t('PROPERTY:tplNotes') %></label>
     <textarea id="<%- id('tplNotes') %>" class="form-control" name="tplNotes" rows="3"></textarea>
   </div>
-  <% files.forEach(function(name) { %>
-  <%- helpers.fa.attachmentFormGroup({name: name, help: false}) %>
+  <% files.forEach(name => { %>
+    <%- helpers.fa.attachmentFormGroup({name}) %>
+    <% if (name === 'hrt') { %>
+      <button id="<%- id('previewHrt') %>" type="button" class="btn btn-default" style="margin-top: -5px; margin-bottom: 15px">
+        <i class="fa fa-file-excel-o"></i><span><%- t('FORM:previewHrt:button') %></span>
+      </button>
+    <% } %>
   <% }) %>
   <div class="form-group">
     <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>

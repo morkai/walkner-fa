@@ -11,7 +11,10 @@ define([
   {
     if (!months)
     {
-      return '';
+      return t('fa-common', 'period:both', {
+        years: 0,
+        months: 0
+      });
     }
 
     var y = Math.floor(months / 12);

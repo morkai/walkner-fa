@@ -90,6 +90,8 @@ define([
 
       return {
         readOnly: !!this.options.readOnly,
+        multiple: !!this.options.multiple
+          || (this.options.multiple == null && (this.model.get('zplx') || []).length > 1),
         auc: !!this.options.auc,
         value: !!this.options.value,
         zplx: zplx.length ? zplx : [{code: '', value: '', auc: ''}]

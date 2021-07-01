@@ -7,8 +7,10 @@ define([
   '../pubsub',
   '../user',
   '../users/UserCollection',
+  '../fa-assetGroups/AssetGroupCollection',
   '../fa-assetClasses/AssetClassCollection',
-  '../fa-costCenters/CostCenterCollection'
+  '../fa-costCenters/CostCenterCollection',
+  '../fa-depKeys/DepKeyCollection'
 ], function(
   _,
   $,
@@ -16,14 +18,18 @@ define([
   pubsub,
   user,
   UserCollection,
+  AssetGroupCollection,
   AssetClassCollection,
-  CostCenterCollection
+  CostCenterCollection,
+  DepKeyCollection
 ) {
   'use strict';
 
   var TOPIC_PREFIX = 'fa.';
   var PROP_TO_DICT = {
+    assetGroup: 'assetGroups',
     assetClass: 'assetClasses',
+    depKey: 'depKeys',
     costCenter: 'costCenters'
   };
 
@@ -31,11 +37,21 @@ define([
   var releaseTimer = null;
   var pubsubSandbox = null;
   var dictionaries = {
+    economicMethods: [
+      '0000 - No depreciation',
+      'ZPH0 - Philips straight line to 0'
+    ],
+    assetGroups: new AssetGroupCollection(),
     assetClasses: new AssetClassCollection(),
+    depKeys: new DepKeyCollection(),
     costCenters: new CostCenterCollection(),
     committee: new UserCollection(null, {
       rqlQuery: 'select(firstName,lastName,login,privileges)&sort(searchName)&limit(0)'
         + '&privileges=' + encodeURIComponent('FA:LT:committee')
+    }),
+    currencyFormatter: new Intl.NumberFormat('pl', {
+      style: 'currency',
+      currency: 'PLN'
     }),
     loaded: false,
     load: function()

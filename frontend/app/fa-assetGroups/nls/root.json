@@ -1,0 +1,13 @@
+{
+  "root": {
+    "BREADCRUMB:browse": "Asset groups",
+
+    "PROPERTY:active": "Active?",
+    "PROPERTY:evalGroup1": "Evaluation group 1",
+    "PROPERTY:evalGroup5": "KŚT",
+    "PROPERTY:depRate": "Deprecation rate",
+    "PROPERTY:depKey": "Deprecation key",
+    "PROPERTY:assetClass": "Asset class"
+  },
+  "pl": true
+}

@@ -11,7 +11,21 @@ define([
 
   return FormView.extend({
 
-    template: template,
+    template,
+
+    events: Object.assign({
+
+      'change [name="commissioningType"]': function()
+      {
+        const extendedDep = this.$('[name="commissioningType"]:checked').val() === 'inc-asset';
+
+        this.$id('extendedDep')
+          .toggleClass('hidden', !extendedDep)
+          .find('[value="false"]')
+          .prop('checked', true);
+      }
+
+    }, FormView.prototype.events),
 
     handleSuccess: function()
     {

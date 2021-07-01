@@ -1,0 +1,54 @@
+<form method="post" action="<%- formAction %>">
+  <input type="hidden" name="_method" value="<%- formMethod %>">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><%- panelTitleText %></div>
+    <div class="panel-body">
+      <div class="form-group">
+        <div class="checkbox">
+          <label class="control-label">
+            <input type="checkbox" name="active" value="true">
+            <%- helpers.t('PROPERTY:active') %>
+          </label>
+        </div>
+      </div>
+      <%- helpers.formGroup({
+        id: 'evalGroup1',
+        label: 'PROPERTY:',
+        required: true,
+        maxLength: 250
+      }) %>
+      <%- helpers.formGroup({
+        id: 'evalGroup5',
+        label: 'PROPERTY:',
+        required: true,
+        maxLength: 250
+      }) %>
+      <%- helpers.formGroup({
+        id: 'depRate',
+        type: 'number',
+        label: 'PROPERTY:',
+        required: true,
+        min: 0,
+        max: 100,
+        step: 0.01
+      }) %>
+      <%- helpers.formGroup({
+        id: 'depKey',
+        label: 'PROPERTY:',
+        required: true,
+        maxLength: 4,
+        pattern: '^[A-Z0-9]{4}$'
+      }) %>
+      <%- helpers.formGroup({
+        id: 'assetClass',
+        label: 'PROPERTY:',
+        required: true,
+        maxLength: 4,
+        pattern: '^L[0-9]{3}$'
+      }) %>
+    </div>
+    <div class="panel-footer">
+      <button type="submit" class="btn btn-primary"><%- formActionText %></button>
+    </div>
+  </div>
+</form>

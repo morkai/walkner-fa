@@ -125,7 +125,7 @@
       <% }) %>
     </td>
   </tr>
-  <% if (model.protocolNeeded) { %>
+  <% if (model.protocolNeeded && details.owner) { %>
   <tr>
     <th><%- t('PROPERTY:owner') %></th>
     <td><%- details.owner %></td>
@@ -174,8 +174,8 @@
   </tr>
   <% } %>
   <tr>
-    <th><%- t('PROPERTY:deprecationRate') %></th>
-    <td><%= details.deprecationRate %></td>
+    <th><%- t('PROPERTY:depRate') %></th>
+    <td><%= details.depRate %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:economicPeriod') %></th>
@@ -186,8 +186,8 @@
     <td><%= details.fiscalPeriod %></td>
   </tr>
   <tr>
-    <th><%- t('PROPERTY:sapNo') %></th>
-    <td class="text-fixed"><%= details.sapNo %></td>
+    <th><%- t('PROPERTY:assetNo') %></th>
+    <td class="text-fixed"><%= details.assetNo %></td>
   </tr>
   <tr>
     <th><%- t('PROPERTY:accountingNo') %></th>

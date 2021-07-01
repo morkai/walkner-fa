@@ -17,7 +17,7 @@ define([
 ) {
   'use strict';
 
-  var VALUE_PROPS = [
+  const VALUE_PROPS = [
     'initialValue',
     'deprecationValue',
     'netValue',
@@ -26,18 +26,25 @@ define([
     'economicNetValue',
     'saleValue'
   ];
-  var STAGE_TO_CLASS_NAME = {
+  const STAGE_TO_CLASS_NAME = {
     protocol: 'info',
     verify: 'info',
     acceptOwner: 'info',
     acceptCommittee: 'info',
     acceptFinance: 'info',
     acceptDepartment: 'info',
+    verifyDocument: 'info',
     acceptDocument: 'info',
     record: 'info',
     finished: '',
     cancelled: 'danger'
   };
+  const DATE_PROPS = [
+    'protocolDate',
+    'documentDate',
+    'postingDate',
+    'valuationDate'
+  ];
 
   return Model.extend({
 
@@ -60,16 +67,16 @@ define([
 
     serializeRow: function()
     {
-      var obj = this.toJSON();
+      const obj = this.toJSON();
 
       obj.className = STAGE_TO_CLASS_NAME[obj.stage] || {};
       obj.url = this.url();
       obj.no = this.getLabel();
-      obj.stage = t(this.nlsDomain, 'stage:' + obj.stage, {kind: obj.kind});
-      obj.kind = t(this.nlsDomain, 'kind:short:' + obj.kind);
+      obj.stage = t(this.nlsDomain, `stage:${obj.stage}`, {kind: obj.kind});
+      obj.kind = t(this.nlsDomain, `kind:short:${obj.kind}`);
       obj.date = time.utc.format(obj.date, 'L');
 
-      VALUE_PROPS.forEach(function(prop)
+      VALUE_PROPS.forEach(prop =>
       {
         obj[prop] = (obj[prop] || 0).toLocaleString('pl-PL', {
           style: 'currency',
@@ -77,40 +84,46 @@ define([
         });
       });
 
+      obj.assetNo = (obj.assets || []).map(a => a.no).join('; ');
+
       return obj;
     },
 
     serializeDetails: function()
     {
-      var obj = this.serializeRow();
+      const obj = this.serializeRow();
 
       obj.acceptable = this.isAcceptable();
-      obj.protocolDate = obj.protocolDate ? time.utc.format(obj.protocolDate, 'LL') : '';
-      obj.documentDate = obj.documentDate ? time.utc.format(obj.documentDate, 'LL') : '';
-      obj.kind = t(this.nlsDomain, 'kind:' + this.get('kind'));
-      obj.mergeType = obj.mergeType ? t(this.nlsDomain, 'mergeType:' + obj.mergeType) : '';
-      obj.owner = userInfoTemplate({userInfo: obj.owner});
-      obj.applicant = userInfoTemplate({userInfo: obj.applicant});
-      obj.committee = obj.committee.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); });
+
+      DATE_PROPS.forEach(prop =>
+      {
+        obj[prop] = obj[prop] ? time.utc.format(obj[prop], 'LL') : '';
+      });
+
+      obj.kind = t(this.nlsDomain, `kind:${this.get('kind')}`);
+      obj.mergeType = obj.mergeType ? t(this.nlsDomain, `mergeType:${obj.mergeType}`) : '';
+      obj.owner = userInfoTemplate(obj.owner);
+      obj.applicant = userInfoTemplate(obj.applicant);
+      obj.committee = obj.committee.map(userInfo => userInfoTemplate(userInfo));
 
       obj.stages = {
         created: {
-          who: userInfoTemplate({userInfo: obj.createdBy}),
+          who: userInfoTemplate(obj.createdBy),
           when: time.format(obj.createdAt, 'LLLL')
         },
         updated: {
-          who: obj.updatedBy ? userInfoTemplate({userInfo: obj.updatedBy}) : null,
+          who: obj.updatedBy ? userInfoTemplate(obj.updatedBy) : null,
           when: obj.updatedAt ? time.format(obj.updatedAt, 'LLLL') : null
         }
       };
 
-      Object.keys(obj.stageChangedBy).forEach(function(stage)
+      Object.keys(obj.stageChangedBy).forEach(stage =>
       {
-        var who = obj.stageChangedBy[stage];
-        var when = obj.stageChangedAt[stage];
+        const who = obj.stageChangedBy[stage];
+        const when = obj.stageChangedAt[stage];
 
         obj.stages[stage] = {
-          who: who ? userInfoTemplate({userInfo: who}) : null,
+          who: who ? userInfoTemplate(who) : null,
           when: when ? time.format(when, 'LLLL') : null
         };
       });
@@ -120,11 +133,11 @@ define([
 
     serializeComments: function()
     {
-      return this.get('changes').filter(function(c) { return !!c.comment; }).map(function(c)
+      return this.get('changes').filter(c => !!c.comment).map(c =>
       {
         return {
           time: time.format(c.date, 'L LT'),
-          user: userInfoTemplate({userInfo: c.user, noIp: true}),
+          user: userInfoTemplate(c.user, {noIp: true}),
           text: c.comment
         };
       });
@@ -132,11 +145,14 @@ define([
 
     serializeForm: function()
     {
-      var obj = this.toJSON();
+      const obj = this.toJSON();
 
       obj.no = this.getLabel();
-      obj.protocolDate = obj.protocolDate ? time.utc.format(obj.protocolDate, 'YYYY-MM-DD') : '';
-      obj.documentDate = obj.documentDate ? time.utc.format(obj.documentDate, 'YYYY-MM-DD') : '';
+
+      DATE_PROPS.forEach(prop =>
+      {
+        obj[prop] = obj[prop] ? time.utc.format(obj[prop], 'YYYY-MM-DD') : '';
+      });
 
       return obj;
     },
@@ -182,25 +198,27 @@ define([
 
     isCommittee: function()
     {
-      return _.some(this.get('committee'), function(u) { return u._id === user.data._id; });
+      return _.some(this.get('committee'), u => u._id === user.data._id);
     },
 
     isAcceptable: function()
     {
-      if (!this.attributes.stageChangedAt.verify)
+      const attrs = this.attributes;
+
+      if (!attrs.stageChangedAt.verify)
       {
         return false;
       }
 
-      var verifiedAt = time.getMoment(this.attributes.stageChangedAt.verify);
-      var now = time.getMoment();
+      const verifiedAt = time.getMoment(attrs.stageChangedAt.verify);
+      const now = time.getMoment();
 
       if (verifiedAt.format('MMYYYY') === now.format('MMYYYY'))
       {
         return true;
       }
 
-      if (this.attributes.netValue > 0 || this.attributes.economicNetValue > 0)
+      if (attrs.netValue > 0 || attrs.economicNetValue > 0)
       {
         return false;
       }
@@ -240,6 +258,7 @@ define([
           case 'record':
           case 'acceptFinance':
           case 'acceptDepartment':
+          case 'verifyDocument':
             return user.isAllowedTo('FA:LT:' + stage);
 
           case 'finished':
@@ -272,6 +291,7 @@ define([
       'acceptOwner',
       'acceptFinance',
       'acceptDepartment',
+      'verifyDocument',
       'acceptDocument',
       'record',
       'finished',

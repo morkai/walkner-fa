@@ -7,6 +7,12 @@
   "FORM:edit:committee:person": "{no}. członek komisji:",
   "FORM:edit:committee:add": "Dodaj {count, plural, =0{osobę} other{kolejną osobę}} z komisji",
   "FORM:edit:committee:remove": "Usuń wybraną osobę z komisji",
+  "FORM:edit:transactions:add": "Dodaj kolejną operację",
+  "FORM:edit:transactions:remove": "Usuń wybraną operację",
+  "FORM:edit:transactions:invalid": "Podaj przynajmniej jedną prawidłową operację.",
+  "FORM:edit:assets:add": "Dodaj kolejny ŚT",
+  "FORM:edit:assets:remove": "Usuń wybrany ŚT",
+  "FORM:edit:assets:invalid": "Podaj przynajmniej jednen prawidłowy ŚT.",
 
   "changes:failure": "Komentownie nie powiodło się.",
   "changes:title": "Historia zmian",

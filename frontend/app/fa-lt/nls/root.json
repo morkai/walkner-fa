@@ -23,6 +23,7 @@
     "FORM:ACTION:reject:acceptOwner": "...to owner",
     "FORM:ACTION:reject:acceptFinance": "...to financial director",
     "FORM:ACTION:reject:acceptDepartment": "...to department director",
+    "FORM:ACTION:reject:verifyDocument": "...to document verification",
     "FORM:ACTION:skip": "Skip",
     "FORM:ACTION:accept": "Accept",
     "FORM:ACTION:protocol:nextStep": "To approval",
@@ -65,6 +66,8 @@
     "FORM:stage:acceptDepartment": "Department<br>director<br>acceptance",
     "FORM:stage:acceptFinance": "Financial<br>director<br>acceptance",
     "FORM:stage:acceptDocument": "{kind, select, sale{Sale (PT)<br>acceptance} other{Decommission (LT)<br>acceptance}}",
+    "FORM:previewHrt:button": "Generate request based on a template",
+    "FORM:previewHrt:info": "Request will be generated and attached automatically after move to the next stage if it wasn't specified manually.",
 
     "details:stage:acceptOwner": "Owner<br>acceptance",
     "details:stage:acceptCommittee": "Committee<br>acceptance",
@@ -100,9 +103,18 @@
     "PROPERTY:buyerName": "Buyer's name",
     "PROPERTY:buyerAddress": "Buyer's address",
     "PROPERTY:saleValue": "Sale value",
-    "PROPERTY:sapNo": "SAP no",
+    "PROPERTY:postingDate": "Posting date",
+    "PROPERTY:valuationDate": "Asset value date",
+    "PROPERTY:assets": "Fixed assets",
+    "PROPERTY:assets.no": "Asset number",
+    "PROPERTY:assets.transactionType": "Transaction type",
+    "PROPERTY:subAssetNo": "Sub asset number",
     "PROPERTY:accountingNo": "Accounting no",
+    "PROPERTY:odwNo": "ODW document no",
+    "PROPERTY:handoverFile": "PT handover file",
+    "PROPERTY:invoiceFile": "Sales invoice file",
     "PROPERTY:attachmentFile": "Attachment",
+    "PROPERTY:tplNotes": "Template notes",
     "PROPERTY:comment": "Comment",
 
     "kind:scrap": "Scrapping",
@@ -134,11 +146,13 @@
     "committee:acceptance:true": "Zaakceptowowano",
     "committee:acceptance:false": "Odrzucono",
 
+    "LIST:COLUMN:assetNo": "Asset number",
+
     "filter:limit": "Limit",
 
     "changes:created": "<i>added a new LT document</i>",
 
-    "print:document:title": "{kind, select, sale{Fixed asset sale} other{Decommission protocol}}"
+    "print:document:title": "Decommission protocol"
   },
   "pl": true
 }

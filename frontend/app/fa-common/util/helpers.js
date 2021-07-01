@@ -44,7 +44,6 @@ define([
       file: file,
       name: name,
       property: property,
-      help: true,
       required: false,
       style: ''
     }, options, {
@@ -195,6 +194,78 @@ define([
     return '<ul><li>' + items.join('<li>') + '</ul>';
   }
 
+  function transactionsProp(view, options)
+  {
+    return _.assign({
+      id: '!transactions',
+      value: transactions => transactionsList(view, transactions, options && options.forceList)
+    }, options);
+  }
+
+  function transactionsList(view, transactions, force)
+  {
+    const rows = transactions.map(t =>
+    {
+      return `
+<tr>
+  <td class="is-min text-fixed">${t.type}
+  <td class="is-min text-right">${t.amount1}
+  <td class="is-min text-right">${t.amount2}
+`;
+    });
+
+    if (!force && rows.length === 0)
+    {
+      return '';
+    }
+
+    return `
+<table class="table table-condensed table-bordered" style="width: auto">
+<thead>
+<tr>
+<th class="is-min">${view.t('PROPERTY:transactions.type')}
+<th class="is-min">${view.t('PROPERTY:transactions.amount1')}
+<th class="is-min">${view.t('PROPERTY:transactions.amount2')}
+<tbody>
+${rows.join('')}
+</table>`;
+  }
+
+  function assetsProp(view, options)
+  {
+    return _.assign({
+      id: '!assets',
+      value: assets => assetsList(view, assets, options && options.forceList)
+    }, options);
+  }
+
+  function assetsList(view, assets, force)
+  {
+    const rows = assets.map(a =>
+    {
+      return `
+<tr>
+  <td class="is-min text-fixed">${a.no}
+  <td class="is-min text-fixed">${a.transactionType}
+`;
+    });
+
+    if (!force && rows.length === 0)
+    {
+      return '';
+    }
+
+    return `
+<table class="table table-condensed table-bordered" style="width: auto">
+<thead>
+<tr>
+<th class="is-min">${view.t('PROPERTY:assets.no')}
+<th class="is-min">${view.t('PROPERTY:assets.transactionType')}
+<tbody>
+${rows.join('')}
+</table>`;
+  }
+
   return {
     extend: function(view)
     {
@@ -208,17 +279,25 @@ define([
             attachmentProp: attachmentProp.bind(null, view),
             committeeProp: committeeProp.bind(null, view),
             zplxProp: zplxProp.bind(null, view),
-            zplxList: zplxList.bind(null, view)
+            zplxList: zplxList.bind(null, view),
+            transactionsProp: transactionsProp.bind(null, view),
+            transactionsList: transactionsList.bind(null, view),
+            assetsProp: assetsProp.bind(null, view),
+            assetsList: assetsList.bind(null, view)
           }
         });
       };
 
       return view;
     },
-    attachmentFormGroup: attachmentFormGroup,
-    attachmentProp: attachmentProp,
-    committeeProp: committeeProp,
-    zplxProp: zplxProp,
-    zplxList: zplxList
+    attachmentFormGroup,
+    attachmentProp,
+    committeeProp,
+    zplxProp,
+    zplxList,
+    transactionsProp,
+    transactionsList,
+    assetsProp,
+    assetsList
   };
 });

@@ -1,0 +1,11 @@
+<tr>
+  <td class="is-min"><input type="text" class="form-control text-fixed" name="cells[<%- i %>].target" value="<%= cell.target %>"></td>
+  <td><input type="text" class="form-control text-fixed" name="cells[<%- i %>].value" value="<%= cell.value %>"></td>
+  <td class="actions">
+    <div class="actions-group">
+      <button data-action="moveCellUp" type="button" class="btn btn-default"><i class="fa fa-arrow-up"></i></button>
+      <button data-action="moveCellDown" type="button" class="btn btn-default"><i class="fa fa-arrow-down"></i></button>
+      <button data-action="removeCell" type="button" class="btn btn-default"><i class="fa fa-times"></i></button>
+    </div>
+  </td>
+</tr>

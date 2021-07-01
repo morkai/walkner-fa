@@ -21,7 +21,7 @@ define([
 
   return FormView.extend({
 
-    template: template,
+    template,
 
     localTopics: {
       'user.reloaded': 'render'
@@ -29,13 +29,12 @@ define([
 
     remoteTopics: function()
     {
-      var topics = {};
-      var prefix = this.model.getTopicPrefix();
+      const prefix = this.model.getTopicPrefix();
 
-      topics[prefix + '.updated.' + this.model.id] = 'onUpdated';
-      topics[prefix + '.deleted'] = 'onDeleted';
-
-      return topics;
+      return {
+        [`${prefix}.updated.${this.model.id}`]: 'onUpdated',
+        [`${prefix}.deleted`]: 'onDeleted'
+      };
     },
 
     events: Object.assign({
@@ -50,7 +49,7 @@ define([
 
       'click a[data-action]': function(e)
       {
-        var parentAction = this.$(e.target).closest('.btn-group').find('.dropdown-toggle[value]')[0];
+        const parentAction = this.$(e.target).closest('.btn-group').find('.dropdown-toggle[value]')[0];
 
         this.handleFormAction(
           e.currentTarget.dataset.action,
@@ -90,8 +89,8 @@ define([
 
       'change input[type="file"]': function(e)
       {
-        var inputEl = e.currentTarget;
-        var error = '';
+        const inputEl = e.currentTarget;
+        let error = '';
 
         if (inputEl.files.length && inputEl.files[0].size > window.FA_ATTACHMENT_MAX_SIZE)
         {
@@ -123,32 +122,31 @@ define([
 
     serializeFormActions: function()
     {
-      var view = this;
-      var stage = view.model.get('stage');
+      const stage = this.model.get('stage');
 
-      return (this.stageView ? this.stageView.getFormActions() : []).map(function(action)
+      return (this.stageView ? this.stageView.getFormActions() : []).map(action =>
       {
         if (!action.label)
         {
-          action.label = view.t.has('FORM:ACTION:' + stage + ':' + action.id)
-            ? view.t('FORM:ACTION:' + stage + ':' + action.id)
-            : view.t('FORM:ACTION:' + action.id);
+          action.label = this.t.has(`FORM:ACTION:${stage}:${action.id}`)
+            ? this.t(`FORM:ACTION:${stage}:${action.id}`)
+            : this.t(`FORM:ACTION:${action.id}`);
         }
 
         if (!action.title)
         {
-          var data = {
-            kind: view.model.get('kind')
+          const data = {
+            kind: this.model.get('kind')
           };
 
-          action.title = view.t.has('FORM:ACTION:' + stage + ':' + action.id + ':title')
-            ? view.t('FORM:ACTION:' + stage + ':' + action.id + ':title', data)
-            : view.t.has('FORM:ACTION:' + action.id + ':title')
-              ? view.t('FORM:ACTION:' + action.id + ':title', data)
+          action.title = this.t.has(`FORM:ACTION:${stage}:${action.id}:title`)
+            ? this.t(`FORM:ACTION:${stage}:${action.id}:title`, data)
+            : this.t.has(`FORM:ACTION:${action.id}:title`)
+              ? this.t(`FORM:ACTION:${action.id}:title`, data)
               : '';
         }
 
-        action.actions = (action.actions || []).map(function(subAction)
+        action.actions = (action.actions || []).map(subAction =>
         {
           if (typeof subAction === 'string')
           {
@@ -157,9 +155,9 @@ define([
 
           if (!subAction.label)
           {
-            subAction.label = view.t.has('FORM:ACTION:' + stage + ':' + action.id + ':' + subAction.id)
-              ? view.t('FORM:ACTION:' + stage + ':' + action.id + ':' + subAction.id)
-              : view.t('FORM:ACTION:' + action.id + ':' + subAction.id);
+            subAction.label = this.t.has(`FORM:ACTION:${stage}:${action.id}:${subAction.id}`)
+              ? this.t(`FORM:ACTION:${stage}:${action.id}:${subAction.id}`)
+              : this.t(`FORM:ACTION:${action.id}:${subAction.id}`);
           }
 
           return subAction;
@@ -186,14 +184,14 @@ define([
 
     getTabs: function()
     {
-      var tabs = Object.keys(stages);
+      const tabs = Object.keys(stages);
 
-      return this.model.get('protocolNeeded') ? tabs : tabs.slice(2);
+      return this.model.get('protocolNeeded') ? tabs : tabs.slice(1);
     },
 
     beforeRender: function()
     {
-      var StageView = this.getStages()[this.model.get('stage')];
+      const StageView = this.getStages()[this.model.get('stage')];
 
       if (!StageView)
       {
@@ -208,7 +206,8 @@ define([
       this.newStage = !!this.stageView;
 
       this.stageView = new StageView({
-        model: this.model
+        model: this.model,
+        formView: this
       });
 
       this.setView('#-stage', this.stageView);
@@ -220,11 +219,11 @@ define([
 
       this.handleNextRequest = null;
 
-      var $tabs = this.$id('tabs');
+      const $tabs = this.$id('tabs');
 
       if ($tabs[0].scrollWidth > $tabs[0].clientWidth)
       {
-        var $active = $tabs.find('.is-active');
+        const $active = $tabs.find('.is-active');
 
         $tabs[0].scrollLeft = $active[0].offsetLeft - ($tabs.outerWidth() - $active.outerWidth()) / 2;
       }
@@ -245,7 +244,7 @@ define([
 
     toggleActionsVisibility: function()
     {
-      var canEdit = this.model.canEdit();
+      const canEdit = this.model.canEdit();
 
       this.$('.panel-footer').toggleClass('hidden', !canEdit);
 
@@ -268,7 +267,7 @@ define([
 
     serializeToForm: function()
     {
-      var formData = this.model.serializeForm();
+      const formData = this.model.serializeForm();
 
       delete formData.comment;
 
@@ -289,7 +288,7 @@ define([
         options = {};
       }
 
-      var toggleRequired = options.toggleRequired !== false;
+      const toggleRequired = options.toggleRequired !== false;
 
       clearTimeout(this.timers.toggleRequired);
       clearTimeout(this.timers.toggleSelect2Validity);
@@ -309,7 +308,7 @@ define([
 
     toggleRequired: function(required)
     {
-      var view = this;
+      const view = this;
 
       view.$('[data-required]').each(function()
       {
@@ -318,9 +317,9 @@ define([
 
       view.$('input[data-maxlength]').each(function()
       {
-        var limits = this.dataset.maxlength.split(' ');
-        var maxLength = limits[1];
-        var error = '';
+        const limits = this.dataset.maxlength.split(' ');
+        let maxLength = limits[1];
+        let error = '';
 
         if (required)
         {
@@ -386,28 +385,26 @@ define([
 
       this.$('.panel-footer').find('.btn').prop('disabled', true);
 
-      var files = this.$('input[type="file"]').filter(function() { return !!this.value; }).get();
+      const files = this.$('input[type="file"]').filter(function() { return !!this.value; }).get();
 
       this.uploadNextFile(files, arguments);
     },
 
     uploadNextFile: function(files, submitArgs)
     {
-      var view = this;
-
       if (files.length === 0)
       {
-        FormView.prototype.submitRequest.apply(view, submitArgs);
+        FormView.prototype.submitRequest.apply(this, submitArgs);
 
         return;
       }
 
-      var file = files.shift();
-      var formData = new FormData();
+      const file = files.shift();
+      const formData = new FormData();
 
       formData.append('file', file.files[0]);
 
-      var req = view.ajax({
+      const req = this.ajax({
         type: 'POST',
         url: '/fa/attachments;upload',
         data: formData,
@@ -415,12 +412,12 @@ define([
         contentType: false
       });
 
-      req.fail(view.handleFailure.bind(view));
+      req.fail(this.handleFailure.bind(this));
 
-      req.done(function(attachment)
+      req.done(attachment =>
       {
-        view.model.set(file.name, attachment);
-        view.uploadNextFile(files, submitArgs);
+        this.model.set(file.name, attachment);
+        this.uploadNextFile(files, submitArgs);
       });
     },
 
@@ -444,13 +441,21 @@ define([
         this.handleNextRequest = null;
       }
 
-      var newStage = this.model.get('stage');
-      var cancelled = newStage === 'cancelled';
-      var record = this.oldStage === 'record' && newStage === this.oldStage;
-      var finished = this.oldStage === 'finished' && newStage === this.oldStage;
-      var finishing = this.oldStage === 'record' && newStage === 'finished';
+      const newStage = this.model.get('stage');
+      const cancelled = newStage === 'cancelled';
+      const finished = this.oldStage === 'finished' && newStage === this.oldStage;
+      const finishing = this.oldStage === 'record' && newStage === 'finished';
 
-      if (!this.model.canEdit() || cancelled || record || finished || finishing)
+      if (this.dontRedirectAfterSubmit)
+      {
+        this.dontRedirectAfterSubmit = false;
+
+        this.render();
+
+        return;
+      }
+
+      if (!this.model.canEdit() || cancelled || finished || finishing)
       {
         FormView.prototype.handleSuccess.apply(this, arguments);
       }
@@ -491,11 +496,11 @@ define([
         return;
       }
 
-      var data = Object.assign(
+      const data = Object.assign(
         {changes: this.model.get('changes').concat([message.change])},
         message.values
       );
-      var anyPropChanged = false;
+      let anyPropChanged = false;
 
       _.forEach(message.change.data, function(value, prop)
       {
@@ -541,16 +546,11 @@ define([
 
     handleNewStageAction: function(newStage, options)
     {
-      var view = this;
+      this.model.set('newStage', newStage);
 
-      view.model.set('newStage', newStage);
+      this.handleNextRequest = () => this.model.set('newStage', null);
 
-      view.handleNextRequest = function()
-      {
-        view.model.set('newStage', null);
-      };
-
-      view.submit(options && options.submit || {});
+      this.submit(options && options.submit || {});
     },
 
     handleCancelAction: function(formView)
@@ -562,10 +562,7 @@ define([
 
       this.model.set('newStage', 'cancelled');
 
-      formView.handleNextRequest = function()
-      {
-        formView.model.set('newStage', null);
-      };
+      formView.handleNextRequest = () => formView.model.set('newStage', null);
 
       formView.submit({toggleRequired: false});
     },
@@ -582,7 +579,7 @@ define([
 
     requireComment: function()
     {
-      var $comment = this.stageView.$id('comment').removeClass('highlight-error');
+      const $comment = this.stageView.$id('comment').removeClass('highlight-error');
 
       if ($comment.length && $comment.val().trim().length === 0)
       {

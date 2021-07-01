@@ -13,59 +13,54 @@ define([
 
   return StageView.extend({
 
-    template: template,
+    template,
 
     updateOnChange: false,
 
     initialize: function()
     {
-      var view = this;
+      StageView.prototype.initialize.apply(this, arguments);
 
-      StageView.prototype.initialize.apply(view, arguments);
-
-      view.valueViews = {
+      this.valueViews = {
         initialValue: new ValueInputView({
           property: 'initialValue',
-          model: view.model
+          model: this.model
         }),
         deprecationValue: new ValueInputView({
           property: 'deprecationValue',
-          required: false,
-          model: view.model
+          model: this.model
         }),
         netValue: new ValueInputView({
           property: 'netValue',
           readOnly: true,
           required: false,
-          model: view.model
+          model: this.model
         }),
         economicInitialValue: new ValueInputView({
           property: 'economicInitialValue',
-          required: true,
-          model: view.model
+          model: this.model
         }),
         economicDeprecationValue: new ValueInputView({
           property: 'economicDeprecationValue',
-          required: false,
-          model: view.model
+          model: this.model
         }),
         economicNetValue: new ValueInputView({
           property: 'economicNetValue',
           readOnly: true,
           required: false,
-          model: view.model
+          model: this.model
         })
       };
 
-      Object.keys(view.valueViews).forEach(function(prop)
+      Object.keys(this.valueViews).forEach(prop =>
       {
-        view.setView('#-' + prop, view.valueViews[prop]);
+        this.setView(`#-${prop}`, this.valueViews[prop]);
       });
 
-      view.listenTo(view.valueViews.initialValue, 'change', view.updateFiscalNetValue);
-      view.listenTo(view.valueViews.deprecationValue, 'change', view.updateFiscalNetValue);
-      view.listenTo(view.valueViews.economicInitialValue, 'change', view.updateEconomicNetValue);
-      view.listenTo(view.valueViews.economicDeprecationValue, 'change', view.updateEconomicNetValue);
+      this.listenTo(this.valueViews.initialValue, 'change', this.updateFiscalNetValue);
+      this.listenTo(this.valueViews.deprecationValue, 'change', this.updateFiscalNetValue);
+      this.listenTo(this.valueViews.economicInitialValue, 'change', this.updateEconomicNetValue);
+      this.listenTo(this.valueViews.economicDeprecationValue, 'change', this.updateEconomicNetValue);
     },
 
     getTemplateData: function()
@@ -135,11 +130,9 @@ define([
 
     serializeToForm: function(formData)
     {
-      var view = this;
-
-      Object.keys(view.valueViews).forEach(function(prop)
+      Object.keys(this.valueViews).forEach(prop =>
       {
-        view.valueViews[prop].serializeToForm(formData);
+        this.valueViews[prop].serializeToForm(formData);
       });
 
       return formData;
@@ -147,16 +140,14 @@ define([
 
     serializeForm: function(formData)
     {
-      var view = this;
-      var data = {
-        comment: (formData.comment || '').trim(),
+      const data = {
         assetName: (formData.assetName || '').trim(),
-        sapNo: (formData.sapNo || '').trim()
+        comment: (formData.comment || '').trim()
       };
 
-      Object.keys(view.valueViews).forEach(function(prop)
+      Object.keys(this.valueViews).forEach(prop =>
       {
-        view.valueViews[prop].serializeForm(data);
+        this.valueViews[prop].serializeForm(data);
       });
 
       return data;
@@ -164,7 +155,7 @@ define([
 
     updateFiscalNetValue: function()
     {
-      var formData = {};
+      const formData = {};
 
       this.valueViews.initialValue.serializeForm(formData);
       this.valueViews.deprecationValue.serializeForm(formData);
@@ -173,7 +164,7 @@ define([
 
     updateEconomicNetValue: function()
     {
-      var formData = {};
+      const formData = {};
 
       this.valueViews.economicInitialValue.serializeForm(formData);
       this.valueViews.economicDeprecationValue.serializeForm(formData);

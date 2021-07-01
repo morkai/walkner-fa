@@ -15,28 +15,24 @@
     {id: 'cause', valueClassName: 'text-lines'}
   ]) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-assetName" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
-    <input id="<%- idPrefix %>-assetName" name="assetName" class="form-control fa-edit-long" type="text" data-required data-maxlength="50 200">
+    <label for="<%- id('assetName') %>" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
+    <input id="<%- id('assetName') %>" name="assetName" class="form-control fa-edit-long" type="text" data-required data-maxlength="50 200">
   </div>
   <div class="fa-edit-row">
-    <div id="<%- idPrefix %>-initialValue" style="margin: 0 15px 15px 0"></div>
-    <div id="<%- idPrefix %>-economicInitialValue" style="margin-bottom: 15px"></div>
+    <div id="<%- id('initialValue') %>" style="margin-right: 15px"></div>
+    <div id="<%- id('economicInitialValue') %>"></div>
   </div>
   <div class="fa-edit-row">
-    <div id="<%- idPrefix %>-deprecationValue" style="margin: 0 15px 15px 0"></div>
-    <div id="<%- idPrefix %>-economicDeprecationValue" style="margin-bottom: 15px"></div>
+    <div id="<%- id('deprecationValue') %>" style="margin-right: 15px"></div>
+    <div id="<%- id('economicDeprecationValue') %>"></div>
   </div>
   <div class="fa-edit-row">
-    <div id="<%- idPrefix %>-netValue" style="margin: 0 15px 15px 0"></div>
-    <div id="<%- idPrefix %>-economicNetValue" style="margin-bottom: 15px"></div>
-  </div>
-  <div class="form-group">
-    <label for="<%- idPrefix %>-sapNo" class="control-label is-required"><%- t('PROPERTY:sapNo') %></label>
-    <input id="<%- idPrefix %>-sapNo" name="sapNo" class="form-control fa-edit-short" type="text" data-required maxlength="50">
+    <div id="<%- id('netValue') %>" style="margin-right: 15px"></div>
+    <div id="<%- id('economicNetValue') %>"></div>
   </div>
   <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
-    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+    <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- id('comment') %>" class="form-control" name="comment" rows="3"></textarea>
   </div>
 </div>

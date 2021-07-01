@@ -21,7 +21,7 @@ define([
 ) {
   'use strict';
 
-  var STAGE_TO_CLASS_NAME = {
+  const STAGE_TO_CLASS_NAME = {
     protocol: 'info',
     authorize: 'info',
     document: 'info',
@@ -31,9 +31,16 @@ define([
     finished: '',
     cancelled: 'danger'
   };
-  var VALUE_PROPS = [
-    'value',
-    'fiscalValue'
+  const VALUE_PROPS = [
+    'value'
+  ];
+  const DATE_PROPS = [
+    'protocolDate',
+    'documentDate',
+    'postingDate',
+    'economicDate',
+    'fiscalDate',
+    'taxDate'
   ];
 
   return Model.extend({
@@ -57,20 +64,17 @@ define([
 
     serialize: function()
     {
-      var obj = this.toJSON();
+      const obj = this.toJSON();
 
       obj.className = STAGE_TO_CLASS_NAME[obj.stage] || {};
       obj.url = this.url();
       obj.no = this.getLabel();
-      obj.stage = t(this.nlsDomain, 'stage:' + obj.stage);
+      obj.stage = t(this.nlsDomain, `stage:${obj.stage}`);
       obj.date = time.utc.format(obj.date, 'L');
 
-      VALUE_PROPS.forEach(function(prop)
+      VALUE_PROPS.forEach(prop =>
       {
-        obj[prop] = (obj[prop] || 0).toLocaleString('pl-PL', {
-          style: 'currency',
-          currency: 'PLN'
-        });
+        obj[prop] = dictionaries.currencyFormatter.format(obj[prop] || 0);
       });
 
       return obj;
@@ -78,7 +82,11 @@ define([
 
     serializeRow: function()
     {
-      var obj = this.serialize();
+      const obj = this.serialize();
+
+      obj.commissioningType = obj.commissioningType
+        ? t(this.nlsDomain, `commissioningType:short:${obj.commissioningType}`)
+        : '';
 
       if (obj.zplx.length > 1)
       {
@@ -98,40 +106,49 @@ define([
 
     serializeDetails: function()
     {
-      var obj = this.serialize();
-      var protocolNeeded = obj.protocolNeeded;
+      const obj = this.serialize();
+      const protocolNeeded = obj.protocolNeeded;
 
-      obj.protocolDate = obj.protocolDate ? time.utc.format(obj.protocolDate, 'LL') : '';
-      obj.documentDate = obj.documentDate ? time.utc.format(obj.documentDate, 'LL') : '';
-      obj.protocolNeeded = t(this.nlsDomain, 'protocolNeeded:' + protocolNeeded);
+      DATE_PROPS.forEach(prop =>
+      {
+        obj[prop] = obj[prop] ? time.utc.format(obj[prop], 'LL') : '';
+      });
+
+      obj.protocolNeeded = t(this.nlsDomain, `protocolNeeded:${protocolNeeded}`);
+      obj.extendedDep = t(this.nlsDomain, `extendedDep:${obj.extendedDep}`);
       obj.commissioningType = obj.commissioningType
-        ? t(this.nlsDomain, 'commissioningType:' + obj.commissioningType)
+        ? t(this.nlsDomain, `commissioningType:${obj.commissioningType}`)
         : '';
-      obj.usageDestination = t(this.nlsDomain, 'usageDestination:' + obj.usageDestination);
-      obj.owner = userInfoTemplate({userInfo: obj.owner});
-      obj.committee = obj.committee.map(function(userInfo) { return userInfoTemplate({userInfo: userInfo}); });
-      obj.deprecationRate = obj.deprecationRate.toLocaleString() + '%';
+      obj.usageDestination = t(this.nlsDomain, `usageDestination:${obj.usageDestination}`);
+      obj.owner = userInfoTemplate(obj.owner);
+      obj.depRate = obj.depRate.toLocaleString() + '%';
 
-      obj.zplx = obj.zplx.map(function(zplx)
+      obj.zplx = obj.zplx.map(zplx =>
       {
         return {
           code: zplx.code,
-          value: !zplx.value ? '' : zplx.value.toLocaleString('pl-PL', {
-            style: 'currency',
-            currency: 'PLN'
-          }),
+          value: !zplx.value ? '' : dictionaries.currencyFormatter.format(zplx.value),
           auc: zplx.auc
         };
       });
 
-      var assetClass = dictionaries.assetClasses.get(obj.assetClass);
+      obj.transactions = obj.transactions.map(t =>
+      {
+        return {
+          type: t.type,
+          amount1: dictionaries.currencyFormatter.format(t.amount1),
+          amount2: dictionaries.currencyFormatter.format(t.amount2)
+        };
+      });
+
+      const assetClass = dictionaries.assetClasses.get(obj.assetClass);
 
       if (assetClass)
       {
         obj.assetClass = assetClass.getLabel();
       }
 
-      var costCenter = dictionaries.costCenters.get(obj.costCenter);
+      const costCenter = dictionaries.costCenters.get(obj.costCenter);
 
       if (costCenter)
       {
@@ -140,30 +157,31 @@ define([
 
       obj.economicPeriod = formatPeriod(obj.economicPeriod);
       obj.fiscalPeriod = formatPeriod(obj.fiscalPeriod);
+      obj.taxPeriod = formatPeriod(obj.taxPeriod);
 
       obj.stages = {
         created: {
-          who: userInfoTemplate({userInfo: obj.createdBy}),
+          who: userInfoTemplate(obj.createdBy),
           when: time.format(obj.createdAt, 'LLLL')
         },
         updated: {
-          who: obj.updatedBy ? userInfoTemplate({userInfo: obj.updatedBy}) : null,
+          who: obj.updatedBy ? userInfoTemplate(obj.updatedBy) : null,
           when: obj.updatedAt ? time.format(obj.updatedAt, 'LLLL') : null
         }
       };
 
-      Object.keys(obj.stageChangedBy).forEach(function(stage, i)
+      Object.keys(obj.stageChangedBy).forEach((stage, i) =>
       {
         if (!protocolNeeded && i < 2)
         {
           return;
         }
 
-        var who = obj.stageChangedBy[stage];
-        var when = obj.stageChangedAt[stage];
+        const who = obj.stageChangedBy[stage];
+        const when = obj.stageChangedAt[stage];
 
         obj.stages[stage] = {
-          who: who ? userInfoTemplate({userInfo: who}) : null,
+          who: who ? userInfoTemplate(who) : null,
           when: when ? time.format(when, 'LLLL') : null
         };
       });
@@ -185,11 +203,14 @@ define([
 
     serializeForm: function()
     {
-      var obj = this.toJSON();
+      const obj = this.toJSON();
 
       obj.no = this.getLabel();
-      obj.protocolDate = obj.protocolDate ? time.utc.format(obj.protocolDate, 'YYYY-MM-DD') : '';
-      obj.documentDate = obj.documentDate ? time.utc.format(obj.documentDate, 'YYYY-MM-DD') : '';
+
+      DATE_PROPS.forEach(prop =>
+      {
+        obj[prop] = obj[prop] ? time.utc.format(obj[prop], 'YYYY-MM-DD') : '';
+      });
 
       return obj;
     },
@@ -272,7 +293,6 @@ define([
 
     STATUSES: [
       'protocol',
-      'authorize',
       'document',
       'verify',
       'accept',

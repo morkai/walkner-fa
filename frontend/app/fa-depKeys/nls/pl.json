@@ -1,0 +1,10 @@
+{
+  "BREADCRUMB:browse": "Klucze amortyzacji",
+
+  "PROPERTY:active": "Aktywny?",
+  "PROPERTY:_id": "Klucz",
+  "PROPERTY:name": "Nazwa",
+  "PROPERTY:percent": "Procent",
+  "PROPERTY:years": "Użyteczne lata",
+  "PROPERTY:months": "Użyteczne miesiące"
+}

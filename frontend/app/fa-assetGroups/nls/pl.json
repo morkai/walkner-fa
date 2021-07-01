@@ -1,0 +1,10 @@
+{
+  "BREADCRUMB:browse": "Grupy ŚT",
+
+  "PROPERTY:active": "Aktywna?",
+  "PROPERTY:evalGroup1": "Grupa wyceny",
+  "PROPERTY:evalGroup5": "KŚT",
+  "PROPERTY:depRate": "Stopa amortyzacji",
+  "PROPERTY:depKey": "Klucz amortyzacji",
+  "PROPERTY:assetClass": "Klasa ŚT"
+}

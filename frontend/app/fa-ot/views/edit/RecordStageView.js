@@ -73,8 +73,9 @@ define([
     serializeForm: function(formData)
     {
       return {
-        sapNo: (formData.sapNo || '').trim(),
+        assetNo: (formData.assetNo || '').trim(),
         accountingNo: (formData.accountingNo || '').trim(),
+        odwNo: (formData.odwNo || '').trim(),
         comment: (formData.comment || '').trim()
       };
     }

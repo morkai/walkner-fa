@@ -21,18 +21,35 @@
     'economicInitialValue',
     'economicDeprecationValue',
     'economicNetValue',
-    {id: 'sapNo', valueClassName: 'text-fixed'},
+    helpers.fa.assetsProp(),
+    {id: 'subAssetNo', valueClassName: 'text-fixed'},
+    'postingDate',
+    'valuationDate',
     {id: 'buyerName', visible: model.kind === 'sale'},
     {id: 'buyerAddress', visible: model.kind === 'sale', valueClassName: 'text-lines'},
-    {id: 'saleValue', visible: model.kind === 'sale'}
+    {id: 'saleValue', visible: model.kind === 'sale'},
+    {id: 'tplNotes', valueClassName: 'text-lines'},
+    helpers.fa.attachmentProp({name: 'handover', visible: model.kind === 'sale'}),
+    helpers.fa.attachmentProp({name: 'hrt'})
   ]) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-accountingNo" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
-    <input id="<%- idPrefix %>-accountingNo" name="accountingNo" class="form-control fa-edit-short" type="text" data-required maxlength="50">
+    <label for="<%- id('accountingNo') %>" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
+    <input id="<%- id('accountingNo') %>" name="accountingNo" class="form-control fa-edit-short" type="text" data-required maxlength="50">
   </div>
-  <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
-    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+    <label for="<%- id('odwNo') %>" class="control-label is-required"><%- t('PROPERTY:odwNo') %></label>
+    <input id="<%- id('odwNo') %>" name="odwNo" class="form-control fa-edit-short" type="text" data-required maxlength="50">
+  </div>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'invoice',
+    required: false,
+    visible: model.kind === 'sale'
+  }) %>
+  <%- helpers.fa.attachmentFormGroup({
+    name: 'attachment'
+  }) %>
+  <div class="form-group">
+    <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- id('comment') %>" class="form-control" name="comment" rows="3"></textarea>
   </div>
 </div>

@@ -25,44 +25,25 @@ define([
 ) {
   'use strict';
 
-  var FILTER_LIST = [
-    'stage',
-    'sapNo',
-    'assetName',
-    'inventoryNo',
-    'value',
-    'costCenter',
-    'zplx',
-    'limit'
-  ];
-  var FILTER_MAP = {
-
-  };
-
   return FilterView.extend({
 
-    template: template,
+    template,
 
-    events: _.assign({
+    filterList: [
+      'stage',
+      'assetNo',
+      'assetName',
+      'inventoryNo',
+      'value',
+      'costCenter',
+      'zplx',
+      'limit'
+    ],
+    filterMap: {},
 
-      'click a[data-date-time-range]': dateTimeRange.handleRangeEvent,
+    events: Object.assign({
 
-      'click a[data-filter]': function(e)
-      {
-        e.preventDefault();
-
-        this.showFilter(e.currentTarget.dataset.filter);
-      },
-
-      'click #-reset': 'resetFilters',
-
-      'keydown input, select': function(e)
-      {
-        if (e.key === 'Escape')
-        {
-          this.resetFilter(this.$(e.target));
-        }
-      }
+      'click a[data-date-time-range]': dateTimeRange.handleRangeEvent
 
     }, FilterView.prototype.events),
 
@@ -72,21 +53,21 @@ define([
 
     termToForm: {
       'date': dateTimeRange.rqlToForm,
-      'sapNo': function(propertyName, term, formData)
+      'assetNo': function(propertyName, term, formData)
       {
         formData[propertyName] = term.args[1];
       },
-      'assetName': 'sapNo',
-      'inventoryNo': 'sapNo',
-      'costCenter': 'sapNo',
-      'zplx.code': 'sapNo',
+      'assetName': 'assetNo',
+      'inventoryNo': 'assetNo',
+      'costCenter': 'assetNo',
+      'zplx.code': 'assetNo',
       'stage': function(propertyName, term, formData)
       {
         formData[propertyName] = term.name === 'in' ? term.args[1] : [term.args[1]];
       },
       'value': function(propertyName, term, formData)
       {
-        var operators = {
+        const operators = {
           eq: '',
           ne: '<>',
           gt: '>',
@@ -101,20 +82,18 @@ define([
 
     serializeFormToQuery: function(selector)
     {
-      var view = this;
+      dateTimeRange.formToRql(this, selector);
 
-      dateTimeRange.formToRql(view, selector);
-
-      var stage = (view.$id('stage').val() || []).filter(function(v) { return !_.isEmpty(v); });
+      const stage = (this.$id('stage').val() || []).filter(v => !_.isEmpty(v));
 
       if (stage.length)
       {
         selector.push({name: 'in', args: ['stage', stage]});
       }
 
-      ['sapNo', 'assetName', 'inventoryNo', 'costCenter'].forEach(function(prop)
+      ['assetNo', 'assetName', 'inventoryNo', 'costCenter'].forEach(prop =>
       {
-        var value = view.$id(prop).val().trim();
+        const value = this.$id(prop).val().trim();
 
         if (value.length)
         {
@@ -122,12 +101,12 @@ define([
         }
       });
 
-      var value = view.$id('value').val().trim();
+      const value = this.$id('value').val().trim();
 
       if (value.length)
       {
-        var matches = value.match(new RegExp('(' + ['<>', '>=', '<=', '>', '<'].join('|') + ')'));
-        var operators = {
+        const matches = value.match(new RegExp('(' + ['<>', '>=', '<=', '>', '<'].join('|') + ')'));
+        const operators = {
           '<>': 'ne',
           '>': 'gt',
           '<': 'lt',
@@ -141,26 +120,12 @@ define([
         });
       }
 
-      var zplx = padString.start(this.$id('zplx').val().trim().replace(/^0+/, ''), 8, '0');
+      const zplx = padString.start(this.$id('zplx').val().trim().replace(/^0+/, ''), 8, '0');
 
       if (zplx !== '00000000' && /^[0-9]{8}$/.test(zplx))
       {
         selector.push({name: 'eq', args: ['zplx.code', zplx]});
       }
-    },
-
-    changeFilter: function()
-    {
-      FilterView.prototype.changeFilter.apply(this, arguments);
-
-      this.toggleFilters();
-    },
-
-    getTemplateData: function()
-    {
-      return {
-        filters: FILTER_LIST
-      };
     },
 
     afterRender: function()
@@ -175,29 +140,6 @@ define([
         allowClear: true,
         data: dictionaries.costCenters.map(idAndLabel)
       });
-
-      this.toggleFilters();
-    },
-
-    toggleFilters: function()
-    {
-      var view = this;
-
-      FILTER_LIST.forEach(function(filter)
-      {
-        view.$('.form-group[data-filter="' + filter + '"]').toggleClass('hidden', !view.filterHasValue(filter));
-      });
-    },
-
-    filterHasValue: function(filter)
-    {
-      var $filter = this.$id(filter);
-
-      var value = $filter.hasClass('btn-group')
-        ? $filter.find('.active > input').val()
-        : $filter.val();
-
-      return !!value && value.length > 0;
     },
 
     showFilter: function(filter)
@@ -216,33 +158,12 @@ define([
         return;
       }
 
-      this.$('.form-group[data-filter="' + (FILTER_MAP[filter] || filter) + '"]')
-        .removeClass('hidden')
-        .find('input, select')
-        .first()
-        .focus();
-    },
-
-    resetFilters: function()
-    {
-      var view = this;
-
-      view.$('.form-group').each(function()
-      {
-        view.resetFilter($(this).find('input, select').first());
-      });
-
-      view.$id('submit').click();
+      return FilterView.prototype.showFilter.apply(this, arguments);
     },
 
     resetFilter: function($el)
     {
-      var name = $el.prop('name');
-
-      if (name === 'limit')
-      {
-        return;
-      }
+      const name = $el.prop('name');
 
       if (name === 'from-date' || name === 'to-date')
       {
@@ -255,11 +176,13 @@ define([
       if ($el.hasClass('select2-focusser'))
       {
         $el.closest('.select2-container').next().select2('data', null);
+
+        return;
       }
-      else
-      {
-        $el.val('');
-      }
+
+      $el.val('');
+
+      FilterView.prototype.resetFilter.apply(this, arguments);
     }
 
   });

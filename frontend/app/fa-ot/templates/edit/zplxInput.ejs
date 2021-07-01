@@ -1,13 +1,13 @@
-<div class="form-group" style="margin-bottom: 15px">
+<div class="form-group" style="margin-bottom: <%- multiple ? 5 : 15 %>px">
   <label class="control-label is-required"><%- t('PROPERTY:zplx') %></label>
   <div id="<%- id('zplx') %>" class="fa-edit-zplx-list">
     <% zplx.forEach(function(d, i) { %>
     <div class="fa-edit-zplx-item">
       <span class="fa-edit-zplx-prefix">ZPLX</span>
-      <input name="zplx[<%- i %>].code" class="form-control text-fixed fa-edit-zplx-code" type="text" value="" placeholder="00000000" maxlength="8" pattern="^[0-9]{8}$" <%- readOnly ? 'readonly' : '' %>>
+      <input name="zplx[<%- i %>].code" class="form-control text-fixed fa-edit-zplx-code" type="text" value="" placeholder="00000000" maxlength="8" pattern="^[0-9]{8}$" <%- readOnly ? 'readonly tabindex="-1"' : '' %>>
       <% if (value) { %>
       <span class="fa-edit-zplx-prefix"><%- t('fa-common', 'unit:currency') %></span>
-      <input name="zplx[<%- i %>].value" class="form-control fa-edit-zplx-value" type="text" value="" placeholder="0 000 000,00" <%- readOnly ? 'readonly' : '' %>>
+      <input name="zplx[<%- i %>].value" class="form-control fa-edit-zplx-value" type="text" value="" placeholder="0 000 000,00" <%- readOnly ? 'readonly tabindex="-1"' : '' %>>
       <% } %>
       <% if (auc) { %>
       <span class="fa-edit-zplx-prefix">AuC</span>
@@ -19,7 +19,7 @@
     </div>
     <% }) %>
   </div>
-  <% if (!readOnly) { %>
+  <% if (!readOnly && multiple) { %>
   <button class="btn btn-link" type="button" data-action="zplx:add"><i class="fa fa-plus"></i><span><%- t('FORM:edit:zplx:add') %></span></button>
   <% } %>
 </div>

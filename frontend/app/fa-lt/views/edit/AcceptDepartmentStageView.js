@@ -73,7 +73,7 @@ define([
     {
       if (action === 'accept')
       {
-        formView.handleNewStageAction('acceptDocument');
+        formView.handleNewStageAction('verifyDocument');
       }
       else if (action === 'reject')
       {

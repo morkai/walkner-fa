@@ -133,30 +133,9 @@ define([
 
     afterRender: function()
     {
-      this.setUpOwnerSelect2();
       this.setUpCostCenterSelect2();
+      this.setUpOwnerSelect2();
       this.zplxView.checkValidity();
-    },
-
-    setUpOwnerSelect2: function()
-    {
-      if (this.model.get('protocolNeeded'))
-      {
-        return;
-      }
-
-      var owner = this.model.get('owner');
-      var $owner = this.$id('owner');
-
-      setUpUserSelect2($owner);
-
-      if (owner)
-      {
-        $owner.select2('data', {
-          id: owner._id,
-          text: owner.label
-        });
-      }
     },
 
     setUpCostCenterSelect2: function()
@@ -189,6 +168,27 @@ define([
       });
     },
 
+    setUpOwnerSelect2: function()
+    {
+      if (this.model.get('protocolNeeded'))
+      {
+        return;
+      }
+
+      var owner = this.model.get('owner');
+      var $owner = this.$id('owner');
+
+      setUpUserSelect2($owner);
+
+      if (owner)
+      {
+        $owner.select2('data', {
+          id: owner._id,
+          text: owner.label
+        });
+      }
+    },
+
     serializeToForm: function(formData)
     {
       if (!formData.documentDate)
@@ -211,10 +211,11 @@ define([
 
     serializeForm: function(formData)
     {
-      var usageDestination = this.model.get('usageDestination');
-      var data = {
+      const data = {
         comment: (formData.comment || '').trim(),
-        documentDate: time.utc.getMoment(formData.documentDate, 'YYYY-MM-DD').toISOString(),
+        documentDate: formData.documentDate
+          ? time.utc.getMoment(formData.documentDate, 'YYYY-MM-DD').toISOString()
+          : null,
         assetName: (formData.assetName || '').trim(),
         supplier: (formData.supplier || '').trim(),
         costCenter: formData.costCenter || null,
@@ -228,11 +229,11 @@ define([
 
       if (this.model.get('protocolNeeded'))
       {
-        var costCenter = dictionaries.costCenters.get(data.costCenter);
+        const costCenter = dictionaries.costCenters.get(data.costCenter);
 
-        if (costCenter)
+        if (costCenter && !this.model.get('owner'))
         {
-          var owner = costCenter.get('owner');
+          const owner = costCenter.get('owner');
 
           if (owner)
           {
@@ -244,6 +245,8 @@ define([
       {
         data.owner = setUpUserSelect2.getUserInfo(this.$id('owner'));
       }
+
+      const usageDestination = this.model.get('usageDestination');
 
       if (usageDestination === 'factory')
       {

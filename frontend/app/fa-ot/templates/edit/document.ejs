@@ -2,12 +2,11 @@
   <%- helpers.props(details, [
     '!protocolNeeded',
     '!commissioningType',
+    {id: '!extendedDep', visible: model.commissioningType === 'inc-asset'},
     '!usageDestination',
     {id: 'protocolNo', visible: model.protocolNeeded, valueClassName: 'text-fixed'},
     {id: '!protocolDate', visible: model.protocolNeeded},
     {id: 'documentNo', valueClassName: 'text-fixed'},
-    {id: '!owner', visible: model.protocolNeeded},
-    helpers.fa.committeeProp({visible: model.protocolNeeded}),
     helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded}),
     helpers.fa.attachmentProp({name: 'photo', visible: model.protocolNeeded && model.commissioningType === 'new-asset'})
   ]) %>
@@ -38,7 +37,7 @@
     </div>
   </div>
   <div id="<%- id('zplx') %>"></div>
-  <div class="form-group fa-edit-long" style="margin-top: -10px">
+  <div class="form-group fa-edit-long">
     <label for="<%- id('supplier') %>" class="control-label <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'is-required' %>"><%- t('PROPERTY:supplier') %></label>
     <input id="<%- id('supplier') %>" name="supplier" class="form-control" type="text" <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'data-required' %> maxlength="200">
   </div>
@@ -67,26 +66,22 @@
   <% } %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'checklist',
-    help: false,
     required: true,
     accept: ['doc', 'img']
   }) %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'outlay',
-    help: false,
     required: true,
     accept: ['doc', 'img']
   }) %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'certificate',
-    help: false,
     required: true,
     visible: model.usageDestination === 'external-supplier',
     accept: ['doc', 'img']
   }) %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'nameplate',
-    help: false,
     visible: model.usageDestination === 'external-supplier',
     accept: ['doc', 'img']
   }) %>
@@ -97,13 +92,11 @@
   <% } %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'photo',
-    help: false,
     accept: 'img',
     visible: !model.protocolNeeded && model.commissioningType === 'new-asset'
   }) %>
   <%- helpers.fa.attachmentFormGroup({
-    name: 'attachment',
-    help: !!(model.checklistFile || model.outlayFile || model.certificateFile || model.nameplateFile || (!model.protocolNeeded && model.commissioningType === 'new-asset' && model.photoFile))
+    name: 'attachment'
   }) %>
   <div class="form-group">
     <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>

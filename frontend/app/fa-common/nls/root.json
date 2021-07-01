@@ -8,6 +8,12 @@
     "FORM:edit:committee:person": "{no}. committee member:",
     "FORM:edit:committee:add": "Add {count, plural, =0{a new} other{an another}} committee person",
     "FORM:edit:committee:remove": "Remove the selected committee person",
+    "FORM:edit:transactions:add": "Add an another operation",
+    "FORM:edit:transactions:remove": "Remove the selected operation",
+    "FORM:edit:transactions:invalid": "Please specify at least one valid operation.",
+    "FORM:edit:assets:add": "Add an another FA",
+    "FORM:edit:assets:remove": "Remove the selected FA",
+    "FORM:edit:assets:invalid": "Please specify at least one valid FA.",
 
     "changes:failure": "Commenting failed.",
     "changes:title": "Change history",

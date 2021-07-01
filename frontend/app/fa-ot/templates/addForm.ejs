@@ -4,31 +4,41 @@
     <div class="panel-heading"><%- panelTitleText %></div>
     <div class="panel-body">
       <div class="form-group">
-        <label for="<%- id('protocolNeeded') %>" class="control-label"><%- t('FORM:add:protocolNeeded') %></label>
+        <label for="<%- id('protocolNeeded-true') %>" class="control-label"><%- t('FORM:add:protocolNeeded') %></label>
         <% ['true', 'false'].forEach(function(v) { %>
         <br>
         <label class="radio-inline">
-          <input id="<%- id(`protocolNeeded-${v}`) %>" type="radio" name="protocolNeeded" value="<%- v %>" required>
+          <input id="<%- id(`protocolNeeded-${v}`) %>" type="radio" name="protocolNeeded" value="<%- v %>">
           <%- t(`protocolNeeded:${v}`) %>
         </label>
         <% }) %>
       </div>
       <div class="form-group">
-        <label for="<%- id('commissioningType') %>" class="control-label"><%- t('FORM:add:commissioningType') %></label>
+        <label for="<%- id('commissioningType-new-asset') %>" class="control-label"><%- t('FORM:add:commissioningType') %></label>
         <% ['new-asset', 'inc-asset'].forEach(v => { %>
         <br>
         <label class="radio-inline">
-          <input id="<%- id(`commissioningType-${v}`) %>" type="radio" name="commissioningType" value="<%- v %>" required>
+          <input id="<%- id(`commissioningType-${v}`) %>" type="radio" name="commissioningType" value="<%- v %>">
           <%- t(`commissioningType:${v}`) %>
         </label>
         <% }) %>
       </div>
+      <div id="<%- id('extendedDep') %>" class="form-group hidden">
+        <label for="<%- id('extendedDep-true') %>" class="control-label"><%- t('FORM:add:extendedDep') %></label>
+        <% ['true', 'false'].forEach(v => { %>
+        <br>
+        <label class="radio-inline">
+          <input id="<%- id(`extendedDep-${v}`) %>" type="radio" name="extendedDep" value="<%- v %>">
+          <%- t(`extendedDep:${v}`) %>
+        </label>
+        <% }) %>
+      </div>
       <div class="form-group">
-        <label for="<%- id('usageDestination') %>" class="control-label"><%- t('FORM:add:usageDestination') %></label>
+        <label for="<%- id('usageDestination-factory') %>" class="control-label"><%- t('FORM:add:usageDestination') %></label>
         <% ['factory', 'external-supplier'].forEach(v => { %>
         <br>
         <label class="radio-inline">
-          <input id="<%- id(`usageDestination-${v}`) %>" type="radio" name="usageDestination" value="<%- v %>" required>
+          <input id="<%- id(`usageDestination-${v}`) %>" type="radio" name="usageDestination" value="<%- v %>">
           <%- t(`usageDestination:${v}`) %>
         </label>
         <% }) %>

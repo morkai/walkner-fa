@@ -3,7 +3,7 @@
     <div class="panel panel-primary">
       <div class="panel-heading">
         <span class="visible-print"><%= details.no %></span>
-        <span class="hidden-print"><%- helpers.t('PANEL:TITLE:details') %></span>
+        <span class="hidden-print"><%- t('PANEL:TITLE:details') %></span>
       </div>
       <div class="panel-details">
         <%- helpers.props(details, [
@@ -28,26 +28,34 @@
           'economicInitialValue',
           'economicDeprecationValue',
           'economicNetValue',
+          helpers.fa.assetsProp(),
+          {id: 'subAssetNo', valueClassName: 'text-fixed'},
+          '!postingDate',
+          '!valuationDate',
           {id: 'buyerName', visible: model.kind === 'sale'},
           {id: 'buyerAddress', visible: model.kind === 'sale', valueClassName: 'text-lines'},
           {id: 'saleValue', visible: model.kind === 'sale'},
-          {id: 'sapNo', valueClassName: 'text-fixed'},
-          {id: 'accountingNo', valueClassName: 'text-fixed'}
+          {id: 'accountingNo', valueClassName: 'text-fixed'},
+          {id: 'odwNo', valueClassName: 'text-fixed'},
+          {id: 'tplNotes', valueClassName: 'text-lines'}
         ]) %>
       </div>
     </div>
   </div>
   <div class="col-md-5 hidden-print">
     <div class="panel panel-default">
-      <div class="panel-heading"><%- helpers.t('PANEL:TITLE:attachments') %></div>
+      <div class="panel-heading"><%- t('PANEL:TITLE:attachments') %></div>
       <div class="panel-details">
         <%- helpers.props(details, [
+          helpers.fa.attachmentProp({name: 'handover', visible: model.kind === 'sale'}),
+          helpers.fa.attachmentProp({name: 'invoice', visible: model.kind === 'sale'}),
+          helpers.fa.attachmentProp({name: 'hrt'}),
           helpers.fa.attachmentProp({name: 'attachment'})
         ]) %>
       </div>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading"><%- helpers.t('PANEL:TITLE:stages') %></div>
+      <div class="panel-heading"><%- t('PANEL:TITLE:stages') %></div>
       <div class="panel-details">
         <%
 
@@ -64,11 +72,11 @@
             return html;
           }
 
-          var stages = Object.keys(details.stages).map(function(id)
+          var stages = Object.keys(details.stages).map(id =>
           {
             return {
-              id: '!stage:' + id,
-              label: t.has('details:stage:' + id) ? t('details:stage:' + id, {kind: details.kind}) : t('stage:' + id, {kind: details.kind}),
+              id: `!stage:${id}`,
+              label: t.has(`details:stage:${id}`) ? t(`details:stage:${id}`, {kind: details.kind}) : t(`stage:${id}`, {kind: details.kind}),
               value: renderStage.bind(null, details.stages[id]),
               visible: id !== 'finished' && id !== 'cancelled'
             };

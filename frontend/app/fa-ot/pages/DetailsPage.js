@@ -6,16 +6,14 @@ define([
   'app/fa-common/views/ChangesView',
   '../views/DetailsView',
   'app/fa-ot/templates/detailsPage',
-  'app/fa-ot/templates/documentPrint',
-  'app/fa-ot/templates/protocolPrint'
+  'app/fa-ot/templates/documentPrint'
 ], function(
   DetailsPage,
   html2pdf,
   ChangesView,
   DetailsView,
   template,
-  documentPrintTemplate,
-  protocolPrintTemplate
+  documentPrintTemplate
 ) {
   'use strict';
 
@@ -40,15 +38,6 @@ define([
           label: this.t('PAGE_ACTION:printDocument'),
           callback: this.printDocument.bind(this)
         });
-
-        if (this.model.get('protocolNeeded'))
-        {
-          actions.unshift({
-            icon: 'print',
-            label: this.t('PAGE_ACTION:printProtocol'),
-            callback: this.printProtocol.bind(this)
-          });
-        }
       }
 
       return actions;
@@ -80,14 +69,6 @@ define([
         model: this.model.toJSON(),
         details: this.model.serializeDetails(),
         comments: this.model.serializeComments()
-      }));
-    },
-
-    printProtocol: function()
-    {
-      html2pdf(this.renderPartialHtml(protocolPrintTemplate, {
-        model: this.model.toJSON(),
-        details: this.model.serializeDetails()
       }));
     },
 

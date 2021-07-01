@@ -1,0 +1,32 @@
+<div>
+  <div class="panel panel-primary">
+    <div class="panel-heading"><%- panelTitle %></div>
+    <div class="panel-details">
+      <%- helpers.props(model, [
+        {id: '_id', value: v => t(`type:${v}`)},
+        'worksheet',
+        {id: '!inputFile', value: file => `<a href="/fa/reqTpls/${model._id}.xlsx" target="_blank">${file.name}</a>`},
+        'outputFileName'
+      ]) %>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading"><%- t('PROPERTY:cells') %></div>
+    <table class="table table-bordered table-condensed">
+      <thead>
+      <tr>
+        <th class="is-min"><%- t('PROPERTY:cells.target') %></th>
+        <th><%- t('PROPERTY:cells.value') %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% model.cells.forEach(cell => { %>
+      <tr>
+        <td class="is-min text-fixed"><%= cell.target %></td>
+        <td class="text-fixed"><%= cell.value %></td>
+      </tr>
+      <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

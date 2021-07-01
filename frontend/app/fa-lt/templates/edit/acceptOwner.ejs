@@ -18,13 +18,12 @@
     'netValue',
     'economicInitialValue',
     'economicDeprecationValue',
-    'economicNetValue',
-    {id: 'sapNo', valueClassName: 'text-fixed'}
+    'economicNetValue'
   ]) %>
   <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
-    <label for="<%- idPrefix %>-comment" class="control-label"><%- t('PROPERTY:comment') %></label>
-    <textarea id="<%- idPrefix %>-comment" class="form-control" name="comment" rows="3"></textarea>
+    <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>
+    <textarea id="<%- id('comment') %>" class="form-control" name="comment" rows="3"></textarea>
   </div>
   <% include _unacceptable.ejs %>
 </div>

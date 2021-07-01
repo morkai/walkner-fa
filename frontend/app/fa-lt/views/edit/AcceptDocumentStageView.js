@@ -79,7 +79,7 @@ define([
           id: 'reject',
           className: 'btn-warning',
           icon: 'fa-times',
-          actions: ['protocol', 'verify', 'acceptFinance', 'acceptDepartment']
+          actions: ['protocol', 'verify', 'acceptFinance', 'acceptDepartment', 'verifyDocument']
         },
         {
           id: 'cancel',
@@ -102,7 +102,8 @@ define([
       else if (action === 'protocol'
         || action === 'verify'
         || action === 'acceptFinance'
-        || action === 'acceptDepartment')
+        || action === 'acceptDepartment'
+        || action === 'verifyDocument')
       {
         formView.handleNewStageAction(action, {submit: {toggleRequired: false}});
       }

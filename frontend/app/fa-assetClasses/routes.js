@@ -36,6 +36,7 @@ define([
           pageClassName: 'page-max-flex',
           columns: [
             {id: 'name', className: 'is-min'},
+            {id: 'tplKey', className: 'is-min', tdClassName: 'text-fixed'},
             {id: 'active', className: 'is-min'},
             '-'
           ],

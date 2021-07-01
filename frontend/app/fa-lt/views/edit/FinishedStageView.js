@@ -25,7 +25,7 @@ define([
 
   return StageView.extend({
 
-    template: template,
+    template,
 
     updateOnChange: false,
 
@@ -33,21 +33,21 @@ define([
 
       'change #-costCenter': function()
       {
-        var costCenter = dictionaries.costCenters.get(this.$id('costCenter').val());
+        const costCenter = dictionaries.costCenters.get(this.$id('costCenter').val());
 
         if (!costCenter)
         {
           return;
         }
 
-        var owner = costCenter.get('owner');
+        const owner = costCenter.get('owner');
 
         if (!owner)
         {
           return;
         }
 
-        var $owner = this.$id('owner');
+        const $owner = this.$id('owner');
 
         if ($owner.length)
         {
@@ -56,90 +56,119 @@ define([
             text: owner.label
           });
         }
+      },
+
+
+      'click #-previewHrt': function()
+      {
+        const reqTplId = `lt.${this.model.get('kind')}`;
+        const docNo = (this.model.get('documentNo') || this.model.get('protocolNo')).replace(/\//g, '_');
+
+        this.$id('previewHrt').prop('disabled', false);
+
+        const $submit = this.formView.$id('submit');
+
+        if ($submit.prop('disabled'))
+        {
+          previewHrt();
+        }
+        else
+        {
+          this.formView.dontRedirectAfterSubmit = true;
+
+          $submit.click();
+
+          this.once('afterRender', previewHrt);
+        }
+
+        function previewHrt()
+        {
+          window.open(`/fa/reqTpls/${reqTplId};preview?doc=${docNo}`);
+        }
       }
 
     },
 
     initialize: function()
     {
-      var view = this;
+      StageView.prototype.initialize.apply(this, arguments);
 
-      StageView.prototype.initialize.apply(view, arguments);
-
-      view.valueViews = {
+      this.valueViews = {
         initialValue: new ValueInputView({
           property: 'initialValue',
-          model: view.model
+          model: this.model
         }),
         deprecationValue: new ValueInputView({
           property: 'deprecationValue',
-          required: false,
-          model: view.model
+          model: this.model
         }),
         netValue: new ValueInputView({
           property: 'netValue',
           readOnly: true,
           required: false,
-          model: view.model
+          model: this.model
         }),
         economicInitialValue: new ValueInputView({
           property: 'economicInitialValue',
-          required: true,
-          model: view.model
+          model: this.model
         }),
         economicDeprecationValue: new ValueInputView({
           property: 'economicDeprecationValue',
-          required: false,
-          model: view.model
+          model: this.model
         }),
         economicNetValue: new ValueInputView({
           property: 'economicNetValue',
           readOnly: true,
           required: false,
-          model: view.model
+          model: this.model
         })
       };
 
-      if (view.model.get('kind') === 'sale')
+      if (this.model.get('kind') === 'sale')
       {
-        view.valueViews.saleValue = new ValueInputView({
+        this.valueViews.saleValue = new ValueInputView({
           property: 'saleValue',
-          model: view.model
+          model: this.model
         });
       }
 
-      Object.keys(view.valueViews).forEach(function(prop)
+      Object.keys(this.valueViews).forEach(prop =>
       {
-        view.setView('#-' + prop, view.valueViews[prop]);
+        this.setView(`#-${prop}`, this.valueViews[prop]);
       });
 
-      view.listenTo(view.valueViews.initialValue, 'change', view.updateFiscalNetValue);
-      view.listenTo(view.valueViews.deprecationValue, 'change', view.updateFiscalNetValue);
-      view.listenTo(view.valueViews.economicInitialValue, 'change', view.updateEconomicNetValue);
-      view.listenTo(view.valueViews.economicDeprecationValue, 'change', view.updateEconomicNetValue);
+      this.listenTo(this.valueViews.initialValue, 'change', this.updateFiscalNetValue);
+      this.listenTo(this.valueViews.deprecationValue, 'change', this.updateFiscalNetValue);
+      this.listenTo(this.valueViews.economicInitialValue, 'change', this.updateEconomicNetValue);
+      this.listenTo(this.valueViews.economicDeprecationValue, 'change', this.updateEconomicNetValue);
     },
 
     getTemplateData: function()
     {
-      var lt = this.model;
-      var files = ['attachment'];
+      const lt = this.model;
+      const files = [];
+
+      if (lt.get('kind') === 'sale')
+      {
+        files.push('handover', 'invoice');
+      }
+
+      files.push('hrt', 'attachment');
 
       return {
         mergeTypes: FaLt.MERGE_TYPES,
         model: lt.toJSON(),
         details: lt.serializeDetails(),
-        files: files
+        files
       };
     },
 
     afterRender: function()
     {
-      var view = this;
-
-      view.setUpCostCenterSelect2();
-      view.setUpUserSelect2(view.$id('owner'), view.model.get('owner'));
-      view.setUpUserSelect2(view.$id('applicant'), view.model.get('applicant'));
-      view.setUpUserSelect2(view.$id('committee'), view.model.get('committee'), {
+      this.setUpCostCenterSelect2();
+      this.setUpUserSelect2(this.$id('owner'), this.model.get('owner'));
+      this.setUpUserSelect2(this.$id('applicant'), this.model.get('applicant'));
+      this.setUpUserSelect2(this.$id('committee'), this.model.get('committee'), {
         collection: dictionaries.committee,
         multiple: true
       });
@@ -147,9 +176,9 @@ define([
 
     setUpCostCenterSelect2: function()
     {
-      var id = this.model.get('costCenter');
-      var model = dictionaries.costCenters.get(id);
-      var data = [];
+      const id = this.model.get('costCenter');
+      const model = dictionaries.costCenters.get(id);
+      const data = [];
 
       if (id && !model)
       {
@@ -159,7 +188,7 @@ define([
         });
       }
 
-      dictionaries.costCenters.forEach(function(d)
+      dictionaries.costCenters.forEach(d =>
       {
         if (d.get('active') || d.id === id)
         {
@@ -171,13 +200,13 @@ define([
         width: '100%',
         allowClear: true,
         placeholder: ' ',
-        data: data
+        data
       });
     },
 
     setUpUserSelect2: function($input, users, options)
     {
-      setUpUserSelect2($input, _.assign({
+      setUpUserSelect2($input, Object.assign({
         width: '100%'
       }, options));
 
@@ -188,7 +217,7 @@ define([
           users = [users];
         }
 
-        var data = users.map(function(u)
+        var data = users.map(u =>
         {
           return {
             id: u._id,
@@ -212,11 +241,9 @@ define([
 
     serializeToForm: function(formData)
     {
-      var view = this;
-
-      Object.keys(view.valueViews).forEach(function(prop)
+      Object.keys(this.valueViews).forEach(prop =>
       {
-        view.valueViews[prop].serializeToForm(formData);
+        this.valueViews[prop].serializeToForm(formData);
       });
 
       return formData;
@@ -224,12 +251,14 @@ define([
 
     serializeForm: function(formData)
     {
-      var view = this;
-      var kind = view.model.get('kind');
-      var data = {
-        comment: (formData.comment || '').trim(),
+      const kind = this.model.get('kind');
+      const data = {
         protocolDate: time.utc.getMoment(formData.protocolDate, 'YYYY-MM-DD').toISOString(),
         documentDate: time.utc.getMoment(formData.documentDate, 'YYYY-MM-DD').toISOString(),
+        postingDate: time.utc.getMoment(formData.postingDate, 'YYYY-MM-DD').toISOString(),
+        valuationDate: formData.valuationDate
+          ? time.utc.getMoment(formData.valuationDate, 'YYYY-MM-DD').toISOString()
+          : null,
         inventoryNo: (formData.inventoryNo || '').trim(),
         assetName: (formData.assetName || '').trim(),
         costCenter: formData.costCenter || null,
@@ -238,8 +267,13 @@ define([
         committee: setUpUserSelect2.getUserInfo(this.$id('committee')),
         committeeAcceptance: {},
         cause: (formData.cause || '').trim(),
-        sapNo: (formData.sapNo || '').trim(),
-        accountingNo: (formData.accountingNo || '').trim()
+        transactionType: (formData.transactionType || '').trim(),
+        assetNo: (formData.assetNo || '').trim(),
+        subAssetNo: (formData.subAssetNo || '').trim(),
+        accountingNo: (formData.accountingNo || '').trim(),
+        odwNo: (formData.odwNo || '').trim(),
+        tplNotes: (formData.tplNotes || '').trim(),
+        comment: (formData.comment || '').trim()
       };
 
       if (kind === 'merge')
@@ -258,11 +292,11 @@ define([
         });
       }
 
-      var oldCommitteeAcceptance = view.model.get('committeeAcceptance') || {};
+      const oldCommitteeAcceptance = this.model.get('committeeAcceptance') || {};
 
-      data.committee.forEach(function(userInfo)
+      data.committee.forEach(userInfo =>
       {
-        var userId = userInfo[user.idProperty];
+        const userId = userInfo[user.idProperty];
 
         data.committeeAcceptance[userId] = oldCommitteeAcceptance[userId] || {
           time: new Date(),
@@ -271,9 +305,9 @@ define([
         };
       });
 
-      Object.keys(view.valueViews).forEach(function(prop)
+      Object.keys(this.valueViews).forEach(prop =>
       {
-        view.valueViews[prop].serializeForm(data);
+        this.valueViews[prop].serializeForm(data);
       });
 
       return data;
@@ -281,7 +315,7 @@ define([
 
     updateFiscalNetValue: function()
     {
-      var formData = {};
+      const formData = {};
 
       this.valueViews.initialValue.serializeForm(formData);
       this.valueViews.deprecationValue.serializeForm(formData);
@@ -290,7 +324,7 @@ define([
 
     updateEconomicNetValue: function()
     {
-      var formData = {};
+      const formData = {};
 
       this.valueViews.economicInitialValue.serializeForm(formData);
       this.valueViews.economicDeprecationValue.serializeForm(formData);

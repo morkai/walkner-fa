@@ -1,4 +1,5 @@
 @import "./dateTimeRange.css";
+@import "./dropdownRadio.css";
 
 input[type="date"],
 input[type="time"],
@@ -32,9 +33,6 @@ input[type="month"] {
 .control-label + .form-control-static {
   padding: 0;
 }
-.form-control-static.is-along-inputs {
-  line-height: 34px;
-}
 .form-control {
   padding: 6px;
   background-color: #fcfcfc;
@@ -59,6 +57,9 @@ input[type="month"] {
   background-color: #f5f5f5;
   border-top: 1px solid #e5e5e5;
 }
+.panel-body + .form-actions {
+  margin-top: 0;
+}
 .form-actions:last-child {
   margin-bottom: 0;
 }
@@ -68,6 +69,10 @@ input[type="month"] {
 .checkbox,
 .radio {
   margin-bottom: 0;
+}
+.checkbox:first-child,
+.radio:first-child {
+  margin-top: 0;
 }
 .radio-inline > label,
 .checkbox-inline > label {
@@ -92,9 +97,15 @@ input[type="month"] {
   width: 145px;
   margin-right: 1px;
 }
-.form-group-datetime > input[type="time"],
+.form-group-datetime > input[type="time"] {
+  width: auto;
+}
 .form-group-datetime > input[type="text"] {
   width: 120px;
+}
+.form-group-datetime > input[type="number"] {
+  width: 35px;
+  text-align: center;
 }
 .form-group-datetime > label {
   margin: 0 4px;
@@ -117,7 +128,8 @@ input[type="month"] {
 .has-required-select2 {
   position: relative;
 }
-.has-required-select2 > input[tabindex="-1"] {
+.has-required-select2 > input[tabindex="-1"],
+.has-required-select2 > select[tabindex="-1"] {
   position: absolute;
   display: block!important;
   top: 25px!important;
@@ -127,9 +139,6 @@ input[type="month"] {
   width: 1px;
   height: 34px;
   opacity: 0;
-}
-td.has-required-select2 > input[tabindex="-1"] {
-  top: 0!important;
 }
 .has-required-select2 > .select2-container {
   z-index: 1;
@@ -196,14 +205,25 @@ input.no-controls[type="number"] {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: thin dotted;
+}
+.select2-with-description .select2-results {
+  max-height: 300px;
+}
 .select2-result-with-description > h3 {
   font-size: 1em;
-  font-weight: bold;
-  margin: 0 0 2px 0;
+  font-weight: normal;
+  margin: 0;
 }
 .select2-result-with-description > p {
   font-size: .8em;
-  margin: 0;
+  margin: 2px 0 0 10px;
 }
 label + .help-block {
   margin-top: 0;
@@ -217,6 +237,87 @@ label + .help-block {
 .form-row > .form-group:first-child {
   margin-left: 0;
 }
-.form-row + .checkbox {
+.form-row + .checkbox,
+.form-row + .radio {
   margin-top: 0;
+}
+.form-embeddedPicker {
+
+}
+.form-embeddedPicker-buttons {
+  position: relative;
+  display: flex;
+}
+.form-embeddedPicker-value {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 57px;
+  pointer-events: none;
+  opacity: 0;
+}
+.form-embeddedPicker-selected {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  height: 57px;
+  text-align: left;
+  font-size: 18px;
+}
+.form-embeddedPicker-clear {
+  flex: 0 0 auto;
+  width: 100px;
+  height: 57px;
+  font-size: 18px;
+  border-left: none;
+}
+.form-embeddedPicker-list {
+  display: none;
+}
+.form-embeddedPicker-filter {
+  font-size: 24px;
+  padding: 6px 12px;
+  height: 57px;
+}
+.form-embeddedPicker-options {
+  height: 360px;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.form-embeddedPicker-options > .btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 57px;
+  font-size: 18px;
+  text-align: left;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+.form-embeddedPicker-options > .btn:last-child {
+  margin-bottom: 57px;
+}
+.form-embeddedPicker-label {
+  margin-right: 12px;
+  font-weight: bold;
+}
+.form-embeddedPicker-description {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.form-embeddedPicker-selecting .form-embeddedPicker-buttons {
+  display: none;
+}
+.form-embeddedPicker-selecting .form-embeddedPicker-list {
+  display: block;
+}
+.form-control-embedded {
+  padding: 6px 12px;
+  font-size: 18px;
+  height: 57px;
 }

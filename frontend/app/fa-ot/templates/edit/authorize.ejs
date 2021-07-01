@@ -52,18 +52,15 @@
   <% } %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'protocol',
-    help: false,
     editable: false
   }) %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'photo',
-    help: false,
     editable: false,
     visible: model.commissioningType === 'new-asset'
   }) %>
   <%- helpers.fa.attachmentFormGroup({
-    name: 'attachment',
-    help: !!model.protocolFile
+    name: 'attachment'
   }) %>
   <div class="form-group">
     <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>

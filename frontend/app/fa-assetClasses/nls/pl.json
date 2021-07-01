@@ -1,7 +1,8 @@
 {
-  "BREADCRUMB:browse": "Klasyfikacje ŚT",
+  "BREADCRUMB:browse": "Klasy ŚT",
 
   "PROPERTY:active": "Aktywna?",
   "PROPERTY:name": "Nazwa",
-  "PROPERTY:description": "Opis"
+  "PROPERTY:description": "Opis",
+  "PROPERTY:tplKey": "Klucz szablonu"
 }
