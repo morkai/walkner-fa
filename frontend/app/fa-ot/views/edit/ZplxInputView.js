@@ -70,6 +70,14 @@ define([
         e.target.value = value ? ValueInputView.formatValue(value) : '';
 
         this.trigger('change');
+      },
+
+      'change input[name$=".code"]': function(e)
+      {
+        this.$(e.target)
+          .closest('.fa-edit-zplx-item')
+          .find('.fa-edit-zplx-value')
+          .prop('required', e.target.value.length);
       }
     },
 
