@@ -82,6 +82,7 @@
   }) %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'nameplate',
+    required: true,
     visible: model.usageDestination === 'external-supplier',
     accept: ['doc', 'img']
   }) %>
