@@ -1,7 +1,7 @@
 'use strict';
 
 const DATA_PATH = `${__dirname}/../data`;
-const MAX_UPLOAD_SIZE = 10 * 1024 * 1024;
+const MAX_UPLOAD_SIZE = 20 * 1024 * 1024;
 
 const fs = require('fs');
 const later = require('later');
