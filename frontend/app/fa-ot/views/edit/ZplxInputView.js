@@ -77,7 +77,7 @@ define([
         this.$(e.target)
           .closest('.fa-edit-zplx-item')
           .find('.fa-edit-zplx-value')
-          .prop('required', e.target.value.length);
+          .prop('required', !!e.target.value.length);
       }
     },
 
