@@ -58,8 +58,8 @@ define([
     viewport.loadPage(
       [
         'app/core/pages/FilteredListPage',
-        'app/users/views/UserFilterView',
-        'app/users/views/UserListView'
+        'app/users/views/FilterView',
+        'app/users/views/ListView'
       ],
       function(Page, FilterView, ListView)
       {
