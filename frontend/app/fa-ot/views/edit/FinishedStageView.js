@@ -70,7 +70,7 @@ define([
 
       this.zplxView = new ZplxInputView({
         model: this.model,
-        value: true,
+        value: false,
         auc: true,
         readOnly: false
       });

@@ -66,7 +66,7 @@ define([
 
       this.zplxView = new ZplxInputView({
         model: this.model,
-        value: true,
+        value: false,
         auc: false,
         readOnly: false
       });
