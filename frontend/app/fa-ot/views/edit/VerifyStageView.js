@@ -159,7 +159,8 @@ define([
         {
           id: 'reject',
           className: 'btn-warning',
-          icon: 'fa-times'
+          icon: 'fa-times',
+          actions: ['protocol', 'document']
         }
       ];
     },
@@ -168,36 +169,12 @@ define([
     {
       if (action === 'nextStep')
       {
-        this.handleNextStepAction(formView);
+        formView.handleNewStageAction('accept');
       }
-      else if (action === 'reject')
+      else if (action === 'protocol' || action === 'document')
       {
-        this.handleRejectAction(formView);
+        formView.handleNewStageAction(action, {submit: {toggleRequired: false}});
       }
-    },
-
-    handleNextStepAction: function(formView)
-    {
-      this.model.set('newStage', 'accept');
-
-      formView.handleNextRequest = function()
-      {
-        formView.model.set('newStage', null);
-      };
-
-      formView.submit();
-    },
-
-    handleRejectAction: function(formView)
-    {
-      this.model.set('newStage', 'document');
-
-      formView.handleNextRequest = function()
-      {
-        formView.model.set('newStage', null);
-      };
-
-      formView.submit({toggleRequired: false});
     },
 
     afterRender: function()
