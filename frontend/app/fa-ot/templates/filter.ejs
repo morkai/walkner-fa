@@ -9,7 +9,7 @@
   <div class="form-group hidden" data-filter="stage">
     <label for="<%- id('stage') %>"><%- t('PROPERTY:stage') %></label>
     <select id="<%- id('stage') %>" class="form-control is-expandable" name="stage[]" multiple size="1" data-expanded-length="10">
-      <% ['protocol', 'authorize', 'document', 'verify', 'accept', 'record', 'finished'].forEach(v => { %>
+      <% statuses.forEach(function(v) { %>
       <option value="<%- v %>"><%- t('stage:' + v) %></option>
       <% }) %>
     </select>

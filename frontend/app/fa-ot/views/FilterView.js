@@ -8,6 +8,7 @@ define([
   'app/core/util/ExpandableSelect',
   'app/core/util/padString',
   'app/core/views/FilterView',
+  '../FaOt',
   'app/fa-common/dictionaries',
   'app/fa-common/views/ValueInputView',
   'app/fa-ot/templates/filter'
@@ -19,6 +20,7 @@ define([
   ExpandableSelect,
   padString,
   FilterView,
+  FaOt,
   dictionaries,
   ValueInputView,
   template
@@ -126,6 +128,13 @@ define([
       {
         selector.push({name: 'eq', args: ['zplx.code', zplx]});
       }
+    },
+
+    getTemplateData: function()
+    {
+      return {
+        statuses: FaOt.STATUSES
+      };
     },
 
     afterRender: function()
