@@ -13,7 +13,9 @@ define([
 
     model: FaOt,
 
-    rqlQuery: 'exclude(changes)&sort(-date)&limit(-1337)'
+    rqlQuery: 'exclude(changes)&sort(-date)&limit(-1337)',
+
+    theadHeight: 2
 
   });
 });

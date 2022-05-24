@@ -243,7 +243,7 @@ define([
     }
     else
     {
-      theadHeight = 32 + 20 * ((this.theadHeight || 1) - 1);
+      theadHeight += 20 * ((this.theadHeight || 1) - 1);
     }
 
     if (typeof this.rowHeight === 'number')

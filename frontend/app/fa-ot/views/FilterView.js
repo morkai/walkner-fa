@@ -33,6 +33,7 @@ define([
 
     filterList: [
       'stage',
+      'commissioningType',
       'assetNo',
       'assetName',
       'inventoryNo',
@@ -59,6 +60,7 @@ define([
       {
         formData[propertyName] = term.args[1];
       },
+      'commissioningType': 'assetNo',
       'assetName': 'assetNo',
       'inventoryNo': 'assetNo',
       'costCenter': 'assetNo',
@@ -93,7 +95,7 @@ define([
         selector.push({name: 'in', args: ['stage', stage]});
       }
 
-      ['assetNo', 'assetName', 'inventoryNo', 'costCenter'].forEach(prop =>
+      ['commissioningType', 'assetNo', 'assetName', 'inventoryNo', 'costCenter'].forEach(prop =>
       {
         const value = this.$id(prop).val().trim();
 
