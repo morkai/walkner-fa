@@ -14,6 +14,12 @@ define([
     var model;
     var deps = ['app/core/pages/ActionFormPage'];
 
+    if (Model && Model.Model)
+    {
+      options = Model;
+      Model = options.Model;
+    }
+
     if (typeof Model === 'string')
     {
       deps.push('i18n!app/nls/' + Model.split('/')[1], Model);

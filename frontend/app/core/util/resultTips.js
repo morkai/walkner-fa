@@ -203,7 +203,7 @@ define([
     {
       show(Object.assign({
         type: 'success',
-        text: t('core', 'resultTips:copied'),
+        text: t('core', 'clipboard:copied'),
         time: 1000
       }, options));
     }

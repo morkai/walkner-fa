@@ -33,6 +33,10 @@ define([
 
     refreshDelay: 5000,
 
+    crudTopics: 'separate',
+
+    columnLabelPrefix: 'LIST:COLUMN:',
+
     remoteTopics: function()
     {
       var topics = {};
@@ -40,9 +44,16 @@ define([
 
       if (topicPrefix)
       {
-        topics[topicPrefix + '.added'] = 'onModelAdded';
-        topics[topicPrefix + '.edited'] = 'onModelEdited';
-        topics[topicPrefix + '.deleted'] = 'onModelDeleted';
+        if (this.crudTopics === 'separate')
+        {
+          topics[topicPrefix + '.added'] = 'onModelAdded';
+          topics[topicPrefix + '.edited'] = 'onModelEdited';
+          topics[topicPrefix + '.deleted'] = 'onModelDeleted';
+        }
+        else if (this.crudTopics === 'updated')
+        {
+          topics[topicPrefix + '.updated'] = 'onModelsUpdated';
+        }
       }
 
       return topics;
@@ -108,11 +119,21 @@ define([
       },
       'contextmenu .list-item[data-id]': function(e)
       {
-        if (e.currentTarget.querySelector('.actions'))
+        if (e.ctrlKey)
+        {
+          return;
+        }
+
+        var $row = this.$(e.currentTarget);
+
+        if ($row.find('.actions').length)
         {
           e.preventDefault();
 
-          this.showContextMenu(e.currentTarget.dataset.id, e.pageY, e.pageX);
+          var modelId = $row[0].dataset.id;
+          var columnId = this.$(e.target).closest('td')[0].dataset.id;
+
+          this.showContextMenu(modelId, columnId, e.pageY, e.pageX);
         }
       }
     },
@@ -232,9 +253,14 @@ define([
           column.valueProperty = column.id;
         }
 
+        if (typeof column.label === 'string' && column.label.endsWith(':'))
+        {
+          column.label = t.bound(nlsDomain, column.label + column.id);
+        }
+
         if (!column.label && column.label !== '')
         {
-          var labelKey = 'LIST:COLUMN:' + column.id;
+          var labelKey = _.result(view, 'columnLabelPrefix') + column.id;
 
           if (!t.has(nlsDomain, labelKey))
           {
@@ -273,6 +299,11 @@ define([
 
     decorateAttrs: function(prefix, attrs, row, column)
     {
+      if (typeof attrs === 'string')
+      {
+        return attrs;
+      }
+
       if (prefix === 'th')
       {
         column = row;
@@ -305,7 +336,10 @@ define([
         className.push('is-min');
       }
 
-      className = className.filter(function(cn) { return !!cn; }).join(' ');
+      className = className
+        .map(function(cn) { return Array.isArray(cn) ? cn.join(' ') : cn; })
+        .filter(function(cn) { return !!cn; })
+        .join(' ');
 
       var htmlAttrs = [];
 
@@ -434,16 +468,41 @@ define([
       }
 
       var Model = this.collection.model;
-      var model = new Model(message.model || message);
+      var model = new Model(message.model || message, {parse: true});
 
       if (!model.id)
       {
         return;
       }
 
-      this.$('.list-item[data-id="' + model.id + '"]').addClass('is-deleted');
+      this.$row(model.id).addClass('is-deleted');
 
       this.refreshCollection(model);
+    },
+
+    onModelsUpdated: function(message)
+    {
+      if (!message)
+      {
+        return;
+      }
+
+      var view = this;
+
+      (message.deleted || []).forEach(function(model)
+      {
+        view.onModelDeleted({model: model, user: message.user});
+      });
+
+      (message.added || []).forEach(function(model)
+      {
+        view.onModelAdded({model: model, user: message.user});
+      });
+
+      (message.updated || []).forEach(function(model)
+      {
+        view.onModelEdited({model: model, user: message.user});
+      });
     },
 
     onReset: function()
@@ -453,12 +512,12 @@ define([
 
     $row: function(rowId)
     {
-      return this.$('tr[data-id="' + rowId + '"]');
+      return this.$('.list-item[data-id="' + rowId + '"]');
     },
 
     $cell: function(rowId, columnId)
     {
-      return this.$('tr[data-id="' + rowId + '"] > td[data-id="' + columnId + '"]');
+      return this.$('.list-item[data-id="' + rowId + '"] td[data-id="' + columnId + '"]').first();
     },
 
     refreshCollection: function(message)
@@ -563,10 +622,10 @@ define([
       return el.scrollWidth > el.offsetWidth;
     },
 
-    showContextMenu: function(id, top, left)
+    showContextMenu: function(modelId, columnId, top, left)
     {
       var view = this;
-      var model = this.collection.get(id);
+      var model = this.collection.get(modelId);
 
       if (!model || !view.serializeActions)
       {
@@ -575,34 +634,7 @@ define([
 
       try
       {
-        var row = view.serializeRow(model);
-        var actions = view.serializeActions();
-        var menu = (actions ? actions(row) : [])
-          .filter(function(action)
-          {
-            return !!action
-              && !action.disabled
-              && (!action.className || action.className.indexOf('disabled') === -1);
-          })
-          .map(function(action)
-          {
-            return {
-              icon: 'fa-' + action.icon,
-              label: action.label,
-              handler: function()
-              {
-                setTimeout(function()
-                {
-                  var $action = view.$row(id).find('.action-' + action.id);
-
-                  if ($action.length)
-                  {
-                    $action[0].click();
-                  }
-                }, 1);
-              }
-            };
-          });
+        var menu = this.serializeContextMenu(model, columnId);
 
         if (menu.length)
         {
@@ -613,6 +645,45 @@ define([
       {
         console.error(err);
       }
+    },
+
+    hideContextMenu()
+    {
+      contextMenu.hide(this);
+    },
+
+    serializeContextMenu: function(model)
+    {
+      var view = this;
+      var row = view.serializeRow(model);
+      var actions = view.serializeActions();
+
+      return (actions ? actions(row) : [])
+        .filter(function(action)
+        {
+          return !!action
+            && !action.disabled
+            && (!action.className || action.className.indexOf('disabled') === -1);
+        })
+        .map(function(action)
+        {
+          return {
+            icon: 'fa-' + action.icon,
+            label: action.label,
+            handler: function()
+            {
+              setTimeout(function()
+              {
+                var $action = view.$row(row._id).find('.action-' + action.id);
+
+                if ($action.length)
+                {
+                  $action[0].click();
+                }
+              }, 1);
+            }
+          };
+        });
     }
 
   });

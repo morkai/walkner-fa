@@ -1,6 +1,7 @@
 // Part of <https://miracle.systems/p/walkner-wmes> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'require',
   'underscore',
   'jquery',
   'backbone',
@@ -14,6 +15,7 @@ define([
   './util/forms/formGroup'
 ],
 function(
+  require,
   _,
   $,
   Backbone,
@@ -33,7 +35,7 @@ function(
     var view = this;
 
     view.idPrefix = _.uniqueId('v');
-    view.options = options || {};
+    view.options = _.assign({}, view.options, options);
     view.timers = {};
     view.promises = [];
 
@@ -66,7 +68,7 @@ function(
       }
     });
 
-    Layout.call(view, options);
+    Layout.call(view, view.options);
 
     util.subscribeTopics(view, 'broker', view.localTopics, true);
 
@@ -140,6 +142,8 @@ function(
         this.$el.on(eventName, selector, method.bind(this));
       }
     }, this);
+
+    return this;
   };
 
   View.prototype.listenTo = function(obj)
@@ -395,7 +399,12 @@ function(
       data = options.data;
     }
 
-    var propsHtml = '<div class="props ' + (options.first ? 'first' : '') + '">';
+    var propsClassName = html.className(
+      'props',
+      options.vertical ? 'vertical' : null,
+      options.first ? 'first' : null
+    );
+    var propsHtml = '<div class="' + propsClassName + '">';
     var defaultNlsDomain = view.getDefaultNlsDomain();
 
     [].concat(_.isArray(options) ? options : options.props).forEach(function(prop)
@@ -412,6 +421,15 @@ function(
       var value = _.isFunction(prop.value)
         ? prop.value(data[id], prop, view)
         : _.isUndefined(prop.value) ? data[id] : prop.value;
+
+      if (!label)
+      {
+        label = t(nlsDomain, 'PROPERTY:' + id);
+      }
+      else if (label.endsWith(':'))
+      {
+        label = t(nlsDomain, label + id);
+      }
 
       if (_.isFunction(prop.visible) && !prop.visible(value, prop, view))
       {
@@ -518,6 +536,33 @@ function(
     });
 
     return propsHtml + '</div>';
+  };
+
+  View.prototype.require = function(deps, done)
+  {
+    var viewport = require('app/viewport');
+    var allLoaded = deps.every(function(dep) { return require.defined(dep); });
+
+    if (!allLoaded)
+    {
+      viewport.msg.loading();
+    }
+
+    require(
+      deps,
+      function()
+      {
+        viewport.msg.loaded();
+        done.apply(null, arguments);
+      },
+      function()
+      {
+        if (!allLoaded)
+        {
+          viewport.msg.loadingFailed();
+        }
+      }
+    );
   };
 
   return View;

@@ -24,6 +24,7 @@ define([
       options = {};
     }
 
+    this._loading = false;
     this.rqlQuery = this.createRqlQuery(options.rqlQuery || this.rqlQuery);
 
     if (this.rqlQuery.limit === -1337)
@@ -40,6 +41,9 @@ define([
 
     Backbone.Collection.call(this, models, options);
 
+    this.on('request', function() { this._loading = true; });
+    this.on('sync error', function() { this._loading = false; });
+
     if (this.paginationData)
     {
       this.listenTo(this.paginationData, 'change:page', this.onPageChanged);
@@ -49,6 +53,11 @@ define([
   util.inherits(Collection, Backbone.Collection);
 
   Collection.prototype.model = Model;
+
+  Collection.prototype.isLoading = function()
+  {
+    return this._loading;
+  };
 
   Collection.prototype.parse = function(res)
   {
@@ -243,7 +252,7 @@ define([
     }
     else
     {
-      theadHeight += 20 * ((this.theadHeight || 1) - 1);
+      theadHeight = 32 + 20 * ((this.theadHeight || 1) - 1);
     }
 
     if (typeof this.rowHeight === 'number')

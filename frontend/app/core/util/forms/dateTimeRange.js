@@ -21,7 +21,8 @@ define([
     date: 'YYYY-MM-DD',
     month: 'YYYY-MM',
     'date+time': 'YYYY-MM-DD',
-    time: 'HH:mm:ss'
+    time: 'HH:mm:ss',
+    week: 'YYYY-[W]WW'
   };
   var RANGE_GROUPS = {
     shifts: ['+0+1', '-1+0', '1', '2', '3'],
@@ -125,7 +126,7 @@ define([
 
     var rangeGroups = _.assign({}, RANGE_GROUPS);
 
-    label.ranges.split(' ').forEach(function(group)
+    parts.forEach(function(group)
     {
       var op = group.charAt(0) === '-' ? '-' : '+';
       var parts = group.replace(/^[^a-z]+/, '').split(':');
@@ -280,7 +281,8 @@ define([
         text: label.text || t('core', 'dateTimeRange:label:' + templateData.type),
         dropdown: prepareDropdown(label),
         value: label.value || null,
-        ranges: prepareRanges(label)
+        ranges: prepareRanges(label, type),
+        utc: label.utc == null ? options.utc : (label.utc ? 1 : 0)
       };
     });
 
@@ -369,6 +371,7 @@ define([
         +matches[2] * rangeMultiplier, actualGroup
       );
     }
+
     if (group !== 'shifts')
     {
       fromMoment.hours(startHour);
@@ -422,11 +425,14 @@ define([
   render.serialize = function(view)
   {
     var $container = view.$('.dateTimeRange');
-    var type = $container[0].dataset.type;
+    var $input = $container.find('.dateTimeRange-label-input:checked');
+    var property = $input.length ? $input.val() : $container[0].dataset.property;
+    var dataset = Object.assign({}, $container[0].dataset, $input.prop('dataset'));
+    var type = dataset.type;
     var dateFormat = DATE_FORMATS[type];
-    var utc = $container[0].dataset.utc === '1';
-    var setTime = $container[0].dataset.setTime === '1';
-    var startHour = $container[0].dataset.startHour;
+    var utc = dataset.utc === '1';
+    var setTime = dataset.setTime === '1';
+    var startHour = dataset.startHour;
     var $fromDate = $container.find('input[name="from-date"]');
     var $fromTime = $container.find('input[name="from-time"]');
     var $toDate = $container.find('input[name="to-date"]');
@@ -438,22 +444,12 @@ define([
 
     if (!$fromDate.length || fromDate.length < 7)
     {
-      fromDate = '1970-01-01';
+      fromDate = (utc ? time.utc : time).getMoment(0).format(dateFormat);
     }
 
     if (!$toDate.length || toDate.length < 7)
     {
-      toDate = '1970-01-01';
-    }
-
-    if (fromDate.length === 7)
-    {
-      fromDate += '-01';
-    }
-
-    if (toDate.length === 7)
-    {
-      toDate += '-01';
+      toDate = (utc ? time.utc : time).getMoment(0).format(dateFormat);
     }
 
     var startTime = setTime
@@ -480,8 +476,8 @@ define([
       toTime += ':00';
     }
 
-    var fromMoment = (utc ? time.utc : time).getMoment(fromDate + ' ' + fromTime, 'YYYY-MM-DD HH:mm:ss');
-    var toMoment = (utc ? time.utc : time).getMoment(toDate + ' ' + toTime, 'YYYY-MM-DD HH:mm:ss');
+    var fromMoment = (utc ? time.utc : time).getMoment(fromDate + ' ' + fromTime, dateFormat + ' HH:mm:ss');
+    var toMoment = (utc ? time.utc : time).getMoment(toDate + ' ' + toTime, dateFormat + ' HH:mm:ss');
 
     if (isInvalid(fromMoment, $fromDate))
     {
@@ -509,10 +505,9 @@ define([
       $toTime.val(toMoment.format('HH:mm:ss'));
     }
 
-    var $input = $container.find('.dateTimeRange-label-input:checked');
 
     return {
-      property: $input.length ? $input.val() : $container[0].dataset.property,
+      property: property,
       from: fromMoment,
       to: toMoment
     };
@@ -529,29 +524,41 @@ define([
         return false;
       }
 
-      return moment.year() === 1970;
+      return moment.year() <= 1970;
     }
   };
 
   render.formToRql = function(view, rqlSelector)
   {
     var dateTimeRange = render.serialize(view);
+    var from = 0;
 
     if (dateTimeRange.from)
     {
+      from = dateTimeRange.from.valueOf();
+
       rqlSelector.push({
         name: 'ge',
-        args: [dateTimeRange.property, dateTimeRange.from.valueOf()]
+        args: [dateTimeRange.property, from]
       });
     }
 
     if (dateTimeRange.to)
     {
+      var to = dateTimeRange.to.valueOf();
+
+      if (to === from)
+      {
+        to = dateTimeRange.to.add(1, 'days').valueOf();
+      }
+
       rqlSelector.push({
         name: 'lt',
         args: [dateTimeRange.property, dateTimeRange.to.valueOf()]
       });
     }
+
+    return dateTimeRange;
   };
 
   render.rqlToForm = function(propertyName, term, formData)
@@ -559,9 +566,10 @@ define([
     var view = this;
     var $dtr = view.$('.dateTimeRange');
     var labelProperty = $dtr.find('.dateTimeRange-label-input').first().prop('name');
-    var dataset = $dtr[0].dataset;
-    var dateFormat = DATE_FORMATS[dataset.type];
-    var utc = dataset.utc === '1';
+    var dtrDataset = $dtr[0].dataset;
+    var lblDataset = view.$id(labelProperty + '-' + propertyName).prop('dataset') || {};
+    var dateFormat = DATE_FORMATS[lblDataset.type || dtrDataset.type];
+    var utc = lblDataset.utc == null ? (dtrDataset.utc === '1') : (lblDataset.utc === '1');
     var moment = (utc ? time.utc : time).getMoment(term.args[1]);
     var dir;
 

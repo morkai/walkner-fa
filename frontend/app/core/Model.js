@@ -25,6 +25,25 @@ define([
 
     labelAttribute: null,
 
+    constructor: function()
+    {
+      Backbone.Model.apply(this, arguments);
+
+      this._loading = false;
+
+      this.on('request', function() { this._loading = true; });
+      this.on('sync error', function()
+      {
+        this._loading = false;
+        this.trigger('requestComplete');
+      });
+    },
+
+    isLoading: function()
+    {
+      return this._loading;
+    },
+
     genUrl: function(action, base)
     {
       var urlRoot = _.result(this, 'urlRoot');
@@ -167,6 +186,29 @@ define([
     isSynced: function()
     {
       return this.currentReadRequest === null || (!!this.collection && !!this.collection.get(this));
+    },
+
+    findRqlTerm: function(prop, name)
+    {
+      if (!this.rqlQuery)
+      {
+        return null;
+      }
+
+      return _.find(this.rqlQuery.selector.args, function(term)
+      {
+        if (term.args[0] !== prop)
+        {
+          return false;
+        }
+
+        if (Array.isArray(name))
+        {
+          return name.indexOf(term.name) !== -1;
+        }
+
+        return !name || term.name === name;
+      });
     }
 
   });

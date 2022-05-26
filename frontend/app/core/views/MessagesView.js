@@ -210,6 +210,11 @@ define([
     }
   };
 
+  MessagesView.prototype.isLoading = function()
+  {
+    return this.loadingCounter > 0;
+  };
+
   MessagesView.prototype.loading = function()
   {
     this.loadingCounter += 1;
@@ -287,6 +292,11 @@ define([
       this.hide(this.$loadingMessage);
       this.$loadingMessage = null;
     }
+  };
+
+  MessagesView.prototype.isSaving = function()
+  {
+    return this.savingCounter > 0;
   };
 
   MessagesView.prototype.saving = function()

@@ -9,7 +9,9 @@ define([
 
   var NO_FORM_CONTROL_TYPES = {
     select2: true,
-    static: true
+    static: true,
+    radio: true,
+    checkbox: true
   };
 
   return function formGroup(view, options)
@@ -17,6 +19,11 @@ define([
     if (typeof options === 'string')
     {
       options = {name: options};
+    }
+
+    if (options.visible === false || options.hidden)
+    {
+      return '';
     }
 
     if (!options.name && options.id)
@@ -111,22 +118,29 @@ define([
       case 'number':
       case 'date':
       case 'month':
+      {
         inputAttrs.type = options.type;
         inputAttrs.min = options.min == null ? false : options.min;
         inputAttrs.max = options.max == null ? false : options.max;
         inputAttrs.step = options.step == null ? false : options.step;
         inputAttrs.value = options.value;
+
         break;
+      }
 
       case 'textarea':
+      {
         inputTag = 'textarea';
         inputAttrs.type = false;
         inputAttrs.rows = options.rows == null ? false : options.rows;
         inputAttrs.cols = options.cols == null ? false : options.cols;
         inputInner = options.value == null ? '' : String(options.value);
+
         break;
+      }
 
       case 'static':
+      {
         inputTag = 'p';
         inputAttrs.type = false;
         inputAttrs.name = false;
@@ -135,20 +149,32 @@ define([
         inputAttrs.readonly = false;
         inputInner = options.value == null ? '' : String(options.value);
         inputClassNames.push('form-control-static');
+
         break;
+      }
 
       case 'text':
+      case 'color':
+      {
+        inputAttrs.type = options.type;
         inputAttrs.pattern = options.pattern || false;
         inputAttrs.maxlength = options.maxLength > 0 ? options.maxLength : false;
+        inputAttrs.value = options.value;
+
         break;
+      }
 
       case 'file':
+      {
         inputAttrs.type = options.type;
         inputAttrs.multiple = options.multiple === true;
         inputAttrs.accept = options.accept || false;
+
         break;
+      }
 
       case 'select':
+      {
         inputTag = 'select';
         inputAttrs.type = false;
         inputAttrs.multiple = options.multiple === true;
@@ -175,13 +201,75 @@ define([
         {
           inputInner += html.tag('option', Object.assign({}, option, {label: false}), option.label);
         });
+
         break;
+      }
+
+      case 'radio':
+      case 'checkbox':
+      {
+        inputTag = 'input';
+        inputAttrs.type = options.type;
+
+        if (options.type === 'checkbox' && !/]$/.test(inputAttrs.name))
+        {
+          inputAttrs.name += '[]';
+        }
+
+        break;
+      }
     }
 
     inputAttrs.className = html.className(inputClassNames, options.inputClassName);
 
     Object.assign(inputAttrs, options.inputAttrs);
 
-    return html.tag('div', formGroupAttrs, labelTag + helpBlockTag + html.tag(inputTag, inputAttrs, inputInner));
+    var inputTags = '';
+
+    switch (options.type)
+    {
+      case 'radio':
+      case 'checkbox':
+      {
+        if (options.inline && !!labelTag)
+        {
+          labelTag += '<br>';
+        }
+
+        options.options.forEach(function(option, i)
+        {
+          var typeClassName = options.type + (options.inline ? '-inline' : '');
+          var containerAttrs = {
+            className: html.className(
+              typeClassName,
+              options.containerClassName,
+              option.containerClassName,
+              option.disabled ? 'disabled' : null
+            )
+          };
+          var inputTag = html.tag('input', Object.assign(
+            {
+              disabled: !!option.disabled,
+              checked: !!option.checked,
+              value: option.value
+            },
+            inputAttrs,
+            {id: id + (i ? ('-' + i) : '')},
+            option.inputAttrs,
+            {label: false}
+          ));
+          var labelTag = html.tag('label', null, inputTag + ' ' + option.label);
+
+          inputTags += html.tag('div', containerAttrs, labelTag);
+        });
+      }
+    }
+
+    if (!inputTags)
+    {
+      inputTags = html.tag(inputTag, inputAttrs, inputInner);
+    }
+
+    return html.tag('div', formGroupAttrs, labelTag + helpBlockTag + inputTags);
   };
 });

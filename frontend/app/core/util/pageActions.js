@@ -207,8 +207,9 @@ define([
         layout: layout,
         page: page,
         collection: collection || (page && page.collection) || null,
-        privilege: privilege,
-        maxCount: 60000
+        privileges: privilege,
+        maxCount: 60000,
+        xlsxMaxCount: 0
       };
 
       if (arguments.length === 1)
@@ -238,7 +239,9 @@ define([
           }
         ];
 
-        if (window.XLSX_EXPORT && totalCount < (options.maxCount / 2))
+        if (window.XLSX_EXPORT
+          && totalCount < (options.maxCount / 2)
+          && (!options.xlsxMaxCount || totalCount <= options.xlsxMaxCount))
         {
           formats.push({
             type: 'xlsx',
@@ -266,7 +269,7 @@ define([
       return {
         id: 'export',
         template: template,
-        privileges: resolvePrivileges('view', options.collection, options.privilege, 'VIEW'),
+        privileges: resolvePrivileges('view', options.collection, options.privileges, 'VIEW'),
         callback: options.callback,
         afterRender: afterRender
       };
