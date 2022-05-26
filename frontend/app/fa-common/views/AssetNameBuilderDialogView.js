@@ -47,7 +47,6 @@ define([
         ],
         incLine: [
           {value: this.t('assetNameBuilder:value:inc')},
-          {value: this.t('assetNameBuilder:value:linePrefix')},
           {},
           {maxLength: 30}
         ],
