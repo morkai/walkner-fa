@@ -22,9 +22,18 @@
     helpers.fa.attachmentProp({name: 'photo', visible: model.commissioningType === 'new-asset'}),
     helpers.fa.attachmentProp({name: 'nameplate', visible: model.usageDestination === 'external-supplier'})
   ]) %>
-  <div class="form-group">
+  <div class="form-group fa-edit-long">
     <label for="<%- id('assetName') %>" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
-    <input id="<%- id('assetName') %>" name="assetName" class="form-control fa-edit-long" type="text" data-required data-maxlength="50 200">
+    <% if (t.has('fa-common', 'assetNameBuilder:button')) { %>
+    <div class="input-group">
+      <input id="<%- id('assetName') %>" name="assetName" class="form-control" type="text" data-required maxlength="50 200">
+      <div class="input-group-btn">
+        <button id="<%- id('buildAssetName') %>" class="btn btn-default" type="button" title="<%- t('fa-common', 'assetNameBuilder:button') %>"><i class="fa fa-wrench"></i></button>
+      </div>
+    </div>
+    <% } else { %>
+    <input id="<%- id('assetName') %>" name="assetName" class="form-control" type="text" data-required maxlength="50 200">
+    <% } %>
   </div>
   <div class="fa-edit-row">
     <div class="form-group fa-edit-short">

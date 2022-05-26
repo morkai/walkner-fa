@@ -4,12 +4,14 @@ define([
   'app/time',
   'app/fa-common/views/StageView',
   'app/fa-common/views/ParticipantsInputView',
+  'app/fa-common/views/AssetNameBuilderDialogView',
   './ZplxInputView',
   'app/fa-ot/templates/edit/protocol'
 ], function(
   time,
   StageView,
   ParticipantsInputView,
+  AssetNameBuilderDialogView,
   ZplxInputView,
   template
 ) {
@@ -20,6 +22,15 @@ define([
     template: template,
 
     updateOnChange: false,
+
+    events: {
+
+      'click #-buildAssetName': function()
+      {
+        AssetNameBuilderDialogView.showDialog(this);
+      }
+
+    },
 
     initialize: function()
     {

@@ -1,0 +1,26 @@
+<form>
+  <div class="form-group">
+    <label for="<%- id(`category`) %>" class="control-label"><%- t('assetNameBuilder:category') %></label>
+    <select id="<%- id('category') %>" class="form-control">
+      <option></option>
+      <% categories.forEach(id => { %>
+      <option value="<%- id %>"><%- t(`assetNameBuilder:category:${id}`) %></option>
+      <% }) %>
+    </select>
+  </div>
+  <% [1, 2, 3, 4, 5].forEach(no => { %>
+  <div class="form-group">
+    <label for="<%- id(`p${no}`) %>" class="control-label"><%- t('assetNameBuilder:part', {no}) %></label>
+    <p class="help-block hidden" style="margin-top: -5px; margin-bottom: 2px"></p>
+    <input id="<%- id(`p${no}`) %>" class="form-control" type="text">
+  </div>
+  <% }) %>
+  <div class="form-group">
+    <label class="control-label"><%- t('assetNameBuilder:result') %></label>
+    <p id="<%- id('result') %>" class="form-control-static text-fixed">-</p>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary"><%- t('assetNameBuilder:submit') %></button>
+    <button type="button" class="cancel btn btn-link"><%- t('core', 'FORM:ACTION:cancel') %></button>
+  </div>
+</form>

@@ -8,6 +8,7 @@ define([
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
+  'app/fa-common/views/AssetNameBuilderDialogView',
   './ZplxInputView',
   'app/fa-ot/templates/edit/document'
 ], function(
@@ -18,6 +19,7 @@ define([
   dictionaries,
   StageView,
   ValueInputView,
+  AssetNameBuilderDialogView,
   ZplxInputView,
   template
 ) {
@@ -30,6 +32,11 @@ define([
     updateOnChange: false,
 
     events: {
+
+      'click #-buildAssetName': function()
+      {
+        AssetNameBuilderDialogView.showDialog(this);
+      },
 
       'change #-costCenter': function()
       {

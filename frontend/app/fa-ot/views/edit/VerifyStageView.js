@@ -6,6 +6,7 @@ define([
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
   'app/fa-common/views/TransactionsInputView',
+  'app/fa-common/views/AssetNameBuilderDialogView',
   './ZplxInputView',
   'app/fa-ot/templates/edit/verify'
 ], function(
@@ -14,6 +15,7 @@ define([
   dictionaries,
   StageView,
   TransactionsInputView,
+  AssetNameBuilderDialogView,
   ZplxInputView,
   template
 ) {
@@ -26,6 +28,10 @@ define([
     updateOnChange: false,
 
     events: {
+      'click #-buildAssetName': function()
+      {
+        AssetNameBuilderDialogView.showDialog(this);
+      },
       'change #-depRate': function()
       {
         this.updatePeriods();
