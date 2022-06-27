@@ -124,9 +124,9 @@ define([
         });
       }
 
-      const zplx = padString.start(this.$id('zplx').val().trim().replace(/^0+/, ''), 8, '0');
+      const zplx = this.$id('zplx').val().trim().toUpperCase();
 
-      if (zplx !== '00000000' && /^[0-9]{8}$/.test(zplx))
+      if (zplx.length)
       {
         selector.push({name: 'eq', args: ['zplx.code', zplx]});
       }
