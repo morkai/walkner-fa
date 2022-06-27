@@ -33,7 +33,7 @@
   "vars:serialNo": "Numer seryjny",
   "vars:assetName": "Nazwa środka trwałego",
   "vars:lineSymbol": "Symbol linii",
-  "vars:zplx": "Numer ZPLX",
+  "vars:zplx": "Numer zamówienia wewnętrznego",
   "vars:auc": "AuC",
   "vars:owner": "Właściciel środka trwałego",
   "vars:committee": "Komitet",

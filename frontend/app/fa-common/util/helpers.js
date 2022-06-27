@@ -163,7 +163,7 @@ define([
   {
     var items = zplxs.map(function(zplx)
     {
-      var item = '<span class="text-fixed">ZPLX' + zplx.code + '</span>';
+      var item = `<span class="text-fixed">${zplx.code}</span>`;
 
       if (zplx.value)
       {

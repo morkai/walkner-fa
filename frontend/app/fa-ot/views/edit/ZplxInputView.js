@@ -75,6 +75,7 @@ define([
       'change input[name$=".code"]': function(e)
       {
         this.$(e.target)
+          .val(e.target.value.toUpperCase())
           .closest('.fa-edit-zplx-item')
           .find('.fa-edit-zplx-value')
           .prop('required', !!e.target.value.length);
@@ -111,7 +112,7 @@ define([
       var valid = false;
       var $zplx = this.$('input[name$=".code"]').each(function()
       {
-        valid = valid || /^[0-9]{8}$/.test(this.value);
+        valid = valid || /^(ZPLX)?[0-9]{1,8}$/.test(this.value);
       });
 
       $zplx[0].setCustomValidity(!this.required || valid ? '' : this.t('FORM:edit:zplx:invalid'));
@@ -141,7 +142,7 @@ define([
         var valueEl = this.querySelector('input[name$=".value"]');
         var aucEl = this.querySelector('input[name$=".auc"]');
 
-        if (/^[0-9]{8}$/.test(codeEl.value))
+        if (/^(ZPLX)?[0-9]{1,8}$/.test(codeEl.value))
         {
           data.zplx[codeEl.value] = {
             value: valueEl ? ValueInputView.parseValue(valueEl.value) : 0,
