@@ -51,7 +51,6 @@
       <div class="panel-details">
         <%- helpers.props(details, [
           helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded}),
-          helpers.fa.attachmentProp({name: 'checklist'}),
           helpers.fa.attachmentProp({name: 'outlay'}),
           helpers.fa.attachmentProp({name: 'certificate', visible: model.usageDestination === 'external-supplier'}),
           helpers.fa.attachmentProp({name: 'nameplate', visible: model.usageDestination === 'external-supplier'}),

@@ -97,7 +97,7 @@ define([
         files.push('protocol');
       }
 
-      files.push('checklist', 'outlay');
+      files.push('outlay');
 
       if (model.get('usageDestination') === 'external-supplier')
       {
