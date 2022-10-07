@@ -55,21 +55,14 @@ define([
   router.map('/fa/ot;add', canAdd, function()
   {
     viewport.showPage(new AddFormPage({
-      model: new FaOt({
-        protocolNeeded: true,
-        commissioningType: 'new-asset',
-        extendedDep: false,
-        usageDestination: 'factory'
-      })
+      model: FaOt.createNew()
     }));
   });
 
   router.map('/fa/ot/:id;edit', canEdit, function(req)
   {
     viewport.showPage(dictionaries.bind(new EditFormPage({
-      model: new FaOt({
-        _id: req.params.id
-      })
+      model: new FaOt({_id: req.params.id})
     })));
   });
 

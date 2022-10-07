@@ -112,11 +112,11 @@ define([
     getTemplateData: function()
     {
       var view = this;
-      var changes = view.model.get('changes');
+      var changes = view.model.get('changes') || [];
       var firstComment = changes.length && changes[0].date === view.model.get('createdAt');
       var createdItem = null;
 
-      if (view.t.has('changes:created') && !firstComment)
+      if (view.model.id && view.t.has('changes:created') && !firstComment)
       {
         createdItem = this.serializeItem({
           date: view.model.get('createdAt'),
@@ -138,7 +138,7 @@ define([
     {
       var view = this;
 
-      return view.model.get('changes')
+      return (view.model.get('changes') || [])
         .map(function(change, i) { return view.serializeItem(change, i, commentsOnly); })
         .filter(function(change) { return !commentsOnly || change.comment.length > 0; });
     },
@@ -352,7 +352,7 @@ define([
 
     afterRender: function()
     {
-      this.lastChangeCount = this.model.get('changes').length;
+      this.lastChangeCount = (this.model.get('changes') || []).length;
 
       this.$el.popover({
         container: 'body',
@@ -374,6 +374,11 @@ define([
 
       this.toggleCommentsOnly();
       this.scrollToBottom();
+
+      if (!this.model.id)
+      {
+        this.$('input, textarea, button').prop('disabled', true);
+      }
     },
 
     updateChanges: function()

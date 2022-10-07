@@ -299,7 +299,17 @@ define([
       'record',
       'finished',
       'cancelled'
-    ]
+    ],
+
+    createNew()
+    {
+      return new this({
+        protocolNeeded: true,
+        commissioningType: 'new-asset',
+        extendedDep: false,
+        usageDestination: 'factory'
+      });
+    }
 
   });
 });

@@ -1,19 +1,25 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'require',
+  'jquery',
   'underscore',
   'app/user',
   'app/viewport',
   'app/core/views/FormView',
   'app/core/util/onModelDeleted',
+  '../../FaOt',
   './stages',
   'app/fa-ot/templates/edit/form'
 ], function(
+  require,
+  $,
   _,
   user,
   viewport,
   FormView,
   onModelDeleted,
+  FaOt,
   stages,
   template
 ) {
@@ -381,6 +387,7 @@ define([
 
       viewport.msg.saving();
 
+      this.editState = this.model.id ? null : this.model.toJSON();
       this.oldStage = this.model.get('stage');
 
       this.$('.panel-footer').find('.btn').prop('disabled', true);
@@ -388,6 +395,39 @@ define([
       const files = this.$('input[type="file"]').filter(function() { return !!this.value; }).get();
 
       this.uploadNextFile(files, arguments);
+    },
+
+    request(formData)
+    {
+      if (this.model.id)
+      {
+        return FormView.prototype.request.apply(this, arguments);
+      }
+
+      const multiReq = $.Deferred();
+      const addReq = FormView.prototype.request.call(this, this.model.attributes);
+
+      addReq.done(() =>
+      {
+        const editReq = this.request(formData);
+
+        editReq.done((...args) =>
+        {
+          multiReq.resolve(...args);
+        });
+
+        editReq.fail((...args) =>
+        {
+          multiReq.reject(...args);
+        });
+      });
+
+      addReq.fail((...args) =>
+      {
+        multiReq.reject(...args);
+      });
+
+      return multiReq.promise();
     },
 
     uploadNextFile: function(files, submitArgs)
@@ -555,6 +595,17 @@ define([
 
     handleCancelAction: function(formView)
     {
+      if (!this.model.id)
+      {
+        const AddFormPage = require('app/fa-ot/pages/AddFormPage');
+
+        viewport.showPage(new AddFormPage({
+          model: FaOt.createNew()
+        }));
+
+        return;
+      }
+
       if (!this.requireComment())
       {
         return;

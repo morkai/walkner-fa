@@ -4,6 +4,7 @@ define([
   'underscore',
   'jquery',
   'app/core/pages/EditFormPage',
+  'app/core/pages/createPageBreadcrumbs',
   'app/fa-common/views/ChangesView',
   '../views/edit/FormView',
   'app/fa-ot/templates/edit/page'
@@ -11,6 +12,7 @@ define([
   _,
   $,
   EditFormPage,
+  createPageBreadcrumbs,
   ChangesView,
   FormView,
   template
@@ -21,29 +23,66 @@ define([
 
     pageClassName: 'page-max-flex',
 
-    template: template,
+    template,
 
-    FormView: FormView,
+    FormView,
 
-    initialize: function()
+    breadcrumbs()
+    {
+      if (this.model.id)
+      {
+        return EditFormPage.prototype.breadcrumbs.apply(this, arguments);
+      }
+
+      return createPageBreadcrumbs(this, [':addForm']);
+    },
+
+    initialize()
     {
       EditFormPage.prototype.initialize.apply(this, arguments);
 
       this.onResize = _.debounce(this.resize.bind(this), 16);
 
       $(window)
-        .on('resize.' + this.idPrefix, this.onResize)
-        .on('scroll.' + this.idPrefix, this.resize.bind(this));
+        .on(`resize.${this.idPrefix}`, this.onResize)
+        .on(`scroll.${this.idPrefix}`, this.resize.bind(this));
     },
 
-    destroy: function()
+    destroy()
     {
       EditFormPage.prototype.destroy.apply(this, arguments);
 
-      $(window).off('.' + this.idPrefix);
+      $(window).off(`.${this.idPrefix}`);
     },
 
-    defineViews: function()
+    setUpLayout(layout)
+    {
+      if (this.model.id)
+      {
+        return;
+      }
+
+      this.listenTo(this.model, 'change:__v', (model, v) =>
+      {
+        if (v !== 1)
+        {
+          return;
+        }
+
+        layout.setBreadcrumbs(this.breadcrumbs, this);
+
+        this.view.render();
+        this.changesView.render();
+
+        this.broker.publish('router.navigate', {
+          url: this.model.genClientUrl('edit'),
+          trigger: false,
+          replace: false
+        });
+      });
+    },
+
+    defineViews()
     {
       EditFormPage.prototype.defineViews.apply(this, arguments);
 
@@ -53,32 +92,32 @@ define([
       this.setView('#-changes', this.changesView);
     },
 
-    afterRender: function()
+    afterRender()
     {
       EditFormPage.prototype.afterRender.apply(this, arguments);
 
       this.resize();
     },
 
-    resize: function()
+    resize()
     {
-      var formEl = this.$id('form')[0];
+      const formEl = this.$id('form')[0];
 
       if (!formEl)
       {
         return;
       }
 
-      var rect = formEl.getBoundingClientRect();
-      var top = Math.max(rect.top, 30);
-      var left = rect.right + 30;
-      var height = window.innerHeight - top - 30;
-      var fixed = window.innerWidth >= 1600;
+      const rect = formEl.getBoundingClientRect();
+      const top = Math.max(rect.top, 30);
+      const left = rect.right + 30;
+      const height = window.innerHeight - top - 30;
+      const fixed = window.innerWidth >= 1600;
 
       this.$id('changes').toggleClass('fa-changes-fixed', fixed).find('.fa-changes').css({
-        top: top + 'px',
-        left: left + 'px',
-        height: fixed ? (height + 'px') : ''
+        top: `${top}px`,
+        left: `${left}px`,
+        height: fixed ? `${height}px` : ''
       });
 
       this.changesView.scrollToBottom();
