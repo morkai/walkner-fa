@@ -65,9 +65,7 @@ define([
   router.map('/fa/lt/:id;edit', canEdit, function(req)
   {
     viewport.showPage(dictionaries.bind(new EditFormPage({
-      model: new FaLt({
-        _id: req.params.id
-      })
+      model: new FaLt({_id: req.params.id})
     })));
   });
 

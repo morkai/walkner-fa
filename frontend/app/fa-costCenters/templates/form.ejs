@@ -7,21 +7,21 @@
         <div class="checkbox">
           <label class="control-label">
             <input type="checkbox" name="active" value="true">
-            <%- helpers.t('PROPERTY:active') %>
+            <%- t('PROPERTY:active') %>
           </label>
         </div>
       </div>
       <div class="form-group">
-        <label for="<%- idPrefix %>-_id" class="control-label is-required"><%- helpers.t('PROPERTY:_id') %></label>
-        <input id="<%- idPrefix %>-_id" class="form-control" type="text" name="_id" required maxlength="8">
+        <label for="<%- id('_id') %>" class="control-label is-required"><%- t('PROPERTY:_id') %></label>
+        <input id="<%- id('_id') %>" class="form-control" type="text" name="_id" required maxlength="20">
       </div>
       <div class="form-group">
-        <label for="<%- idPrefix %>-description" class="control-label"><%- helpers.t('PROPERTY:description') %></label>
-        <input id="<%- idPrefix %>-description" class="form-control" type="text" name="description">
+        <label for="<%- id('description') %>" class="control-label"><%- t('PROPERTY:description') %></label>
+        <input id="<%- id('description') %>" class="form-control" type="text" name="description">
       </div>
       <div class="form-group">
-        <label for="<%- idPrefix %>-owner" class="control-label"><%- helpers.t('PROPERTY:owner') %></label>
-        <input id="<%- idPrefix %>-owner" type="text" name="owner">
+        <label for="<%- id('owner') %>" class="control-label"><%- t('PROPERTY:owner') %></label>
+        <input id="<%- id('owner') %>" type="text" name="owner">
       </div>
     </div>
     <div class="panel-footer">

@@ -92,6 +92,11 @@ define([
       this.setView('#-changes', this.changesView);
     },
 
+    load(when)
+    {
+      return when(this.model.id ? this.model.fetch() : null);
+    },
+
     afterRender()
     {
       EditFormPage.prototype.afterRender.apply(this, arguments);

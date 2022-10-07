@@ -75,6 +75,13 @@ define([
       obj.stage = t(this.nlsDomain, `stage:${obj.stage}`, {kind: obj.kind});
       obj.kind = t(this.nlsDomain, `kind:short:${obj.kind}`);
       obj.date = time.utc.format(obj.date, 'L');
+      obj.assetNos = obj.assets && obj.assets.length > 1 ? obj.assets.map(a => a.no).join('\n') : '';
+      obj.assetNo = obj.assets && obj.assets.length ? obj.assets[0].no : '';
+
+      if (obj.assets && obj.assets.length > 1)
+      {
+        obj.assetNo += ` +${obj.assets.length - 1}`;
+      }
 
       VALUE_PROPS.forEach(prop =>
       {
@@ -83,8 +90,6 @@ define([
           currency: 'PLN'
         });
       });
-
-      obj.assetNo = (obj.assets || []).map(a => a.no).join('; ');
 
       return obj;
     },
@@ -308,7 +313,15 @@ define([
     MERGE_TYPES: [
       'full',
       'partial'
-    ]
+    ],
+
+    createNew()
+    {
+      return new this({
+        kind: 'scrap',
+        mergeType: 'full'
+      });
+    }
 
   });
 });
