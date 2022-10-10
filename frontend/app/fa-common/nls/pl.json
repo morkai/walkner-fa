@@ -36,6 +36,7 @@
   "files:assetBailmentPl": "Asset Bailment Certificate (PL)",
   "files:checklist": "Checklista",
   "files:pot": "Protokół odbioru technicznego",
+  "files:pzo": "Protokół zdawczo-odbiorczy",
 
   "fileEditDialog:title": "Edycja pliku",
   "fileEditDialog:submit": "Zapisz nowy plik",

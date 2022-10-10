@@ -37,6 +37,7 @@
     "files:assetBailmentPl": "Asset Bailment Certificate (PL)",
     "files:checklist": "Checklist",
     "files:pot": "Technical acceptance protocol",
+    "files:pzo": "Handover protocol",
 
     "fileEditDialog:title": "File edit",
     "fileEditDialog:submit": "Save the new file",
