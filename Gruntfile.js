@@ -2,11 +2,21 @@
 
 'use strict';
 
-const requirejsConfig = require('./config/require');
+const requirejsConfig = require('./frontend/config');
 
 module.exports = grunt =>
 {
-  grunt.initConfig({
+  const include = [
+    'select2-lang/en',
+    'select2-lang/pl',
+    'moment-lang/en',
+    'moment-lang/pl'
+  ];
+  const modules = [
+    {name: 'fa-main', include}
+  ];
+
+  const config = {
     pkg: grunt.file.readJSON('package.json'),
     clean: {
       frontendBuild: [
@@ -105,17 +115,7 @@ module.exports = grunt =>
           optimize: 'none',
           optimizeCss: 'standard',
           buildCSS: true,
-          modules: [
-            {
-              name: 'fa-main',
-              include: [
-                'select2-lang/en',
-                'select2-lang/pl',
-                'moment-lang/en',
-                'moment-lang/pl'
-              ]
-            }
-          ],
+          modules,
           packages: requirejsConfig.packages,
           paths: requirejsConfig.buildPaths,
           shim: requirejsConfig.buildShim,
@@ -138,10 +138,33 @@ module.exports = grunt =>
           dest: './frontend-build'
         }]
       }
+    },
+    concat: {
+      requireMain: {
+        files: {}
+      }
     }
+  };
+
+  modules.forEach(mod =>
+  {
+    if (mod.name.includes('/'))
+    {
+      return;
+    }
+
+    config.concat.requireMain.files[`frontend-build/${mod.name}.js`] = [
+      'frontend-build/config.js',
+      'frontend-build/vendor/require/require.js',
+      `frontend-build/${mod.name}.js`,
+      'frontend-build/main.js'
+    ];
   });
 
+  grunt.initConfig(config);
+
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-uglify-es-multicore');
@@ -165,6 +188,7 @@ module.exports = grunt =>
     'messageformatAmd:frontend',
     'requirejs:frontend',
     'uglify:frontend',
+    'concat:requireMain',
     'clean:frontendBuilt'
   ]);
 

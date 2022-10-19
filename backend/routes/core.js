@@ -15,24 +15,11 @@ module.exports = (app, express) =>
   const MODULES = JSON.stringify(app.options.modules.map(m => m.id || m));
   const DASHBOARD_URL_AFTER_LOG_IN = JSON.stringify(app.options.dashboardUrlAfterLogIn || '/');
 
-  const requirejs = {
-    packages: null,
-    paths: null,
-    shim: null
-  };
-
-  app.broker
-    .subscribe('updater.newVersion', reloadRequirejsConfig)
-    .setFilter(message => message.service === 'frontend');
-
-  reloadRequirejsConfig();
   setUpFrontendVersionUpdater();
 
   express.get('/', showIndex);
 
   express.get('/redirect', redirectRoute);
-
-  express.get('/config.js', sendRequireJsConfig);
 
   express.options('/ping', cors, (req, res) => res.end());
   express.get('/ping', cors, (req, res) => res.format({
@@ -71,30 +58,6 @@ module.exports = (app, express) =>
   function redirectRoute(req, res)
   {
     res.redirect(req.query.referrer || '/');
-  }
-
-  function sendRequireJsConfig(req, res)
-  {
-    res.type('js');
-    res.render('config.js.ejs', {
-      cache: false,
-      packages: requirejs.packages,
-      paths: requirejs.paths,
-      shim: requirejs.shim
-    });
-  }
-
-  function reloadRequirejsConfig()
-  {
-    const configPath = require.resolve('../../config/require');
-
-    delete require.cache[configPath];
-
-    const requirejsConfig = require(configPath);
-
-    requirejs.packages = JSON.stringify(requirejsConfig.packages);
-    requirejs.paths = JSON.stringify(requirejsConfig.paths);
-    requirejs.shim = JSON.stringify(requirejsConfig.shim);
   }
 
   function setUpFrontendVersionUpdater()
