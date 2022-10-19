@@ -156,6 +156,13 @@ define([
         return [];
       }
 
+      const rejectActions = ['document'];
+
+      if (this.model.get('protocolNeeded'))
+      {
+        rejectActions.push('protocol');
+      }
+
       return [
         {
           id: 'nextStep',
@@ -166,7 +173,7 @@ define([
           id: 'reject',
           className: 'btn-warning',
           icon: 'fa-times',
-          actions: ['protocol', 'document']
+          actions: rejectActions
         }
       ];
     },
