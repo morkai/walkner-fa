@@ -215,19 +215,6 @@ define([
         return false;
       }
 
-      const verifiedAt = time.getMoment(attrs.stageChangedAt.verify);
-      const now = time.getMoment();
-
-      if (verifiedAt.format('MMYYYY') === now.format('MMYYYY'))
-      {
-        return true;
-      }
-
-      if (attrs.netValue > 0 || attrs.economicNetValue > 0)
-      {
-        return false;
-      }
-
       return true;
     }
 
