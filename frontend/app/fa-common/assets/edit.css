@@ -85,30 +85,6 @@
 .fa-edit-transactions-value {
   width: 114px;
 }
-.fa-edit-assets-item {
-  display: flex;
-  margin-bottom: 5px;
-}
-.fa-edit-assets-item:only-child .btn {
-  display: none;
-}
-.fa-edit-assets-labels {
-  display: flex;
-}
-.fa-edit-assets-labels > label {
-  width: 168px;
-  font-weight: normal;
-}
-.fa-edit-assets-labels > label + label {
-  margin-left: 15px;
-}
-.fa-edit-assets-no,
-.fa-edit-assets-transactionType {
-  width: 168px;
-}
-.fa-edit-assets-no {
-  margin-right: 15px;
-}
 .fa-edit-participants tbody {
   vertical-align: top;
 }

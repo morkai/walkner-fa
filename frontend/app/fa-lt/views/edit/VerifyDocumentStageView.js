@@ -3,7 +3,7 @@
 define([
   'app/time',
   'app/fa-common/views/StageView',
-  'app/fa-common/views/AssetsInputView',
+  'app/fa-lt/views/edit/AssetsInputView',
   'app/fa-lt/templates/edit/verifyDocument'
 ], function(
   time,

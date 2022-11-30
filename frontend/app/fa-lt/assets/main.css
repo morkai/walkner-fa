@@ -4,6 +4,30 @@
 .prop[data-prop="committee"] .fa-thumbs-down {
  color: #d9534f;
 }
+.fa-lt-edit-assets-item {
+  display: flex;
+  margin-bottom: 5px;
+}
+.fa-lt-edit-assets-item:only-child .btn {
+  display: none;
+}
+.fa-lt-edit-assets-labels {
+  display: flex;
+}
+.fa-lt-edit-assets-labels > label {
+  width: 168px;
+  font-weight: normal;
+}
+.fa-lt-edit-assets-labels > label + label {
+  margin-left: 15px;
+}
+.fa-lt-edit-assets-no,
+.fa-lt-edit-assets-transactionType {
+  width: 168px;
+}
+.fa-lt-edit-assets-no {
+  margin-right: 15px;
+}
 @media (max-width: 2400px) {
   .fa-lt-edit-page .bd {
     justify-content: left;

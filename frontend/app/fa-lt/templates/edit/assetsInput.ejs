@@ -1,14 +1,14 @@
 <div class="form-group" style="margin-bottom: 15px">
   <label class="control-label is-required"><%- t('PROPERTY:assets') %></label>
-  <div class="fa-edit-assets-labels">
+  <div class="fa-lt-edit-assets-labels">
     <label><%- t('PROPERTY:assets.no') %></label>
     <label><%- t('PROPERTY:assets.transactionType') %></label>
   </div>
-  <div id="<%- id('assets') %>" class="fa-edit-assets-list">
+  <div id="<%- id('assets') %>" class="fa-lt-edit-assets-list">
     <% assets.forEach((d, i) => { %>
-    <div class="fa-edit-assets-item">
-      <input name="assets[<%- i %>].no" class="form-control text-fixed fa-edit-assets-no" type="text" value="" maxlength="50" <%- readOnly ? 'readonly tabindex="-1"' : '' %>>
-      <input name="assets[<%- i %>].transactionType" class="form-control text-fixed fa-edit-assets-transactionType" type="text" value="" placeholder="---" maxlength="3" pattern="^[A-Za-z0-9]{3}$" <%- readOnly ? 'readonly tabindex="-1"' : '' %>>
+    <div class="fa-lt-edit-assets-item">
+      <input name="assets[<%- i %>].no" class="form-control text-fixed fa-lt-edit-assets-no" type="text" value="" maxlength="50" <%- readOnly ? 'readonly tabindex="-1"' : '' %>>
+      <input name="assets[<%- i %>].transactionType" class="form-control text-fixed fa-lt-edit-assets-transactionType" type="text" value="" placeholder="---" maxlength="3" pattern="^[A-Za-z0-9]{3}$" <%- readOnly ? 'readonly tabindex="-1"' : '' %>>
       <% if (!readOnly) { %>
       <button class="btn btn-link" type="button" data-action="assets:remove" title="<%- t('fa-common', 'FORM:edit:assets:remove') %>"><i class="fa fa-times"></i></button>
       <% } %>

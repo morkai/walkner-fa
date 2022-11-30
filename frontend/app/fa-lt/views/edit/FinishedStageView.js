@@ -8,8 +8,8 @@ define([
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
-  'app/fa-common/views/AssetsInputView',
   'app/fa-lt/FaLt',
+  'app/fa-lt/views/edit/AssetsInputView',
   'app/fa-lt/templates/edit/finished'
 ], function(
   time,
@@ -19,8 +19,8 @@ define([
   dictionaries,
   StageView,
   ValueInputView,
-  AssetsInputView,
   FaLt,
+  AssetsInputView,
   template
 ) {
   'use strict';

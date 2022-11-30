@@ -4,7 +4,7 @@ define([
   'underscore',
   'app/core/View',
   'app/fa-common/views/ValueInputView',
-  'app/fa-common/templates/assetsInput'
+  'app/fa-lt/templates/edit/assetsInput'
 ], function(
   _,
   View,
@@ -20,7 +20,7 @@ define([
     events: {
       'click .btn[data-action="assets:add"]': function()
       {
-        const $assets = this.$('.fa-edit-assets-item').first().clone().css({display: 'none'});
+        const $assets = this.$('.fa-lt-edit-assets-item').first().clone().css({display: 'none'});
         const $input = $assets.find('input').val('').first();
 
         $assets.appendTo(this.$id('assets')).fadeIn('fast');
@@ -31,9 +31,9 @@ define([
 
       'click .btn[data-action="assets:remove"]': function(e)
       {
-        const $assets = this.$(e.target).closest('.fa-edit-assets-item');
+        const $assets = this.$(e.target).closest('.fa-lt-edit-assets-item');
 
-        if (this.$('.fa-edit-assets-item').length === 1)
+        if (this.$('.fa-lt-edit-assets-item').length === 1)
         {
           $assets.find('input').val('').first().focus();
         }
@@ -42,7 +42,7 @@ define([
           $assets.fadeOut('fast', () =>
           {
             $assets.remove();
-            this.$('.fa-edit-assets-item').last().find('input').first().select();
+            this.$('.fa-lt-edit-assets-item').last().find('input').first().select();
             this.model.trigger('dirty');
             this.trigger('change');
           });
@@ -92,7 +92,7 @@ define([
 
       const valid = data.assets.length > 0;
 
-      this.$('.fa-edit-assets-item input').first()[0].setCustomValidity(
+      this.$('.fa-lt-edit-assets-item input').first()[0].setCustomValidity(
         !this.required || valid ? '' : this.t('fa-common', 'FORM:edit:assets:invalid')
       );
     },
@@ -116,7 +116,7 @@ define([
     {
       data.assets = [];
 
-      this.$('.fa-edit-assets-item').each((i, itemEl) =>
+      this.$('.fa-lt-edit-assets-item').each((i, itemEl) =>
       {
         const asset = {
           no: itemEl.querySelector('input[name$=".no"]').value.trim(),
