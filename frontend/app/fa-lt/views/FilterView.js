@@ -26,14 +26,14 @@ define([
   var FILTER_LIST = [
     'kind',
     'stage',
-    'assetNo',
+    'assets.no',
     'assetName',
     'inventoryNo',
     'costCenter',
     'limit'
   ];
   var FILTER_MAP = {
-
+    'assets.no': 'assetNo'
   };
 
   return FilterView.extend({
@@ -69,16 +69,16 @@ define([
 
     termToForm: {
       'date': dateTimeRange.rqlToForm,
-      'assets.no': function(propertyName, term, formData)
+      'assets.no'(propertyName, term, formData)
       {
         formData.assetNo = term.args[1];
       },
-      'assetName': function(propertyName, term, formData)
+      'assetName'(propertyName, term, formData)
       {
         formData[propertyName] = term.args[1];
       },
       'inventoryNo': 'assetName',
-      'stage': function(propertyName, term, formData)
+      'stage'(propertyName, term, formData)
       {
         formData[propertyName] = term.name === 'in' ? term.args[1] : [term.args[1]];
       },

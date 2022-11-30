@@ -8,6 +8,7 @@ define([
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
+  'app/fa-common/views/AssetsInputView',
   'app/fa-lt/FaLt',
   'app/fa-lt/templates/edit/finished'
 ], function(
@@ -18,6 +19,7 @@ define([
   dictionaries,
   StageView,
   ValueInputView,
+  AssetsInputView,
   FaLt,
   template
 ) {
@@ -132,10 +134,17 @@ define([
         });
       }
 
+      this.assetsView = new AssetsInputView({
+        model: this.model,
+        required: true
+      });
+
       Object.keys(this.valueViews).forEach(prop =>
       {
         this.setView(`#-${prop}`, this.valueViews[prop]);
       });
+
+      this.setView('#-assets', this.assetsView);
 
       this.listenTo(this.valueViews.initialValue, 'change', this.updateFiscalNetValue);
       this.listenTo(this.valueViews.deprecationValue, 'change', this.updateFiscalNetValue);
@@ -244,7 +253,9 @@ define([
       Object.keys(this.valueViews).forEach(prop =>
       {
         this.valueViews[prop].serializeToForm(formData);
-      });
+      })
+
+      this.assetsView.serializeToForm(formData);
 
       return formData;
     },
@@ -267,8 +278,6 @@ define([
         committee: setUpUserSelect2.getUserInfo(this.$id('committee')),
         committeeAcceptance: {},
         cause: (formData.cause || '').trim(),
-        transactionType: (formData.transactionType || '').trim(),
-        assetNo: (formData.assetNo || '').trim(),
         subAssetNo: (formData.subAssetNo || '').trim(),
         accountingNo: (formData.accountingNo || '').trim(),
         odwNo: (formData.odwNo || '').trim(),
@@ -309,6 +318,8 @@ define([
       {
         this.valueViews[prop].serializeForm(data);
       });
+
+      this.assetsView.serializeForm(data);
 
       return data;
     },

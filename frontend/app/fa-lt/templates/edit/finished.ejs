@@ -106,19 +106,10 @@
       <input id="<%- id(`valuationDate`) %>" name="valuationDate" class="form-control" type="date">
     </div>
   </div>
+  <div id="<%- id('assets') %>"></div>
   <div class="form-group">
-    <label for="<%- id('transactionType') %>" class="control-label"><%- t('PROPERTY:transactionType') %></label>
-    <input id="<%- id('transactionType') %>" name="transactionType" class="form-control fa-edit-short" type="text" maxlength="3" pattern="^[A-Za-z0-9]{3}$" placeholder="---">
-  </div>
-  <div class="fa-edit-row">
-    <div class="form-group">
-      <label for="<%- id('assetNo') %>" class="control-label is-required"><%- t('PROPERTY:assetNo') %></label>
-      <input id="<%- id('assetNo') %>" name="assetNo" class="form-control fa-edit-short" type="text" required maxlength="50">
-    </div>
-    <div class="form-group">
-      <label for="<%- id('subAssetNo') %>" class="control-label"><%- t('PROPERTY:subAssetNo') %></label>
-      <input id="<%- id('subAssetNo') %>" name="subAssetNo" class="form-control fa-edit-short" type="text" maxlength="50">
-    </div>
+    <label for="<%- id('subAssetNo') %>" class="control-label"><%- t('PROPERTY:subAssetNo') %></label>
+    <input id="<%- id('subAssetNo') %>" name="subAssetNo" class="form-control fa-edit-short" type="text" maxlength="50">
   </div>
   <div class="fa-edit-row">
     <div class="form-group">
