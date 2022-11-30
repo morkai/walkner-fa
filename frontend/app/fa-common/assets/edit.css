@@ -7,6 +7,12 @@
 .fa-edit-page-changes {
   flex: 1 1 auto;
 }
+.fa-changes-fixed .is-min:nth-child(2),
+.fa-changes-fixed .is-min:nth-child(4) {
+  width: auto;
+  white-space: normal;
+  word-break: break-word;
+}
 .fa-edit-tabs {
   display: flex;
   align-items: flex-end;
