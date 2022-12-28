@@ -3,36 +3,23 @@
 define([
   'app/time',
   'app/fa-common/views/StageView',
-  'app/fa-common/views/ParticipantsInputView',
-  'app/fa-common/views/AssetNameBuilderDialogView',
   './ZplxInputView',
+  './AssetsInputView',
   'app/fa-ot/templates/edit/protocol'
 ], function(
   time,
   StageView,
-  ParticipantsInputView,
-  AssetNameBuilderDialogView,
   ZplxInputView,
+  AssetsInputView,
   template
 ) {
   'use strict';
 
   return StageView.extend({
 
-    template: template,
+    template,
 
-    updateOnChange: false,
-
-    events: {
-
-      'click #-buildAssetName': function()
-      {
-        AssetNameBuilderDialogView.showDialog(this);
-      }
-
-    },
-
-    initialize: function()
+    initialize()
     {
       StageView.prototype.initialize.apply(this, arguments);
 
@@ -43,19 +30,25 @@ define([
         readOnly: false
       });
 
+      this.assetsView = new AssetsInputView({
+        model: this.model
+      });
+
       this.setView('#-zplx', this.zplxView);
+      this.setView('#-assets', this.assetsView);
     },
 
-    getTemplateData: function()
+    getTemplateData()
     {
       return {
-        model: this.model.toJSON()
+        model: this.model.attributes,
+        details: this.model.serializeDetails()
       };
     },
 
-    getFormActions: function()
+    getFormActions()
     {
-      var actions = [];
+      const actions = [];
 
       if (this.model.canEdit())
       {
@@ -78,7 +71,7 @@ define([
       return actions;
     },
 
-    handleFormAction: function(action, formView)
+    handleFormAction(action, formView)
     {
       if (action === 'nextStep')
       {
@@ -86,7 +79,7 @@ define([
       }
     },
 
-    handleNextStepAction: function(formView)
+    handleNextStepAction(formView)
     {
       this.model.set('newStage', 'document');
 
@@ -98,33 +91,31 @@ define([
       formView.submit();
     },
 
-    afterRender: function()
+    afterRender()
     {
       this.zplxView.checkValidity();
+      this.assetsView.checkValidity();
     },
 
-    serializeToForm: function(formData)
+    serializeToForm(formData)
     {
       this.zplxView.serializeToForm(formData);
+      this.assetsView.serializeToForm(formData);
 
       return formData;
     },
 
-    serializeForm: function(formData)
+    serializeForm(formData)
     {
-      var data = {
+      const data = {
         comment: (formData.comment || '').trim(),
         protocolDate: formData.protocolDate
           ? time.utc.getMoment(formData.protocolDate, 'YYYY-MM-DD').toISOString()
-          : null,
-        assetName: (formData.assetName || '').trim(),
-        lineSymbol: (formData.lineSymbol || '').trim(),
-        supplier: (formData.supplier || '').trim(),
-        inventoryNo: (formData.inventoryNo || '').trim(),
-        serialNo: (formData.serialNo || '').trim()
+          : null
       };
 
       this.zplxView.serializeForm(data);
+      this.assetsView.serializeForm(data);
 
       return data;
     }

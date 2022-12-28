@@ -1,6 +1,6 @@
 <% if (editable) { %>
 <div class="form-group" style="<%- style %>">
-  <label for="<%- idPrefix %>-<%- property %>" class="control-label <%- required ? 'is-required' : '' %>"><%- t('PROPERTY:' + property) %></label>
+  <label for="<%- idPrefix %>-<%- id %>" class="control-label <%- required ? 'is-required' : '' %>"><%- label %></label>
   <table class="fa-edit-attachment fa-edit-long">
     <tbody>
     <tr>
@@ -15,7 +15,7 @@
     </tr>
     <tr>
       <td class="is-min" style="padding-right: 10px"><%- t('FORM:edit:attachment:new') %></td>
-      <td><input id="<%- idPrefix %>-<%- property %>" name="<%- property %>" class="form-control" type="file" accept="<%- accept %>" <%- required && !file ? 'data-required' : '' %>></td>
+      <td><input id="<%- idPrefix %>-<%- id %>" name="<%- property %>" class="form-control" type="file" accept="<%- accept %>" <%- required && !file ? 'data-required' : '' %>></td>
     </tr>
     </tbody>
   </table>

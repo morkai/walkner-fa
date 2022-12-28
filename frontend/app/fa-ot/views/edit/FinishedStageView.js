@@ -7,10 +7,8 @@ define([
   'app/users/util/setUpUserSelect2',
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
-  'app/fa-common/views/ValueInputView',
-  'app/fa-common/views/TransactionsInputView',
   './ZplxInputView',
-  './VerifyStageView',
+  './AssetsInputView',
   'app/fa-ot/templates/edit/finished'
 ], function(
   time,
@@ -19,10 +17,8 @@ define([
   setUpUserSelect2,
   dictionaries,
   StageView,
-  ValueInputView,
-  TransactionsInputView,
   ZplxInputView,
-  VerifyStageView,
+  AssetsInputView,
   template
 ) {
   'use strict';
@@ -31,40 +27,37 @@ define([
 
     template,
 
-    updateOnChange: false,
-
-    events: Object.assign({
-
-      'change #-costCenter': function()
+    events: {
+      'click #-previewHrt'()
       {
-        const costCenter = dictionaries.costCenters.get(this.$id('costCenter').val());
+        const reqTplId = `ot.${this.model.get('commissioningType')}`;
+        const docNo = this.model.get('documentNo').replace(/\//g, '_');
 
-        if (!costCenter)
+        this.$id('previewHrt').prop('disabled', false);
+
+        const $submit = this.formView.$id('submit');
+
+        if ($submit.prop('disabled'))
         {
-          return;
+          previewHrt();
+        }
+        else
+        {
+          this.formView.dontRedirectAfterSubmit = true;
+
+          $submit.click();
+
+          this.once('afterRender', previewHrt);
         }
 
-        const owner = costCenter.get('owner');
-
-        if (!owner)
+        function previewHrt()
         {
-          return;
-        }
-
-        const $owner = this.$id('owner');
-
-        if ($owner.length)
-        {
-          $owner.select2('data', {
-            id: owner[user.idProperty],
-            text: owner.label
-          });
+          window.open(`/fa/reqTpls/${reqTplId};preview?doc=${docNo}`);
         }
       }
+    },
 
-    }, VerifyStageView.prototype.events),
-
-    initialize: function()
+    initialize()
     {
       StageView.prototype.initialize.apply(this, arguments);
 
@@ -74,20 +67,17 @@ define([
         auc: true,
         readOnly: false
       });
-      this.valueView = new ValueInputView({model: this.model});
-      this.transactionsView = new TransactionsInputView({
+
+      this.assetsView = new AssetsInputView({
         model: this.model,
-        required: true
+        forceRequired: true
       });
 
       this.setView('#-zplx', this.zplxView);
-      this.setView('#-value', this.valueView);
-      this.setView('#-transactions', this.transactionsView);
-
-      this.listenTo(this.zplxView, 'change', this.onZplxChange);
+      this.setView('#-assets', this.assetsView);
     },
 
-    getTemplateData: function()
+    getTemplateData()
     {
       const model = this.model;
       const files = [];
@@ -104,194 +94,54 @@ define([
         files.push('certificate', 'nameplate');
       }
 
-      if (model.get('commissioningType') === 'new-asset')
-      {
-        files.push('photo');
-      }
-
       files.push('hrt', 'attachment');
 
       return {
-        model: model.toJSON(),
+        model: model.attributes,
         details: model.serializeDetails(),
         files
       };
     },
 
-    getFormActions: function()
+    getFormActions()
     {
       return [];
     },
 
-    handleFormAction: function(action, formView) // eslint-disable-line no-unused-vars
+    handleFormAction(action, formView) // eslint-disable-line no-unused-vars
     {
 
     },
 
-    afterRender: function()
+    afterRender()
     {
-      this.setUpEvalGroup1Select2();
-      this.setUpEvalGroup5Select2();
-      this.setUpAssetClassSelect2();
-      this.setUpDepKeySelect2();
-      this.setUpEconomicMethodSelect2();
-      this.setUpCostCenterSelect2();
-      this.setUpOwnerSelect2();
       this.zplxView.checkValidity();
+      this.assetsView.checkValidity();
     },
 
-    setUpEvalGroup1Select2: function()
+    serializeToForm(formData)
     {
-      VerifyStageView.prototype.setUpEvalGroup1Select2.apply(this, arguments);
-    },
-
-    setUpEvalGroup5Select2: function()
-    {
-      VerifyStageView.prototype.setUpEvalGroup5Select2.apply(this, arguments);
-    },
-
-    setUpAssetClassSelect2: function()
-    {
-      VerifyStageView.prototype.setUpAssetClassSelect2.apply(this, arguments);
-    },
-
-    setUpDepKeySelect2: function()
-    {
-      VerifyStageView.prototype.setUpDepKeySelect2.apply(this, arguments);
-    },
-
-    setUpEconomicMethodSelect2: function()
-    {
-      VerifyStageView.prototype.setUpEconomicMethodSelect2.apply(this, arguments);
-    },
-
-    selectAssetClass: function()
-    {
-      VerifyStageView.prototype.selectAssetClass.apply(this, arguments);
-    },
-
-    selectDepKey: function()
-    {
-      VerifyStageView.prototype.selectDepKey.apply(this, arguments);
-    },
-
-    updatePeriods: function()
-    {
-      VerifyStageView.prototype.updatePeriods.apply(this, arguments);
-    },
-
-    updateMethods: function()
-    {
-      VerifyStageView.prototype.updateMethods.apply(this, arguments);
-    },
-
-    setUpCostCenterSelect2: function()
-    {
-      const id = this.model.get('costCenter');
-      const model = dictionaries.costCenters.get(id);
-      const data = [];
-
-      if (id && !model)
-      {
-        data.push({
-          id: id,
-          text: id
-        });
-      }
-
-      dictionaries.costCenters.forEach(d =>
-      {
-        if (d.get('active') || d.id === id)
-        {
-          data.push(idAndLabel(d));
-        }
-      });
-
-      this.$id('costCenter').select2({
-        width: '100%',
-        allowClear: true,
-        placeholder: ' ',
-        data: data
-      });
-    },
-
-    setUpOwnerSelect2: function()
-    {
-      if (this.model.get('protocolNeeded'))
-      {
-        return;
-      }
-
-      const owner = this.model.get('owner');
-      const $owner = this.$id('owner');
-
-      setUpUserSelect2($owner);
-
-      if (owner)
-      {
-        $owner.select2('data', {
-          id: owner._id,
-          text: owner.label
-        });
-      }
-    },
-
-    serializeToForm: function(formData)
-    {
-      this.valueView.serializeToForm(formData);
-
-      VerifyStageView.prototype.serializeToForm.apply(this, arguments);
+      this.zplxView.serializeToForm(formData);
+      this.assetsView.serializeToForm(formData);
 
       return formData;
     },
 
-    serializeForm: function(formData)
+    serializeForm(formData)
     {
-      const protocolNeeded = this.model.get('protocolNeeded');
       const data = {
-        protocolDate: protocolNeeded
+        comment: (formData.comment || '').trim(),
+        protocolDate: this.model.get('protocolNeeded')
           ? time.utc.getMoment(formData.protocolDate, 'YYYY-MM-DD').toISOString()
           : null,
         documentDate: time.utc.getMoment(formData.documentDate, 'YYYY-MM-DD').toISOString(),
-        lineSymbol: (formData.lineSymbol || '').trim(),
-        supplier: (formData.supplier || '').trim(),
-        costCenter: formData.costCenter || null,
-        vendorNo: (formData.vendorNo || '').trim(),
-        vendorName: (formData.vendorName || '').trim(),
-        assetNo: (formData.assetNo || '').trim(),
-        accountingNo: (formData.accountingNo || '').trim(),
-        odwNo: (formData.odwNo || '').trim()
+        postingDate: time.utc.getMoment(formData.postingDate, 'YYYY-MM-DD').toISOString()
       };
 
-      if (protocolNeeded)
-      {
-        const costCenter = dictionaries.costCenters.get(data.costCenter);
-
-        if (costCenter && !this.model.get('owner'))
-        {
-          const owner = costCenter.get('owner');
-
-          if (owner)
-          {
-            data.owner = owner;
-          }
-        }
-      }
-      else
-      {
-        data.owner = setUpUserSelect2.getUserInfo(this.$id('owner'));
-      }
-
-      this.valueView.serializeForm(data);
-
-      Object.assign(data, VerifyStageView.prototype.serializeForm.apply(this, arguments));
+      this.zplxView.serializeForm(data);
+      this.assetsView.serializeForm(data);
 
       return data;
-    },
-
-    onZplxChange: function()
-    {
-      this.valueView.setValue(this.zplxView.getTotalValue());
     }
 
   });

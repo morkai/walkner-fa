@@ -11,16 +11,17 @@ define([
 
     className: 'is-clickable is-colored',
 
-    events: Object.assign({
+    events: {
 
-      'click .is-filter': function(e)
+      'click .is-filter'(e)
       {
         this.trigger('showFilter', e.currentTarget.dataset.columnId);
-      }
+      },
 
-    }, ListView.prototype.events),
+      ...ListView.prototype.events
+    },
 
-    serializeColumns: function()
+    serializeColumns()
     {
       return [
         {id: 'no', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
@@ -35,6 +36,30 @@ define([
         {id: 'zplx', className: 'is-min', thClassName: 'is-filter', tdClassName: 'text-mono'},
         '-'
       ];
+    },
+
+    serializeRows()
+    {
+      const rows = [];
+
+      this.collection.forEach(model =>
+      {
+        const row = model.serializeRow();
+
+        row.assets.forEach(asset =>
+        {
+          rows.push({
+            ...row,
+            assetNo: asset.assetNo,
+            assetName: asset.assetName,
+            inventoryNo: asset.inventoryNo,
+            value: asset.value,
+            costCenter: asset.costCenter
+          });
+        });
+      });
+
+      return rows;
     }
 
   });

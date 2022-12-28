@@ -8,6 +8,7 @@
     "PAGE_ACTION:printProtocol": "Print protocol",
 
     "PANEL:TITLE:details": "Fixed asset technical acceptance document details",
+    "PANEL:TITLE:assets": "Assets",
     "PANEL:TITLE:attachments": "Attachments",
     "PANEL:TITLE:stages": "Stages",
     "PANEL:TITLE:addForm": "Fixed asset technical acceptance document add form",
@@ -54,6 +55,10 @@
     "FORM:edit:comment:nameplate": "If you don't attach the nameplate file, please specify the reason in the comment below.",
     "FORM:previewHrt:button": "Generate request based on a template",
     "FORM:previewHrt:info": "Request will be generated and attached automatically after move to the next stage if it wasn't specified manually.",
+    "FORM:assets:add": "Add a new asset",
+    "FORM:assets:copy": "Copy the selected asset",
+    "FORM:assets:copy:suffix": "(copy)",
+    "FORM:assets:delete": "Delete the selected asset",
 
     "PROPERTY:stage": "Stage",
     "PROPERTY:protocolNeeded": "Protocol needed?",
@@ -113,6 +118,7 @@
     "PROPERTY:transactions.type": "Transaction type",
     "PROPERTY:transactions.amount1": "Amount (economic)",
     "PROPERTY:transactions.amount2": "Amount (fiscal)",
+    "PROPERTY:assets": "Fixed assets",
 
     "protocolNeeded:true": "Yes",
     "protocolNeeded:false": "No",

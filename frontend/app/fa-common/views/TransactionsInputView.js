@@ -17,8 +17,16 @@ define([
 
     template,
 
+    namePrefix: '',
+
+    required: true,
+
+    readOnly: false,
+
+    countTransactions: () => 0,
+
     events: {
-      'click .btn[data-action="transactions:add"]': function()
+      'click .btn[data-action="transactions:add"]'()
       {
         const $transactions = this.$('.fa-edit-transactions-item').first().clone().css({display: 'none'});
         const $input = $transactions.find('input').val('').first();
@@ -29,7 +37,7 @@ define([
         this.trigger('change');
       },
 
-      'click .btn[data-action="transactions:remove"]': function(e)
+      'click .btn[data-action="transactions:remove"]'(e)
       {
         const $transactions = this.$(e.target).closest('.fa-edit-transactions-item');
 
@@ -39,9 +47,12 @@ define([
         }
         else
         {
+          this.$('.btn[data-action="transactions:remove"]').prop('disabled', true);
+
           $transactions.fadeOut('fast', () =>
           {
             $transactions.remove();
+            this.$('.btn[data-action="transactions:remove"]').prop('disabled', false);
             this.$('.fa-edit-transactions-item').last().find('input').first().select();
             this.model.trigger('dirty');
             this.trigger('change');
@@ -49,7 +60,7 @@ define([
         }
       },
 
-      'keydown input[name^="transactions"]': function(e)
+      'keydown input'(e)
       {
         if (e.key === 'Enter')
         {
@@ -57,12 +68,12 @@ define([
         }
       },
 
-      'blur input[name^="transactions"]': function()
+      'blur input'()
       {
         this.checkValidity();
       },
 
-      'change .fa-edit-transactions-value': function(e)
+      'change .fa-edit-transactions-value'(e)
       {
         const value = ValueInputView.parseValue(e.target.value);
 
@@ -72,28 +83,28 @@ define([
       }
     },
 
-    initialize: function()
+    initialize()
     {
-      this.required = false;
+      this.requiredEnabled = false;
 
-      this.listenTo(this.model, 'required', function(required)
+      this.listenTo(this.model, 'required', requiredEnabled =>
       {
-        this.required = required;
+        this.requiredEnabled = requiredEnabled;
         this.checkValidity();
       });
     },
 
-    getTemplateData: function()
+    getTemplateData()
     {
-      const transactions = this.model.get('transactions');
-
       return {
-        readOnly: !!this.options.readOnly,
-        transactions: transactions.length ? transactions : [{type: '', amount1: '', amount2: ''}]
+        namePrefix: this.namePrefix,
+        required: this.required,
+        readOnly: this.readOnly,
+        transactionCount: Math.max(1, this.countTransactions())
       };
     },
 
-    checkValidity: function()
+    checkValidity()
     {
       let valid = false;
       const $transactions = this.$('input[name$=".type"]').each((i, el) =>
@@ -102,13 +113,13 @@ define([
       });
 
       $transactions[0].setCustomValidity(
-        !this.required || valid ? '' : this.t('fa-common', 'FORM:edit:transactions:invalid')
+        !this.requiredEnabled || valid ? '' : this.t('fa-common', 'FORM:edit:transactions:invalid')
       );
     },
 
-    serializeToForm: function(formData)
+    serializeToForm(formData)
     {
-      formData.transactions = !formData.transactions.length
+      formData.transactions = !(formData.transactions || []).length
         ? [{type: '', amount1: '', amount2: ''}]
         : formData.transactions.map(d =>
         {
@@ -122,7 +133,7 @@ define([
       return formData;
     },
 
-    serializeForm: function(data)
+    serializeForm(data)
     {
       data.transactions = {};
 

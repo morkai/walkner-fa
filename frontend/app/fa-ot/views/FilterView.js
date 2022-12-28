@@ -42,7 +42,9 @@ define([
       'zplx',
       'limit'
     ],
-    filterMap: {},
+    filterMap: {
+
+    },
 
     events: Object.assign({
 
@@ -56,20 +58,23 @@ define([
 
     termToForm: {
       'date': dateTimeRange.rqlToForm,
-      'assetNo': function(propertyName, term, formData)
+      'assets.assetNo'(propertyName, term, formData)
       {
-        formData[propertyName] = term.args[1];
+        formData[propertyName.split('.').pop()] = term.args[1];
       },
-      'commissioningType': 'assetNo',
-      'assetName': 'assetNo',
-      'inventoryNo': 'assetNo',
-      'costCenter': 'assetNo',
-      'zplx.code': 'assetNo',
-      'stage': function(propertyName, term, formData)
+      'commissioningType': 'assets.assetNo',
+      'assets.assetName': 'assets.assetNo',
+      'assets.inventoryNo': 'assets.assetNo',
+      'assets.costCenter': 'assets.assetNo',
+      'zplx.code'(propertyName, term, formData)
+      {
+        formData.zplx = term.args[1];
+      },
+      'stage'(propertyName, term, formData)
       {
         formData[propertyName] = term.name === 'in' ? term.args[1] : [term.args[1]];
       },
-      'value': function(propertyName, term, formData)
+      'assets.value'(propertyName, term, formData)
       {
         const operators = {
           eq: '',
@@ -84,7 +89,7 @@ define([
       }
     },
 
-    serializeFormToQuery: function(selector)
+    serializeFormToQuery(selector)
     {
       dateTimeRange.formToRql(this, selector);
 
@@ -95,13 +100,23 @@ define([
         selector.push({name: 'in', args: ['stage', stage]});
       }
 
-      ['commissioningType', 'assetNo', 'assetName', 'inventoryNo', 'costCenter'].forEach(prop =>
+      ['commissioningType'].forEach(prop =>
       {
         const value = this.$id(prop).val().trim();
 
         if (value.length)
         {
           selector.push({name: 'eq', args: [prop, value]});
+        }
+      });
+
+      ['assetNo', 'assetName', 'inventoryNo', 'costCenter'].forEach(prop =>
+      {
+        const value = this.$id(prop).val().trim();
+
+        if (value.length)
+        {
+          selector.push({name: 'eq', args: [`assets.${prop}`, value]});
         }
       });
 
@@ -120,7 +135,7 @@ define([
 
         selector.push({
           name: operators[matches ? matches[1] : null] || 'eq',
-          args: ['value', ValueInputView.parseValue(value)]
+          args: ['assets.value', ValueInputView.parseValue(value)]
         });
       }
 

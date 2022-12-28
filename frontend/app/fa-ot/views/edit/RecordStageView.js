@@ -2,30 +2,41 @@
 
 define([
   'app/fa-common/views/StageView',
+  './AssetsInputView',
   'app/fa-ot/templates/edit/record'
 ], function(
   StageView,
+  AssetsInputView,
   template
 ) {
   'use strict';
 
   return StageView.extend({
 
-    template: template,
+    template,
 
-    updateOnChange: false,
+    initialize()
+    {
+      StageView.prototype.initialize.apply(this, arguments);
 
-    getTemplateData: function()
+      this.assetsView = new AssetsInputView({
+        model: this.model
+      });
+
+      this.setView('#-assets', this.assetsView);
+    },
+
+    getTemplateData()
     {
       return {
-        model: this.model.toJSON(),
+        model: this.model.attributes,
         details: this.model.serializeDetails()
       };
     },
 
-    getFormActions: function()
+    getFormActions()
     {
-      var actions = [];
+      const actions = [];
 
       if (!this.model.canEdit())
       {
@@ -50,7 +61,7 @@ define([
       return actions;
     },
 
-    handleFormAction: function(action, formView)
+    handleFormAction(action, formView)
     {
       if (action === 'nextStep')
       {
@@ -58,7 +69,7 @@ define([
       }
     },
 
-    handleNextStepAction: function(formView)
+    handleNextStepAction(formView)
     {
       this.model.set('newStage', 'finished');
 
@@ -70,14 +81,27 @@ define([
       formView.submit();
     },
 
-    serializeForm: function(formData)
+    afterRender()
     {
-      return {
-        assetNo: (formData.assetNo || '').trim(),
-        accountingNo: (formData.accountingNo || '').trim(),
-        odwNo: (formData.odwNo || '').trim(),
+      this.assetsView.checkValidity();
+    },
+
+    serializeToForm(formData)
+    {
+      this.assetsView.serializeToForm(formData);
+
+      return formData;
+    },
+
+    serializeForm(formData)
+    {
+      const data = {
         comment: (formData.comment || '').trim()
       };
+
+      this.assetsView.serializeForm(data);
+
+      return data;
     }
 
   });

@@ -20,55 +20,58 @@ define([
       return '';
     }
 
-    var name = options.name || 'attachment';
-    var property = name + 'File';
-    var file = view.model.get(property);
-    var accept = [].concat(options.accept || '*.*').map(function(type)
+    const name = options.name || 'attachment';
+    const property = options.property || `${name}File`;
+    const file = options.file || view.model.get(property);
+    const accept = [].concat(options.accept || '*.*').map(type =>
+    {
+      if (type === 'doc')
       {
-        if (type === 'doc')
-        {
-          return '.docx,.xlsx,.pdf';
-        }
+        return '.docx,.xlsx,.pdf';
+      }
 
-        if (type === 'img')
-        {
-          return '.jpg,.jpeg,.png,.webp';
-        }
+      if (type === 'img')
+      {
+        return '.jpg,.jpeg,.png,.webp';
+      }
 
-        return type;
-      }).join(',');
+      return type;
+    }).join(',');
 
-    return view.renderPartialHtml(attachmentFormGroupTemplate, _.assign({
+    return view.renderPartialHtml(attachmentFormGroupTemplate, {
       editable: true,
-      url: view.model.url() + '/attachments/' + name,
-      file: file,
-      name: name,
-      property: property,
+      url: `${view.model.url()}/attachments/${name}`,
+      id: options.id || property.split('.').pop(),
+      file,
+      name,
+      property,
+      label: options.label || view.t(`PROPERTY:${property}`),
       required: false,
-      style: ''
-    }, options, {
-      accept: accept
-    }));
+      style: '',
+      ...options,
+      accept
+    });
   }
 
   function attachmentProp(view, options)
   {
-    var name = options.name || 'attachment';
+    const name = options.name || 'attachment';
 
-    return _.assign({
-      id: '!' + name + 'File',
-      value: function(file)
+    return {
+      id: `!${name}File`,
+      value(file)
       {
         if (!file)
         {
           return view.t('FORM:edit:attachment:empty');
         }
 
-        return '<a href="' + view.model.url() + '/attachments/' + name + '" target="_blank">'
-          + _.escape(file.name)
-          + '</a>';
-      }
-    }, options);
+        const url = options.url || `${view.model.url()}/attachments/${name}`;
+
+        return `<a href="${url}" target="_blank">${_.escape(file.name)}</a>`;
+      },
+      ...options
+    };
   }
 
   function committeeProp(view, options)
@@ -196,10 +199,11 @@ define([
 
   function transactionsProp(view, options)
   {
-    return _.assign({
+    return {
       id: '!transactions',
-      value: transactions => transactionsList(view, transactions, options && options.forceList)
-    }, options);
+      value: transactions => transactionsList(view, transactions, options && options.forceList),
+      ...options
+    };
   }
 
   function transactionsList(view, transactions, force)
@@ -208,9 +212,10 @@ define([
     {
       return `
 <tr>
-  <td class="is-min text-fixed">${t.type}
-  <td class="is-min text-right">${t.amount1}
-  <td class="is-min text-right">${t.amount2}
+  <td class="is-min text-fixed">${t.type}</td>
+  <td class="is-min text-right">${t.amount1}</td>
+  <td class="is-min text-right">${t.amount2}</td>
+</tr>
 `;
     });
 
@@ -220,12 +225,13 @@ define([
     }
 
     return `
-<table class="table table-condensed table-bordered" style="width: auto">
+<table class="table table-condensed table-bordered fa-details-transactions" style="width: auto">
 <thead>
 <tr>
-<th class="is-min">${view.t('PROPERTY:transactions.type')}
-<th class="is-min">${view.t('PROPERTY:transactions.amount1')}
-<th class="is-min">${view.t('PROPERTY:transactions.amount2')}
+  <th class="is-min">${view.t('PROPERTY:transactions.type')}</th>
+  <th class="is-min">${view.t('PROPERTY:transactions.amount1')}</th>
+  <th class="is-min">${view.t('PROPERTY:transactions.amount2')}</th>
+</tr>
 <tbody>
 ${rows.join('')}
 </table>`;
@@ -233,10 +239,11 @@ ${rows.join('')}
 
   function assetsProp(view, options)
   {
-    return _.assign({
+    return {
       id: '!assets',
-      value: assets => assetsList(view, assets, options && options.forceList)
-    }, options);
+      value: assets => assetsList(view, assets, options && options.forceList),
+      ...options
+    };
   }
 
   function assetsList(view, assets, force)

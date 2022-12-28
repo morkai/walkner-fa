@@ -2,28 +2,39 @@
 
 define([
   'app/fa-common/views/StageView',
+  './AssetsInputView',
   'app/fa-ot/templates/edit/accept'
 ], function(
   StageView,
+  AssetsInputView,
   template
 ) {
   'use strict';
 
   return StageView.extend({
 
-    template: template,
+    template,
 
-    updateOnChange: false,
+    initialize()
+    {
+      StageView.prototype.initialize.apply(this, arguments);
 
-    getTemplateData: function()
+      this.assetsView = new AssetsInputView({
+        model: this.model
+      });
+
+      this.setView('#-assets', this.assetsView);
+    },
+
+    getTemplateData()
     {
       return {
-        model: this.model.toJSON(),
+        model: this.model.attributes,
         details: this.model.serializeDetails()
       };
     },
 
-    getFormActions: function()
+    getFormActions()
     {
       if (!this.model.canEdit())
       {
@@ -50,7 +61,7 @@ define([
       ];
     },
 
-    handleFormAction: function(action, formView)
+    handleFormAction(action, formView)
     {
       if (action === 'nextStep')
       {
@@ -62,11 +73,27 @@ define([
       }
     },
 
-    serializeForm: function(formData)
+    afterRender()
     {
-      return {
+      this.assetsView.checkValidity();
+    },
+
+    serializeToForm(formData)
+    {
+      this.assetsView.serializeToForm(formData);
+
+      return formData;
+    },
+
+    serializeForm(formData)
+    {
+      const data = {
         comment: (formData.comment || '').trim()
       };
+
+      this.assetsView.serializeForm(data);
+
+      return data;
     }
 
   });

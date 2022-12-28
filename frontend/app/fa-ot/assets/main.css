@@ -1,3 +1,6 @@
+@import "./details.css";
+@import "./edit.css";
+
 .fa-ot-protocol-statement {
   margin-top: -5px;
   margin-bottom: 0;

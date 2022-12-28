@@ -1,6 +1,7 @@
 'use strict';
 
-const DATA_PATH = `${__dirname}/../data`;
+const ROOT_PATH = `${__dirname}/..`;
+const DATA_PATH = `${ROOT_PATH}/data`;
 const MAX_UPLOAD_SIZE = 20 * 1024 * 1024;
 
 const fs = require('fs');
@@ -52,11 +53,11 @@ const frontendDictionaryModules = {
 
 exports.updater = {
   manifestPath: null,
-  packageJsonPath: `${__dirname}/../package.json`,
+  packageJsonPath: `${ROOT_PATH}/package.json`,
   restartDelay: 5000,
   pull: {
     exe: 'git.exe',
-    cwd: `${__dirname}/../`,
+    cwd: ROOT_PATH,
     timeout: 30000
   },
   versionsKey: 'fa',
@@ -132,9 +133,10 @@ exports.pubsub = {
 
 exports.mongoose = {
   uri: mongodb.uri,
-  mongoClient: Object.assign(mongodb.mongoClient, {
-    poolSize: 10
-  }),
+  mongoClient: {
+    ...mongodb.mongoClient,
+    maxPoolSize: 10
+  },
   maxConnectTries: 10,
   connectAttemptDelay: 500
 };

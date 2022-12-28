@@ -29,6 +29,8 @@ define([
 
     template,
 
+    updateOnChange: true,
+
     localTopics: {
       'user.reloaded': 'render'
     },
@@ -282,7 +284,30 @@ define([
         : formData;
     },
 
-    submit: function(options)
+    submitForm()
+    {
+      if (this.submitted || this.model.get('stage') !== 'finished')
+      {
+        this.submitted = false;
+
+        return FormView.prototype.submitForm.apply(this, arguments);
+      }
+
+      setTimeout(() =>
+      {
+        this.submitted = true;
+        this.submit();
+
+        if (!this.el.checkValidity())
+        {
+          this.submitted = false;
+        }
+      }, 1);
+
+      return false;
+    },
+
+    submit(options)
     {
       if (this.saving || !this.model.canEdit())
       {
@@ -404,8 +429,9 @@ define([
         return FormView.prototype.request.apply(this, arguments);
       }
 
+      const oldAttrs = {...this.model.attributes};
       const multiReq = $.Deferred();
-      const addReq = FormView.prototype.request.call(this, this.model.attributes);
+      const addReq = FormView.prototype.request.call(this, oldAttrs);
 
       addReq.done(() =>
       {
@@ -430,7 +456,7 @@ define([
       return multiReq.promise();
     },
 
-    uploadNextFile: function(files, submitArgs)
+    uploadNextFile(files, submitArgs)
     {
       if (files.length === 0)
       {
@@ -456,12 +482,46 @@ define([
 
       req.done(attachment =>
       {
-        this.model.set(file.name, attachment);
+        const matches = file.name.match(/^((.*?)\[[0-9]+])\.(.*?)$/);
+
+        if (matches)
+        {
+          const [, inputPrefix, listProp, fileProp] = matches;
+          const id = this.$(`input[name="${inputPrefix}._id"]`).val();
+          const list = [...this.model.get(listProp)];
+          const item = list.find(item => item._id === id);
+
+          if (item)
+          {
+            item[fileProp] = attachment;
+
+            this.model.set(listProp, list);
+
+            const formData = submitArgs[1];
+
+            if (!formData[listProp])
+            {
+              formData[listProp] = list;
+            }
+
+            const formDataItem = formData[listProp].find(item => item._id === id);
+
+            if (formDataItem)
+            {
+              formDataItem[fileProp] = attachment;
+            }
+          }
+        }
+        else
+        {
+          this.model.set(file.name, attachment);
+        }
+
         this.uploadNextFile(files, submitArgs);
       });
     },
 
-    handleSuccess: function()
+    handleSuccess()
     {
       this.saving = false;
 

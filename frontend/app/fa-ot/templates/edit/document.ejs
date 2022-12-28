@@ -7,72 +7,14 @@
     {id: 'protocolNo', visible: model.protocolNeeded, valueClassName: 'text-fixed'},
     {id: '!protocolDate', visible: model.protocolNeeded},
     {id: 'documentNo', valueClassName: 'text-fixed'},
-    helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded}),
-    helpers.fa.attachmentProp({name: 'photo', visible: model.protocolNeeded && model.commissioningType === 'new-asset'})
+    helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded})
   ]) %>
   <div class="form-group">
     <label for="<%- id('documentDate') %>" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
     <input id="<%- id('documentDate') %>" name="documentDate" class="form-control fa-edit-short" type="date" data-required>
   </div>
-  <div class="form-group fa-edit-long">
-    <label for="<%- id('assetName') %>" class="control-label is-required"><%- t('PROPERTY:assetName') %></label>
-    <% if (t.has('fa-common', 'assetNameBuilder:button')) { %>
-    <div class="input-group">
-      <input id="<%- id('assetName') %>" name="assetName" class="form-control" type="text" data-required maxlength="200">
-      <div class="input-group-btn">
-        <button id="<%- id('buildAssetName') %>" class="btn btn-default" type="button" title="<%- t('fa-common', 'assetNameBuilder:button') %>"><i class="fa fa-wrench"></i></button>
-      </div>
-    </div>
-    <% } else { %>
-    <input id="<%- id('assetName') %>" name="assetName" class="form-control" type="text" data-required maxlength="200">
-    <% } %>
-  </div>
-  <% if (model.usageDestination === 'factory') { %>
-  <div class="form-group fa-edit-short">
-    <label for="<%- id('lineSymbol') %>" class="control-label"><%- t('PROPERTY:lineSymbol') %></label>
-    <input id="<%- id('lineSymbol') %>" name="lineSymbol" class="form-control" type="text" maxlength="50">
-  </div>
-  <% } %>
-  <div class="fa-edit-row">
-    <% if (model.commissioningType === 'inc-asset') { %>
-    <div class="form-group fa-edit-short">
-      <label for="<%- id('inventoryNo') %>" class="control-label is-required"><%- t('PROPERTY:inventoryNo') %></label>
-      <input id="<%- id('inventoryNo') %>" name="inventoryNo" class="form-control" type="text" data-required maxlength="50">
-    </div>
-    <% } %>
-    <div class="form-group fa-edit-short">
-      <label for="<%- id('serialNo') %>" class="control-label"><%- t('PROPERTY:serialNo') %></label>
-      <input id="<%- id('serialNo') %>" name="serialNo" class="form-control" type="text" maxlength="50">
-    </div>
-  </div>
   <div id="<%- id('zplx') %>"></div>
-  <div class="form-group fa-edit-long">
-    <label for="<%- id('supplier') %>" class="control-label <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'is-required' %>"><%- t('PROPERTY:supplier') %></label>
-    <input id="<%- id('supplier') %>" name="supplier" class="form-control" type="text" <%- model.commissioningType === 'new-asset' && model.usageDestination === 'external-supplier' ? '' : 'data-required' %> maxlength="200">
-  </div>
-  <div id="<%- id('value') %>" style="margin-bottom: 15px"></div>
-  <div class="form-group fa-edit-short has-required-select2">
-    <label for="<%- id('costCenter') %>" class="control-label is-required"><%- t('PROPERTY:costCenter') %></label>
-    <input id="<%- id('costCenter') %>" name="costCenter" type="text" data-required>
-  </div>
-  <% if (!model.protocolNeeded) { %>
-  <div class="form-group fa-edit-long has-required-select2">
-    <label for="<%- id('owner') %>" class="control-label is-required"><%- t('PROPERTY:owner') %></label>
-    <input id="<%- id('owner') %>" name="owner" type="text" data-required>
-  </div>
-  <% } %>
-  <% if (model.usageDestination === 'external-supplier') { %>
-  <div class="fa-edit-row fa-edit-long">
-    <div class="form-group fa-edit-short">
-      <label for="<%- id('vendorNo') %>" class="control-label is-required"><%- t('PROPERTY:vendorNo') %></label>
-      <input id="<%- id('vendorNo') %>" name="vendorNo" class="form-control" type="text" data-required maxlength="50">
-    </div>
-    <div class="form-group fa-edit-flex">
-      <label for="<%- id('vendorName') %>" class="control-label is-required"><%- t('PROPERTY:vendorName') %></label>
-      <input id="<%- id('vendorName') %>" name="vendorName" class="form-control" type="text" data-required maxlength="200">
-    </div>
-  </div>
-  <% } %>
+  <div id="<%- id('assets')%>"></div>
   <%- helpers.fa.attachmentFormGroup({
     name: 'outlay',
     required: true,
@@ -95,11 +37,6 @@
     <p><%- t('FORM:edit:comment:nameplate') %></p>
   </div>
   <% } %>
-  <%- helpers.fa.attachmentFormGroup({
-    name: 'photo',
-    accept: 'img',
-    visible: !model.protocolNeeded && model.commissioningType === 'new-asset'
-  }) %>
   <%- helpers.fa.attachmentFormGroup({
     name: 'attachment'
   }) %>

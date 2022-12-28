@@ -15,9 +15,14 @@ define([
 
   return View.extend({
 
-    template: template,
+    template,
 
     events: {
+      'click .control-label'()
+      {
+        this.$('input').first().focus();
+      },
+
       'click .btn[data-action="zplx:add"]': function()
       {
         var $zplx = this.$('.fa-edit-zplx-item').first().clone().css({display: 'none'});

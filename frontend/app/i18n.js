@@ -171,7 +171,46 @@ define([
     return result;
   }
 
+  function sortStrings(a, b)
+  {
+    return translate.collator.compare(a, b);
+  }
+
+  function sortProps(prop = 'text')
+  {
+    return function(a, b)
+    {
+      if (a && a.attributes)
+      {
+        a = a.attributes;
+        b = b.attributes;
+      }
+
+      a = a && a[prop];
+      b = b && b[prop];
+
+      if (typeof a !== 'string')
+      {
+        a = String(a);
+      }
+
+      if (typeof b !== 'string')
+      {
+        b = String(a);
+      }
+
+      return translate.collator.compare(a, b);
+    };
+  }
+
   translate.config = null;
+  translate.collator = {
+    compare(a, b) { return a.localeCompare(b); },
+    resolvedOptions() { return {}; }
+  };
+  translate.sortProps = sortProps;
+  translate.sortStrings = sortStrings;
+  translate.sortText = sortProps('text');
   translate.translate = translate;
   translate.register = register;
   translate.reload = reload;

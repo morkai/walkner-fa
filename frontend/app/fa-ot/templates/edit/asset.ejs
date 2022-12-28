@@ -1,0 +1,201 @@
+<div class="tab-pane <%- active ? 'active' : '' %>">
+  <input name="assets[<%- i %>]._id" type="hidden" value="<%- asset._id %>">
+  <%- helpers.props(details, [
+    {id: 'assetName', visible: !!properties.assetName},
+    {id: 'lineSymbol', visible: !!properties.lineSymbol, valueClassName: 'text-fixed', value: v => v || ' '},
+    {id: 'inventoryNo', visible: !!properties.inventoryNo, valueClassName: 'text-fixed', value: v => v || ' '},
+    {id: 'serialNo', visible: !!properties.serialNo, valueClassName: 'text-fixed', value: v => v || ' '},
+    {id: '!owner', visible: !!properties.owner},
+    {id: 'supplier', visible: !!properties.supplier},
+    {id: 'value', visible: !!properties.value},
+    {id: 'costCenter', visible: !!properties.costCenter, valueClassName: 'text-fixed', value: v => v || ' '},
+    {id: 'vendorNo', visible: !!properties.vendor, valueClassName: 'text-fixed', value: v => v || ' '},
+    {id: 'vendorName', visible: !!properties.vendor},
+    {id: 'evalGroup1', visible: !!properties.assetClass},
+    {id: 'evalGroup5', visible: !!properties.assetClass},
+    {id: 'assetClass', visible: !!properties.assetClass},
+    {id: 'depRate', visible: !!properties.assetClass},
+    {id: 'depKey', visible: !!properties.assetClass},
+    {id: 'economicMethod', visible: !!properties.assetClass},
+    {id: 'fiscalMethod', visible: !!properties.assetClass, valueClassName: 'text-pre'},
+    {id: 'taxMethod', visible: !!properties.assetClass, valueClassName: 'text-pre'},
+    {id: 'economicPeriod', visible: !!properties.assetClass},
+    {id: 'fiscalPeriod', visible: !!properties.assetClass},
+    {id: 'taxPeriod', visible: !!properties.assetClass},
+    {id: 'economicDate', visible: !!properties.assetClass},
+    {id: 'fiscalDate', visible: !!properties.assetClass},
+    {id: 'taxDate', visible: !!properties.assetClass},
+    helpers.fa.transactionsProp({visible: !!properties.transactions}),
+    {id: 'tplNotes', visible: !!properties.tplNotes, valueClassName: 'text-lines'},
+    helpers.fa.attachmentProp({
+      name: 'photo',
+      visible: !!properties.photoFile,
+      url: asset.photoFile ? `/fa/ot/${model._id}/attachments/photo?asset=${asset._id}` : ''
+    })
+  ]) %>
+  <% if (fields.assetName) { %>
+  <div class="form-group fa-edit-long">
+    <label for="<%- id('assetName') %>" class="control-label is-<%- fields.assetName %>"><%- t('PROPERTY:assetName') %></label>
+    <% if (t.has('fa-common', 'assetNameBuilder:button')) { %>
+    <div class="input-group">
+      <input id="<%- id('assetName') %>" name="assets[<%- i %>].assetName" class="form-control" type="text" maxlength="200" data-<%- fields.assetName %>>
+      <div class="input-group-btn">
+        <button id="<%- id('buildAssetName') %>" class="btn btn-default" type="button" title="<%- t('fa-common', 'assetNameBuilder:button') %>"><i class="fa fa-wrench"></i></button>
+      </div>
+    </div>
+    <% } else { %>
+    <input id="<%- id('assetName') %>" name="assets[<%- i %>].assetName" class="form-control" type="text" maxlength="200" data-<%- fields.assetName %>>
+    <% } %>
+  </div>
+  <% } %>
+  <div class="fa-edit-row">
+    <% if (fields.lineSymbol) { %>
+    <div class="form-group fa-edit-short">
+      <label for="<%- id('lineSymbol') %>" class="control-label is-<%- fields.lineSymbol %>"><%- t('PROPERTY:lineSymbol') %></label>
+      <input id="<%- id('lineSymbol') %>" name="assets[<%- i %>].lineSymbol" class="form-control" type="text" maxlength="50" data-<%- fields.lineSymbol %>>
+    </div>
+    <% } %>
+    <% if (fields.inventoryNo) { %>
+    <div class="form-group fa-edit-short">
+      <label for="<%- id('inventoryNo') %>" class="control-label is-<%- fields.inventoryNo %>"><%- t('PROPERTY:inventoryNo') %></label>
+      <input id="<%- id('inventoryNo') %>" name="assets[<%- i %>].inventoryNo" class="form-control" type="text" maxlength="50" data-<%- fields.inventoryNo %>>
+    </div>
+    <% } %>
+    <% if (fields.serialNo) { %>
+    <div class="form-group fa-edit-short">
+      <label for="<%- id('serialNo') %>" class="control-label is-<%- fields.serialNo %>"><%- t('PROPERTY:serialNo') %></label>
+      <input id="<%- id('serialNo') %>" name="assets[<%- i %>].serialNo" class="form-control" type="text" maxlength="50" data-<%- fields.serialNo %>>
+    </div>
+    <% } %>
+  </div>
+  <% if (fields.supplier) { %>
+  <div class="form-group fa-edit-long">
+    <label for="<%- id('supplier') %>" class="control-label is-<%- fields.supplier %>"><%- t('PROPERTY:supplier') %></label>
+    <input id="<%- id('supplier') %>" name="assets[<%- i %>].supplier" class="form-control" type="text" data-<%- fields.supplier %>>
+  </div>
+  <% } %>
+  <% if (fields.value) { %>
+  <div id="<%- id('value') %>" style="margin-bottom: 15px"></div>
+  <% } %>
+  <% if (fields.costCenter) { %>
+  <div class="form-group fa-edit-short has-<%- fields.costCenter %>-select2">
+    <label for="<%- id('costCenter') %>" class="control-label is-<%- fields.costCenter %>"><%- t('PROPERTY:costCenter') %></label>
+    <input id="<%- id('costCenter') %>" name="assets[<%- i %>].costCenter" type="text" data-<%- fields.costCenter %>>
+  </div>
+  <% } %>
+  <% if (fields.owner) { %>
+  <div class="form-group fa-edit-long has-<%- fields.owner %>-select2">
+    <label for="<%- id('owner') %>" class="control-label is-<%- fields.owner %>"><%- t('PROPERTY:owner') %></label>
+    <input id="<%- id('owner') %>" name="assets[<%- i %>].owner" type="text" data-<%- fields.owner %>>
+  </div>
+  <% } %>
+  <% if (fields.vendor) { %>
+  <div class="fa-edit-row fa-edit-long">
+    <div class="form-group fa-edit-short">
+      <label for="<%- id('vendorNo') %>" class="control-label is-<%- fields.vendor %>"><%- t('PROPERTY:vendorNo') %></label>
+      <input id="<%- id('vendorNo') %>" name="assets[<%- i %>].vendorNo" class="form-control" type="text" data-<%- fields.vendor %> maxlength="50">
+    </div>
+    <div class="form-group fa-edit-flex">
+      <label for="<%- id('vendorName') %>" class="control-label is-<%- fields.vendor %>"><%- t('PROPERTY:vendorName') %></label>
+      <input id="<%- id('vendorName') %>" name="assets[<%- i %>].vendorName" class="form-control" type="text" data-<%- fields.vendor %> maxlength="200">
+    </div>
+  </div>
+  <% } %>
+  <% if (fields.assetClass) { %>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- id('evalGroup1') %>" class="control-label is-required"><%- t('PROPERTY:evalGroup1') %></label>
+    <input id="<%- id('evalGroup1') %>" name="assets[<%- i %>].evalGroup1" type="text" data-required>
+  </div>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- id('evalGroup5') %>" class="control-label is-required"><%- t('PROPERTY:evalGroup5') %></label>
+    <input id="<%- id('evalGroup5') %>" name="assets[<%- i %>].evalGroup5" type="text" data-required>
+  </div>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- id('assetClass') %>" class="control-label is-required"><%- t('PROPERTY:assetClass') %></label>
+    <input id="<%- id('assetClass') %>" name="assets[<%- i %>].assetClass" type="text" data-required>
+  </div>
+  <div class="fa-edit-row">
+    <div class="form-group fa-edit-short">
+      <label for="<%- id('depRate') %>" class="control-label"><%- t('PROPERTY:depRate') %></label>
+      <div class="input-group">
+        <input id="<%- id('depRate') %>" name="assets[<%- i %>].depRate" class="form-control text-right" type="number" min="0" max="100" step="0.01" style="width: 114px">
+        <div class="input-group-addon" style="width: 54px">%</div>
+      </div>
+    </div>
+    <div class="form-group fa-edit-short has-required-select2">
+      <label for="<%- id('depKey') %>" class="control-label is-required"><%- t('PROPERTY:depKey') %></label>
+      <input id="<%- id('depKey') %>" name="assets[<%- i %>].depKey" type="text" data-required>
+    </div>
+  </div>
+  <div class="form-group fa-edit-long has-required-select2">
+    <label for="<%- id('economicMethod') %>" class="control-label is-required"><%- t('PROPERTY:economicMethod') %></label>
+    <input id="<%- id('economicMethod') %>" name="assets[<%- i %>].economicMethod" type="text" data-required>
+  </div>
+  <div class="form-group fa-edit-long">
+    <label for="<%- id('fiscalMethod') %>" class="control-label is-required"><%- t('PROPERTY:fiscalMethod') %></label>
+    <input id="<%- id('fiscalMethod') %>" name="assets[<%- i %>].fiscalMethod" class="form-control" type="text" data-required>
+  </div>
+  <div class="form-group fa-edit-long">
+    <label for="<%- id('taxMethod') %>" class="control-label is-required"><%- t('PROPERTY:taxMethod') %></label>
+    <input id="<%- id('taxMethod') %>" name="assets[<%- i %>].taxMethod" class="form-control" type="text" data-required>
+  </div>
+  <div class="fa-edit-row">
+    <% ['economic', 'fiscal', 'tax'].forEach(k => { %>
+    <div class="form-group fa-edit-period">
+      <label for="<%- id(`${k}PeriodY`) %>" class="control-label"><%- t(`PROPERTY:${k}Period`) %></label>
+      <div class="input-group">
+        <input id="<%- id(`${k}PeriodY`) %>" name="assets[<%- i %>].<%- k %>PeriodY" class="form-control text-right" type="number" min="0" max="100">
+        <div class="input-group-addon"><%- t('fa-common', 'unit:year') %></div>
+        <input id="<%- id(`${k}PeriodM`) %>" name="assets[<%- i %>].<%- k %>PeriodM" class="form-control text-right" type="number" min="0" max="12">
+        <div class="input-group-addon"><%- t('fa-common', 'unit:month') %></div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+  <div class="fa-edit-row">
+    <% ['economic', 'fiscal', 'tax'].forEach(k => { %>
+    <div class="form-group fa-edit-short">
+      <label for="<%- id(`${k}Date`) %>" class="control-label is-required"><%- t(`PROPERTY:${k}Date`) %></label>
+      <input id="<%- id(`${k}Date`) %>" name="assets[<%- i %>].<%- k %>Date" class="form-control" type="date" data-required>
+    </div>
+    <% }) %>
+  </div>
+  <% } %>
+  <% if (fields.transactions) { %>
+  <div id="<%- id('transactions') %>"></div>
+  <% } %>
+  <% if (fields.assetNo) { %>
+  <div class="form-group">
+    <label for="<%- id('assetNo') %>" class="control-label is-<%- fields.assetNo %>"><%- t('PROPERTY:assetNo') %></label>
+    <input id="<%- id('assetNo') %>" name="assets[<%- i %>].assetNo" class="form-control fa-edit-short" type="text" data-<%- fields.assetNo %>>
+  </div>
+  <% } %>
+  <% if (fields.accountingNo) { %>
+  <div class="form-group">
+    <label for="<%- id('accountingNo') %>" class="control-label is-<%- fields.accountingNo %>"><%- t('PROPERTY:accountingNo') %></label>
+    <input id="<%- id('accountingNo') %>" name="assets[<%- i %>].accountingNo" class="form-control fa-edit-short" type="text" data-<%- fields.accountingNo %>>
+  </div>
+  <% } %>
+  <% if (fields.odwNo) { %>
+  <div class="form-group">
+    <label for="<%- id('odwNo') %>" class="control-label is-<%- fields.odwNo %>"><%- t('PROPERTY:odwNo') %></label>
+    <input id="<%- id('odwNo') %>" name="assets[<%- i %>].odwNo" class="form-control fa-edit-short" type="text" data-<%- fields.odwNo %>>
+  </div>
+  <% } %>
+  <% if (fields.tplNotes) { %>
+  <div class="form-group fa-edit-long">
+    <label for="<%- id('tplNotes') %>" class="control-label is-<%- fields.tplNotes %>"><%- t('PROPERTY:tplNotes') %></label>
+    <textarea id="<%- id('tplNotes') %>" class="form-control" name="assets[<%- i %>].tplNotes" rows="3" data-<%- fields.tplNotes %>></textarea>
+  </div>
+  <% } %>
+  <%- helpers.fa.attachmentFormGroup({
+    name: `photo`,
+    property: `assets[${i}].photoFile`,
+    label: t('PROPERTY:photoFile'),
+    accept: 'img',
+    file: asset.photoFile,
+    url: asset.photoFile ? `/fa/ot/${model._id}/attachments/photo?asset=${asset._id}` : '',
+    required: fields.photoFile === 'required',
+    visible: !!fields.photoFile
+  }) %>
+</div>

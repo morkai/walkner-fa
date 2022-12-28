@@ -1,3 +1,6 @@
 .fa-details-attachments .prop-value {
   word-break: break-word;
 }
+.fa-details-transactions td {
+  background-color: #fff;
+}

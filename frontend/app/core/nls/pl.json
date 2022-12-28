@@ -144,6 +144,7 @@
   "filter:shift": "Zmiana",
   "filter:orgUnit": "Jednostka organizacyjna",
   "filter:submit": "Filtruj",
+  "filter:reset": "Resetuj filtry",
   "filter:filters": "Pokaż dodatkowe filtry",
   "filter:limit": "Limit",
   "filter:show": "Pokaż filtr",

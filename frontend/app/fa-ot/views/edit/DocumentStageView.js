@@ -8,7 +8,7 @@ define([
   'app/fa-common/dictionaries',
   'app/fa-common/views/StageView',
   'app/fa-common/views/ValueInputView',
-  'app/fa-common/views/AssetNameBuilderDialogView',
+  './AssetsInputView',
   './ZplxInputView',
   'app/fa-ot/templates/edit/document'
 ], function(
@@ -19,7 +19,7 @@ define([
   dictionaries,
   StageView,
   ValueInputView,
-  AssetNameBuilderDialogView,
+  AssetsInputView,
   ZplxInputView,
   template
 ) {
@@ -27,47 +27,9 @@ define([
 
   return StageView.extend({
 
-    template: template,
+    template,
 
-    updateOnChange: false,
-
-    events: {
-
-      'click #-buildAssetName': function()
-      {
-        AssetNameBuilderDialogView.showDialog(this);
-      },
-
-      'change #-costCenter': function()
-      {
-        var costCenter = dictionaries.costCenters.get(this.$id('costCenter').val());
-
-        if (!costCenter)
-        {
-          return;
-        }
-
-        var owner = costCenter.get('owner');
-
-        if (!owner)
-        {
-          return;
-        }
-
-        var $owner = this.$id('owner');
-
-        if ($owner.length)
-        {
-          $owner.select2('data', {
-            id: owner[user.idProperty],
-            text: owner.label
-          });
-        }
-      }
-
-    },
-
-    initialize: function()
+    initialize()
     {
       StageView.prototype.initialize.apply(this, arguments);
 
@@ -77,25 +39,28 @@ define([
         auc: false,
         readOnly: false
       });
-      this.valueView = new ValueInputView({model: this.model});
+
+      this.assetsView = new AssetsInputView({
+        model: this.model
+      });
 
       this.setView('#-zplx', this.zplxView);
-      this.setView('#-value', this.valueView);
+      this.setView('#-assets', this.assetsView);
 
       this.listenTo(this.zplxView, 'change', this.onZplxChange);
     },
 
-    getTemplateData: function()
+    getTemplateData()
     {
       return {
-        model: this.model.toJSON(),
+        model: this.model.attributes,
         details: this.model.serializeDetails()
       };
     },
 
-    getFormActions: function()
+    getFormActions()
     {
-      var actions = [];
+      const actions = [];
 
       if (this.model.canEdit())
       {
@@ -118,7 +83,7 @@ define([
       return actions;
     },
 
-    handleFormAction: function(action, formView)
+    handleFormAction(action, formView)
     {
       if (action === 'nextStep')
       {
@@ -126,7 +91,7 @@ define([
       }
     },
 
-    handleNextStepAction: function(formView)
+    handleNextStepAction(formView)
     {
       this.model.set('newStage', 'verify');
 
@@ -138,144 +103,41 @@ define([
       formView.submit();
     },
 
-    afterRender: function()
+    afterRender()
     {
-      this.setUpCostCenterSelect2();
-      this.setUpOwnerSelect2();
       this.zplxView.checkValidity();
+      this.assetsView.checkValidity();
     },
 
-    setUpCostCenterSelect2: function()
-    {
-      var id = this.model.get('costCenter');
-      var model = dictionaries.costCenters.get(id);
-      var data = [];
-
-      if (id && !model)
-      {
-        data.push({
-          id: id,
-          text: id
-        });
-      }
-
-      dictionaries.costCenters.forEach(function(d)
-      {
-        if (d.get('active') || d.id === id)
-        {
-          data.push(idAndLabel(d));
-        }
-      });
-
-      this.$id('costCenter').select2({
-        width: '100%',
-        allowClear: true,
-        placeholder: ' ',
-        data: data
-      });
-    },
-
-    setUpOwnerSelect2: function()
-    {
-      if (this.model.get('protocolNeeded'))
-      {
-        return;
-      }
-
-      var owner = this.model.get('owner');
-      var $owner = this.$id('owner');
-
-      setUpUserSelect2($owner);
-
-      if (owner)
-      {
-        $owner.select2('data', {
-          id: owner._id,
-          text: owner.label
-        });
-      }
-    },
-
-    serializeToForm: function(formData)
+    serializeToForm(formData)
     {
       if (!formData.documentDate)
       {
         formData.documentDate = time.getMoment().format('YYYY-MM-DD');
       }
 
-      if (!formData.costCenter
-        && this.model.get('usageDestination') === 'external-supplier'
-        && dictionaries.costCenters.get('PL02AD13'))
-      {
-        formData.costCenter = 'PL02AD13';
-      }
-
       this.zplxView.serializeToForm(formData);
-      this.valueView.serializeToForm(formData);
+      this.assetsView.serializeToForm(formData);
 
       return formData;
     },
 
-    serializeForm: function(formData)
+    serializeForm(formData)
     {
       const data = {
         comment: (formData.comment || '').trim(),
         documentDate: formData.documentDate
           ? time.utc.getMoment(formData.documentDate, 'YYYY-MM-DD').toISOString()
-          : null,
-        assetName: (formData.assetName || '').trim(),
-        supplier: (formData.supplier || '').trim(),
-        costCenter: formData.costCenter || null,
-        serialNo: (formData.serialNo || '').trim()
+          : null
       };
 
-      if (this.model.get('commissioningType') === 'inc-asset')
-      {
-        data.inventoryNo = (formData.inventoryNo || '').trim();
-      }
-
-      if (this.model.get('protocolNeeded'))
-      {
-        const costCenter = dictionaries.costCenters.get(data.costCenter);
-
-        if (costCenter && !this.model.get('owner'))
-        {
-          const owner = costCenter.get('owner');
-
-          if (owner)
-          {
-            data.owner = owner;
-          }
-        }
-      }
-      else
-      {
-        data.owner = setUpUserSelect2.getUserInfo(this.$id('owner'));
-      }
-
-      const usageDestination = this.model.get('usageDestination');
-
-      if (usageDestination === 'factory')
-      {
-        Object.assign(data, {
-          lineSymbol: (formData.lineSymbol || '').trim()
-        });
-      }
-      else if (usageDestination === 'external-supplier')
-      {
-        Object.assign(data, {
-          vendorNo: (formData.vendorNo || '').trim(),
-          vendorName: (formData.vendorName || '').trim()
-        });
-      }
-
       this.zplxView.serializeForm(data);
-      this.valueView.serializeForm(data);
+      this.assetsView.serializeForm(data);
 
       return data;
     },
 
-    onZplxChange: function()
+    onZplxChange()
     {
       this.valueView.setValue(this.zplxView.getTotalValue());
     }

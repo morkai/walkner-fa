@@ -1,0 +1,28 @@
+.fa-ot-edit-assets {
+  margin-bottom: 15px;
+}
+.fa-ot-edit-assets .nav-tabs {
+  display: flex;
+}
+.fa-ot-edit-assets .nav-tabs > li {
+  float: none;
+  position: initial;
+}
+.fa-ot-edit-assets .nav-tabs > li > a {
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  width: 38px;
+  text-align: center;
+}
+.fa-ot-edit-assets .nav-tabs > li.disabled > a {
+  border-color: transparent;
+}
+.fa-ot-edit-assets .tab-pane {
+  border: 1px solid #ddd;
+  border-top: none;
+  padding: 15px 15px 0 15px;
+}
+.fa-ot-edit-assets .tab-pane > .form-group:last-child {
+  margin-bottom: 15px;
+}

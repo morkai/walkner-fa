@@ -4,11 +4,24 @@
 {
   'use strict';
 
+  if (console)
+  {
+    console.json = function()
+    {
+      console.log.apply(
+        console,
+        Array.prototype.slice.call(arguments).map(
+          function(arg) { return JSON.parse(JSON.stringify(arg)); }
+        )
+      );
+    };
+  }
+
   var lastError = null;
 
   function logBrowserError(error, event)
   {
-    if (!window.fetch)
+    if (!window.fetch || window.ENV === 'development')
     {
       return;
     }
@@ -126,6 +139,13 @@
     location.origin = location.protocol + '//' + location.hostname + (location.port ? (':' + location.port) : '');
   }
 
+  var baseEl = document.querySelector('base');
+
+  if (baseEl)
+  {
+    baseEl.setAttribute('href', location.pathname + location.search);
+  }
+
   window.COMPUTERNAME = (location.href.match(/COMPUTERNAME=(.*?)(?:(?:#|&).*)?$/i) || [null, null])[1];
   window.INSTANCE_ID = Math.round(Date.now() + Math.random() * 9999999).toString(36).toUpperCase();
   window.IS_EMBEDDED = window.IS_EMBEDDED
@@ -162,7 +182,7 @@
   }
   catch (err) {} // eslint-disable-line no-empty
 
-  if (window.ENV === 'testing')
+  if (false && window.ENV === 'testing') // eslint-disable-line no-constant-condition
   {
     var matches = location.hash.match(/^(?:#proxy=([0-9]+))?(#.*?)?$/);
 
@@ -222,6 +242,35 @@
   var i18n = null;
   var select2 = null;
 
+  require.ifDefined = function(id)
+  {
+    return require.defined(id) ? require(id) : null;
+  };
+
+  require.ifSpecified = function(id)
+  {
+    return require.specified(id) ? require(id) : null;
+  };
+
+  var oldMakeRequired = require.s.contexts._.makeRequire;
+
+  require.s.contexts._.makeRequire = function()
+  {
+    var localRequire = oldMakeRequired.apply(this, arguments);
+
+    localRequire.ifDefined = function(id)
+    {
+      return localRequire.defined(id) ? localRequire(id) : null;
+    };
+
+    localRequire.ifSpecified = function(id)
+    {
+      return localRequire.specified(id) ? localRequire(id) : null;
+    };
+
+    return localRequire;
+  };
+
   require.onError = function(err)
   {
     console.error(Object.keys(err), err);
@@ -263,6 +312,16 @@
     {
       i18n = context.defined[map.id];
       i18n.config = context.config.config.i18n;
+
+      if (window.Intl && Intl.Collator && i18n.config.locale)
+      {
+        i18n.collator = new Intl.Collator(i18n.config.locale, {
+          usage: 'sort',
+          sensitivity: 'base',
+          numeric: true,
+          ignorePunctuation: true
+        });
+      }
 
       domains.forEach(function(domainData)
       {

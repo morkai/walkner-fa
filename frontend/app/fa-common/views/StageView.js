@@ -13,7 +13,7 @@ define([
 
   return View.extend({
 
-    initialize: function()
+    initialize()
     {
       helpers.extend(this);
     }

@@ -3,15 +3,78 @@
 
 'use strict';
 
-db.faots.find({'zplx.code': {$not: /^ZPLX/}}, {zplx: 1}).forEach(d =>
+db.faots.dropIndexes();
+
+const assetProps = [
+  'inventoryNo',
+  'serialNo',
+  'assetName',
+  'assetNameSearch',
+  'lineSymbol',
+  'owner',
+  'supplier',
+  'supplierSearch',
+  'costCenter',
+  'evalGroup1',
+  'evalGroup5',
+  'assetClass',
+  'depRate',
+  'depKey',
+  'economicMethod',
+  'fiscalMethod',
+  'taxMethod',
+  'economicPeriod',
+  'fiscalPeriod',
+  'taxPeriod',
+  'economicDate',
+  'fiscalDate',
+  'taxDate',
+  'value',
+  'transactions',
+  'vendorNo',
+  'vendorName',
+  'vendorNameSearch',
+  'assetNo',
+  'accountingNo',
+  'odwNo',
+  'tplNotes',
+  'photoFile'
+];
+
+let i = 0;
+
+db.faots.find({assets: {$exists: false}}).forEach(doc =>
 {
-  d.zplx.forEach(zplx =>
+  i += 1;
+
+  const asset = {
+    _id: `${i.toString().padStart(8, '0')}-0000-0000-0000-000000000001`
+  };
+
+  assetProps.forEach(prop =>
   {
-    if (zplx.code)
-    {
-      zplx.code = `ZPLX${zplx.code}`;
-    }
+    asset[prop] = doc[prop];
+    delete doc[prop];
   });
 
-  db.faots.updateOne({_id: d._id}, {$set: {zplx: d.zplx}});
+  doc.assets = [asset];
+
+  db.faots.replaceOne({_id: doc._id}, doc);
 });
+
+db.faots.createIndex({createdAt: -1});
+db.faots.createIndex({updatedAt: -1});
+db.faots.createIndex({date: -1});
+db.faots.createIndex({stage: 1});
+db.faots.createIndex({protocolNo: 1});
+db.faots.createIndex({documentNo: 1});
+db.faots.createIndex({commissioningType: 1});
+db.faots.createIndex({users: 1});
+db.faots.createIndex({'assets.inventoryNo': 1});
+db.faots.createIndex({'assets.assetNo': 1});
+db.faots.createIndex({'assets.accountingNo': 1});
+db.faots.createIndex({'assets.costCenter': 1});
+db.faots.createIndex({'assets.vendorNo': 1});
+db.faots.createIndex({'assets.assetName': 1});
+db.faots.createIndex({'assets.supplier': 1});
+db.faots.createIndex({'assets.vendorName': 1});

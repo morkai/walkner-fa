@@ -4,10 +4,10 @@
   <% if (item.changes.length) { %>
   <table class="table table-condensed fa-changes-changes">
     <tbody>
-      <% item.changes.forEach(function(change, i) { %>
+      <% item.changes.forEach((change, i) => { %>
       <% if (change.oldValue === null && change.newValue === null) return %>
       <tr>
-        <td class="is-min"><%- change.label %>:</td>
+        <td class="is-min"><%- change.label ? `${change.label}:` : '' %></td>
         <% if (change.oldValue !== null) { %>
         <td class="is-min"><span class="<%- change.oldValue.more ? 'has-more' : '' %>" data-content="<%= change.oldValue.more %>"><%- change.oldValue %></span></td>
         <td class="is-min"><i class="fa fa-arrow-right"></i></td>

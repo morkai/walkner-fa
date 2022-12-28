@@ -8,53 +8,15 @@
     {id: 'protocolNo', visible: model.protocolNeeded, valueClassName: 'text-fixed'},
     '!documentDate',
     {id: 'documentNo', valueClassName: 'text-fixed'},
-    'assetName',
-    {id: 'lineSymbol', visible: model.usageDestination === 'factory', valueClassName: 'text-fixed'},
-    {id: 'inventoryNo', valueClassName: 'text-fixed'},
-    {id: 'serialNo', valueClassName: 'text-fixed'},
     helpers.fa.zplxProp(),
-    {id: '!owner', visible: model.protocolNeeded},
-    'supplier',
-    'value',
-    {id: 'costCenter', valueClassName: 'text-fixed'},
-    {id: 'vendorNo', visible: model.usageDestination === 'external-supplier', valueClassName: 'text-fixed'},
-    {id: 'vendorName', visible: model.usageDestination === 'external-supplier'},
-    'evalGroup1',
-    'evalGroup5',
-    'assetClass',
-    'depRate',
-    'depKey',
-    'economicMethod',
-    {id: 'fiscalMethod', valueClassName: 'text-pre'},
-    {id: 'taxMethod', valueClassName: 'text-pre'},
-    'economicPeriod',
-    'fiscalPeriod',
-    'taxPeriod',
-    'economicDate',
-    'fiscalDate',
-    'taxDate',
-    helpers.fa.transactionsProp(),
     'postingDate',
-    {id: 'tplNotes', valueClassName: 'text-lines'},
     helpers.fa.attachmentProp({name: 'protocol', visible: model.protocolNeeded}),
     helpers.fa.attachmentProp({name: 'outlay'}),
     helpers.fa.attachmentProp({name: 'certificate', visible: model.usageDestination === 'external-supplier'}),
-    helpers.fa.attachmentProp({name: 'photo', visible: model.commissioningType === 'new-asset'}),
     helpers.fa.attachmentProp({name: 'nameplate', visible: model.usageDestination === 'external-supplier'}),
     helpers.fa.attachmentProp({name: 'hrt'})
   ]) %>
-  <div class="form-group">
-    <label for="<%- id('assetNo') %>" class="control-label is-required"><%- t('PROPERTY:assetNo') %></label>
-    <input id="<%- id('assetNo') %>" name="assetNo" class="form-control fa-edit-short" type="text" data-required>
-  </div>
-  <div class="form-group">
-    <label for="<%- id('accountingNo') %>" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
-    <input id="<%- id('accountingNo') %>" name="accountingNo" class="form-control fa-edit-short" type="text" data-required>
-  </div>
-  <div class="form-group">
-    <label for="<%- id('odwNo') %>" class="control-label is-required"><%- t('PROPERTY:odwNo') %></label>
-    <input id="<%- id('odwNo') %>" name="odwNo" class="form-control fa-edit-short" type="text" data-required>
-  </div>
+  <div id="<%- id('assets')%>"></div>
   <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
     <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>

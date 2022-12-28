@@ -1,0 +1,15 @@
+.fa-ot-details-assets {
+  margin-bottom: 0;
+}
+.fa-ot-details-assets .panel-body {
+  padding: 0;
+}
+.fa-ot-details-assets .nav-tabs > li > a {
+  border-top: none!important;
+}
+.fa-ot-details-assets .nav-tabs > .active:first-child > a {
+  border-left-color: transparent;
+}
+.fa-ot-details-assets .nav-tabs > .active > a {
+  font-weight: bold;
+}

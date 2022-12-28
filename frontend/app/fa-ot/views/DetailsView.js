@@ -13,21 +13,39 @@ define([
 
   return DetailsView.extend({
 
-    template: template,
+    template,
 
-    initialize: function()
+    events: {
+
+      'click li[data-asset-id]'(e)
+      {
+        this.activeAssetId = e.currentTarget.dataset.assetId;
+
+        this.$id('assets').find('.active').removeClass('active');
+        e.currentTarget.classList.add('active');
+        this.$id(this.activeAssetId).addClass('active');
+      }
+
+    },
+
+    initialize()
     {
       DetailsView.prototype.initialize.apply(this, arguments);
 
       helpers.extend(this);
+
+      this.activeAssetId = null;
     },
 
-    serialize: function()
+    serialize()
     {
-      var data = DetailsView.prototype.serialize.apply(this, arguments);
+      const data = DetailsView.prototype.serialize.apply(this, arguments);
 
       data.details = data.model;
-      data.model = this.model.toJSON();
+      data.model = this.model.attributes;
+      data.activeAssetId = data.model.assets.some(a => a._id === this.activeAssetId)
+        ? this.activeAssetId
+        : data.model.assets[0]._id;
 
       return data;
     }

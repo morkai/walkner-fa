@@ -4,22 +4,19 @@ module.exports = {
   uri: process.env.FA_MONGODB_URI || 'mongodb://127.0.0.1:27017/walkner-fa',
   keepAliveQueryInterval: 15000,
   mongoClient: {
-    poolSize: 10,
+    minPoolSize: 1,
+    maxPoolSize: 10,
     noDelay: true,
-    keepAlive: 1000,
+    keepAlive: true,
     connectTimeoutMS: 30000,
     socketTimeoutMS: 0,
     forceServerObjectId: false,
     writeConcern: {
       w: 1,
-      wtimeout: 5000
+      wtimeoutMS: 15000
     },
-    promiseLibrary: global.Promise,
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-    autoIndex: process.env.NODE_ENV !== 'production'
+    autoIndex: process.env.NODE_ENV !== 'production',
+    enableUtf8Validation: false
   }
 };
 

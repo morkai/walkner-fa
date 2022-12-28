@@ -49,6 +49,8 @@ define([
 
     template: template,
 
+    namePrefix: '',
+
     property: 'value',
 
     required: true,
@@ -76,6 +78,7 @@ define([
     getTemplateData: function()
     {
       return {
+        namePrefix: this.namePrefix,
         property: this.property,
         required: this.required,
         readOnly: this.readOnly

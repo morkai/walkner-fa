@@ -7,6 +7,7 @@
   "PAGE_ACTION:printProtocol": "Drukuj protokół",
 
   "PANEL:TITLE:details": "Szczegóły dokumentu przyjęcia środka trwałego",
+  "PANEL:TITLE:assets": "Środki trwałe",
   "PANEL:TITLE:attachments": "Załączniki",
   "PANEL:TITLE:stages": "Etapy",
   "PANEL:TITLE:addForm": "Formularz dodawania nowego dokumentu przyjęcia środka trwałego",
@@ -54,6 +55,10 @@
   "FORM:edit:comment:nameplate": "Jeżeli nie załączasz do OT pliku tabliczki znamionowej, to podaj przyczynę w komentarzu.",
   "FORM:previewHrt:button": "Wygeneruj wniosek na podstawie szablonu",
   "FORM:previewHrt:info": "Wniosek zostanie wygenerowany i załączony automatycznie podczas przejścia do następnego etapu, jeżeli nie zostanie wcześniej ustawiony ręcznie.",
+  "FORM:assets:add": "Dodaj nowy ŚT",
+  "FORM:assets:copy": "Skopiuj wybrany ŚT",
+  "FORM:assets:copy:suffix": "(kopia)",
+  "FORM:assets:delete": "Usuń wybrany ŚT",
 
   "PROPERTY:stage": "Etap",
   "PROPERTY:protocolNeeded": "Protokół potrzebny?",
@@ -114,6 +119,7 @@
   "PROPERTY:transactions.type": "Rodzaj operacji",
   "PROPERTY:transactions.amount1": "Wartość ekonomiczna",
   "PROPERTY:transactions.amount2": "Wartość fiskalna",
+  "PROPERTY:assets": "Środki trwałe",
 
   "protocolNeeded:true": "Tak",
   "protocolNeeded:false": "Nie",

@@ -134,36 +134,77 @@ define([
       };
     },
 
-    serializeItems: function(commentsOnly)
+    serializeItems(commentsOnly)
     {
-      var view = this;
-
-      return (view.model.get('changes') || [])
-        .map(function(change, i) { return view.serializeItem(change, i, commentsOnly); })
-        .filter(function(change) { return !commentsOnly || change.comment.length > 0; });
+      return (this.model.get('changes') || [])
+        .map((change, i) => this.serializeItem(change, i, commentsOnly))
+        .filter(change => !commentsOnly || change.comment.length > 0);
     },
 
-    serializeItem: function(change, changeIndex, commentsOnly)
+    serializeItem(change, changeIndex, commentsOnly)
     {
-      var view = this;
-      var changes = commentsOnly ? [] : _.map(change.data, function(values, property)
+      const changes = [];
+
+      if (!commentsOnly)
       {
-        return {
-          label: view.t('PROPERTY:' + property),
-          oldValue: view.serializeItemValue(property, values[0], true, changeIndex),
-          newValue: view.serializeItemValue(property, values[1], false, changeIndex)
-        };
-      });
-      var comment = typeof change.comment === 'function'
+        _.forEach(change.data, (values, property) =>
+        {
+          if (property === 'assets' && !Array.isArray(values))
+          {
+            return this.serializeAssetsItems(changes, change, changeIndex, values);
+          }
+
+          changes.push({
+            label: this.t(`PROPERTY:${property}`),
+            oldValue: this.serializeItemValue(property, values[0], true, changeIndex),
+            newValue: this.serializeItemValue(property, values[1], false, changeIndex)
+          });
+        });
+      }
+
+      const comment = typeof change.comment === 'function'
         ? change.comment()
         : _.escape(change.comment.trim());
 
       return {
         time: time.toTagData(change.date),
         user: userInfoTemplate({userInfo: change.user}),
-        changes: changes,
-        comment: comment
+        changes,
+        comment
       };
+    },
+
+    serializeAssetsItems(changes, change, changeIndex, {added, edited, deleted})
+    {
+      (added || []).forEach(newAsset =>
+      {
+        changes.push({
+          label: this.t('PROPERTY:assets') + ` (#${newAsset._i + 1})`,
+          oldValue: '-',
+          newValue: this.serializeItemValue('assetName', newAsset.assetName || newAsset._id, false, changeIndex)
+        });
+      });
+
+      (deleted || []).forEach(oldAsset =>
+      {
+        changes.push({
+          label: this.t('PROPERTY:assets') + ` (#${oldAsset._i + 1})`,
+          oldValue: this.serializeItemValue('assetName', oldAsset.assetName || oldAsset._id, false, changeIndex),
+          newValue: '-'
+        });
+      });
+
+      (edited || []).forEach(asset =>
+      {
+        _.without(Object.keys(asset), '_i', '_id', 'old').forEach(prop =>
+        {
+          changes.push({
+            label: this.t(`PROPERTY:${prop}`) + ` (#${asset._i + 1})`,
+            oldValue: this.serializeItemValue(prop, asset.old[prop], true, changeIndex),
+            newValue: this.serializeItemValue(prop, asset[prop], false, changeIndex)
+          });
+        });
+      });
     },
 
     serializeItemValue: function(property, value, old, changeIndex)

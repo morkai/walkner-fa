@@ -32,10 +32,13 @@ define([
         var view = this;
         var $participant = view.$(e.target).closest('.fa-edit-participant');
 
+        view.$('.btn[data-action="committee:remove"]').prop('disabled', true);
+
         $participant.fadeOut('fast', function()
         {
           $participant.find('input').select2('destroy');
           $participant.remove();
+          view.$('.btn[data-action="committee:remove"]').prop('disabled', false);
           view.$('.fa-edit-participant').last().find('input').select2('focus');
           view.$('.fa-edit-participant-label').each(function(i)
           {
