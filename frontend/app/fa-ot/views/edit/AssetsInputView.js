@@ -49,7 +49,7 @@ define([
         this.model.trigger('dirty');
       },
 
-      'click #-copyAsset'(e)
+      'click #-cloneAsset'(e)
       {
         e.target.blur();
 
@@ -64,11 +64,11 @@ define([
           ...sourceAsset,
           _id: uuid()
         };
-        const copySuffix = this.t('FORM:assets:copy:suffix');
+        const suffix = this.t('FORM:assets:clone:suffix');
 
-        if (targetAsset.assetName && !targetAsset.assetName.endsWith(copySuffix))
+        if (targetAsset.assetName && !targetAsset.assetName.endsWith(suffix))
         {
-          targetAsset.assetName += ` ${copySuffix}`;
+          targetAsset.assetName += ` ${suffix}`;
         }
 
         this.renderAsset(targetAsset);
@@ -117,6 +117,22 @@ define([
         });
 
         this.toggleActions();
+        this.model.trigger('dirty');
+      },
+
+      'click #-copyAsset'(e)
+      {
+        e.target.blur();
+
+        const firstAssetView = this.getAssetViews()[0];
+        const targetAssetView = this.getAssetView(this.activeAssetId);
+
+        if (firstAssetView === targetAssetView)
+        {
+          return;
+        }
+
+        targetAssetView.copy(firstAssetView.serializeFormData());
         this.model.trigger('dirty');
       }
 
@@ -274,8 +290,11 @@ define([
 
     getTemplateData()
     {
+      const stage = this.model.get('stage');
+
       return {
-        canManageAssets: ['protocol', 'document', 'finished'].includes(this.model.get('stage'))
+        canManageAssets: ['protocol', 'document', 'finished'].includes(stage),
+        canCopyAssets: ['verify', 'record'].includes(stage)
       };
     },
 
@@ -289,7 +308,7 @@ define([
       const $tabs = this.$('li[data-asset-id]');
 
       this.$id('addAsset').toggleClass('disabled', $tabs.length === 15);
-      this.$id('copyAsset').toggleClass('disabled', $tabs.length === 15);
+      this.$id('cloneAsset').toggleClass('disabled', $tabs.length === 15);
       this.$id('deleteAsset').toggleClass('disabled', $tabs.length === 1);
     },
 

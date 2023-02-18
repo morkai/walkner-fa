@@ -1,9 +1,12 @@
 <div class="fa-ot-edit-assets">
   <label class="control-label"><%- t('PROPERTY:assets') %></label>
   <ul class="nav nav-tabs">
+    <% if (canCopyAssets) { %>
+    <li id="<%- id('copyAsset') %>" title="<%- t('FORM:assets:copy') %>" style="margin-left: auto"><a href="javascript:void(0)"><i class="fa fa-paste"></i></a></li>
+    <% } %>
     <% if (canManageAssets) { %>
     <li id="<%- id('addAsset') %>" title="<%- t('FORM:assets:add') %>" style="margin-left: auto"><a href="javascript:void(0)"><i class="fa fa-plus"></i></a></li>
-    <li id="<%- id('copyAsset') %>" title="<%- t('FORM:assets:copy') %>"><a href="javascript:void(0)"><i class="fa fa-copy"></i></a></li>
+    <li id="<%- id('cloneAsset') %>" title="<%- t('FORM:assets:clone') %>"><a href="javascript:void(0)"><i class="fa fa-copy"></i></a></li>
     <li id="<%- id('deleteAsset') %>" title="<%- t('FORM:assets:delete') %>"><a href="javascript:void(0)"><i class="fa fa-times"></i></a></li>
     <% } %>
   </ul>

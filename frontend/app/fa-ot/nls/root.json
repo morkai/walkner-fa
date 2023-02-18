@@ -56,9 +56,10 @@
     "FORM:previewHrt:button": "Generate request based on a template",
     "FORM:previewHrt:info": "Request will be generated and attached automatically after move to the next stage if it wasn't specified manually.",
     "FORM:assets:add": "Add a new asset",
-    "FORM:assets:copy": "Copy the selected asset",
-    "FORM:assets:copy:suffix": "(copy)",
+    "FORM:assets:clone": "Copy the selected asset",
+    "FORM:assets:clone:suffix": "(copy)",
     "FORM:assets:delete": "Delete the selected asset",
+    "FORM:assets:copy": "Copy data from the first asset",
 
     "PROPERTY:stage": "Stage",
     "PROPERTY:protocolNeeded": "Protocol needed?",

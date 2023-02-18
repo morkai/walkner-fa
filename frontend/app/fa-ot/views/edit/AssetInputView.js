@@ -1,6 +1,7 @@
 // Part of <https://miracle.systems/p/walkner-fa> licensed under <CC BY-NC-SA 4.0>
 
 define([
+  'underscore',
   'js2form',
   'form2js',
   'app/i18n',
@@ -16,6 +17,7 @@ define([
   'app/fa-common/util/helpers',
   'app/fa-ot/templates/edit/asset'
 ], function(
+  _,
   js2form,
   form2js,
   t,
@@ -500,6 +502,27 @@ define([
 
     },
 
+    copy(sourceFormData)
+    {
+      const oldAsset = this.asset;
+
+      this.asset = {
+        ...oldAsset,
+        ..._.omit(sourceFormData, [
+          '_id',
+          'assetName',
+          'inventoryNo',
+          'serialNo',
+          'assetNo',
+          'accountingNo'
+        ])
+      };
+
+      this.render();
+
+      this.asset = oldAsset;
+    },
+
     serializeToForm()
     {
       const asset = {...this.asset};
@@ -537,68 +560,75 @@ define([
 
     serializeForm()
     {
-      const formData = {
+      return {
         ...this.asset,
+        ...this.serializeFormData()
+      };
+    },
+
+    serializeFormData()
+    {
+      const copy = {
         ...form2js(this.el, null, false).assets[0]
       };
 
-      delete formData.photoFile;
+      delete copy.photoFile;
 
       if (this.valueView)
       {
-        this.valueView.serializeForm(formData);
+        this.valueView.serializeForm(copy);
       }
 
       if (this.transactionsView)
       {
-        this.transactionsView.serializeForm(formData);
+        this.transactionsView.serializeForm(copy);
       }
 
-      if (this.fields.costCenter && !formData.costCenter)
+      if (this.fields.costCenter && !copy.costCenter)
       {
-        formData.costCenter = null;
+        copy.costCenter = null;
       }
 
       if (this.fields.costCenter)
       {
-        const costCenter = dictionaries.costCenters.get(formData.costCenter);
+        const costCenter = dictionaries.costCenters.get(copy.costCenter);
 
-        if (costCenter && !formData.owner)
+        if (costCenter && !copy.owner)
         {
           const owner = costCenter.get('owner');
 
           if (owner)
           {
-            formData.owner = owner;
+            copy.owner = owner;
           }
         }
       }
 
       if (this.fields.owner)
       {
-        formData.owner = setUpUserSelect2.getUserInfo(this.$id('owner'));
+        copy.owner = setUpUserSelect2.getUserInfo(this.$id('owner'));
       }
 
       if (this.fields.assetClass)
       {
-        if (!formData.assetClass)
+        if (!copy.assetClass)
         {
-          formData.assetClass = null;
+          copy.assetClass = null;
         }
 
-        formData.depRate = Math.round(Math.min(100, Math.max(parseFloat(formData.depRate) || 0, 0)) * 100) / 100;
+        copy.depRate = Math.round(Math.min(100, Math.max(parseFloat(copy.depRate) || 0, 0)) * 100) / 100;
 
         ['economic', 'fiscal', 'tax'].forEach(k =>
         {
-          const date = formData[`${k}Date`] ? time.utc.getMoment(formData[`${k}Date`], 'YYYY-MM-DD') : null;
+          const date = copy[`${k}Date`] ? time.utc.getMoment(copy[`${k}Date`], 'YYYY-MM-DD') : null;
 
-          formData[`${k}Date`] = date && date.isValid() ? date.toDate() : null;
-          formData[`${k}Period`] = ((+formData[`${k}PeriodY`] || 0) * 12) + (+formData[`${k}PeriodM`] || 0);
-          formData[`${k}Method`] = (formData[`${k}Method`] || '').trim();
+          copy[`${k}Date`] = date && date.isValid() ? date.toDate() : null;
+          copy[`${k}Period`] = ((+copy[`${k}PeriodY`] || 0) * 12) + (+copy[`${k}PeriodM`] || 0);
+          copy[`${k}Method`] = (copy[`${k}Method`] || '').trim();
         });
       }
 
-      return formData;
+      return copy;
     }
 
   });

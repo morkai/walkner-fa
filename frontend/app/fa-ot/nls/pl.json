@@ -56,9 +56,10 @@
   "FORM:previewHrt:button": "Wygeneruj wniosek na podstawie szablonu",
   "FORM:previewHrt:info": "Wniosek zostanie wygenerowany i załączony automatycznie podczas przejścia do następnego etapu, jeżeli nie zostanie wcześniej ustawiony ręcznie.",
   "FORM:assets:add": "Dodaj nowy ŚT",
-  "FORM:assets:copy": "Skopiuj wybrany ŚT",
-  "FORM:assets:copy:suffix": "(kopia)",
+  "FORM:assets:clone": "Skopiuj wybrany ŚT",
+  "FORM:assets:clone:suffix": "(kopia)",
   "FORM:assets:delete": "Usuń wybrany ŚT",
+  "FORM:assets:copy": "Kopiuj dane z pierwszego ŚT",
 
   "PROPERTY:stage": "Etap",
   "PROPERTY:protocolNeeded": "Protokół potrzebny?",
