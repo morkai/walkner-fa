@@ -3,11 +3,13 @@
 define([
   'app/time',
   'app/fa-common/views/StageView',
+  'app/fa-common/views/ValueInputView',
   'app/fa-lt/views/edit/AssetsInputView',
   'app/fa-lt/templates/edit/verifyDocument'
 ], function(
   time,
   StageView,
+  ValueInputView,
   AssetsInputView,
   template
 ) {
@@ -18,7 +20,7 @@ define([
     template,
 
     events: {
-      'click #-previewHrt': function()
+      'click #-previewHrt'()
       {
         const reqTplId = `lt.${this.model.get('kind')}`;
         const docNo = (this.model.get('documentNo') || this.model.get('protocolNo')).replace(/\//g, '_');
@@ -49,7 +51,7 @@ define([
 
     updateOnChange: false,
 
-    initialize: function()
+    initialize()
     {
       StageView.prototype.initialize.apply(this, arguments);
 
@@ -58,7 +60,17 @@ define([
         required: true
       });
 
+      this.saleValueView = this.model.get('kind') !== 'sale' ? null : new ValueInputView({
+        property: 'saleValue',
+        model: this.model
+      });
+
       this.setView('#-assets', this.assetsView);
+
+      if (this.saleValueView)
+      {
+        this.setView('#-saleValue', this.saleValueView);
+      }
     },
 
     getTemplateData: function()
@@ -120,6 +132,11 @@ define([
     {
       this.assetsView.serializeToForm(formData);
 
+      if (this.saleValueView)
+      {
+        this.saleValueView.serializeToForm(formData);
+      }
+
       return formData;
     },
 
@@ -138,6 +155,16 @@ define([
       };
 
       this.assetsView.serializeForm(data);
+
+      if (this.saleValueView)
+      {
+        Object.assign(data, {
+          buyerName: (formData.buyerName || '').trim(),
+          buyerAddress: (formData.buyerAddress || '').trim()
+        });
+
+        this.saleValueView.serializeForm(data);
+      }
 
       return data;
     }

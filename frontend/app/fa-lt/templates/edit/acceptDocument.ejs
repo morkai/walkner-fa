@@ -24,6 +24,9 @@
     {id: 'subAssetNo', valueClassName: 'text-fixed'},
     'postingDate',
     'valuationDate',
+    {id: 'buyerName', visible: model.kind === 'sale'},
+    {id: 'buyerAddress', visible: model.kind === 'sale', valueClassName: 'text-lines'},
+    {id: 'saleValue', visible: model.kind === 'sale'},
     {id: 'tplNotes', valueClassName: 'text-lines'},
     helpers.fa.attachmentProp({name: 'handover', visible: model.kind === 'sale'}),
     helpers.fa.attachmentProp({name: 'hrt'})
@@ -32,17 +35,6 @@
     <label for="<%- id('documentDate') %>" class="control-label is-required"><%- t('PROPERTY:documentDate') %></label>
     <input id="<%- id('documentDate') %>" name="documentDate" class="form-control fa-edit-short" type="date" data-required>
   </div>
-  <% if (model.kind === 'sale') { %>
-    <div class="form-group">
-      <label for="<%- id('buyerName') %>" class="control-label is-required"><%- t('PROPERTY:buyerName') %></label>
-      <input id="<%- id('buyerName') %>" class="form-control fa-edit-long" name="buyerName" data-required maxlength="200">
-    </div>
-    <div class="form-group">
-      <label for="<%- id('buyerAddress') %>" class="control-label"><%- t('PROPERTY:buyerAddress') %></label>
-      <textarea id="<%- id('buyerAddress') %>" class="form-control fa-edit-long" name="buyerAddress" rows="3"></textarea>
-    </div>
-    <div id="<%- id('saleValue') %>" style="margin-bottom: 15px"></div>
-  <% } %>
   <%- helpers.fa.attachmentFormGroup({name: 'attachment'}) %>
   <div class="form-group">
     <label for="<%- id('comment') %>" class="control-label"><%- t('PROPERTY:comment') %></label>
