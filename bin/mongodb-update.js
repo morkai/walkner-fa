@@ -3,78 +3,63 @@
 
 'use strict';
 
-db.faots.dropIndexes();
+const USER_PROPS = ['createdBy', 'committee'];
+const USER_ASSET_PROPS = ['owner'];
 
-const assetProps = [
-  'inventoryNo',
-  'serialNo',
-  'assetName',
-  'assetNameSearch',
-  'lineSymbol',
-  'owner',
-  'supplier',
-  'supplierSearch',
-  'costCenter',
-  'evalGroup1',
-  'evalGroup5',
-  'assetClass',
-  'depRate',
-  'depKey',
-  'economicMethod',
-  'fiscalMethod',
-  'taxMethod',
-  'economicPeriod',
-  'fiscalPeriod',
-  'taxPeriod',
-  'economicDate',
-  'fiscalDate',
-  'taxDate',
-  'value',
-  'transactions',
-  'vendorNo',
-  'vendorName',
-  'vendorNameSearch',
-  'assetNo',
-  'accountingNo',
-  'odwNo',
-  'tplNotes',
-  'photoFile'
-];
-
-let i = 0;
-
-db.faots.find({assets: {$exists: false}}).forEach(doc =>
+db.faots.find({}).forEach(d =>
 {
-  i += 1;
+  const users = new Set();
 
-  const asset = {
-    _id: `${i.toString().padStart(8, '0')}-0000-0000-0000-000000000001`
-  };
+  collectUsers(this, USER_PROPS, users);
+  d.assets.forEach(asset => collectUsers(asset, USER_ASSET_PROPS, users));
 
-  assetProps.forEach(prop =>
-  {
-    asset[prop] = doc[prop];
-    delete doc[prop];
-  });
-
-  doc.assets = [asset];
-
-  db.faots.replaceOne({_id: doc._id}, doc);
+  db.faots.updateOne({_id: d._id}, {$set: {users: Array.from(users)}});
 });
 
-db.faots.createIndex({createdAt: -1});
-db.faots.createIndex({updatedAt: -1});
-db.faots.createIndex({date: -1});
-db.faots.createIndex({stage: 1});
-db.faots.createIndex({protocolNo: 1});
-db.faots.createIndex({documentNo: 1});
-db.faots.createIndex({commissioningType: 1});
-db.faots.createIndex({users: 1});
-db.faots.createIndex({'assets.inventoryNo': 1});
-db.faots.createIndex({'assets.assetNo': 1});
-db.faots.createIndex({'assets.accountingNo': 1});
-db.faots.createIndex({'assets.costCenter': 1});
-db.faots.createIndex({'assets.vendorNo': 1});
-db.faots.createIndex({'assets.assetName': 1});
-db.faots.createIndex({'assets.supplier': 1});
-db.faots.createIndex({'assets.vendorName': 1});
+function collectUsers(model, props, userSet)
+{
+  if (!userSet)
+  {
+    userSet = new Set();
+  }
+
+  if (model.stageChangedBy)
+  {
+    Object.keys(model.stageChangedBy).forEach(stage =>
+    {
+      const userInfo = model.stageChangedBy[stage];
+
+      if (userInfo && userInfo._id)
+      {
+        userSet.add(userInfo._id);
+      }
+    });
+  }
+
+  props.forEach(prop =>
+  {
+    const value = model[prop];
+
+    if (!value)
+    {
+      return;
+    }
+
+    if (Array.isArray(value))
+    {
+      value.forEach(userInfo =>
+      {
+        if (userInfo._id)
+        {
+          userSet.add(userInfo._id);
+        }
+      });
+    }
+    else if (value._id)
+    {
+      userSet.add(value._id);
+    }
+  });
+
+  return userSet;
+}
