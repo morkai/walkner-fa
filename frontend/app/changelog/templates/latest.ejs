@@ -1,17 +1,7 @@
-<h1>v1.5.0</h1>
-<h2><%- time.format('2023-02-18', 'LL') %></h2>
+<h1>?.?.?</h1>
+<h2><%- time.format(Date.now(), 'LL') %></h2>
 <h3>Dokumenty OT</h3>
 <ul>
-  <li>Zmieniono dodawanie tak, aby dokument zapisywany był w bazie dopiero po wysłaniu formularza pierwszego etapu.</li>
-  <li>Zmieniono etap 'Weryfikacja' tak, aby opcja odrzucenia do protokołu nie była dostępna, jeżeli dokument nie ma
-    protokołu OT.</li>
-  <li>Dodano możliwość definiowania wielu środków trwałych w jednym dokumencie OT.</li>
-</ul>
-<h3>Dokumenty LT</h3>
-<ul>
-  <li>Zmieniono dodawanie tak, aby dokument zapisywany był w bazie dopiero po wysłaniu formularza pierwszego etapu.</li>
-  <li>Zmieniono akceptowanie dokumentu tak, aby można było zaakceptować dokument z wartością netto większą od 0 nawet,
-    jeżeli został zweryfikowany w poprzednim miesiącu.</li>
-  <li>Przeniesiono pola 'Strona kupująca', 'Adres' oraz 'Wartość sprzedaży' z etapu 'Akceptacja PT' do etapu
-    'Weryfikacja PT'.</li>
+  <li>Poprawiono błąd powodujący usuwanie załączników dodanych do konkretnych środków trwałych po upłynięciu
+    30 minut.</li>
 </ul>
