@@ -59,7 +59,7 @@
     "messageformat-amd": "morkai/messageformat-amd",
     "methods": "^1.1.2",
     "moment": "^2.29.4",
-    "mongodb": "4.11.0",
+    "mongodb": "4.17.0",
     "mongoose": "^6.7.5",
     "mongoose-plugin-autoinc-fix": "^1.2.1",
     "multer": "^1.4.5-lts.1",
