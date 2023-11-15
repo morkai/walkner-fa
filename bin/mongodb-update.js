@@ -3,63 +3,17 @@
 
 'use strict';
 
-const USER_PROPS = ['createdBy', 'committee'];
-const USER_ASSET_PROPS = ['owner'];
-
-db.faots.find({}).forEach(d =>
+db.faassetgroups.find({evalGroup5: /PL-2/}).forEach(g =>
 {
-  const users = new Set();
-
-  collectUsers(this, USER_PROPS, users);
-  d.assets.forEach(asset => collectUsers(asset, USER_ASSET_PROPS, users));
-
-  db.faots.updateOne({_id: d._id}, {$set: {users: Array.from(users)}});
+  db.faassetgroups.updateOne({_id: g._id}, {$set: {evalGroup5: g.evalGroup5.replace('PL-2', 'PL2-')}});
 });
 
-function collectUsers(model, props, userSet)
+db.faots.find({'assets.evalGroup5': /PL-2/}).forEach(ot =>
 {
-  if (!userSet)
+  ot.assets.forEach(a =>
   {
-    userSet = new Set();
-  }
-
-  if (model.stageChangedBy)
-  {
-    Object.keys(model.stageChangedBy).forEach(stage =>
-    {
-      const userInfo = model.stageChangedBy[stage];
-
-      if (userInfo && userInfo._id)
-      {
-        userSet.add(userInfo._id);
-      }
-    });
-  }
-
-  props.forEach(prop =>
-  {
-    const value = model[prop];
-
-    if (!value)
-    {
-      return;
-    }
-
-    if (Array.isArray(value))
-    {
-      value.forEach(userInfo =>
-      {
-        if (userInfo._id)
-        {
-          userSet.add(userInfo._id);
-        }
-      });
-    }
-    else if (value._id)
-    {
-      userSet.add(value._id);
-    }
+    a.evalGroup5 = a.evalGroup5.replace('PL-2', 'PL2-');
   });
 
-  return userSet;
-}
+  db.faots.updateOne({_id: ot._id}, {$set: {assets: ot.assets}});
+});

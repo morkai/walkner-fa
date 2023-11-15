@@ -39,7 +39,7 @@ define([
   var dictionaries = {
     economicMethods: [
       '0000 - No depreciation',
-      'ZPH0 - Philips straight line to 0'
+      'ZPH9 - Philips straight line to 0 (IFRS)'
     ],
     assetGroups: new AssetGroupCollection(),
     assetClasses: new AssetClassCollection(),
