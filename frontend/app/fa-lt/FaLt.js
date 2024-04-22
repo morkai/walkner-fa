@@ -69,7 +69,7 @@ define([
     {
       const obj = this.toJSON();
 
-      obj.className = STAGE_TO_CLASS_NAME[obj.stage] || {};
+      obj.className = STAGE_TO_CLASS_NAME[obj.stage] || '';
       obj.url = this.url();
       obj.no = this.getLabel();
       obj.stage = t(this.nlsDomain, `stage:${obj.stage}`, {kind: obj.kind});

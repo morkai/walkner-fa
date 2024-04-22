@@ -68,8 +68,17 @@ module.exports = grunt =>
         src: '**/*.ejs',
         dest: './build/frontend',
         ext: '.js',
+        extDot: 'last',
         options: {
-          helpers: require('./config/fa-frontend').express.ejsAmdHelpers
+          helpers: require('./config/fa-frontend').express.ejsAmdHelpers,
+          ejs: {
+            client: true,
+            compileDebug: false,
+            escapeFunction: '_.escape',
+            appendFunctionName: 'A_',
+            async: false,
+            rmWhitespace: true
+          }
         }
       }
     },

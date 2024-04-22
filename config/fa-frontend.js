@@ -4,8 +4,7 @@ const ROOT_PATH = `${__dirname}/..`;
 const DATA_PATH = `${ROOT_PATH}/data`;
 const MAX_UPLOAD_SIZE = 20 * 1024 * 1024;
 
-const fs = require('fs');
-const later = require('later');
+const later = require('@breejs/later');
 const mongodb = require('./fa-mongodb');
 
 later.date.localTime();
@@ -44,9 +43,6 @@ exports.modules = [
   'sio'
 ];
 
-const manifestTemplates = {
-  main: fs.readFileSync(`${__dirname}/fa-manifest.appcache`, 'utf8')
-};
 const frontendDictionaryModules = {
 
 };
@@ -67,7 +63,6 @@ exports.updater = {
       path: null,
       mainJsFile: '/fa-main.js',
       mainCssFile: '/assets/fa-main.css',
-      template: manifestTemplates.main,
       frontendAppData: {
         XLSX_EXPORT: true,
         OFFICE365_TENANT: null,
@@ -156,7 +151,8 @@ exports.express = {
     touchInterval: 10 * 60 * 1000,
     touchChance: 0,
     gcInterval: 8 * 3600,
-    cacheInMemory: false
+    cacheInMemory: true,
+    indexes: [{key: {'data.user._id': 1}}]
   },
   cookieSecret: '1ee7\\/\\/mes',
   ejsAmdHelpers: {

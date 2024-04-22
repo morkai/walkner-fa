@@ -17,28 +17,28 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane" id="ot-init">
-      <% include ot-init.ejs %>
+      <%- include('ot-init.ejs') %>
     </div>
     <div class="tab-pane" id="ot-owner">
-      <% include ot-owner.ejs %>
+      <%- include('ot-owner.ejs') %>
     </div>
     <div class="tab-pane" id="verification">
-      <% include verification.ejs %>
+      <%- include('verification.ejs') %>
     </div>
     <div class="tab-pane" id="lt-init">
-      <% include lt-init.ejs %>
+      <%- include('lt-init.ejs') %>
     </div>
     <div class="tab-pane" id="lt-owner">
-      <% include lt-owner.ejs %>
+      <%- include('lt-owner.ejs') %>
     </div>
     <div class="tab-pane" id="lt-director">
-      <% include lt-director.ejs %>
+      <%- include('lt-director.ejs') %>
     </div>
     <div class="tab-pane" id="pune">
       <% if (locale === 'pl') { %>
-      <% include pune.pl.ejs%>
+      <%- include('pune.pl.ejs') %>
       <% } else { %>
-      <% include pune.en.ejs %>
+      <%- include('pune.en.ejs') %>
       <% } %>
     </div>
   </div>
