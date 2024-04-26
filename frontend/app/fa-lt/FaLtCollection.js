@@ -13,7 +13,7 @@ define([
 
     model: FaLt,
 
-    rqlQuery: 'sort(-documentNo)&limit(-1337)'
+    rqlQuery: 'sort(-date,-documentNo)&limit(-1337)'
 
   });
 });

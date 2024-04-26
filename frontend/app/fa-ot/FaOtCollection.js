@@ -13,7 +13,7 @@ define([
 
     model: FaOt,
 
-    rqlQuery: 'exclude(changes)&sort(-documentNo)&limit(-1337)',
+    rqlQuery: 'exclude(changes)&sort(-date,-documentNo)&limit(-1337)',
 
     theadHeight: 2
 
