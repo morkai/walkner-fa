@@ -21,7 +21,6 @@
     'economicInitialValue',
     'economicDeprecationValue',
     'economicNetValue',
-    helpers.fa.assetsProp(),
     {id: 'subAssetNo', valueClassName: 'text-fixed'},
     'postingDate',
     'valuationDate',
@@ -32,10 +31,7 @@
     helpers.fa.attachmentProp({name: 'handover', visible: model.kind === 'sale'}),
     helpers.fa.attachmentProp({name: 'hrt'})
   ]) %>
-  <div class="form-group">
-    <label for="<%- id('accountingNo') %>" class="control-label is-required"><%- t('PROPERTY:accountingNo') %></label>
-    <input id="<%- id('accountingNo') %>" name="accountingNo" class="form-control fa-edit-short" type="text" data-required maxlength="50">
-  </div>
+  <div id="<%- id('assets') %>"></div>
   <div class="form-group">
     <label for="<%- id('odwNo') %>" class="control-label is-required"><%- t('PROPERTY:odwNo') %></label>
     <input id="<%- id('odwNo') %>" name="odwNo" class="form-control fa-edit-short" type="text" data-required maxlength="50">

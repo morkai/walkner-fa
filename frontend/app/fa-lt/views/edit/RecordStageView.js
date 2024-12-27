@@ -2,9 +2,11 @@
 
 define([
   'app/fa-common/views/StageView',
+  'app/fa-lt/views/edit/AssetsInputView',
   'app/fa-lt/templates/edit/record'
 ], function(
   StageView,
+  AssetsInputView,
   template
 ) {
   'use strict';
@@ -14,6 +16,18 @@ define([
     template,
 
     updateOnChange: false,
+
+    initialize()
+    {
+      StageView.prototype.initialize.apply(this, arguments);
+
+      this.assetsView = new AssetsInputView({
+        model: this.model,
+        required: true
+      });
+
+      this.setView('#-assets', this.assetsView);
+    },
 
     getTemplateData: function()
     {
@@ -70,13 +84,23 @@ define([
       formView.submit();
     },
 
+    serializeToForm: function(formData)
+    {
+      this.assetsView.serializeToForm(formData);
+
+      return formData;
+    },
+
     serializeForm: function(formData)
     {
-      return {
-        accountingNo: (formData.accountingNo || '').trim(),
+      const data = {
         odwNo: (formData.odwNo || '').trim(),
         comment: (formData.comment || '').trim()
       };
+
+      this.assetsView.serializeForm(data);
+
+      return data;
     }
 
   });

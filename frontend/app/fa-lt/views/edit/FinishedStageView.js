@@ -279,7 +279,6 @@ define([
         committeeAcceptance: {},
         cause: (formData.cause || '').trim(),
         subAssetNo: (formData.subAssetNo || '').trim(),
-        accountingNo: (formData.accountingNo || '').trim(),
         odwNo: (formData.odwNo || '').trim(),
         tplNotes: (formData.tplNotes || '').trim(),
         comment: (formData.comment || '').trim()

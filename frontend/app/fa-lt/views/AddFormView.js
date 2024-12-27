@@ -171,7 +171,6 @@ define([
         valuationDate: null,
         assets: [],
         subAssetNo: '',
-        accountingNo: '',
         odwNo: '',
         tplNotes: '',
         invoiceFile: null,

@@ -323,9 +323,11 @@ define([
       assets: function(property, value)
       {
         value = value
-          .map(t =>
+          .map(a =>
           {
-            return `<span class="text-fixed">${t.no}</span> / <span class="text-fixed">${t.transactionType}</span>`;
+            return `<span class="text-fixed">${a.no}</span>`
+              + ` / <span class="text-fixed">${a.transactionType}</span>`
+              + ` / <span class="text-fixed">${a.accountingNo || '?'}</span>`;
           }).join('; ');
 
         return [value.replace(/; /g, '\n'), value];

@@ -252,8 +252,9 @@ ${rows.join('')}
     {
       return `
 <tr>
-  <td class="is-min text-fixed">${a.no}
-  <td class="is-min text-fixed">${a.transactionType}
+  <td class="is-min text-fixed">${_.escape(a.no)}
+  <td class="is-min text-fixed">${_.escape(a.transactionType)}
+  <td class="is-min text-fixed">${_.escape(a.accountingNo)}
 `;
     });
 
@@ -268,6 +269,7 @@ ${rows.join('')}
 <tr>
 <th class="is-min">${view.t('PROPERTY:assets.no')}
 <th class="is-min">${view.t('PROPERTY:assets.transactionType')}
+<th class="is-min">${view.t('PROPERTY:assets.accountingNo')}
 <tbody>
 ${rows.join('')}
 </table>`;

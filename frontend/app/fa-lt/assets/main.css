@@ -22,10 +22,12 @@
   margin-left: 15px;
 }
 .fa-lt-edit-assets-no,
-.fa-lt-edit-assets-transactionType {
+.fa-lt-edit-assets-transactionType,
+.fa-lt-edit-assets-accountingNo {
   width: 168px;
 }
-.fa-lt-edit-assets-no {
+.fa-lt-edit-assets-no,
+.fa-lt-edit-assets-transactionType {
   margin-right: 15px;
 }
 @media (max-width: 2400px) {

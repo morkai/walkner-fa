@@ -83,6 +83,14 @@ define([
         obj.assetNo += ` +${obj.assets.length - 1}`;
       }
 
+      obj.accountingNos = obj.assets && obj.assets.length > 1 ? obj.assets.map(a => a.accountingNo).join('\n') : '';
+      obj.accountingNo = obj.assets && obj.assets.length ? obj.assets[0].accountingNo : '';
+
+      if (obj.assets && obj.assets.length > 1)
+      {
+        obj.accountingNo += ` +${obj.assets.length - 1}`;
+      }
+
       VALUE_PROPS.forEach(prop =>
       {
         obj[prop] = (obj[prop] || 0).toLocaleString('pl-PL', {

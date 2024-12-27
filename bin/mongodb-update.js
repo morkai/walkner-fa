@@ -3,17 +3,15 @@
 
 'use strict';
 
-db.faassetgroups.find({evalGroup5: /PL-2/}).forEach(g =>
+db.falts.find({accountingNo: {$exists: true}}).forEach(lt =>
 {
-  db.faassetgroups.updateOne({_id: g._id}, {$set: {evalGroup5: g.evalGroup5.replace('PL-2', 'PL2-')}});
-});
-
-db.faots.find({'assets.evalGroup5': /PL-2/}).forEach(ot =>
-{
-  ot.assets.forEach(a =>
+  lt.assets.forEach(a =>
   {
-    a.evalGroup5 = a.evalGroup5.replace('PL-2', 'PL2-');
+    a.accountingNo = lt.accountingNo;
   });
 
-  db.faots.updateOne({_id: ot._id}, {$set: {assets: ot.assets}});
+  db.falts.updateOne({_id: lt._id}, {$set: {assets: lt.assets}, $unset: {accountingNo: 1}});
 });
+
+db.falts.dropIndex({accountingNo: 1});
+db.falts.createIndex({'assets.accountingNo': 1});

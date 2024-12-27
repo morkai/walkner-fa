@@ -77,10 +77,14 @@ define([
     getTemplateData: function()
     {
       const assets = this.model.get('assets');
+      const stage = this.model.get('stage');
+      const canManage = stage !== 'record' || stage === 'finished';
+      const canAccountingNo = stage === 'record' || stage === 'finished';
 
       return {
-        readOnly: !!this.options.readOnly,
-        assets: assets.length ? assets : [{no: '', transactionType: ''}]
+        canManage,
+        canAccountingNo,
+        assets: assets.length ? assets : [{no: '', transactionType: '', accountingNo: ''}]
       };
     },
 
@@ -100,12 +104,13 @@ define([
     serializeToForm: function(formData)
     {
       formData.assets = !formData.assets.length
-        ? [{no: '', transactionType: ''}]
+        ? [{no: '', transactionType: '', accountingNo: ''}]
         : formData.assets.map(d =>
         {
           return {
             no: d.no,
-            transactionType: d.transactionType
+            transactionType: d.transactionType,
+            accountingNo: d.accountingNo
           };
         });
 
@@ -120,10 +125,13 @@ define([
       {
         const asset = {
           no: itemEl.querySelector('input[name$=".no"]').value.trim(),
-          transactionType: itemEl.querySelector('input[name$=".transactionType"]').value.trim()
+          transactionType: itemEl.querySelector('input[name$=".transactionType"]').value.trim(),
+          accountingNo: itemEl.querySelector('input[name$=".accountingNo"]').value.trim()
         };
 
-        if (asset.no && /^[A-Za-z0-9]{3}$/.test(asset.transactionType))
+        if (asset.no
+          && /^[A-Za-z0-9]{3}$/.test(asset.transactionType)
+          && asset.accountingNo.length)
         {
           data.assets.push(asset);
         }
