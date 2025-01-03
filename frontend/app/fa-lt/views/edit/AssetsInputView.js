@@ -126,12 +126,10 @@ define([
         const asset = {
           no: itemEl.querySelector('input[name$=".no"]').value.trim(),
           transactionType: itemEl.querySelector('input[name$=".transactionType"]').value.trim(),
-          accountingNo: itemEl.querySelector('input[name$=".accountingNo"]').value.trim()
+          accountingNo: itemEl.querySelector('input[name$=".accountingNo"]')?.value.trim() || ''
         };
 
-        if (asset.no
-          && /^[A-Za-z0-9]{3}$/.test(asset.transactionType)
-          && asset.accountingNo.length)
+        if (asset.no && /^[A-Za-z0-9]{3}$/.test(asset.transactionType))
         {
           data.assets.push(asset);
         }
