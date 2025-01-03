@@ -77,12 +77,13 @@ define([
       {
         formData[propertyName] = term.args[1];
       },
-      'inventoryNo': 'assetName',
       'stage'(propertyName, term, formData)
       {
         formData[propertyName] = term.name === 'in' ? term.args[1] : [term.args[1]];
       },
-      'kind': 'stage'
+      'kind': 'stage',
+      'inventoryNo': 'assetName',
+      'costCenter': 'assetName'
     },
 
     serializeFormToQuery: function(selector)
@@ -101,7 +102,7 @@ define([
         }
       });
 
-      ['assetName', 'inventoryNo'].forEach(function(prop)
+      ['assetName', 'inventoryNo', 'costCenter'].forEach(function(prop)
       {
         var value = view.$id(prop).val().trim();
 
