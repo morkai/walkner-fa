@@ -97,13 +97,13 @@ exports.events = {
 };
 
 exports.httpServer = {
-  host: '0.0.0.0',
+  host: '127.0.0.1',
   port: 80,
   availabilityTopics: []
 };
 
 exports.httpsServer = {
-  host: '0.0.0.0',
+  host: '127.0.0.1',
   port: 443,
   key: `${__dirname}/https.key`,
   cert: `${__dirname}/https.crt`,

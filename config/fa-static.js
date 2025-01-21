@@ -11,7 +11,7 @@ exports.modules = [
 
 exports.httpServer = {
   expressId: 'h5-express/static',
-  host: '0.0.0.0',
+  host: '127.0.0.1',
   port: 81
 };
 
